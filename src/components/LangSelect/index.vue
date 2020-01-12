@@ -5,13 +5,13 @@
     </div>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item :disabled="language==='zh'" command="zh">
-        中文
+        简体中文
       </el-dropdown-item>
       <el-dropdown-item :disabled="language==='en'" command="en">
         English
       </el-dropdown-item>
-      <el-dropdown-item :disabled="language==='es'" command="es">
-        Español
+      <el-dropdown-item :disabled="language==='tw'" command="tw">
+        繁体中文
       </el-dropdown-item>
       <el-dropdown-item :disabled="language==='ja'" command="ja">
         日本語
