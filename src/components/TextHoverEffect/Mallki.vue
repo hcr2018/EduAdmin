@@ -15,7 +15,7 @@ export default {
     },
     text: {
       type: String,
-      default: 'vue-element-admin'
+      default: '后台管理'
     }
   }
 }

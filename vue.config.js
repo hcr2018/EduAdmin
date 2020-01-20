@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Element Admin' // page title
+const name = defaultSettings.title || '后台管理' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -30,13 +30,23 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:9998/api',//设置你调用的接口域名和端口号 别忘了加http、https
+        changeOrigin: true,//是否跨域
+        secure: true, // 允许https请求
+        pathRewrite: {
+          '^/api': ''//这里理解成用‘/api’代替target里面的地址
+        }
+      }
+    },
     port: port,
     open: true,
     overlay: {
       warnings: false,
       errors: true
-    },
-    before: require('./mock/mock-server.js')
+    }
+    // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

@@ -1,124 +1,197 @@
 <template>
   <div class="dashboard-editor-container">
-    <github-corner class="github-corner" />
-
-    <panel-group @handleSetLineChartData="handleSetLineChartData" />
-
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData" />
-    </el-row>
-
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <raddar-chart />
+    <div class="flex_column hgt_full">
+      <div class="btn_fenxi">
+        <div>
+          <el-radio-group v-model="radio1" @change="getDataAnalysis()">
+            <el-radio-button label="fromid">录入数量</el-radio-button>
+            <!-- <el-radio-button  abel="money">成交金额</el-radio-button> -->
+            <el-radio-button label="strack">跟进数量</el-radio-button>
+          </el-radio-group>
         </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <pie-chart />
+        <div class="m-t-15">
+          <el-radio-group v-model="days" @change="getDataAnalysis()">
+            <el-radio-button label="7">7天</el-radio-button>
+            <el-radio-button label="30">30天</el-radio-button>
+            <el-radio-button label="100">100天</el-radio-button>
+            <el-radio-button label="120">120天</el-radio-button>
+          </el-radio-group>
         </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <bar-chart />
-        </div>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <todo-list />
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <box-card />
-      </el-col>
-    </el-row>
+      </div>
+      <div id="myChart" :style="{width: '100%', height: '100%'}"></div>
+    </div>
   </div>
 </template>
 
-<script>
-import GithubCorner from '@/components/GithubCorner'
-import PanelGroup from './components/PanelGroup'
-import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
-import PieChart from './components/PieChart'
-import BarChart from './components/BarChart'
-import TransactionTable from './components/TransactionTable'
-import TodoList from './components/TodoList'
-import BoxCard from './components/BoxCard'
-
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
+<script> 
 
 export default {
-  name: 'DashboardAdmin',
-  components: {
-    GithubCorner,
-    PanelGroup,
-    LineChart,
-    RaddarChart,
-    PieChart,
-    BarChart,
-    TransactionTable,
-    TodoList,
-    BoxCard
-  },
+  name: "DashboardAdmin",
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
-    }
+      radio1: "fromid",
+      days: "30",
+      myChart: null
+    };
   },
   methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
+    setChartFunction(event) {
+      var xAxisInfo = event.axesInfo[0];
+      if (xAxisInfo) {
+        var dimension = xAxisInfo.value + 1;
+        this.myChart.setOption({
+          series: {
+            id: "pie",
+            label: {
+              formatter: "{b}: {@[" + dimension + "]} ({d}%)"
+            },
+            encode: {
+              value: dimension,
+              tooltip: dimension
+            }
+          }
+        });
+      }
+    },
+    async getDataAnalysis() {
+      let that = this;
+      // 站点-客户数据
+      let res;
+      if (that.radio1 == "fromid") {
+        res = await $CustomHttp.GetStudentDataFromAnalysis(that.days);
+      } else if (that.radio1 == "strack") {
+        res = await $CustomHttp.GetStudentDataTrackAnalysis(that.days);
+      }
+      if (res.code == 200) {
+        let title = res.title ? res.title : [];
+        // 基于准备好的dom，初始化echarts实例
+
+        let option = {
+          legend: {},
+          tooltip: {
+            trigger: "axis",
+            showContent: false
+          },
+          dataset: {
+            source: res.data
+          },
+          xAxis: { type: "category" },
+          yAxis: { gridIndex: 0 },
+          grid: { top: "55%" },
+          series: []
+        };
+
+        title.forEach(element => {
+          option.series.unshift({
+            type: "line",
+            smooth: true,
+            seriesLayoutBy: "row"
+          });
+        });
+        let tooltipvalue = "0";
+        if (res.data[0] && res.data[0][res.data[0].length - 1]) {
+          tooltipvalue = res.data[0][res.data[0].length - 1];
+        }
+        option.series.unshift({
+          type: "pie",
+          id: "pie",
+          radius: "30%",
+          center: ["50%", "30%"],
+          label: {
+            formatter: "{b}: {@" + tooltipvalue + "} ({d}%)"
+          },
+          encode: {
+            itemName: "day",
+            value: tooltipvalue,
+            tooltip: tooltipvalue
+          }
+        });
+
+        that.myChart.setOption(option);
+      }
     }
+  },
+  mounted() {
+    this.myChart = this.$echarts.init(document.getElementById("myChart"));
+    this.myChart.on("updateAxisPointer", this.setChartFunction);
+    this.getDataAnalysis();
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.dashboard-editor-container {
-  padding: 32px;
-  background-color: rgb(240, 242, 245);
-  position: relative;
-
-  .github-corner {
-    position: absolute;
-    top: 0px;
-    border: 0;
-    right: 0;
-  }
-
-  .chart-wrapper {
-    background: #fff;
-    padding: 16px 16px 0;
-    margin-bottom: 32px;
-  }
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
 }
-
-@media (max-width:1024px) {
-  .chart-wrapper {
-    padding: 8px;
-  }
+ul,
+ol {
+  list-style: none;
+}
+a img {
+  border: none;
+}
+a,
+a:link {
+  text-decoration: none;
+  color: #333;
+}
+button {
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  border: 0 none;
+  background-color: transparent;
+}
+button::-moz-focus-inner {
+  padding: 0;
+}
+textarea,
+input {
+  background: none;
+  padding: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+input[type="number"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  -moz-appearance: textfield;
+}
+input[type="search"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+}
+input[type="text"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+}
+input[type="password"] {
+  -webkit-text-security: disc;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+}
+textarea:focus,
+input:focus,
+button:focus {
+  outline: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.btn_fenxi {
+  position: absolute;
+  top: 100px;
+  right: 120px;
+  z-index: 1000;
 }
 </style>
