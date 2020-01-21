@@ -132,7 +132,7 @@ export const asyncRoutes = [
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/setting',
+    redirect: 'noRedirect',
     alwaysShow: true, // will always show the root menu
     name: 'system',
     meta: {
@@ -142,12 +142,12 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'setting',
+        path: 'setting',  
         component: () => import('@/views/system/setting'),
         name: 'setting',
         meta: {
           title: 'setting',
-          roles: [1] // or you can only set roles in sub nav
+          roles: [1,0] // or you can only set roles in sub nav
         }
       },
       {
@@ -156,7 +156,7 @@ export const asyncRoutes = [
         name: 'platform',
         meta: {
           title: 'platform',
-          roles: [1]
+          roles: [1,0]
           // if do not set roles, means: this page does not require permission
         }
       }

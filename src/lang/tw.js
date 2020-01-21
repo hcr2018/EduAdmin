@@ -1,6 +1,9 @@
 export default {
   route: {
-    dashboard: '首頁',
+    dashboard: '数据仪表',
+    system:'系统设置',
+    setting: '设置',
+    platform:"分校",
     documentation: '文檔',
     guide: '引導頁',
     permission: '權限測試頁',

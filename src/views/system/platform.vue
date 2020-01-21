@@ -4,7 +4,7 @@
       <div class="flex_1">
         <el-table
           height="100%"
-          :data="common.platformList"
+          :data="$store.getters.app.platformList"
           tooltip-effect="light"
           border
           style="width: 100%"
@@ -58,7 +58,7 @@ import platformRowDetail from "@/views/system/component/platformRowDetail";
 import myDialog from "@/components/myDialog/myDialog";
 // import $AppHttp from "@/service/AppAPI";
 export default {
-  name: "platformList",
+  name: "platform",
   components: {
     myDialog,
     platformRowDialog,
@@ -88,23 +88,23 @@ export default {
     },
     //追加数据后更新列表
     updatePlatformList(type, rowData) {
-      // // type=1新增，type=0编辑
-      // if (type) {
-      //   this.common.platformList.unshift(rowData);
-      // } else {
-      //   this.$set(this.common.platformList, this.currentPlatformIndex, rowData);
-      //   // 更新展示的基本信息
-      //   this.$refs.refPlatformDetail.getPlatformRowData({ ...rowData });
-      //   this.platformRowData = { ...rowData };
-      // }
+      // type=1新增，type=0编辑
+      if (type) {
+       this.$store.getters.platformList
+      } else {
+        this.$set(this.common.platformList, this.currentPlatformIndex, rowData);
+        // 更新展示的基本信息
+        this.$refs.refPlatformDetail.getPlatformRowData({ ...rowData });
+        this.platformRowData = { ...rowData };
+      }
     },
     // 获取誉财所有平台的信息
-    async getAllPlatform() {
-      // let res = await $AppHttp.getPlatform();
-      // if (res.code == 200) {
-      //   this.common.platformList = res.data;
-      //   this.$forceUpdate();
-      // }
+      getAllPlatform() {
+          console.log("getAllPlatform  start :", this.$store.getters.app.platformList);
+       this.$store.dispatch("app/getPlatformList").then(() => {
+        
+                console.log("getAllPlatform  ook", this.$store.getters.app.platformList);
+              });
     },
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {

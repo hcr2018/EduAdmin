@@ -89,7 +89,7 @@
 
 <script>
 import LangSelect from "@/components/LangSelect";
-import { login } from "@/api/manager";
+// import { login } from "@/api/manager";
 import crypto from "crypto";
 export default {
   name: "Login",
@@ -177,10 +177,26 @@ export default {
           // 加密
           const md5 = crypto.createHash("md5");
           md5.update(submitData.password);
-          submitData.password = md5.digest("hex"); 
+          submitData.password = md5.digest("hex");
           this.$store
             .dispatch("manager/login", submitData)
-            .then(() => { 
+            .then(() => {
+              this.$store.dispatch("app/getPlatformList", submitData).then(() => {
+                console.log("getPlatform  ook");
+              });
+
+              this.$store
+                .dispatch("app/getCollegeWithCourseKind", submitData)
+                .then(() => {
+                  console.log("getCollegeWithCourseKind  ook");
+                });
+
+              this.$store
+                .dispatch("app/getAllCourseKind", submitData)
+                .then(() => {
+                  console.log("getAllCourseKind  ook");
+                });
+
               this.$router.push({
                 path: this.redirect || "/",
                 query: this.otherQuery

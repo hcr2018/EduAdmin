@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import { getLanguage } from '@/lang/index'
-
+import { getPlatform, getCollegeWithCourseKind, getAllCourseKind } from '@/api/app'
 const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
@@ -8,7 +8,10 @@ const state = {
   },
   device: 'desktop',
   language: getLanguage(),
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
+  platformList: [],
+  collegeWithCourseKind: [],
+  courseKind: []
 }
 
 const mutations = {
@@ -36,6 +39,15 @@ const mutations = {
   SET_SIZE: (state, size) => {
     state.size = size
     Cookies.set('size', size)
+  },
+  SET_PLATFORMLIST: (state, data) => {
+    state.platformList = data
+  },
+  SET_COLLEGEWITHCOURSEKIND: (state, data) => {
+    state.collegeWithCourseKind = data
+  },
+  SET_COURSEKIND: (state, data) => {
+    state.courseKind = data
   }
 }
 
@@ -54,7 +66,42 @@ const actions = {
   },
   setSize({ commit }, size) {
     commit('SET_SIZE', size)
-  }
+  },
+  // getPlatformList
+  getPlatformList({ commit }) {
+    return new Promise((resolve, reject) => {
+      getPlatform().then(response => {
+        commit('SET_PLATFORMLIST', response.data)
+
+        resolve();
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  // getPlatformList
+  getCollegeWithCourseKind({ commit }) {
+    return new Promise((resolve, reject) => {
+      getCollegeWithCourseKind().then(response => {
+        commit('SET_COLLEGEWITHCOURSEKIND', response.data)
+        resolve();
+      }).catch(error => {
+        rr
+        reject(error)
+      })
+    })
+  },
+  // getPlatformList
+  getAllCourseKind({ commit }) {
+    return new Promise((resolve, reject) => {
+      getAllCourseKind().then(response => {
+        commit('SET_COURSEKIND', response.data)
+        resolve();
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 }
 
 export default {

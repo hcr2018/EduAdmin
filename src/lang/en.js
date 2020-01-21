@@ -1,6 +1,9 @@
 export default {
   route: {
     dashboard: 'Dashboard',
+    system:'system',
+    setting: 'setting',
+    platform:"sites",
     documentation: 'Documentation',
     guide: 'Guide',
     permission: 'Permission',

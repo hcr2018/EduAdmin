@@ -2,19 +2,19 @@
   <!-- 封装右侧弹出框 -->
   <div>
     <el-drawer
-      :title="{thisTitle}"
-      :visible.sync="drawer"
-      :direction="direction"
+      title="thisTitle"
+      :visible.sync="visible"
+      direction="rtl"
       :before-close="handleClose"
     >
       <div class="body_div flex_column" :style="style" ref="msk">
-        <p class="dialog_header" v-show="title">{{title}}</p>
-        <div class="left_content" v-if="closeLeft" :class="{'no_title':!title}">
+        <p class="dialog_header"  >{{thisTitle}}</p>
+        <div class="left_content" v-if="closeLeft" :class="{'no_title':!thisTitle}">
           <div class="is-scroll-left hgt_100 left_body_div">
             <slot name="left_content">展示基本信息区域</slot>
           </div>
         </div>
-        <div class="right_content" :class="{'no_title':!title,'no_left':!closeLeft}">
+        <div class="right_content" :class="{'no_title':!thisTitle,'no_left':!closeLeft}">
           <div class="is-scroll-left hgt_100 right_body_div">
             <slot name="right_content">default left_content</slot>
           </div>
@@ -84,7 +84,7 @@ export default {
     handleClose(done) {
         this.$confirm('确认关闭？')
           .then(_ => {
-            // done();
+           this.drawer = false;
           })
           .catch(_ => {});
       }

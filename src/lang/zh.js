@@ -1,6 +1,9 @@
 export default {
   route: {
-    dashboard: '首页',
+    dashboard: '数据仪表',
+    system:'系统设置',
+    setting: '设置',
+    platform:"分校",
     documentation: '文档',
     guide: '引导页',
     permission: '权限测试页',
@@ -164,12 +167,6 @@ export default {
     close: '关闭',
     closeOthers: '关闭其它',
     closeAll: '关闭所有'
-  },
-  settings: {
-    title: '系统布局配置',
-    theme: '主题色',
-    tagsView: '开启 Tags-View',
-    fixedHeader: '固定 Header',
-    sidebarLogo: '侧边栏 Logo'
   }
+ 
 }
