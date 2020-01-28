@@ -1,54 +1,18 @@
 <template>
   <div class="font16 hgt_full" style="height:100%" v-cloak>
     <div class="flex_column hgt_full">
-      <div class="flex_1">
-        <el-table
-          height="100%"
-          :data="$store.getters.app.platformList"
-          tooltip-effect="light"
-          border
-          style="width: 100%"
-          ref="refElTabel"
-        >
-          <el-table-column prop="Id" label="ID" width="50"></el-table-column>
-          <el-table-column prop="Label" label="站点名称" width="110">
-            <template slot-scope="scope">
-              <span
-                class="color-2e77f8 font-w6 cursor"
-                @click="openMoreOperationDialog(scope.$index, scope.row)"
-              >{{scope.row.Label}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="MasterLabel" label="负责人" width="120"></el-table-column>
-          <el-table-column prop="Telephone" label="联系电话" width="100"></el-table-column>
-          <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="200"></el-table-column>
-          <el-table-column prop="Description" label="备注" :show-overflow-tooltip="true"></el-table-column>
-        </el-table>
-      </div>
-      <div class="between-center m-v-15">
-        <el-button type="primary" @click="openPlatformDialog(1)">新增站点</el-button>
-      </div>
-    </div>
-    <!-- 弹出框 -->
-    <div>
-      <!-- 更多操作弹窗 -->
-      <my-dialog
-        :visible.sync="moreOperationDialog"
-        :closeShow="true"
-        :title="platformRowData.Label"
-      >
-        <!-- 展示站点的基本信息 -->
-        <div slot="left_content" class="p_both20 p-b-20">
-          <platform-row-detail ref="refPlatformDetail"></platform-row-detail>
-          <div class="text-center m-t-30">
-            <el-button type="primary" @click="openPlatformDialog(0)">编辑</el-button>
-          </div>
-        </div>
-        <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
-      </my-dialog>
-      <!-- 站点信息弹出框 -->
-      <platform-row-dialog ref="refPlatformDialog" @subClickEvent="updatePlatformList"></platform-row-dialog>
-    </div>
+      <el-form label-width="80px" class="demo-ruleForm" size="small">
+        <el-form-item label="后台名">
+          <el-input 
+            v-model="systemForm.name"
+            placeholder="可以输入多个号码，用英文逗号,隔开"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="登录背景">
+          <el-input type="textarea" :row="3" v-model="systemForm.loginBg" placeholder="短信内容，不宜太长。"></el-input>
+        </el-form-item>
+      </el-form>
+    </div> 
   </div>
 </template>
 
@@ -67,7 +31,9 @@ export default {
   data() {
     return {
       // 更多操作弹窗
-      moreOperationDialog: false,
+      systemForm: {
+
+      },
       // 模态框获得的单条数据
       platformRowData: {},
       // 当前操作平台的索引
@@ -112,10 +78,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllPlatform();
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
+    
   }
 };
 </script>

@@ -4,6 +4,9 @@ export default {
     system:'系统设置',
     setting: '设置',
     platform:"分校",
+    sendSMS:"发送短信",
+    trackList:'跟进记录',
+    customList:'客户列表',
     documentation: '文檔',
     guide: '引導頁',
     permission: '權限測試頁',
@@ -38,8 +41,7 @@ export default {
     'menu1-2-1': '菜單 1-2-1',
     'menu1-2-2': '菜單 1-2-2',
     'menu1-3': '菜單 1-3',
-    menu2: '菜單 2',
-    Table: 'Table',
+    menu2: '菜單 2', 
     dynamicTable: '動態 Table',
     dragTable: '拖拽 Table',
     inlineEditTable: 'Table 內編輯',
@@ -98,9 +100,12 @@ export default {
     confirm: '確定',
     cancel: '取消'
   },
-  guide: {
-    description: '引導頁對於壹些第壹次進入項目的人很有用，妳可以簡單介紹下項目的功能。本 Demo 是基於',
-    button: '打開引導'
+  customList:'客户列表',
+  Custom: {
+    Title: '客户学员',
+    New: '新增客户',
+    Update: '修改客户',
+    Disable: '禁用客户'
   },
   components: {
     documentation: '文檔',

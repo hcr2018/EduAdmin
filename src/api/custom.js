@@ -131,3 +131,12 @@ export function batchChangeManager() {
     method: 'post'
   })
 }
+
+//   ----------------客户-学籍相关操作--------------------- 
+// 获取客户的学籍列表
+export function getStudentStatustByStudent() {
+  return request({
+    url: "/student_status/getStudentStatustByStudent/",
+    method: 'get'
+  })
+} 

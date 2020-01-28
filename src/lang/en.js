@@ -4,6 +4,9 @@ export default {
     system:'system',
     setting: 'setting',
     platform:"sites",
+    sendSMS:"send SMS",
+    trackList:'track list',
+    customList:'custom list',
     documentation: 'Documentation',
     guide: 'Guide',
     permission: 'Permission',
@@ -38,8 +41,7 @@ export default {
     'menu1-2-1': 'Menu 1-2-1',
     'menu1-2-2': 'Menu 1-2-2',
     'menu1-3': 'Menu 1-3',
-    menu2: 'Menu 2',
-    Table: 'Table',
+    menu2: 'Menu 2', 
     dynamicTable: 'Dynamic Table',
     dragTable: 'Drag Table',
     inlineEditTable: 'Inline Edit',
@@ -98,9 +100,13 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
-  guide: {
-    description: 'The guide page is useful for some people who entered the project for the first time. You can briefly introduce the features of the project. Demo is based on ',
-    button: 'Show Guide'
+  customList:'customList',
+  Custom: {
+    
+    Title: 'Custom',
+    New: 'New',
+    Update: 'Update',
+    Disable: 'Disable'
   },
   components: {
     documentation: 'Documentation',

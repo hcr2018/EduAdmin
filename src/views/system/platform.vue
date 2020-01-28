@@ -90,7 +90,7 @@ export default {
     updatePlatformList(type, rowData) {
       // type=1新增，type=0编辑
       if (type) {
-       this.$store.getters.platformList
+        this.$store.getters.platformList;
       } else {
         this.$set(this.common.platformList, this.currentPlatformIndex, rowData);
         // 更新展示的基本信息
@@ -99,12 +99,10 @@ export default {
       }
     },
     // 获取誉财所有平台的信息
-      getAllPlatform() {
-          console.log("getAllPlatform  start :", this.$store.getters.app.platformList);
-       this.$store.dispatch("app/getPlatformList").then(() => {
-        
-                console.log("getAllPlatform  ook", this.$store.getters.app.platformList);
-              });
+    getAllPlatform() {
+      this.$store.dispatch("app/getPlatformList").then(() => {
+        this.$refs.refElTabel.doLayout();
+      });
     },
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
@@ -117,9 +115,7 @@ export default {
   },
   mounted() {
     this.getAllPlatform();
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
+  
   }
 };
 </script>

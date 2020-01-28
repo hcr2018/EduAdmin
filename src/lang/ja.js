@@ -4,6 +4,9 @@ export default {
     system:'系统设置',
     setting: '设置',
     platform:"分校",
+    sendSMS:"发送短信",
+    trackList:'跟进记录',
+    customList:'客户列表',
     documentation: 'ドキュメント',
     guide: 'ガイド',
     permission: '権限',
@@ -38,8 +41,7 @@ export default {
     'menu1-2-1': 'メニュー 1-2-1',
     'menu1-2-2': 'メニュー 1-2-2',
     'menu1-3': 'メニュー 1-3',
-    menu2: 'メニュー 2',
-    Table: 'Table',
+    menu2: 'メニュー 2', 
     dynamicTable: '可変 Table',
     dragTable: 'Drag Table',
     inlineEditTable: 'Inline Edit Table',
@@ -98,9 +100,12 @@ export default {
     confirm: '確認',
     cancel: 'キャンセル'
   },
-  guide: {
-    description: 'ガイドは各機能の説明です。',
-    button: 'ガイドを見る'
+  customList:'客户列表',
+  Custom: {
+    Title: '客户学员',
+    New: '新增客户',
+    Update: '修改客户',
+    Disable: '禁用客户'
   },
   components: {
     documentation: 'ドキュメント',

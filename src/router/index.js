@@ -7,10 +7,8 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
+import componentsRouter from './modules/components' 
+import customRouter from './modules/custom' 
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -147,6 +145,7 @@ export const asyncRoutes = [
         name: 'setting',
         meta: {
           title: 'setting',
+          icon: 'lock',
           roles: [1,0] // or you can only set roles in sub nav
         }
       },
@@ -156,6 +155,18 @@ export const asyncRoutes = [
         name: 'platform',
         meta: {
           title: 'platform',
+          icon: 'lock',
+          roles: [1,0]
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'sendSMS',
+        component: () => import('@/views/system/sendSMS'),
+        name: 'sendSMS',
+        meta: {
+          title: 'sendSMS',
+          icon: 'lock',
           roles: [1,0]
           // if do not set roles, means: this page does not require permission
         }
@@ -177,8 +188,8 @@ export const asyncRoutes = [
   //  },
 
   /** when your routing map is too long, you can split it into small modules **/
+  customRouter,
   componentsRouter,
-  // chartsRouter,
   // nestedRouter,
   // tableRouter,
  

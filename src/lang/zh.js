@@ -4,6 +4,9 @@ export default {
     system:'系统设置',
     setting: '设置',
     platform:"分校",
+    sendSMS:"发送短信",
+    trackList:'跟进记录',
+    customList:'客户列表',
     documentation: '文档',
     guide: '引导页',
     permission: '权限测试页',
@@ -39,7 +42,7 @@ export default {
     'menu1-2-2': '菜单 1-2-2',
     'menu1-3': '菜单 1-3',
     menu2: '菜单 2',
-    Table: 'Table',
+ 
     dynamicTable: '动态 Table',
     dragTable: '拖拽 Table',
     inlineEditTable: 'Table 内编辑',
@@ -98,9 +101,12 @@ export default {
     confirm: '确定',
     cancel: '取消'
   },
-  guide: {
-    description: '引导页对于一些第一次进入项目的人很有用，你可以简单介绍下项目的功能。本 Demo 是基于',
-    button: '打开引导'
+
+  Custom: {
+    Title: '客户学员',
+    New: '新增客户',
+    Update: '修改客户',
+    Disable: '禁用客户'
   },
   components: {
     documentation: '文档',
