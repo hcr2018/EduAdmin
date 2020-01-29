@@ -95,7 +95,7 @@
                 <el-button type="primary" @click="searchSubmit">查询</el-button>
               </el-form-item>
             </div>
-            <el-form-item>
+            <!-- <el-form-item>
               <div
                 class="center m-r-20 radius4 hgt27 wid130 border-909399 color-909399 p_both15"
                 :class="{'color-2e77f8':connecTelSuccess,'bg-2e77f8':connecTelSuccess}"
@@ -107,7 +107,7 @@
                 />
                 <span class="font14" @click="OnOpenDevice()">{{formatTelephoneStatus()}}</span>
               </div>
-            </el-form-item>
+            </el-form-item>-->
           </div>
         </el-form>
       </div>
@@ -294,7 +294,7 @@
 </template>
 <script>
 import $ from "jquery";
-import { 
+import {
   GetStudentDataTrackAnalysis,
   getCustomTracks,
   addcustomTracks,
@@ -316,7 +316,7 @@ import {
   batchChangeManager,
   getStudentStatustByStudent
 } from "@/api/custom";
- 
+
 import {
   queryPlatform,
   addPlatform,
@@ -329,7 +329,7 @@ import {
   getWorkersCustomList,
   addWorkersCustom,
   editWorkersCustom
-} from "@/api/platform"; 
+} from "@/api/platform";
 import customRowDialog from "@/views/custom/component/customRowDialog";
 import customSendSmsDialog from "@/views/custom/component/customSendSmsDialog";
 import customRowDetail from "@/views/custom/component/customRowDetail";
@@ -366,7 +366,6 @@ export default {
     alarmList,
     addAlarmDialog,
     batchChangeManagerView
-    
   },
   data() {
     return {
@@ -466,7 +465,7 @@ export default {
     },
     // 我的站点-根据当前登录用户选择的站点获取该站点下所属自己的销售
     async getPlatformWorkers(platformId) {
-      let res = await $PlatformHttp.getPlatformWorkers(platformId);
+      let res = await getPlatformWorkers(platformId);
       if (res.code == 200) {
         // 默认查看自己的客户
         this.searchWorkerId = this.$store.state.userInformation.Id;
@@ -484,6 +483,7 @@ export default {
     // 获取客户列表-tableData
     async getCustomList() {
       let that = this;
+      this.listLoading = true;
       // 取数据的位置
       let offsetRow = (this.nowPage - 1) * this.rows;
       let res;
@@ -538,6 +538,7 @@ export default {
           }
         });
       }
+      this.listLoading = false;
     },
 
     // 分页获取数据
@@ -688,7 +689,7 @@ export default {
       } else if (type == 1) {
         this.customTableDataList.unshift(rowData);
       } else if (type == 0) {
-        this.customFormData = {...rowData};
+        this.customFormData = { ...rowData };
         this.$set(this.customTableDataList, this.currentCustomIndex, rowData);
         this.$refs.refCustomDetail.getCustomRowData({ ...rowData });
       }
@@ -987,8 +988,7 @@ export default {
       }
     },
     //收到客户发回来的短信
-    async receiveSMS(msg) {
-      console.log(msg.phone, "------", msg.content);
+    async receiveSMS(msg) { 
       let res = await receiveSmsTrack(msg.phone, msg.content);
     },
     async waitSendSMS() {

@@ -56,7 +56,7 @@
       </div>
     </template>
     <div class="is-not-chrome" v-else-if="isWebsocketWorking && !isChrome">
-      <p class="text">抱歉，您的浏览器不支持誉财教育呼叫中心，请使用Chrome浏览器进行访问 </p>
+      <p class="text">抱歉，您的浏览器不支持呼叫中心，请使用Chrome浏览器进行访问 </p>
     </div>
     <div class="websocket-error" v-else>
       <h4 class="title">呼叫中心连接异常</h4>
@@ -502,7 +502,7 @@ export default {
         this.notify.close()
       }
       clearTimeout(this.timeout)
-      document.title = '誉财教育'
+      document.title = '教育中心'
     },
 
     // 弹出提醒

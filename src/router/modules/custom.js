@@ -6,21 +6,21 @@ const customRouter = {
   path: '/custom',
   component: Layout,
   redirect: 'noRedirect',
-  name: 'customList',
+  name: 'custom',
   meta: {
     title: 'customList',
     icon: 'table'
   },
   children: [
     {
-      path: 'customList',
+      path: 'list',
       component: () => import('@/views/custom/customList'),
       name: 'customList',
       meta: { title: 'customList' }
     },
     {
       path: 'trackList',
-      component: () => import('@/views/custom/customList'),
+      component: () => import('@/views/custom/trackList'),
       name: 'trackList',
       meta: { title: 'trackList' }
     } 

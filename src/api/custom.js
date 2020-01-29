@@ -36,10 +36,11 @@ export function receiveSmsTrack() {
   })
 }
     // 获取跟进记录列表
-export function getTrackList() {
+export function getTrackList(managerid,params) {
   return request({
-    url: "/studenttrack/getAllTracks/" ,
-    method: 'get'
+    url: "/studenttrack/getAllTracks/"+managerid ,
+    method: 'get',
+    params:params
   })
 }
 

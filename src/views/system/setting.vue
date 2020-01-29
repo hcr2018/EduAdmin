@@ -64,7 +64,7 @@ export default {
         this.platformRowData = { ...rowData };
       }
     },
-    // 获取誉财所有平台的信息
+    // 获取所有平台的信息
     getAllPlatform() {
       this.$store.dispatch("app/getPlatformList").then(() => {});
     },
