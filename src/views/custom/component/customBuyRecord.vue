@@ -1,5 +1,4 @@
 
-
 <template>
   <!-- --------------------客户的跟进记录模块----------------------- -->
   <div class="p_both10 p-t-5">
@@ -15,16 +14,16 @@
           <div
             class="coverImg wid80 hgt80"
             :style="{'backgroundImage':'url('+scope.row.CourseImage+')'}"
-          ></div>
+          />
         </template>
       </el-table-column>
-      <el-table-column prop="Label" label="课程名称" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="OldPayment" label="定价" width="80"></el-table-column>
-      <el-table-column prop="Payment" label="实付" width="80"></el-table-column>
-      <el-table-column prop="Createtime" :formatter="dateFormat" label="购买时间" width="90"></el-table-column>
-      <el-table-column prop="StartTime" :formatter="dateFormat" label="生效日期" width="90"></el-table-column>
-      <el-table-column prop="EndTime" :formatter="dateFormat" label="结束日期" width="90"></el-table-column>
-      <el-table-column prop="PayMethod" :formatter="paymethodFormat" label="支付方式" :show-overflow-tooltip="true" width="120"></el-table-column>
+      <el-table-column prop="Label" label="课程名称" :show-overflow-tooltip="true" />
+      <el-table-column prop="OldPayment" label="定价" width="80" />
+      <el-table-column prop="Payment" label="实付" width="80" />
+      <el-table-column prop="Createtime" :formatter="dateFormat" label="购买时间" width="90" />
+      <el-table-column prop="StartTime" :formatter="dateFormat" label="生效日期" width="90" />
+      <el-table-column prop="EndTime" :formatter="dateFormat" label="结束日期" width="90" />
+      <el-table-column prop="PayMethod" :formatter="paymethodFormat" label="支付方式" :show-overflow-tooltip="true" width="120" />
       <el-table-column label="附加设置" width="110">
         <template slot-scope="scope">
           <el-checkbox
@@ -51,51 +50,51 @@
       title="添加购买记录"
     >
       <el-form
+        ref="refbuyCourse"
         :model="addBuyCourseFormData"
         :rules="buyCourseRules"
-        ref="refbuyCourse"
         label-width="105px"
         size="small"
         class="dialog-body-pad addBuyCourse"
       >
         <div class="between-center">
           <el-form-item label="学院">
-            <el-select v-model="selectCollegeIndex" @change="collegeChange" placeholder="请选择学院">
+            <el-select v-model="selectCollegeIndex" placeholder="请选择学院" @change="collegeChange">
               <el-option
-                :label="item.Label"
-                :value="index"
                 v-for="(item,index) in common.collegeWithCouseKindList"
                 :key="index"
-              ></el-option>
+                :label="item.Label"
+                :value="index"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="课程大类">
             <el-select
               v-model="selectCourseKindIndex"
-              @change="changeSelectCourseKind"
               placeholder="请选择课程分类"
+              @change="changeSelectCourseKind"
             >
               <el-option
-                :label="item.Label"
-                :key="index"
-                :value="index"
                 v-for="(item,index) in courseKindsOps"
-              ></el-option>
+                :key="index"
+                :label="item.Label"
+                :value="index"
+              />
             </el-select>
           </el-form-item>
         </div>
         <el-form-item label="课程" prop="selectedCourseId">
           <el-select
             v-model="addBuyCourseFormData.selectedCourseId"
-            @change="forceUpdate"
             placeholder="请选择课程"
+            @change="forceUpdate"
           >
             <el-option
               v-for="item in courseOptions"
               :key="item.Id"
               :label="item.Label"
               :value="item.Id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="课程时效" prop="courseStudyTime">
@@ -110,17 +109,17 @@
             value-format="timestamp"
             :picker-options="common.datePickerOptions"
             @change="changeSelectStudyTime"
-          ></el-date-picker>
+          />
         </el-form-item>
         <div class="between-center">
           <el-form-item label="实收金额(￥)" prop="actualPrice" class="wid_60">
-            <el-input-number v-model="addBuyCourseFormData.actualPrice" :min="0"></el-input-number>
+            <el-input-number v-model="addBuyCourseFormData.actualPrice" :min="0" />
           </el-form-item>
           <el-form-item label="学习周期:">
             <div class="center">
               <span>
                 共
-                <span class="m_both5">{{courseStudyDay}}</span>天
+                <span class="m_both5">{{ courseStudyDay }}</span>天
               </span>
             </div>
           </el-form-item>
@@ -166,7 +165,7 @@ import {
   GetCourseOfKind
 } from "@/api/course";  
 export default {
-  name: "customBuyRecord",
+  name: "CustomBuyRecord",
   data() {
     return {
       sendSMS: true,
@@ -206,6 +205,11 @@ export default {
       }
     };
   },
+  mounted() {
+    setTimeout(() => {
+      this.$refs.refElTabel.doLayout();
+    }, 2000);
+  },
 
   methods: {
     // 根据选中的学院获取课程大类
@@ -214,8 +218,8 @@ export default {
       this.selectCourseKindIndex = null;
       this.addBuyCourseFormData.selectedCourseId = null;
       this.courseOptions = [];
-      let courseKindArr = this.common.collegeWithCouseKindList[selVa].Children;
-      this.courseKindsOps = courseKindArr ? courseKindArr : [];
+      const courseKindArr = this.common.collegeWithCouseKindList[selVa].Children;
+      this.courseKindsOps = courseKindArr || [];
       this.selectCollegeid = this.common.collegeWithCouseKindList[selVa].Id;
       if (this.courseKindsOps.length > 0) {
         this.selectCourseKindIndex = 0;
@@ -226,7 +230,7 @@ export default {
     async changeSelectCourseKind(selVa) {
       this.addBuyCourseFormData.selectedCourseId = null;
       this.selectCourseKindId = this.courseKindsOps[selVa].Id;
-      let res = await GetCourseOfKind({
+      const res = await GetCourseOfKind({
         kindid: this.selectCourseKindId
       });
       this.courseOptions = res.data ? res.data : [];
@@ -249,16 +253,16 @@ export default {
     },
     // 上传跟进记录的图片
     async uploadTrackImg(file) {
-      let res = await $ImgHttp.UploadImgCustomTrack(file.raw);
+      const res = await $ImgHttp.UploadImgCustomTrack(file.raw);
       if (res.code == 200) {
         this.common.go_alert("上传成功！");
         this.trackImgList.push(res.data);
       }
     },
 
-    //获取客户的购买记录
+    // 获取客户的购买记录
     async getBuyCouseRecord() {
-      let res = await getCustomBuyCouseRecord({
+      const res = await getCustomBuyCouseRecord({
         studentid: this.customID,
         kind: 2,
         limit: 100000,
@@ -267,9 +271,9 @@ export default {
       if (res.code == 200) {
         if (res.data) {
           res.data.forEach(item => {
-            let newitem = item;
+            const newitem = item;
             if (item.Info != "") {
-              let info = JSON.parse(item.Info);
+              const info = JSON.parse(item.Info);
               newitem.ForbiddenVideo = info.ForbiddenVideo;
             }
             this.customBuyCourseList.unshift(newitem);
@@ -307,11 +311,11 @@ export default {
         3600 /
         24000;
     },
-    //保存购买记录
+    // 保存购买记录
     saveBuyCourseRecord() {
       this.$refs.refbuyCourse.validate(valid => {
         if (valid) {
-          let that = this;
+          const that = this;
           that.customBuyCourseList = [];
           that
             .$confirm("确认添加吗", "提示", {
@@ -319,8 +323,8 @@ export default {
               cancelButtonText: "取消",
               type: "warning"
             })
-            .then(async () => {
-              let params = {
+            .then(async() => {
+              const params = {
                 studentid: that.customID,
                 starttime: parseInt(
                   that.addBuyCourseFormData.courseStudyTime[0] / 1000
@@ -332,7 +336,7 @@ export default {
                 sms: that.sendSMS,
                 collegeid: that.selectCollegeid
               };
-              let res = await addCustomBuyCourseRecord(
+              const res = await addCustomBuyCourseRecord(
                 that.addBuyCourseFormData.selectedCourseId,
                 params,
                 true
@@ -340,9 +344,9 @@ export default {
               if (res.code == 200) {
                 if (res.data) {
                   res.data.forEach(item => {
-                    let newitem = item;
+                    const newitem = item;
                     if (item.Info != "") {
-                      let info = JSON.parse(item.Info);
+                      const info = JSON.parse(item.Info);
                       newitem.ForbiddenVideo = info.ForbiddenVideo;
                     }
                     that.customBuyCourseList.unshift(newitem);
@@ -364,8 +368,8 @@ export default {
     },
     // 允许做题与否
     async onChangeExamHandler(checked, row, vedioOrExam) {
-      let urlParams = row.Id + "/" + vedioOrExam + "/" + checked;
-      let res = customAllowDoExercise(urlParams);
+      const urlParams = row.Id + "/" + vedioOrExam + "/" + checked;
+      const res = customAllowDoExercise(urlParams);
       if (res.code == 200) {
       }
     },
@@ -376,8 +380,8 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(async () => {
-          let res = await deleteBuyCourse(id);
+        .then(async() => {
+          const res = await deleteBuyCourse(id);
           if (res.code == 200) {
             this.common.go_alert("删除成功!");
             this.customBuyCourseList.splice(index, 1);
@@ -387,11 +391,6 @@ export default {
           return false;
         });
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
   }
 };
 </script> 

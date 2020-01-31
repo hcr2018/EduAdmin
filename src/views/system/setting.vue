@@ -1,15 +1,15 @@
 <template>
-  <div class="font16 hgt_full" style="height:100%" v-cloak>
+  <div v-cloak class="font16 hgt_full" style="height:100%">
     <div class="flex_column hgt_full">
       <el-form label-width="80px" class="demo-ruleForm" size="small">
         <el-form-item label="后台名">
           <el-input 
             v-model="systemForm.name"
             placeholder="可以输入多个号码，用英文逗号,隔开"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="登录背景">
-          <el-input type="textarea" :row="3" v-model="systemForm.loginBg" placeholder="短信内容，不宜太长。"></el-input>
+          <el-input v-model="systemForm.loginBg" type="textarea" :row="3" placeholder="短信内容，不宜太长。" />
         </el-form-item>
       </el-form>
     </div> 
@@ -19,10 +19,10 @@
 <script>
 import platformRowDialog from "@/views/system/component/platformRowDialog";
 import platformRowDetail from "@/views/system/component/platformRowDetail";
-import myDialog from "@/components/myDialog/myDialog";
+// import myDialog from "@/components/myDialog/myDialog";
 // import $AppHttp from "@/service/AppAPI";
 export default {
-  name: "setting",
+  name: "Setting",
   components: {
     myDialog,
     platformRowDialog,
@@ -40,6 +40,9 @@ export default {
       currentPlatformIndex: null
     };
   },
+  mounted() {
+    
+  },
   methods: {
     // 打开站点的弹出框
     openPlatformDialog(type) {
@@ -52,7 +55,7 @@ export default {
         });
       }
     },
-    //追加数据后更新列表
+    // 追加数据后更新列表
     updatePlatformList(type, rowData) {
       // type=1新增，type=0编辑
       if (type) {
@@ -76,9 +79,6 @@ export default {
       this.platformRowData = { ...row };
       this.moreOperationDialog = true;
     }
-  },
-  mounted() {
-    
   }
 };
 </script>

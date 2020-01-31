@@ -2,63 +2,65 @@
   <div class="xbb-view">
     <template v-if="isWebsocketWorking && isChrome">
       <!-- 正常状态 -->
-      <div class="normal-status" v-if="currentStatus === 0">
+      <div v-if="currentStatus === 0" class="normal-status">
         <div class="dial">
           <el-input
-            placeholder="请输入电话号码"
             v-model="callForm.phoneNum"
+            placeholder="请输入电话号码"
             class="input-with-select"
-            @keyup.native.enter="makeCall(callForm.phoneNum)">
-            <el-button type="primary" slot="append" @click="makeCall(callForm.phoneNum)">拨号</el-button>
+            @keyup.native.enter="makeCall(callForm.phoneNum)"
+          >
+            <el-button slot="append" type="primary" @click="makeCall(callForm.phoneNum)">拨号</el-button>
           </el-input>
         </div>
         <div class="call-log">
           <h4 class="title">最近通话</h4>
           <ul class="call-list">
             <li
-              class="item"
               v-for="(item, index) in callLogList"
-              :key="index">
+              :key="index"
+              class="item"
+            >
               <span class="status" :class="{red: !item.result}">
-                <i :class="[item.type ? 'web-icon-callout' : 'web-icon-callin']"></i>
+                <i :class="[item.type ? 'web-icon-callout' : 'web-icon-callin']" />
               </span>
               <div class="infos">
-                <p class="phone-num" @click="makeCall(item.anotherPhoneNum)">{{item.hiddenPhoneNum}}</p>
-                <p class="name">{{item.refName}}</p>
+                <p class="phone-num" @click="makeCall(item.anotherPhoneNum)">{{ item.hiddenPhoneNum }}</p>
+                <p class="name">{{ item.refName }}</p>
               </div>
-              <span class="date">{{item.callTimeShow | formatDate}}</span>
+              <span class="date">{{ item.callTimeShow | formatDate }}</span>
             </li>
-            <li class="empty" v-if="!callLogList.length">暂无通话记录</li>
+            <li v-if="!callLogList.length" class="empty">暂无通话记录</li>
           </ul>
         </div>
       </div>
 
-      <div class="incall-status" v-else>
+      <div v-else class="incall-status">
         <div class="calling">
-          <div class="box btn-num" v-if="btnNumShow&&currentStatus===3">
-            <div class="tap-content"><span ref="tapTarget"></span></div>
+          <div v-if="btnNumShow&&currentStatus===3" class="box btn-num">
+            <div class="tap-content"><span ref="tapTarget" /></div>
             <div class="numeric-keyboard">
               <!-- *样式需要单独调整 -->
-              <span v-for="item in btnNum" :key="item" class="btn-key" @click="numTap($event)"><i>{{item}}</i></span>
+              <span v-for="item in btnNum" :key="item" class="btn-key" @click="numTap($event)"><i>{{ item }}</i></span>
             </div>
           </div>
-          <div class="box info" v-else>
-            <div class="tap-content">{{phoneNumForShow}}</div>
-            <div class="owner-name">{{callForm.customerName}}</div>
-            <div class="call-status">{{statusName}}</div>
+          <div v-else class="box info">
+            <div class="tap-content">{{ phoneNumForShow }}</div>
+            <div class="owner-name">{{ callForm.customerName }}</div>
+            <div class="call-status">{{ statusName }}</div>
           </div>
           <div class="btn-group">
-            <span class="web-icon-dial hang-up"  @click="handleOption(7)"></span>
-            <span v-if="currentStatus === 1" class="web-icon-dial pick-up"  @click="handleOption(6)"></span>
-            <span v-if="currentStatus===3" class="to-btn" @click="btnNumShow=!btnNumShow"><i :class="btnNumShow?'el-icon-close':'web-icon-Oval'"></i></span>
+            <span class="web-icon-dial hang-up" @click="handleOption(7)" />
+            <span v-if="currentStatus === 1" class="web-icon-dial pick-up" @click="handleOption(6)" />
+            <span v-if="currentStatus===3" class="to-btn" @click="btnNumShow=!btnNumShow"><i :class="btnNumShow?'el-icon-close':'web-icon-Oval'" /></span>
           </div>
         </div>
       </div>
     </template>
-    <div class="is-not-chrome" v-else-if="isWebsocketWorking && !isChrome">
+    <div v-else-if="isWebsocketWorking && !isChrome" class="is-not-chrome">
       <p class="text">抱歉，您的浏览器不支持呼叫中心，请使用Chrome浏览器进行访问 </p>
     </div>
-    <div class="websocket-error" v-else>
+    <div v-else class="websocket-error">
       <h4 class="title">呼叫中心连接异常</h4>
       <p class="text">1. 请检查话机盒子是否已连接，相关线缆是否插牢；</p>
       <p class="text">2. 请检查call应用是否已经安装并启用（客户端下载地址:  ）；</p>
@@ -79,7 +81,7 @@ import { Message } from 'element-ui'
 let websocket = null
 
 // 监听窗口关闭事件，当窗口关闭时，主动关闭websocket链接
-window.onbeforeunload = function () {
+window.onbeforeunload = function() {
   console.log('界面异常关闭，断开WebSocket连接')
   if (websocket !== null) {
     websocket.close()
@@ -87,9 +89,16 @@ window.onbeforeunload = function () {
 }
 
 export default {
-  name: 'xbb-view',
+  name: 'XbbView',
 
-  data () {
+  filters: {
+    formatDate(val) {
+      const seconds = new Date(val).getTime() / 1000
+      return utils.formatTimeCompare(seconds)
+    }
+  },
+
+  data() {
     return {
       callLogList: [], // 通话记录列表
       currentStatus: 0, // 当前状态 0空闲, 1来电, 2呼叫中, 3通话中
@@ -119,7 +128,7 @@ export default {
   },
 
   computed: {
-    statusName () {
+    statusName() {
       if (this.currentStatus === 1) {
         return '来电...'
       } else if (this.currentStatus === 2) {
@@ -132,22 +141,9 @@ export default {
     }
   },
 
-  filters: {
-    formatDate (val) {
-      const seconds = new Date(val).getTime() / 1000
-      return utils.formatTimeCompare(seconds)
-    }
-  },
-
-  mounted () {
-    this.initWebSocket()
-    this.getCalllog()
-    this.resetCallme()
-  },
-
   watch: {
     // 监听当前呼叫状态
-    currentStatus (val) {
+    currentStatus(val) {
       // 来电
       if (val === 1) {
         this.checkNotification()
@@ -155,7 +151,7 @@ export default {
         this.closeNotify()
       }
     },
-    btnNumShow (val) {
+    btnNumShow(val) {
       if (val) {
         document.addEventListener('keyup', this.keyboardEvent)
       } else {
@@ -164,12 +160,18 @@ export default {
     }
   },
 
+  mounted() {
+    this.initWebSocket()
+    this.getCalllog()
+    this.resetCallme()
+  },
+
   methods: {
     ...mapActions([
       'updateMissCallCount' // 更新未接来电数
     ]),
     // 初始化websocket
-    initWebSocket () {
+    initWebSocket() {
       // 判断当前浏览器是否支持Websocket
       if ('WebSocket' in window) {
         /* eslint-disable no-undef */
@@ -226,7 +228,7 @@ export default {
     },
 
     // 键盘联动
-    keyboardEvent (evt) {
+    keyboardEvent(evt) {
       if (evt.shiftKey) {
         if (evt.keyCode === 51 || evt.keyCode === 56) {
           this.numTap(evt)
@@ -238,28 +240,27 @@ export default {
       }
     },
 
-    numTap (evt) {
-      let val = evt.key ? evt.key : evt.target.innerText
+    numTap(evt) {
+      const val = evt.key ? evt.key : evt.target.innerText
       // 显示用户输入的内容
       this.$refs.tapTarget.innerText += val
       // 长度超过9显示省略号
       if (this.$refs.tapTarget.innerText.length > 9) {
-        let str = this.$refs.tapTarget.innerText
+        const str = this.$refs.tapTarget.innerText
         this.$refs.tapTarget.innerText = '...' + str.slice(str.length - 9, str.length)
       }
       this.handleOption(9, val)
     },
 
     // 监听用户主动操作
-    handleOption (type, phoneNum = this.callForm.phoneNum) {
+    handleOption(type, phoneNum = this.callForm.phoneNum) {
       // @type 5拨打 6接听 7挂断
       const sendData = Object.assign({}, this.basicParams)
       sendData.messageType = type
       // 拨打电话
       if (type === 5) {
-
         // 格式化电话号码
-        let tel = phoneNum.replace(/[\s, \-, (, )]/g, '')
+        const tel = phoneNum.replace(/[\s, \-, (, )]/g, '')
 
         // 获取客户信息
         this.getCustomerInfo(tel)
@@ -291,7 +292,7 @@ export default {
     },
 
     // 重置呼叫方法
-    resetCallme () {
+    resetCallme() {
       // 拨打电话
       window.CALL_CENTER.callme = tel => {
         this.makeCall(tel)
@@ -299,15 +300,15 @@ export default {
     },
 
     // 防骚扰请求
-    disturb (phone, cb) {
+    disturb(phone, cb) {
       const url = '/callcenter/customer/disturb.do'
-      api.post(url, {phone}, (data) => {
+      api.post(url, { phone }, (data) => {
         cb(phone)
       })
     },
 
     // 拨打电话
-    makeCall (phone) {
+    makeCall(phone) {
       phone = phone.trim()
       if (!phone) {
         Message({
@@ -324,7 +325,7 @@ export default {
     },
 
     // 监听被动操作
-    handleCallback (type, message) {
+    handleCallback(type, message) {
       // 来电
       if (type === 1) {
         console.log('来电回���', message)
@@ -371,7 +372,7 @@ export default {
     },
 
     // 将xbb的呼叫状态格式化后，向上提交
-    emitCallStatus (type, phoneNum) {
+    emitCallStatus(type, phoneNum) {
       console.log('emit', type)
       // 通话状态 0 来电 1 呼出 2 通话中 3 正常
       if (type === 1) {
@@ -388,7 +389,7 @@ export default {
     },
 
     // 保存通话记录
-    saveCalllog (callLog) {
+    saveCalllog(callLog) {
       const url = '/callcenter/callLog/save.do'
       const params = Object.assign({}, callLog, this.refInfos)
       api.post(url, params, (response) => {
@@ -405,7 +406,7 @@ export default {
     },
 
     // 获取近期通话
-    getCalllog () {
+    getCalllog() {
       const url = '/callcenter/callLog/list.do'
       const params = {
         moduleType: 305,
@@ -418,7 +419,7 @@ export default {
     },
 
     // 获取客户信息
-    getCustomerInfo (phoneNum) {
+    getCustomerInfo(phoneNum) {
       const url = '/callcenter/findRef.do'
       const params = {
         mobile: phoneNum
@@ -440,7 +441,7 @@ export default {
     },
 
     // 清空已有信息
-    clearInfos () {
+    clearInfos() {
       this.callForm = {
         phoneNum: '',
         customerName: ''
@@ -449,7 +450,7 @@ export default {
     },
 
     // 获取当日通话统计，并通过websocket发送给话机
-    getCurrentCalllog () {
+    getCurrentCalllog() {
       const url = '/callcenter/account/socketReckon.do'
       const params = { timeType: 1, type: 1 }
       api.post(url, params, (data) => {
@@ -471,7 +472,7 @@ export default {
     },
 
     // 检查Notification APi
-    checkNotification () {
+    checkNotification() {
       // 先检查浏览器是否支持
       if (!('Notification' in window)) {
         console.log('This browser does not support desktop notification')
@@ -483,7 +484,7 @@ export default {
 
       // 否则我们需要向用户获取权限
       } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission(function (permission) {
+        Notification.requestPermission(function(permission) {
           // 如果用户同意，就可以向他们发送通知
           if (permission === 'granted') {
             this.openNotify()
@@ -493,7 +494,7 @@ export default {
     },
 
     // 关闭提醒
-    closeNotify () {
+    closeNotify() {
       // 停止播放来电铃声
       this.controlRing(false)
 
@@ -506,7 +507,7 @@ export default {
     },
 
     // 弹出提醒
-    openNotify () {
+    openNotify() {
       const message = `${this.callForm.phoneNum} 正在呼入，请及时接听`
       this.notify = new Notification('呼入提醒', {
         lang: 'zh-CN',
@@ -523,7 +524,7 @@ export default {
     },
 
     // 滚动title
-    scrollStart () {
+    scrollStart() {
       clearTimeout(this.timeout)
       document.title = this.scrollTitle.substring(1, this.scrollTitle.length) + this.scrollTitle.substring(0, 1)
       this.scrollTitle = document.title.substring(0, this.scrollTitle.length)
@@ -531,7 +532,7 @@ export default {
     },
 
     // 控制来电铃声
-    controlRing (play = true) {
+    controlRing(play = true) {
       const audio = this.$refs.ring
       if (play) {
         audio.play()
@@ -542,7 +543,7 @@ export default {
     },
 
     // 发送客户端信息
-    sendClientInfo (clientInfo) {
+    sendClientInfo(clientInfo) {
       const params = Object.assign({ moduleType: 305 }, clientInfo)
       const url = '/callcenter/account/updateAccount.do'
       api.post(url, params, (data) => {
@@ -795,5 +796,4 @@ export default {
     }
   }
 </style>
-
  

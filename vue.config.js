@@ -39,7 +39,7 @@ module.exports = {
           '^/api': ''//这里理解成用‘/api’代替target里面的地址
         }
       }
-    },
+    }, 
     port: port,
     open: true,
     overlay: {

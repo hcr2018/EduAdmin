@@ -1,5 +1,5 @@
 <template>
-  <div class="font16 hgt_full" v-cloak>
+  <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <!-- 条件查询表单 -->
       <div class="m-b-10">
@@ -11,20 +11,20 @@
                 v-model="queryFromLabel"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
-                @change="searchSubmit"
                 :inactive-text="queryFromLabel?'录入员':'管理员'"
-              ></el-switch>
+                @change="searchSubmit"
+              />
               <el-radio-group
                 v-model="searchWorkerId"
-                @change="getCustomList"
                 :disabled="!isPlatformMaster"
+                @change="getCustomList"
               >
                 <el-radio-button :label="0">全部</el-radio-button>
                 <el-radio-button
-                  :label="item.Id"
                   v-for="item in myWorkerList"
                   :key="item.Id"
-                >{{item.Realname}}</el-radio-button>
+                  :label="item.Id"
+                >{{ item.Realname }}</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </div>
@@ -42,17 +42,17 @@
             <div class="flex_1">
               <el-form-item label="客户类型">
                 <el-select
-                  class="wid110"
                   v-model="searchTypeVal"
-                  @change="getCustomList"
+                  class="wid110"
                   placeholder="请选择类型"
+                  @change="getCustomList"
                 >
                   <el-option
-                    :label="item.Label"
-                    :key="index"
-                    :value="item.value"
                     v-for="(item,index) in common.IntentionalCustomerType"
-                  ></el-option>
+                    :key="index"
+                    :label="item.Label"
+                    :value="item.value"
+                  />
                 </el-select>
               </el-form-item>
               <el-form-item label="录入时间段">
@@ -67,27 +67,27 @@
                   end-placeholder="结束日期"
                   :picker-options="common.datePickerOptions"
                   style="width:220px;"
-                ></el-date-picker>
+                />
               </el-form-item>
               <el-form-item>
                 <el-input
-                  placeholder="请输入搜索内容"
                   v-model="searchContentVal"
-                  @keyup.enter.native="searchSubmit"
+                  placeholder="请输入搜索内容"
                   class="input-with-select"
+                  @keyup.enter.native="searchSubmit"
                 >
                   <el-select
-                    v-model="seaechConditionVal"
                     slot="prepend"
+                    v-model="seaechConditionVal"
                     placeholder="请选择查询条件"
                     class="wid90"
                   >
                     <el-option
-                      :label="item.Label"
-                      :key="index"
-                      :value="item.value"
                       v-for="(item,index) in searchCustomOptions"
-                    ></el-option>
+                      :key="index"
+                      :label="item.Label"
+                      :value="item.value"
+                    />
                   </el-select>
                 </el-input>
               </el-form-item>
@@ -115,19 +115,19 @@
       <!-- 图片预览 -->
       <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
       <el-table
+        ref="refCustomListTable"
         :data="customTableDataList"
         border
         tooltip-effect="light"
         style="width: 100%"
         height="100%"
         @selection-change="selectionCustomChange"
-        ref="refCustomListTable"
       >
-        <el-table-column type="selection" width="40"></el-table-column>
-        <el-table-column prop="id" width="80" label="编号"></el-table-column>
+        <el-table-column type="selection" width="40" />
+        <el-table-column prop="id" width="80" label="编号" />
         <el-table-column label="提醒" width="50">
           <template slot-scope="scope">
-            <i class="el-icon-bell font20" @click="addAlarm(scope.$index, scope.row)"></i>
+            <i class="el-icon-bell font20" @click="addAlarm(scope.$index, scope.row)" />
           </template>
         </el-table-column>
         <el-table-column width="50" label="关注">
@@ -137,21 +137,21 @@
               :max="1"
               class="customStar"
               @change="(val)=>{return setCustomStar(val, scope.row,scope.$index)}"
-            ></el-rate>
+            />
           </template>
         </el-table-column>
-        <el-table-column prop="Description" width="100" label="描述" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="Description" width="100" label="描述" :show-overflow-tooltip="true" />
         <el-table-column prop="Platform" width="110" label="归属站点">
           <template
             slot-scope="scope"
-          >{{common.FormatSelect(common.platformList,scope.row.Platform)}}</template>
+          >{{ common.FormatSelect(common.platformList,scope.row.Platform) }}</template>
         </el-table-column>
         <el-table-column width="120" fixed label="姓名">
           <template slot-scope="scope">
             <span
               class="color-2e77f8 font-w6 cursor"
               @click="openCustomMoreOperation(scope.$index, scope.row)"
-            >{{scope.row.Realname}}</span>
+            >{{ scope.row.Realname }}</span>
           </template>
         </el-table-column>
         <el-table-column width="50" label="图片">
@@ -159,10 +159,10 @@
             <div>
               <img
                 v-if="scope.row.firstAttachImage"
-                @click="onPreview(scope.row.firstAttachImage)"
                 class="wid20"
                 src="/static/img/slice/uploadedIcon.png"
-              />
+                @click="onPreview(scope.row.firstAttachImage)"
+              >
             </div>
           </template>
         </el-table-column>
@@ -174,13 +174,13 @@
               :content="scope.row.RecentTrack.substr(17)"
               placement="top-start"
             >
-              <span class="color-2e77f8 font-w6 cursor">{{scope.row.RecentTrack.substr(0,16)}}</span>
+              <span class="color-2e77f8 font-w6 cursor">{{ scope.row.RecentTrack.substr(0,16) }}</span>
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="Sex" width="50" label="性别"></el-table-column>
-        <el-table-column prop="Telephone" width="100" label="电话号码"></el-table-column>
-        <el-table-column prop="FromLabel" width="100" label="渠道来源"></el-table-column>
+        <el-table-column prop="Sex" width="50" label="性别" />
+        <el-table-column prop="Telephone" width="100" label="电话号码" />
+        <el-table-column prop="FromLabel" width="100" label="渠道来源" />
         <el-table-column width="75" label="管理员">
           <template slot-scope="scope">
             <el-tooltip
@@ -189,18 +189,18 @@
               :content="'电话:'+scope.row.ManagerTel"
               placement="top-start"
             >
-              <span class="color-2e77f8 font-w6 cursor">{{scope.row.ManagerLabel}}</span>
+              <span class="color-2e77f8 font-w6 cursor">{{ scope.row.ManagerLabel }}</span>
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="FocusCourse" width="120" label="意向课程" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="FocusCourse" width="120" label="意向课程" :show-overflow-tooltip="true" />
         <el-table-column prop="Kind" width="75" label="意向情况">
           <template slot-scope="scope">
-            <span>{{common.FormatSelect(common.IntentionalCustomerType,scope.row.Kind)}}</span>
+            <span>{{ common.FormatSelect(common.IntentionalCustomerType,scope.row.Kind) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="Createtime" width="130" :formatter="TimeFormatter" label="录入时间"></el-table-column>
-        <el-table-column prop="Comments" width="200" label="备注" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="Createtime" width="130" :formatter="TimeFormatter" label="录入时间" />
+        <el-table-column prop="Comments" width="200" label="备注" :show-overflow-tooltip="true" />
         <el-table-column label="操作" width="340" fixed="right">
           <template slot-scope="scope">
             <el-button type="danger" @click="addCustomContract(scope.$index, scope.row)">办理报名</el-button>
@@ -215,9 +215,9 @@
               @click="setCustomAccountStatus(scope.$index, scope.row,1)"
             >启用</el-button>
             <el-button
+              :id="'callId'+scope.row.id"
               :disabled="connectTelStatus<=0"
               type="warning"
-              :id="'callId'+scope.row.id"
               @click="callTelephone($event,scope.row)"
             >打电话</el-button>
             <el-button :disabled="connectTelStatus<=0" @click="openSendSMSDialog(scope.row)">发短信</el-button>
@@ -232,12 +232,12 @@
         <div>
           <el-pagination
             background
-            @current-change=" getCustomListNowpage"
             :current-page.sync="nowPage"
             :page-size="rows"
             layout="total,prev, pager, next, jumper"
             :total="allRows"
-          ></el-pagination>
+            @current-change=" getCustomListNowpage"
+          />
         </div>
       </div>
     </div>
@@ -245,12 +245,12 @@
       <!-- 客户更多操作弹出框 -->
       <my-dialog
         :visible.sync="customMoreOperationDialog"
-        :closeShow="true"
+        :close-show="true"
         :title="customFormData.Realname"
       >
         <!-- 展示站点的基本信息 -->
         <div slot="left_content" class="p_both20 p-b-20">
-          <custom-row-detail ref="refCustomDetail"></custom-row-detail>
+          <custom-row-detail ref="refCustomDetail" />
           <div class="text-center m-t-30">
             <el-button type="primary" @click="openCustomDialog(0)">编辑</el-button>
           </div>
@@ -258,37 +258,37 @@
         <!-- 更多操作的内容 -->
         <div slot="right_content" class="p_both20 m-t-12 m-b-20">
           <el-tabs v-model="activElTab" @tab-click="changDialogTab">
-            <el-tab-pane label="跟进记录" name="gjjl" id="gjjl">
-              <custom-track ref="refCustomTrack" @subClickEvent="updateCustomRecentTrack"></custom-track>
+            <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
+              <custom-track ref="refCustomTrack" @subClickEvent="updateCustomRecentTrack" />
             </el-tab-pane>
-            <el-tab-pane label="购买记录" name="gmjl" id="gmjl">
-              <custom-buy-record ref="refBuyRecord"></custom-buy-record>
+            <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
+              <custom-buy-record ref="refBuyRecord" />
             </el-tab-pane>
-            <el-tab-pane label="设置提醒" name="sztx" id="sztx">
-              <alarm-list ref="refCustomAlarm"></alarm-list>
+            <el-tab-pane id="sztx" label="设置提醒" name="sztx">
+              <alarm-list ref="refCustomAlarm" />
             </el-tab-pane>
-            <el-tab-pane label="合同订单" name="htdd" id="htdd">
-              <custom-contract-list ref="refCustomContract"></custom-contract-list>
+            <el-tab-pane id="htdd" label="合同订单" name="htdd">
+              <custom-contract-list ref="refCustomContract" />
             </el-tab-pane>
-            <el-tab-pane label="学籍" name="xj" id="xj">
-              <custom-stuStatus-list ref="refCustomStuStatus"></custom-stuStatus-list>
+            <el-tab-pane id="xj" label="学籍" name="xj">
+              <custom-stuStatus-list ref="refCustomStuStatus" />
             </el-tab-pane>
-            <el-tab-pane label="成绩录入" name="cjlr" id="cjlr">
-              <scoreEntry ref="scoreEntryComponent"></scoreEntry>
+            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
+              <scoreEntry ref="scoreEntryComponent" />
             </el-tab-pane>
           </el-tabs>
         </div>
       </my-dialog>
       <!--  发送短信弹出框 -->
-      <custom-send-sms-dialog ref="refsendSMSDialog" @sendSMS="sendSMS"></custom-send-sms-dialog>
+      <custom-send-sms-dialog ref="refsendSMSDialog" @sendSMS="sendSMS" />
       <!-- 客户信息弹出框 -->
-      <custom-row-dialog ref="refCustomDialog" @subClickEvent="updateCustomInfoList"></custom-row-dialog>
+      <custom-row-dialog ref="refCustomDialog" @subClickEvent="updateCustomInfoList" />
       <!-- 合同信息弹出框 -->
-      <custom-contract-dialog ref="refContractDialog"></custom-contract-dialog>
+      <custom-contract-dialog ref="refContractDialog" />
       <!-- 添加提醒弹出框 -->
-      <add-alarm-dialog ref="refAlarmForm"></add-alarm-dialog>
+      <add-alarm-dialog ref="refAlarmForm" />
       <!-- 添加提醒弹出框 -->
-      <batchChangeManagerView @subClickEvent="updateCustomList" ref="refChangeManager"></batchChangeManagerView>
+      <batchChangeManagerView ref="refChangeManager" @subClickEvent="updateCustomList" />
     </div>
   </div>
 </template>
@@ -349,7 +349,7 @@ import common from "@/utils/common";
 import { error } from "util";
 
 export default {
-  name: "customList",
+  name: "CustomList",
   components: {
     myDialog,
     myImageViewer,
@@ -406,7 +406,7 @@ export default {
       searchHasbuy: 0,
       // 日期选择-日期筛选
       queryEndDate: null,
-      queryFromLabel: false, //是否根据这个客户的录入员进行查询
+      queryFromLabel: false, // 是否根据这个客户的录入员进行查询
       // 存放客户列表数据-table
       customTableDataList: [],
       // 数据总条数-分页
@@ -440,10 +440,10 @@ export default {
 
       // 获取选中的学生ID
       mulSelectionCustomId: [],
-      //是否是本站的管理员
+      // 是否是本站的管理员
       isPlatformMaster: false,
-      //------------------------电话
-      connectTelStatus: "0", //0 没连接。1 已经连接。2.拨号中。3.通话中。
+      // ------------------------电话
+      connectTelStatus: "0", // 0 没连接。1 已经连接。2.拨号中。3.通话中。
       webSocket: null,
       timer: null,
       // 通讯设备是否连接成功
@@ -451,6 +451,37 @@ export default {
       // 要连接的URL；这是WebSocket服务器将响应的URL。
       websocketURL: "ws://127.0.0.1:8555/api"
     };
+  },
+  watch: {
+    // 因为应用同一个页面，只会加载一次，所有需要监听路由的变化
+    $route(to, from) {
+      this.customTableDataList = [];
+      if (to.query.id) {
+        this.getPlatformWorkers(to.query.id);
+      } else {
+        this.getCustomList();
+      }
+    }
+  },
+
+  created() {
+    this.seaechConditionVal = this.searchCustomOptions[0].value;
+    this.initWebSocket();
+  },
+  mounted() {
+    this.qxRole = sessionStorage.ROLE;
+    // 因为客户管理和我的站点应用的是同一个页面所有让当路由有参数是就代表但是我的站点
+    if (this.$route.query.id) {
+      // 获取该站点下所属我的所有销售成员
+
+      this.getPlatformWorkers(this.$route.query.id);
+    } else {
+      // 客户管理-直接获取客户列表
+      this.getCustomList();
+    }
+    setTimeout(() => {
+      this.$refs.refCustomListTable.doLayout();
+    }, 2000);
   },
 
   methods: {
@@ -465,7 +496,7 @@ export default {
     },
     // 我的站点-根据当前登录用户选择的站点获取该站点下所属自己的销售
     async getPlatformWorkers(platformId) {
-      let res = await getPlatformWorkers(platformId);
+      const res = await getPlatformWorkers(platformId);
       if (res.code == 200) {
         // 默认查看自己的客户
         this.searchWorkerId = this.$store.state.userInformation.Id;
@@ -482,14 +513,14 @@ export default {
     },
     // 获取客户列表-tableData
     async getCustomList() {
-      let that = this;
+      const that = this;
       this.listLoading = true;
       // 取数据的位置
-      let offsetRow = (this.nowPage - 1) * this.rows;
+      const offsetRow = (this.nowPage - 1) * this.rows;
       let res;
-      let notInKind = 0; //sql中标识为   kind!=
+      let notInKind = 0; // sql中标识为   kind!=
       if (this.searchTypeVal == -1) {
-        //选择全部客户的时候， 要排除kind=6 的公海客户
+        // 选择全部客户的时候， 要排除kind=6 的公海客户
         notInKind = 6;
       }
       let startDate;
@@ -530,9 +561,9 @@ export default {
         this.customTableDataList = res.data ? res.data : [];
         this.customTableDataList.forEach(item => {
           if (item.Info) {
-            let info = JSON.parse(item.Info);
+            const info = JSON.parse(item.Info);
             if (info.attach_image) {
-              let imgArr = info.attach_image.split(",");
+              const imgArr = info.attach_image.split(",");
               item.firstAttachImage = imgArr[0];
             }
           }
@@ -553,12 +584,12 @@ export default {
 
     // 设置重点客户
     async setCustomStar(val, row, rowIndex) {
-      let res = await setStar(row.id);
+      const res = await setStar(row.id);
       if (res.code == 200) {
         this.customTableDataList[rowIndex].Star = res.data;
       }
     },
-    //新增客户合同-办理报名
+    // 新增客户合同-办理报名
     addCustomContract(index, row) {
       this.$refs.refContractDialog.getContractFormData(
         {
@@ -573,7 +604,7 @@ export default {
     },
     // 禁用或启用客户的账户
     setCustomAccountStatus(index, row, status) {
-      let that = this;
+      const that = this;
       let msg;
       if (status == 0) {
         msg = "确认禁用该账户?";
@@ -586,8 +617,8 @@ export default {
           cancelButtonText: "取消",
           type: "warning"
         })
-        .then(async () => {
-          let res = await setCustomAccountStatus(
+        .then(async() => {
+          const res = await setCustomAccountStatus(
             row.id,
             { status: status },
             false,
@@ -651,7 +682,7 @@ export default {
         this.mulSelectionCustomId.push(item.id);
       });
     },
-    //转移学员的管理员到其他管理名下
+    // 转移学员的管理员到其他管理名下
     changeManager() {
       if (this.mulSelectionCustomId.length <= 0) {
         this.common.go_alert("你还没有勾选学员哦！");
@@ -678,9 +709,9 @@ export default {
       // 显示第一章图片格式化
       if (rowData) {
         if (rowData.Info) {
-          let info = JSON.parse(rowData.Info);
+          const info = JSON.parse(rowData.Info);
           if (info.attach_image) {
-            let imgArr = info.attach_image.split(",");
+            const imgArr = info.attach_image.split(",");
             rowData.firstAttachImage = imgArr[0];
           }
         }
@@ -703,7 +734,7 @@ export default {
         this.customFormData
       );
     },
-    //强制刷新
+    // 强制刷新
     change(e) {
       this.$forceUpdate();
     },
@@ -711,17 +742,17 @@ export default {
     dateFormat({ cellValue, row, column }) {
       return this.common.dateFormat(cellValue, false);
     },
-    //显示来电用户的信息 msgJsonData.dynamicdata.number
+    // 显示来电用户的信息 msgJsonData.dynamicdata.number
     async showIncomeingUserInfo(telephone) {
-      let res = await checkTelephone(telephone);
+      const res = await checkTelephone(telephone);
       if (res.code == 200 && res.data) {
-        let content = res.data.Description ? res.data.Description : "暂无描述";
+        const content = res.data.Description ? res.data.Description : "暂无描述";
         this.$alert("客户描述：" + content, res.data.Realname + "来电", {
           confirmButtonText: "知道了"
         }).catch(() => {});
       }
     },
-    //触发成绩录入子组件函数
+    // 触发成绩录入子组件函数
     getScoreEntry(id) {
       this.$refs.scoreEntryComponent.getScoreEntryData(id);
     },
@@ -729,10 +760,10 @@ export default {
     addAlarm(index, row) {
       this.$refs.refAlarmForm.getCustomInfo(row);
     },
-    //-----------------------------------------------电话
+    // -----------------------------------------------电话
 
     initWebSocket() {
-      //初始化weosocket
+      // 初始化weosocket
       this.webSocket = new WebSocket(this.websocketURL);
       this.webSocket.onopen = this.websocketonopen;
       this.webSocket.onerror = this.websocketonerror;
@@ -751,7 +782,7 @@ export default {
     },
     // 在 WebSocket.onerror 属性，发生错误时执行的回调函数
     websocketonerror(e) {
-      //错误
+      // 错误
       this.connectTelStatus = "-1";
       this.webSocket = new WebSocket(this.websocketURL);
       clearInterval(this.timer);
@@ -801,10 +832,10 @@ export default {
     },
     // WebSocket.onmessage 属性是一个当收到来自服务器的消息时被调用的 EventHandler。它由一个MessageEvent调用。
     websocketonmessage(e) {
-      //数据接收
-      const msgJsonData = JSON.parse(e.data); //注意：长连接我们是后台直接1秒推送一条数据，
-      //但是点击某个列表时，会发送给后台一个标识，后台根据此标识返回相对应的数据，
-      //这个时候数据就只能从一个出口出，所以让后台加了一个键，例如键为1时，是每隔1秒推送的数据，为2时是发送标识后再推送的数据，以作区分
+      // 数据接收
+      const msgJsonData = JSON.parse(e.data); // 注意：长连接我们是后台直接1秒推送一条数据，
+      // 但是点击某个列表时，会发送给后台一个标识，后台根据此标识返回相对应的数据，
+      // 这个时候数据就只能从一个出口出，所以让后台加了一个键，例如键为1时，是每隔1秒推送的数据，为2时是发送标识后再推送的数据，以作区分
       var msg = msgJsonData.message;
       var now;
       if (msgJsonData.type == "InstructionTrace") {
@@ -837,7 +868,7 @@ export default {
               break;
             case "incoming":
               this.connectTelStatus = "2";
-              //显示来电用户的信息
+              // 显示来电用户的信息
               this.showIncomeingUserInfo(msgJsonData.dynamicdata.number);
               break;
             case "inconnected":
@@ -928,11 +959,11 @@ export default {
           case "StopRecord":
             // 开始上传录音文件+
             if (msgJsonData.dynamicdata) {
-              let currentRecordname =
+              const currentRecordname =
                 this.$store.state.userInformation.Id +
                 "-" +
                 this.currentStudentid;
-              let url =
+              const url =
                 window.location.protocol + "//" + window.location.hostname;
 
               this.websocketsend(
@@ -987,22 +1018,22 @@ export default {
         }
       }
     },
-    //收到客户发回来的短信
+    // 收到客户发回来的短信
     async receiveSMS(msg) { 
-      let res = await receiveSmsTrack(msg.phone, msg.content);
+      const res = await receiveSmsTrack(msg.phone, msg.content);
     },
     async waitSendSMS() {
-      let trackRow = {};
+      const trackRow = {};
       trackRow.student_id = this.customFormData.id;
       trackRow.track_method = "短信联系";
       trackRow.content = this.$refs.refsendSMSDialog.getContent();
       trackRow.kind = 6;
       this.$refs.refsendSMSDialog.closeDialog();
-      let res = await addcustomTracks(trackRow);
+      const res = await addcustomTracks(trackRow);
       this.common.go_alert("短信发送成功");
     },
     websocketsend(agentData) {
-      //数据发送
+      // 数据发送
       // 			webSocket.send('{"command":"CloseSpeechRecogn"}');
       this.webSocket.send(agentData);
     },
@@ -1019,7 +1050,7 @@ export default {
         );
       }
     },
-    //打开发送短信对话框
+    // 打开发送短信对话框
     openSendSMSDialog(row) {
       this.customFormData = row;
       this.$refs.refsendSMSDialog.getCustomRowData(row);
@@ -1034,37 +1065,6 @@ export default {
           '"}}'
       );
     }
-  },
-
-  created() {
-    this.seaechConditionVal = this.searchCustomOptions[0].value;
-    this.initWebSocket();
-  },
-  watch: {
-    //因为应用同一个页面，只会加载一次，所有需要监听路由的变化
-    $route(to, from) {
-      this.customTableDataList = [];
-      if (to.query.id) {
-        this.getPlatformWorkers(to.query.id);
-      } else {
-        this.getCustomList();
-      }
-    }
-  },
-  mounted() {
-    this.qxRole = sessionStorage.ROLE;
-    //因为客户管理和我的站点应用的是同一个页面所有让当路由有参数是就代表但是我的站点
-    if (this.$route.query.id) {
-      // 获取该站点下所属我的所有销售成员
-
-      this.getPlatformWorkers(this.$route.query.id);
-    } else {
-      // 客户管理-直接获取客户列表
-      this.getCustomList();
-    }
-    setTimeout(() => {
-      this.$refs.refCustomListTable.doLayout();
-    }, 2000);
   }
 };
 </script> 

@@ -11,10 +11,10 @@
       >
         <el-option
           v-for="(item,index) in majorOptions"
-          :label="item.Label"
           :key="index"
+          :label="item.Label"
           :value="item.Id"
-        ></el-option>
+        />
       </el-select>
     </div>
     <div class="m-t-20">
@@ -25,7 +25,7 @@
           <div class="center">
             <span
               class="p_both15 m-r-10 color-fff font12 bg-2e77f8 inline_div hgt20 l-h-20 radius2"
-            >{{item.examType}}</span>
+            >{{ item.examType }}</span>
             <span
               v-show="item.status==1"
               class="p_both5 m-r-10 color-fff font12 bg-339967 inline_div hgt20 l-h-20 radius2"
@@ -38,34 +38,34 @@
               v-show="item.miaoKao==1"
               class="p_both5 m-r-10 color-fff font12 bg-f31810 inline_div hgt20 l-h-20 radius2"
             >免考科目</span>
-            <span>{{item.Label}}</span>
+            <span>{{ item.Label }}</span>
           </div>
           <div class="flex_dom flex_wrap m_both50 flex_1">
             <div
-              class="m_both10 relative m-v-5 score_item"
               v-for="(scoreItem,scoreIndex) in item.scoreList"
               :key="scoreIndex"
+              class="m_both10 relative m-v-5 score_item"
             >
               <div
                 class="text-center hgt40 wid80 radius3"
                 :class="[scoreItem.score<60?'bg-ccc':'bg-2e77f8']"
               >
-                <p :class="[scoreItem.score<60?'color-68':'color-fff']">{{scoreItem.score}}分</p>
+                <p :class="[scoreItem.score<60?'color-68':'color-fff']">{{ scoreItem.score }}分</p>
                 <p
                   class="font12"
                   :class="[scoreItem.score<60?'color-80':'color-fff']"
-                >{{scoreItem.examTime}}</p>
+                >{{ scoreItem.examTime }}</p>
               </div>
               <div class="deleImgIcon cursor" @click="deleScore(scoreItem,scoreIndex,itemIndex)">
-                <i class="el-icon-close font14 color-fff"></i>
+                <i class="el-icon-close font14 color-fff" />
               </div>
             </div>
             <div
-              class="m_both10 m-v-5 bg-2e77f8 text-center hgt40 p_both15 radius3"
               v-show="item.status==0&&item.miaoKao==0"
+              class="m_both10 m-v-5 bg-2e77f8 text-center hgt40 p_both15 radius3"
               @click="openAddScoreDialog(itemIndex)"
             >
-              <i class="el-icon-plus m-v-10 font20 font-w6 color-fff"></i>
+              <i class="el-icon-plus m-v-10 font20 font-w6 color-fff" />
             </div>
           </div>
         </div>
@@ -81,15 +81,15 @@
         width="740px"
       >
         <el-form
-          :model="addScoreFormData"
           ref="refScoreEntryForm"
+          :model="addScoreFormData"
           :rules="scoreEntryRules"
           label-width="105px"
           size="small"
           class="dialog-body-pad entry_score"
         >
           <el-form-item label="分数" prop="score">
-            <el-input v-model.number="addScoreFormData.score" placeholder="请输入分数"></el-input>
+            <el-input v-model.number="addScoreFormData.score" placeholder="请输入分数" />
           </el-form-item>
           <el-form-item label="考试日期" prop="examTime">
             <el-date-picker
@@ -97,13 +97,13 @@
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="请选择考试日期"
-            ></el-date-picker>
+            />
           </el-form-item>
         </el-form>
         <div class="around-center hgt60 bge0e3ea">
           <div>
             <el-button @click="addScoreDialog = false">取 消</el-button>
-            <el-button type="primary" @click="saveScoreEntry" class="m-l-40">添 加</el-button>
+            <el-button type="primary" class="m-l-40" @click="saveScoreEntry">添 加</el-button>
           </div>
         </div>
       </el-dialog>
@@ -120,7 +120,7 @@ import {
 // import $StudentStatusSubjectHttp from "@/service/StudentStatusSubjectAPI";
 // import $StudentScoreHttp from "@/service/StudentScoreAPI";
 export default {
-  name: "scoreEntry",
+  name: "ScoreEntry",
   data() {
     return {
       // 客户的Id
@@ -160,6 +160,7 @@ export default {
       }
     };
   },
+  mounted() {},
   methods: {
     // 父组件触发方法获取id
     getScoreEntryData(id) {
@@ -173,7 +174,7 @@ export default {
     },
     // 获取所有高校专业的列表
     async getStudentStatusSubject() {
-      let res = await getStudentStatusSubject({
+      const res = await getStudentStatusSubject({
         limit: 10000
       });
       if (res.code == 200) {
@@ -202,13 +203,13 @@ export default {
     // 获取学生改科目的成绩
     async getStuScore() {
       let oldSocre = {};
-      let res = await  getStudentScore(this.customId);
+      const res = await getStudentScore(this.customId);
       if (res.code == 200) {
         // 第二次及以上录入成绩
         if (res.data && res.data != {} > 0) {
           this.currentMajorInfo = {};
           this.disableMajor = true;
-          let scorekey = Object.keys(res.data)[0];
+          const scorekey = Object.keys(res.data)[0];
           oldSocre = res.data[scorekey];
           this.majorId = oldSocre.StatusSubjectID;
           this.majorOptions.forEach(item => {
@@ -224,7 +225,7 @@ export default {
             this.currentMajorInfo = this.majorOptions[0];
           }
         }
-        //不管有没有添加成绩都将科目信息重新赋值
+        // 不管有没有添加成绩都将科目信息重新赋值
         this.majorScore = {
           Label: this.currentMajorInfo.Label,
           UniversityLevel: this.currentMajorInfo.UniversityLevel,
@@ -246,7 +247,7 @@ export default {
           item.status = 0;
           // 如果已经添加成绩过则需要显示之前的成绩数据
           if (oldSocre && oldSocre.Record) {
-            let subjectRecord = JSON.parse(oldSocre.Record);
+            const subjectRecord = JSON.parse(oldSocre.Record);
             subjectRecord.forEach(subjectItem => {
               if (subjectItem.Id == item.Id) {
                 item.scoreList = subjectItem.scoreList;
@@ -274,7 +275,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          let allSubScore = [...this.allSubjectList];
+          const allSubScore = [...this.allSubjectList];
           if (scoreItem.score >= 60) {
             this.allSubjectList[itemIndex].status = 0;
           }
@@ -284,11 +285,11 @@ export default {
         .catch(() => {});
     },
     // 保存删除成绩
-    async saveScoreDele(data) {
-      let subjectListStr = JSON.stringify(this.allSubjectList);
-      let subjectListArr = JSON.parse(subjectListStr);
+    async saveScoreDele(url, param, data) {
+      const subjectListStr = JSON.stringify(this.allSubjectList);
+      const subjectListArr = JSON.parse(subjectListStr);
       this.majorScore.Record = JSON.stringify(subjectListArr);
-      let res = await $StudentScoreHttp.addStudentScore(
+      const res = await $StudentScoreHttp.addStudentScore(
         this.customId,
         this.majorScore
       );
@@ -302,8 +303,8 @@ export default {
       this.$refs.refScoreEntryForm.validate(async valid => {
         if (valid) {
           // 拷贝一份数据，成绩保存成功之后才在页面显示
-          let subjectListStr = JSON.stringify(this.allSubjectList);
-          let subjectListArr = JSON.parse(subjectListStr);
+          const subjectListStr = JSON.stringify(this.allSubjectList);
+          const subjectListArr = JSON.parse(subjectListStr);
           subjectListArr[this.scoreEntrySubjectIndex].scoreList.push(
             this.addScoreFormData
           );
@@ -311,7 +312,7 @@ export default {
             subjectListArr[this.scoreEntrySubjectIndex].status = 1;
           }
           this.majorScore.Record = JSON.stringify(subjectListArr);
-          let res = await $StudentScoreHttp.addStudentScore(
+          const res = await $StudentScoreHttp.addStudentScore(
             this.customId,
             this.majorScore
           );
@@ -327,8 +328,7 @@ export default {
         }
       });
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

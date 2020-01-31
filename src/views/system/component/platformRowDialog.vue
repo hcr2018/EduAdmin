@@ -6,40 +6,40 @@
     :title="platformInfoData.Id>0?'编辑站点':'新增站点'"
   >
     <el-form
+      ref="refPlatForm"
       :model="platformInfoData"
       :rules="platFormInfoRules"
-      ref="refPlatForm"
       label-width="100px"
       size="small"
       class="dialog-body-pad"
     >
       <el-form-item label="名称" prop="Label">
-        <el-input v-model="platformInfoData.Label" :disabled="platformInfoData.Id>0"></el-input>
+        <el-input v-model="platformInfoData.Label" :disabled="platformInfoData.Id>0" />
       </el-form-item>
       <el-form-item label="联系电话" prop="Telephone">
-        <el-input v-model="platformInfoData.Telephone" @input="change()"></el-input>
+        <el-input v-model="platformInfoData.Telephone" @input="change()" />
       </el-form-item>
       <el-form-item label="地址">
-        <el-input v-model="platformInfoData.Address" @input="change()"></el-input>
+        <el-input v-model="platformInfoData.Address" @input="change()" />
       </el-form-item>
       <!-- 站点负责人 -->
       <el-form-item label="负责人">
         <el-radio-group v-model="masterID">
           <el-radio-button
-            :label="item.Id"
             v-for="item in PlatformWorkers"
             :key="item.Id"
-          >{{item.Realname}}</el-radio-button>
+            :label="item.Id"
+          >{{ item.Realname }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="备注">
-        <el-input v-model="platformInfoData.Description" @input="change()"></el-input>
+        <el-input v-model="platformInfoData.Description" @input="change()" />
       </el-form-item>
     </el-form>
     <div class="around-center hgt60 bge0e3ea">
       <div>
         <el-button @click="isShowPlatformDialog=false">取 消</el-button>
-        <el-button type="primary" @click="saveplatformInfoData" class="m-l-40">确 认</el-button>
+        <el-button type="primary" class="m-l-40" @click="saveplatformInfoData">确 认</el-button>
       </div>
     </div>
   </el-dialog>
@@ -47,7 +47,7 @@
 
 <script> 
 export default {
-  name: "platformRowDialog",
+  name: "PlatformRowDialog",
   data() {
     return {
       // 是否显示平台弹出框
@@ -74,6 +74,7 @@ export default {
       }
     };
   },
+  mounted() {},
   methods: {
     change($event) {
       this.$forceUpdate();
@@ -137,7 +138,6 @@ export default {
       //   this.PlatformWorkers = res.data;
       // }
     }
-  },
-  mounted() {}
+  }
 };
 </script>  

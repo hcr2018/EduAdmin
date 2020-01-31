@@ -1,5 +1,5 @@
 import router from './router'
-import store from './store' 
+import store from './store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
@@ -9,7 +9,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -24,14 +24,25 @@ router.beforeEach(async(to, from, next) => {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
-    } else { 
-      // 如果还没有计算出路由，则计算
-      if (store.getters.permission_routes.length==0) { 
-        console.log(store.getters.roles,",--------");
+    } else {
+      try {
+        // 如果还没有计算出路由，则计算 
+        if (store.getters.permission_routes.length == 0) {
           const accessRoutes = await store.dispatch('permission/generateRoutes', store.getters.roles)
-          router.addRoutes(accessRoutes) 
+          router.addRoutes(accessRoutes)
+          next({ ...to, replace: true }) 
+        }else{ 
+          next()
+        }
+      } catch (error) {
+        // remove token and go to login page to re-login
+        // await store.dispatch('user/resetToken')
+        Message.error(error || 'Has Error')
+        next(`/login?redirect=${to.path}`)
+        NProgress.done()
       }
-      next()
+
+
     }
   } else {
     /* has no token*/

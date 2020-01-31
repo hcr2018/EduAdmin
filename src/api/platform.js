@@ -1,98 +1,109 @@
 import request from '@/utils/request'
-    //获取列表
-export function queryPlatform(data) {
+// 获取列表
+export function queryPlatform(url, query, data) {
   return request({
-    url: '/platform/',
+    url: '/platform/' + url,
     method: 'get',
+    params: query,
     data
   })
 }
-    //添加
+// 添加
 
-export function addPlatform(data) {
+export function addPlatform(url, query, data) {
   return request({
-    url: '/platform/addPlatform',
+    url: '/platform/addPlatform' + url,
     method: 'post',
+    params: query,
     data
   })
 }
 
-    //修改
-export function updatePlatform(data) {
+// 修改
+export function updatePlatform(url, query, data) {
   return request({
-    url: '/platform/updatePlatform/',
+    url: '/platform/updatePlatform/' + url,
     method: 'put',
+    params: query,
     data
   })
 }
 
-    //添加或者删除的单个工作人员
-export function setPlatformWorker(data) {
+// 添加或者删除的单个工作人员
+export function setPlatformWorker(url, query, data) {
   return request({
-    url: '/platform/setPlatformWorker/',
+    url: '/platform/setPlatformWorker/' + url,
     method: 'put',
+    params: query,
     data
   })
 }
-    //直接重新设置的工作人员列表  
-export function setNewPlatformWorks(data) {
+// 直接重新设置的工作人员列表  
+export function setNewPlatformWorks(url, query, data) {
   return request({
-    url: '/platform/setNewPlatformWorks/',
+    url: '/platform/setNewPlatformWorks/' + url,
     method: 'put',
+    params: query,
     data
   })
 }
 
-    //获取的工作人员所在的校区 
-export function getPlatformAboutWorkers(data) {
+// 获取的工作人员所在的校区 
+export function getPlatformAboutWorkers(url, query, data) {
   return request({
-    url: '/platform/getPlatformOfManager/',
+    url: '/platform/getPlatformOfManager/' + url,
     method: 'get',
+    params: query,
     data
   })
 }
 
-    //获取的工作人员 
-export function getPlatformWorkers(data) {
+// 获取的工作人员 
+export function getPlatformWorkers(url, query, data) {
   return request({
-    url: '/platform/getPlatformWorkers/',
+    url: '/platform/getPlatformWorkers/' + url,
     method: 'get',
+    params: query,
     data
   })
 }
 
-    //设置的管理员
-export function setPlatformMaster(data) {
+// 设置的管理员
+export function setPlatformMaster(url, query, data) {
   return request({
-    url: '/platform/setPlatformMaster/',
+    url: '/platform/setPlatformMaster/' + url,
     method: 'put',
+    params: query,
     data
   })
 }
-    //   ----------------销售人员的客户数据--------------------- 
-    // 获取客户信息列表
+//   ----------------销售人员的客户数据--------------------- 
+// 获取客户信息列表
 
-export function getWorkersCustomList(data) {
+export function getWorkersCustomList(url, query, data) {
   return request({
-    url: '/platform/getWorkersStudentList/',
+    url: '/platform/getWorkersStudentList/' + url,
     method: 'get',
+    params: query,
     data
   })
 }
 
-    // 添加客户信息
-export function addWorkersCustom(data) {
+// 添加客户信息
+export function addWorkersCustom(url, query, data) {
   return request({
-    url: '/platform/addStudentOfWorker/',
+    url: '/platform/addStudentOfWorker/' + url,
     method: 'post',
+    params: query,
     data
   })
 }
-    // 编辑客户信息
-export function editWorkersCustom(data) {
+// 编辑客户信息
+export function editWorkersCustom(url, query, data) {
   return request({
-    url: '/platform/updateMyStudentComments/',
+    url: '/platform/updateMyStudentComments/' + url,
     method: 'put',
+    params: query,
     data
   })
 }

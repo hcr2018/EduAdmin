@@ -2,23 +2,21 @@ import FileSaver from "file-saver";
 import XLSX from "xlsx";
 import $ from 'jquery'
 export default {
-  go_alert: function (msg) {
+  go_alert: function(msg) {
     $("body").append(`
     <div class='alert_box' style='position:fixed;z-index:8889;width:100%;height:100%;left:0;top:0px;background: rgba(255, 255, 255, 0)'>
       <div class='content' style='max-width: 70%;text-align:center;position:absolute;font-size:14px;left:50%;top:50%; transform:translateY(-50%) translateX(-50%);-webkit-transform:translateY(-50%) translateX(-50%);background-color:rgba(0,0,0,.5);border-radius:4px'>
         <p style='padding:10px 15px; line-height:1.6; color:#fff;font-size:14px'>${msg}</p>
       <div>
     <div>`);
-    setTimeout(function () {
+    setTimeout(function() {
       $(".alert_box").css({ "opacity": "0", "width": "0%", "height": "0" })
-      setTimeout(function () { $(".alert_box").remove() }, 2000);
+      setTimeout(function() { $(".alert_box").remove() }, 2000);
     }, 2000)
-
   },
-  enlargeImg: function (ImgUrl) {
-
-    let imgurl = ImgUrl ? `<img style="max-width:100%;" src="${ImgUrl}"/>` : '';
-    let template = `<div class="enlargeImg"
+  enlargeImg: function(ImgUrl) {
+    const imgurl = ImgUrl ? `<img style="max-width:100%;" src="${ImgUrl}"/>` : '';
+    const template = `<div class="enlargeImg"
 		style="position: fixed;z-index: 1000;
 		width: 100%;opacity: 1;height: 100%;left: 0;
 		top: 0px;background-color: rgba(68, 68, 68, 0.7)">
@@ -29,39 +27,37 @@ export default {
 	  </div>
    </div>`
     $("body").append(template)
-    $(".enlargeImg").click(function () {
+    $(".enlargeImg").click(function() {
       var that = $(this);
-      setTimeout(function () {
+      setTimeout(function() {
         // 隐藏弹框
         that.css({ "opacity": "0", "width": "0%", "height": "0" });
-        setTimeout(function () { that.remove() }, 0);
+        setTimeout(function() { that.remove() }, 0);
       }, 0)
     })
   },
-  loading: function () {
+  loading: function() {
     $("body").append(`<div class='loading_box' style='position:fixed;z-index:1500;width:100%;opacity:1;height:100%;left:0;top:0px;background-color:transparent;'>
     <div class='content' style='max-width: 70%;text-align:center;position:absolute;font-size:14px;left:50%;top:50%; transform:translateY(-50%) translateX(-50%);-webkit-transform:translateY(-50%) translateX(-50%);border-radius:4px'>
     <img style='width: 40px' src='../static/img/slice/loading.gif' />
     <div>
     <div>`);
   },
-  loadingHide: function () {
+  loadingHide: function() {
     if ($(".loading_box").length) {
       $(".loading_box").remove();
     }
   },
   // 格式化时间 ,displaytime 是否显示具体时间，1为显示，2为显示不显示秒，0为不显示
-  dateFormat: function (item, displaytime) {
+  dateFormat: function(item, displaytime) {
     if (item) {
-
-
-      let date = new Date(item * 1000);
-      let year = date.getFullYear()
-      let month = date.getMonth() + 1
-      let day = date.getDate()
-      let hour = date.getHours()
-      let minute = date.getMinutes()
-      let second = date.getSeconds()
+      const date = new Date(item * 1000);
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      const hour = date.getHours()
+      const minute = date.getMinutes()
+      const second = date.getSeconds()
 
       let str = `${year}-${month > 9 ? month : `0${month}`}-${day > 9 ? day : `0${day}`}`;
       if (displaytime == 1) {
@@ -74,14 +70,14 @@ export default {
   },
   // 获取当前日期
   // displaytime 是否显示具体时间，1为显示，2为显示不显示秒，0为不显示
-  dateFormatStr: function (date, displaytime, lianjiefu) {
-    let strDate = new Date(date);
-    let year = strDate.getFullYear()
-    let month = strDate.getMonth() + 1
-    let day = strDate.getDate()
-    let hour = strDate.getHours()
-    let minute = strDate.getMinutes()
-    let second = strDate.getSeconds()
+  dateFormatStr: function(date, displaytime, lianjiefu) {
+    const strDate = new Date(date);
+    const year = strDate.getFullYear()
+    const month = strDate.getMonth() + 1
+    const day = strDate.getDate()
+    const hour = strDate.getHours()
+    const minute = strDate.getMinutes()
+    const second = strDate.getSeconds()
     if (lianjiefu == undefined) {
       lianjiefu = "-";
     }
@@ -94,18 +90,18 @@ export default {
     return str;
   },
   // 截取字符串指定长度
-  spliceLabel: function (val, leng) {
+  spliceLabel: function(val, leng) {
     return val.length > leng ? val.slice(0, leng) + "..." : val;
   },
-  storageObj: function (obj) {
+  storageObj: function(obj) {
     var Str = JSON.stringify(obj);
     sessionStorage.setItem("userInfo", Str);
   },
   // 导出表格-全部导出
   exportExcel(className, title) {
-    let xlsxParam = { raw: true }
-    let wb = XLSX.utils.table_to_book(document.getElementById(className), xlsxParam);
-    let wbout = XLSX.write(wb, {
+    const xlsxParam = { raw: true }
+    const wb = XLSX.utils.table_to_book(document.getElementById(className), xlsxParam);
+    const wbout = XLSX.write(wb, {
       bookType: "xlsx",
       bookSST: true,
       type: "array"
@@ -123,10 +119,10 @@ export default {
   // 列表选中下载 excelData导出的数据,tHeader字段名称,filterVal字段
   downloadExcel(excelData, tHeader, filterVal) {
     require.ensure([], () => {
-      let { export_json_to_excel } = require("@/components/excel/export2Excel");
-      let data = excelData.map(v => filterVal.map(j => v[j]));
+      const { export_json_to_excel } = require("@/components/excel/export2Excel");
+      const data = excelData.map(v => filterVal.map(j => v[j]));
       // 这是表格的名称。合同列表+当前日期，dateFormatStr是一个方法，格式化了日期
-      let excelName = '合同列表' + this.dateFormatStr(new Date)
+      const excelName = '合同列表' + this.dateFormatStr(new Date())
       export_json_to_excel(tHeader, data, excelName); // 导出的表格名称，根据需要自己命名
     });
   },
@@ -136,8 +132,8 @@ export default {
       {
         text: "今天",
         onClick(picker) {
-          let end = new Date();
-          let start = new Date();
+          const end = new Date();
+          const start = new Date();
           start.setHours(0);
           start.setMinutes(0);
           start.setSeconds(0);
@@ -151,8 +147,8 @@ export default {
       {
         text: "昨天",
         onClick(picker) {
-          let end = new Date();
-          let start = new Date();
+          const end = new Date();
+          const start = new Date();
           start.setDate(start.getDate() - 1);
           start.setHours(0);
           start.setMinutes(0);
@@ -168,8 +164,8 @@ export default {
       {
         text: "最近一周",
         onClick(picker) {
-          let end = new Date();
-          let start = new Date();
+          const end = new Date();
+          const start = new Date();
           start.setHours(0);
           start.setMinutes(0);
           start.setSeconds(0);
@@ -183,8 +179,8 @@ export default {
       {
         text: "最近一个月",
         onClick(picker) {
-          let end = new Date();
-          let start = new Date();
+          const end = new Date();
+          const start = new Date();
           start.setHours(0);
           start.setMinutes(0);
           start.setSeconds(0);
@@ -198,8 +194,8 @@ export default {
       {
         text: "最近三个月",
         onClick(picker) {
-          let end = new Date();
-          let start = new Date();
+          const end = new Date();
+          const start = new Date();
           start.setHours(0);
           start.setMinutes(0);
           start.setSeconds(0);
@@ -215,7 +211,7 @@ export default {
   // 存放所有的平台.数据
   platformList: [
   ],
-  //客户推广渠道
+  // 客户推广渠道
   channelList: [
 
     {
@@ -256,7 +252,7 @@ export default {
     }
   ],
 
-  //意向客户客户类型
+  // 意向客户客户类型
   IntentionalCustomerType: [
     {
       value: -1,
@@ -290,7 +286,7 @@ export default {
     {
       value: 6,
       Label: "公海学员"
-    },
+    }
   ],
   // 客户签订合同-层次类别
   costomSignUpLevel: [
@@ -392,7 +388,7 @@ export default {
       Label: "pos机刷卡"
     }
   ],
-  //管理人员的身份列表
+  // 管理人员的身份列表
   managerRoleList: [
     {
       value: -1,
@@ -442,10 +438,10 @@ export default {
       Label: "其他类型"
     }
   ],
-  collegeWithCouseKindList: [],//所有学院以及学院所带的课程大类
-  courseKindList: [],//所有的课程大类 
-  AllUniversity: [],//所有的高校列表  
-  AllQuestionTypes: [],//所有题的类型  
+  collegeWithCouseKindList: [], // 所有学院以及学院所带的课程大类
+  courseKindList: [], // 所有的课程大类 
+  AllUniversity: [], // 所有的高校列表  
+  AllQuestionTypes: [], // 所有题的类型  
   // 根据类型变化返回一些数据的Label
   FormatSelect(options, typeId) {
     let title = '未知'

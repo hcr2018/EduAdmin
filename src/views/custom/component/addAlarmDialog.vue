@@ -7,15 +7,15 @@
   >
     <div class="alarmFormCss">
       <el-form
-        :model="alarmFormData"
         ref="refAlarmForm"
+        :model="alarmFormData"
         :rules="alarmFormRules"
         class="dialog-body-pad"
-         size="small"
+        size="small"
         label-width="100px"
       >
         <el-form-item label="标题" prop="Title">
-          <el-input v-model="alarmFormData.Title"></el-input>
+          <el-input v-model="alarmFormData.Title" />
         </el-form-item>
         <el-form-item label="提醒时间" prop="ExeTime">
           <el-date-picker
@@ -23,16 +23,16 @@
             format="yyyy-MM-dd HH:mm"
             type="datetime"
             placeholder="请选择提醒日期"
-          ></el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="提醒内容" prop="Content">
-          <el-input type="textarea" :rows="3" v-model="alarmFormData.Content" placeholder="请输入提醒内容"></el-input>
+          <el-input v-model="alarmFormData.Content" type="textarea" :rows="3" placeholder="请输入提醒内容" />
         </el-form-item>
       </el-form>
       <div class="around-center hgt60 bge0e3ea">
         <div>
           <el-button @click="isShowAlarmDialog=false">取 消</el-button>
-          <el-button type="primary" @click="saveAlarmFormData" class="m-l-40">确 认</el-button>
+          <el-button type="primary" class="m-l-40" @click="saveAlarmFormData">确 认</el-button>
         </div>
       </div>
     </div>
@@ -66,6 +66,7 @@ export default {
       }
     };
   },
+  mounted() {},
   methods: {
     // 获取客户的基本信息
     getCustomInfo(row) {
@@ -88,7 +89,7 @@ export default {
               this.alarmFormData.ExeTime.getTime() / 1000
             );
           }
-          let res = await addAlarm(this.alarmFormData);
+          const res = await addAlarm(this.alarmFormData);
           if (res.code == 200) {
             res.title = res.title ? res.title : 0;
             this.$store.dispatch("Alarm", res.title);
@@ -101,8 +102,7 @@ export default {
         }
       });
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

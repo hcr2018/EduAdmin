@@ -6,7 +6,7 @@
       :data.sync="coursePriceList"
       :edit-config="{trigger: 'click', mode: 'row'}"
       :columns="coursePriceColumnTitle"
-    ></vxe-grid>
+    />
     <div class="between-center m-v-15">
       <el-button type="primary" @click="insertColumns">新增课程有效期</el-button>
       <el-button type="primary" @click="saveCoursePrice">保存</el-button>
@@ -31,8 +31,9 @@ export default {
       tableColumnValue: []
     };
   },
+  mounted() {},
   methods: {
-    //获取获取课程数据
+    // 获取获取课程数据
     getCourseRow(rowData) {
       this.courseRowData = {};
       this.courseRowData = { ...rowData };
@@ -48,10 +49,10 @@ export default {
       ];
       this.priceColumnTitle = [];
       this.coursePriceList = [];
-      let res = await getCoursePriceList(this.courseRowData.Id);
+      const res = await getCoursePriceList(this.courseRowData.Id);
       if (res.code == 200) {
-        for (let items of res.data.Children) {
-          for (let item in items) {
+        for (const items of res.data.Children) {
+          for (const item in items) {
             if (
               this.priceColumnTitle.indexOf(item) == -1 &&
               item != "Id" &&
@@ -90,7 +91,7 @@ export default {
           });
           this.tableColumnValue.push(value);
           // 添加列后,将字段添加到数据表中
-          for (let items of this.coursePriceList) {
+          for (const items of this.coursePriceList) {
             items[value] = null;
           }
         })
@@ -98,8 +99,8 @@ export default {
     },
     // 保存价格
     saveCoursePrice() {
-      for (let items of this.coursePriceList) {
-        for (let item in items) {
+      for (const items of this.coursePriceList) {
+        for (const item in items) {
           if (items[item] == null || items[item] == "") {
             this.$alert("价格不能为空哦！", "提示", {
               confirmButtonText: "确定",
@@ -115,9 +116,9 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(async () => {
-          let urlParams = "?id=" + this.courseRowData.Id;
-          let res = await saveCoursePriceList(urlParams, this.coursePriceList);
+        .then(async() => {
+          const urlParams = "?id=" + this.courseRowData.Id;
+          const res = await saveCoursePriceList(urlParams, this.coursePriceList);
           if (res.code == 200) {
             this.common.go_alert("设置成功");
             this.getCoursePrice();
@@ -125,8 +126,7 @@ export default {
         })
         .catch(e => {});
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

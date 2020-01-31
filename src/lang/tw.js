@@ -1,15 +1,17 @@
 export default {
   route: {
     dashboard: '数据仪表',
-    system:'系统设置',
+    system: '系统设置',
     setting: '设置',
-    platform:"分校",
-    sendSMS:"发送短信",
-    trackList:'跟进记录',
-    customList:'客户列表',
+    platform: "分校",
+    sendSMS: "发送短信",
+    trackList: '跟进记录',
+    customList: '客户列表',
+    courseList: '课程列表',
+    bookList: '教材列表',
     documentation: '文檔',
-    guide: '引導頁',
-    permission: '權限測試頁',
+    web: '官网',
+    platform: '分校区',
     rolePermission: '角色權限',
     pagePermission: '頁面權限',
     directivePermission: '指令權限',
@@ -100,7 +102,7 @@ export default {
     confirm: '確定',
     cancel: '取消'
   },
-  customList:'客户列表',
+  customList: '客户列表',
   Custom: {
     Title: '客户学员',
     New: '新增客户',

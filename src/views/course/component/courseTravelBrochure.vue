@@ -6,30 +6,30 @@
       <p class="font16 color-2e77f8 border-b-e0 p-b-10 font-w6">展示图片</p>
       <div class="flex_dom flex_wrap p-v-20">
         <div
-          class="relative marg15"
           v-for="(item,index) in travelBrochureData.ImageList"
           :key="index"
+          class="relative marg15"
         >
           <my-image
             class="wid80 hgt80"
             :preview-src-list="[item.List]"
             :src="item.List"
             fit="cover"
-          ></my-image>
+          />
           <div class="between-center m-v-5 wid80">
-            <span class="text-center color-2e77f8 font14 m-r-5">{{item.Label}}</span>
+            <span class="text-center color-2e77f8 font14 m-r-5">{{ item.Label }}</span>
             <el-upload
               :auto-upload="false"
               action
               :show-file-list="false"
               :on-change="function(file, fileList){return updatePicture(file, fileList,index,1)}"
             >
-              <i class="el-icon-edit color-333"></i>
+              <i class="el-icon-edit color-333" />
             </el-upload>
           </div>
 
           <div class="deleImgIcon cursor" @click="deleImg(index,1)">
-            <img src="/static/img/slice/deleteIcon.png" alt />
+            <img src="/static/img/slice/deleteIcon.png" alt>
           </div>
         </div>
         <el-upload
@@ -39,23 +39,23 @@
           :show-file-list="false"
           :on-change="function(file, fileList){return uploadPicture(file, fileList,1)}"
         >
-          <i class="el-icon-plus avatar-uploader-icon"></i>
+          <i class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </div>
     </div>
     <!-- 任课老师 -->
-     <my-image-viewer
-                  v-if="showViewer"
-                  :on-close="closeViewer"
-                  :url-list="[imageViewerSrc]"
-                />
+    <my-image-viewer
+      v-if="showViewer"
+      :on-close="closeViewer"
+      :url-list="[imageViewerSrc]"
+    />
     <div class="m-t-20">
       <p class="font16 color-2e77f8 border-b-e0 p-b-10 font-w6">任课老师</p>
       <div class="flex_dom flex_wrap p-v-20">
         <div
-          class="relative marg15"
           v-for="(item,index) in travelBrochureData.TeacherList"
           :key="index"
+          class="relative marg15"
         >
           <!-- <my-image
             class="wid80 hgt80"
@@ -63,25 +63,25 @@
             :src="item.List"
             fit="cover"
           ></my-image> -->
-             <img
-                v-if="item.List"
-                @click="onPreview(item.List)"
-                class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
-              /> 
+          <img
+            v-if="item.List"
+            class="wid20"
+            src="/static/img/slice/uploadedIcon.png"
+            @click="onPreview(item.List)"
+          > 
           <div class="between-center m-v-5 wid80">
-            <span class="text-center color-2e77f8 font14 m-r-5">{{item.Label}}</span>
+            <span class="text-center color-2e77f8 font14 m-r-5">{{ item.Label }}</span>
             <el-upload
               :auto-upload="false"
               action
               :show-file-list="false"
               :on-change="function(file, fileList){return updatePicture(file, fileList,index,2)}"
             >
-              <i class="el-icon-edit color-333"></i>
+              <i class="el-icon-edit color-333" />
             </el-upload>
           </div>
           <div class="deleImgIcon cursor" @click="deleImg(index,2)">
-            <img src="/static/img/slice/deleteIcon.png" alt />
+            <img src="/static/img/slice/deleteIcon.png" alt>
           </div>
         </div>
         <el-upload
@@ -91,7 +91,7 @@
           :show-file-list="false"
           :on-change="function(file, fileList){return uploadPicture(file, fileList,2)}"
         >
-          <i class="el-icon-plus avatar-uploader-icon"></i>
+          <i class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </div>
     </div>
@@ -100,22 +100,22 @@
       <p class="font16 color-2e77f8 border-b-e0 p-b-10 font-w6">宣传视频</p>
       <div class="m-t-30">
         <el-form
+          ref="refvideoForm"
           :model="videoRowData"
           label-width="100px"
           size="small"
           :rules="videoFormRules"
-          ref="refvideoForm"
         >
           <div class="center">
             <el-form-item label="视频名称:" prop="Label">
-              <el-input v-model="videoRowData.Label"></el-input>
+              <el-input v-model="videoRowData.Label" />
             </el-form-item>
             <el-form-item label="视频地址:" prop="List">
-              <el-input v-model="videoRowData.List"></el-input>
+              <el-input v-model="videoRowData.List" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" v-show="!isEditVideo" @click="saveVideoUrl(1)">添加视频</el-button>
-              <el-button type="primary" v-show="isEditVideo" @click="saveVideoUrl(0)">保 存</el-button>
+              <el-button v-show="!isEditVideo" type="primary" @click="saveVideoUrl(1)">添加视频</el-button>
+              <el-button v-show="isEditVideo" type="primary" @click="saveVideoUrl(0)">保 存</el-button>
             </el-form-item>
           </div>
         </el-form>
@@ -127,8 +127,8 @@
           :border="true"
           style="width: 100%"
         >
-          <el-table-column prop="Label" label="视频名称" width="180"></el-table-column>
-          <el-table-column prop="List" label="视频地址"></el-table-column>
+          <el-table-column prop="Label" label="视频名称" width="180" />
+          <el-table-column prop="List" label="视频地址" />
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="primary" @click="clickEditVideoUrl(scope.$index,scope.row)">编辑</el-button>
@@ -153,7 +153,7 @@ import { getCourseTravelBrochure, updateCourseTravelBrochure } from "@/api/cours
 import { UploadImgCourseTravelBrochure } from "@/api/upload";
  
 export default {
-  name: "courseTravelBrochure",
+  name: "CourseTravelBrochure",
   components: {
     myImageViewer
   },
@@ -181,6 +181,11 @@ export default {
       }
     };
   },
+  mounted() {
+    setTimeout(() => {
+      this.$refs.refElTabel.doLayout();
+    }, 2000);
+  },
   methods: {
     // 图片预览
     onPreview(src) {
@@ -190,7 +195,7 @@ export default {
     // 获取课程宣传资料
     async getTravelBrochure(courseId) {
       this.courseId = courseId;
-      let res = await  getCourseTravelBrochure(courseId);
+      const res = await getCourseTravelBrochure(courseId);
       if (res.code == 200) {
         if (res.data) {
           this.travelBrochureData = res.data;
@@ -199,7 +204,7 @@ export default {
     },
     // 上传图片
     async uploadPicture(file, fileList, type) {
-      let res = await  UploadImgCourseTravelBrochure(
+      const res = await UploadImgCourseTravelBrochure(
         this.courseId,
         file.raw
       );
@@ -237,7 +242,7 @@ export default {
     },
     // 更换图片
     async updatePicture(file, fileList, index, type) {  
-      let res = await  UploadImgCourseTravelBrochure(
+      const res = await UploadImgCourseTravelBrochure(
         this.courseId,
         file.raw
       );
@@ -292,7 +297,7 @@ export default {
     },
     // 保存所有的宣传资料
     async saveTravelBrochureData() {
-      let res = await  updateCourseTravelBrochure(
+      const res = await updateCourseTravelBrochure(
         this.courseId,
         this.travelBrochureData
       );
@@ -303,11 +308,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
   }
 };
 </script> 

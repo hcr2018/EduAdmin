@@ -36,7 +36,7 @@ module.exports = {
     }
   }
   ],
-  actions(data) {
+  actions(url,param,data) {
     const name = '{{name}}'
     const { blocks } = data
     const options = ['state', 'mutations']

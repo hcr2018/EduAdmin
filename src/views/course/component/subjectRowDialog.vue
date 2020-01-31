@@ -8,8 +8,8 @@
     <!-- 高校专业的表单 -->
     <div class="subjectInfo">
       <el-form
-        :model="subjectRowData"
         ref="refSubjectElForm"
+        :model="subjectRowData"
         :rules="subjectFormRules"
         label-width="100px"
         size="small"
@@ -17,34 +17,34 @@
       >
         <el-form-item label="名称" prop="Label">
           <el-tooltip class="item" effect="dark" content="学科教材的名字一经填写,不允许再修改" placement="top-start">
-            <el-input v-model="subjectRowData.Label" :disabled="subjectRowData.Id>0"></el-input>
+            <el-input v-model="subjectRowData.Label" :disabled="subjectRowData.Id>0" />
           </el-tooltip>
         </el-form-item>
         <el-form-item label="章节数" prop="Topic">
-          <el-input v-model.number="subjectRowData.Topic"></el-input>
+          <el-input v-model.number="subjectRowData.Topic" />
         </el-form-item>
         <el-form-item label="描述">
-          <el-input v-model="subjectRowData.Description"></el-input>
+          <el-input v-model="subjectRowData.Description" />
         </el-form-item>
 
         <el-form-item label="学院">
-          <el-select v-model="collegeIndex" @change="collegeChange" placeholder="请选择学院">
+          <el-select v-model="collegeIndex" placeholder="请选择学院" @change="collegeChange">
             <el-option
-              :label="item.Label"
-              :value="index"
               v-for="(item,index) in common.collegeWithCouseKindList"
               :key="index"
-            ></el-option>
+              :label="item.Label"
+              :value="index"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="课程大类">
           <el-select v-model="subjectRowData.Coursekind" placeholder="请选择课程分类">
             <el-option
-              :label="item.Label"
-              :key="index"
-              :value="item.Label"
               v-for="(item,index) in courseKindsOps"
-            ></el-option>
+              :key="index"
+              :label="item.Label"
+              :value="item.Label"
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -58,7 +58,7 @@
   </el-dialog>
 </template>
 <script>
-import { editBook,addBook } from "@/api/book";
+import { editBook, addBook } from "@/api/book";
 import common from "@/utils/common";
 export default {
   data() {
@@ -78,8 +78,9 @@ export default {
       }
     };
   },
+  mounted() {},
   methods: {
-    //获取获取科目数据
+    // 获取获取科目数据
     getSubjectRow(row) {
       this.collegeIndex = 0;
       this.subjectRowData = {};
@@ -110,7 +111,7 @@ export default {
             }
           } else {
             // 创建科目
-            res = await  addBook(this.subjectRowData);
+            res = await addBook(this.subjectRowData);
             if (res.code == 200) {
               this.common.go_alert("创建成功！");
               this.$emit("subClickEvent", 1, res.data);
@@ -135,8 +136,7 @@ export default {
         }
       }
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

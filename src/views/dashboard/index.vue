@@ -23,9 +23,9 @@ export default {
     ])
   },
   created() {
-    if (this.roles==0) {
+    if (this.roles === 0) {
       this.currentRole = 'editorDashboard'
-    }else{
+    } else {
       this.currentRole = 'adminDashboard'
     }
   }

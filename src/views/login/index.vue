@@ -79,9 +79,9 @@
 
     <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
       {{ $t('login.thirdpartyTips') }}
-      <br />
-      <br />
-      <br />
+      <br>
+      <br>
+      <br>
       <social-sign />
     </el-dialog>
   </div>
@@ -178,21 +178,20 @@ export default {
           const md5 = crypto.createHash("md5");
           md5.update(submitData.password);
           submitData.password = md5.digest("hex");
-          this.$store
-            .dispatch("manager/login", submitData)
+          this.$store.dispatch("manager/login", submitData)
             .then(() => {
-              this.$store.dispatch("app/getPlatformList", submitData).then(() => {
+              this.$store.dispatch("app/getPlatformList").then(() => {
                 console.log("getPlatform  ook");
               });
 
               this.$store
-                .dispatch("app/getCollegeWithCourseKind", submitData)
+                .dispatch("app/getCollegeWithCourseKind")
                 .then(() => {
                   console.log("getCollegeWithCourseKind  ook");
                 });
 
               this.$store
-                .dispatch("app/getAllCourseKind", submitData)
+                .dispatch("app/getAllCourseKind")
                 .then(() => {
                   console.log("getAllCourseKind  ook");
                 });

@@ -10,33 +10,33 @@
         <el-form-item label="目标学院">
           <el-select
             v-model="targetPlatform"
-            @change="$forceUpdate();getTeacherOfPlatform()"
             placeholder="请选择"
+            @change="$forceUpdate();getTeacherOfPlatform()"
           >
             <el-option
-              v-show="item.Id!=0"
-              :label="item.Label"
-              :key="item.Id"
-              :value="item.Id"
               v-for="(item) in common.platformList"
-            ></el-option>
+              v-show="item.Id!=0"
+              :key="item.Id"
+              :label="item.Label"
+              :value="item.Id"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="目标人员">
           <el-select v-model="targetManagerID" placeholder="请选择管理员">
             <el-option
-              :label="item.Realname"
-              :key="item.Id"
-              :value="item.Id"
               v-for="(item) in platformTeacherOptions"
-            ></el-option>
+              :key="item.Id"
+              :label="item.Realname"
+              :value="item.Id"
+            />
           </el-select>
         </el-form-item>
       </el-form>
       <div class="around-center hgt60 bge0e3ea">
         <div>
           <el-button @click="isShowChangeManagerDialog=false">取 消</el-button>
-          <el-button type="primary" @click="changeManager" class="m-l-40">确 认</el-button>
+          <el-button type="primary" class="m-l-40" @click="changeManager">确 认</el-button>
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
 import {  
   batchChangeManager
 } from "@/api/custom"; 
-import {getPlatformTeacher} from "@/api/manager";
+import { getPlatformTeacher } from "@/api/manager";
 import common from "@/utils/common";
 export default {
   name: "",
@@ -59,12 +59,13 @@ export default {
       targetPlatform: null,
       // 存放平台老师的的数组
       platformTeacherOptions: [],
-      //目标人员id
+      // 目标人员id
       targetManagerID: "",
       // 转移客户的ID
       customIds: []
     };
   },
+  mounted() {},
   methods: {
     // 获取学员Id
     getCustomIds(Ids) {
@@ -82,7 +83,7 @@ export default {
     // 获取平台老师
     async getTeacherOfPlatform() {
       this.platformTeacherOptions = [];
-      let res = await getPlatformTeacher({
+      const res = await getPlatformTeacher({
         platform: this.targetPlatform
       });
       if (res.code == 200) {
@@ -91,7 +92,7 @@ export default {
     },
     // 保存转移学生的提醒
     async changeManager() {
-      let res = await batchChangeManager(
+      const res = await batchChangeManager(
         this.targetPlatform + "/" + this.targetManagerID,
         this.customIds
       );
@@ -101,8 +102,7 @@ export default {
         this.$emit("subClickEvent", res.data);
       }
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

@@ -18,7 +18,7 @@
           </el-radio-group>
         </div>
       </div>
-      <div id="myChart" :style="{width: '100%', height: '100%'}"></div>
+      <div id="myChart" :style="{width: '100%', height: '100%'}" />
     </div>
   </div>
 </template>
@@ -37,6 +37,11 @@ export default {
       days: "30",
       myChart: null
     };
+  },
+  mounted() {
+    this.myChart = this.$echarts.init(document.getElementById("myChart"));
+    this.myChart.on("updateAxisPointer", this.setChartFunction);
+    this.getDataAnalysis();
   },
   methods: {
     setChartFunction(event) {
@@ -58,7 +63,7 @@ export default {
       }
     },
     getDataAnalysis() {
-      let that = this; 
+      const that = this; 
       
       // 站点-客户数据
       if (that.radio1 == "fromid") {
@@ -84,10 +89,10 @@ export default {
       if (res == null) {
         return;
       }
-      let title = res.title ? res.title : [];
+      const title = res.title ? res.title : [];
       // 基于准备好的dom，初始化echarts实例
 
-      let option = {
+      const option = {
         legend: {},
         tooltip: {
           trigger: "axis",
@@ -131,11 +136,6 @@ export default {
       this.myChart.setOption(option);
       this.loading = false;
     }
-  },
-  mounted() {
-    this.myChart = this.$echarts.init(document.getElementById("myChart"));
-    this.myChart.on("updateAxisPointer", this.setChartFunction);
-    this.getDataAnalysis();
   }
 };
 </script>

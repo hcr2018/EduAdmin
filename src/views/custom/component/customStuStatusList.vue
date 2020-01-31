@@ -12,19 +12,19 @@
           <span
             class="color-2e77f8 font-w6 cursor"
             @click="lookStuStatus(scope.$index, scope.row)"
-          >{{scope.row.UniversityLabel}}</span>
+          >{{ scope.row.UniversityLabel }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="UniversityMajor" label="报读专业" width="120"></el-table-column>
-      <el-table-column prop="XueLiShuXing" label="学历属性" width="100"></el-table-column>
-      <el-table-column prop="XueJi" label="学籍编号" width="100"></el-table-column>
-      <el-table-column prop="RealName" label="姓名" width="100"></el-table-column>
-      <el-table-column prop="Sex" label="性别" width="50"></el-table-column>
-      <el-table-column prop="ZhunKaoZheng" label="准考证号" width="120"></el-table-column>
-      <el-table-column prop="IDCard" label="身份证号" width="160"></el-table-column>
-      <el-table-column prop="Telephone" label="电话" width="100"></el-table-column>
-      <el-table-column prop="ShiFouTuoGuan" label="托管" width="50"></el-table-column>
-      <el-table-column prop="ShijiPrice" width="95" label="实际缴费(￥)"></el-table-column>
+      <el-table-column prop="UniversityMajor" label="报读专业" width="120" />
+      <el-table-column prop="XueLiShuXing" label="学历属性" width="100" />
+      <el-table-column prop="XueJi" label="学籍编号" width="100" />
+      <el-table-column prop="RealName" label="姓名" width="100" />
+      <el-table-column prop="Sex" label="性别" width="50" />
+      <el-table-column prop="ZhunKaoZheng" label="准考证号" width="120" />
+      <el-table-column prop="IDCard" label="身份证号" width="160" />
+      <el-table-column prop="Telephone" label="电话" width="100" />
+      <el-table-column prop="ShiFouTuoGuan" label="托管" width="50" />
+      <el-table-column prop="ShijiPrice" width="95" label="实际缴费(￥)" />
       <el-table-column width="120" fixed="right" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -40,7 +40,7 @@
       <!-- <el-button type="primary" class="m-t-20" @click="addStuStatus">添加学籍</el-button> -->
     </div>
     <!-- 学籍弹出框 -->
-    <stu-status-row-dialog ref="refStuStatusDialog" @subClick="updateStuStatusList"></stu-status-row-dialog>
+    <stu-status-row-dialog ref="refStuStatusDialog" @subClick="updateStuStatusList" />
   </div>
 </template>
 <script>
@@ -64,6 +64,12 @@ export default {
     };
   },
 
+  mounted() {
+    setTimeout(() => {
+      this.$refs.refElTabel.doLayout();
+    }, 2000);
+  },
+
   methods: {
     //  获取客户信息
     getCustomRowData(customRowData) {
@@ -75,16 +81,16 @@ export default {
     },
     // 获取客户学籍列表
     async getStuStatusList() {
-      let res = await getStudentStatustByStudent(
+      const res = await getStudentStatustByStudent(
         this.customRowData.id
       );
       if (res.code == 200) {
         this.customStutatusList = res.data ? res.data : [];
       }
     },
-    //添加学籍数据
+    // 添加学籍数据
     addStuStatus() {
-      let stuStatusRow = {
+      const stuStatusRow = {
         StudentID: this.customRowData.id,
         RealName: this.customRowData.Realname,
         Telephone: this.customRowData.Telephone,
@@ -115,12 +121,6 @@ export default {
         this.$set(this.customStutatusList, this.currentStuStatusIndex, rowData);
       }
     }
-  },
-
-  mounted() {
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
   }
 };
 </script> 

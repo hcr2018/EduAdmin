@@ -7,9 +7,9 @@
       direction="rtl"
       :before-close="handleClose"
     >
-      <div class="body_div flex_column" :style="style" ref="msk">
-        <p class="dialog_header"  >{{thisTitle}}</p>
-        <div class="left_content" v-if="closeLeft" :class="{'no_title':!thisTitle}">
+      <div ref="msk" class="body_div flex_column" :style="style">
+        <p class="dialog_header">{{ thisTitle }}</p>
+        <div v-if="closeLeft" class="left_content" :class="{'no_title':!thisTitle}">
           <div class="is-scroll-left hgt_100 left_body_div">
             <slot name="left_content">展示基本信息区域</slot>
           </div>
@@ -73,21 +73,22 @@ export default {
   },
   computed: {
     style() {
-      let style = {};
+      const style = {};
       if (this.width) {
         style.width = this.width;
       }
       return style;
     }
   },
+  mounted() {},
   methods: {
     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-           this.drawer = false;
-          })
-          .catch(_ => {});
-      }
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          this.drawer = false;
+        })
+        .catch(_ => {});
+    }
     // close() {
     //   this.$emit("update:visible", false);
     // }
@@ -97,8 +98,7 @@ export default {
     // 　　　　　　  this.$emit('update:visible', false)
     // 　　　　}
     //       }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style scoped>

@@ -1,99 +1,126 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function login(url, param, data) {
   return request({
-    url: '/manager/login',
+    url: '/manager/login' + url,
     method: 'post',
+    params: param,
     data
   })
 }
 
-export function getInfo(token) {
+export function getInfo(url, param, data) {
   return request({
-    url: '/manager/info',
+    url: '/manager/info' + url,
     method: 'get',
-    params: { token }
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/manager/logout',
-    method: 'post'
-  })
-}
-
-//-----------------------------
-export function getManagerList() {
-  return request({
-    url: '/manager',
-    method: 'get'
-  })
-}
-export function getLoginPhoneCode() {
-  return request({
-    url: '/manager/captcha',
-    method: 'post',
+    params: param,
     data
   })
 }
-export function editManager() {
+
+export function logout(url, param, data) {
   return request({
-    url: '/manager/',
-    method: 'put'
+    url: '/manager/logout' + url,
+    method: 'post',
+    params: param,
+    data
   })
 }
-export function addManager() {
+
+// -----------------------------
+export function getManagerList(url, param, data) {
   return request({
-    url: '/manager',
-    method: 'post'
+    url: '/manager' + url,
+    method: 'get',
+    params: param,
+    data
   })
 }
-export function setStateManager() {
+export function getLoginPhoneCode(url, param, data) {
   return request({
-    url: '/manager/setState/',
-    method: 'put'
+    url: '/manager/captcha' + url,
+    method: 'post',
+    params: param,
+    data
   })
 }
-export function resetPasswordManager() {
+export function editManager(url, param, data) {
   return request({
-    url: '/manager/resetpswd/',
-    method: 'put'
+    url: '/manager/' + url,
+    method: 'put',
+    params: param,
+    data
   })
 }
-export function setTeachBook() {
+export function addManager(url, param, data) {
   return request({
-    url: '/manager/setTeachBook/',
-    method: 'put'
+    url: '/manager' + url,
+    method: 'post',
+    params: param,
+    data
   })
 }
-export function getTeachBook() {
+export function setStateManager(url, param, data) {
   return request({
-    url: '/manager/getTeachBook/',
-    method: 'get'
+    url: '/manager/setState/' + url,
+    method: 'put',
+    params: param,
+    data
   })
 }
-export function getManagerRight() {
+export function resetPasswordManager(url, param, data) {
   return request({
-    url: '/manager/getRight/withLabel/',
-    method: 'get'
+    url: '/manager/resetpswd/' + url,
+    method: 'put',
+    params: param,
+    data
   })
 }
-export function setManagerRight() {
+export function setTeachBook(url, param, data) {
   return request({
-    url: '/manager/setRight/',
-    method: 'put'
+    url: '/manager/setTeachBook/' + url,
+    method: 'put',
+    params: param,
+    data
   })
 }
-export function getAllTeacher() {
+export function getTeachBook(url, param, data) {
   return request({
-    url: '/manager/',
-    method: 'get'
+    url: '/manager/getTeachBook/' + url,
+    method: 'get',
+    params: param,
+    data
   })
 }
-export function getPlatformTeacher() {
+export function getManagerRight(url, param, data) {
   return request({
-    url: '/manager/samePlatfromWorkers/mine',
-    method: 'get'
+    url: '/manager/getRight/withLabel/' + url,
+    method: 'get',
+    params: param,
+    data
+  })
+}
+export function setManagerRight(url, param, data) {
+  return request({
+    url: '/manager/setRight/' + url,
+    method: 'put',
+    params: param,
+    data
+  })
+}
+export function getAllTeacher(url, param, data) {
+  return request({
+    url: '/manager/' + url,
+    method: 'get',
+    params: param,
+    data
+  })
+}
+export function getPlatformTeacher(url, param, data) {
+  return request({
+    url: '/manager/samePlatfromWorkers/mine' + url,
+    method: 'get',
+    params: param,
+    data
   })
 }

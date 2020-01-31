@@ -1,12 +1,12 @@
 <template>
   <transition name="viewer-fade">
     <div
-      tabindex="-1"
       ref="el-image-viewer__wrapper"
+      tabindex="-1"
       class="el-image-viewer__wrapper"
       :style="{ 'z-index': zIndex }"
     >
-      <div class="el-image-viewer__mask" @click="ClickMaskclose" ref="mask"></div>
+      <div ref="mask" class="el-image-viewer__mask" @click="ClickMaskclose" />
       <!-- CLOSE -->
       <!-- <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
         <i class="el-icon-circle-close"></i>
@@ -31,13 +31,13 @@
       <!-- ACTIONS -->
       <div class="el-image-viewer__btn el-image-viewer__actions">
         <div class="el-image-viewer__actions__inner">
-          <i class="el-icon-zoom-out" @click="handleActions('zoomOut')"></i>
-          <i class="el-icon-zoom-in" @click="handleActions('zoomIn')"></i>
-          <i class="el-image-viewer__actions__divider"></i>
-          <i :class="mode.icon" @click="toggleMode"></i>
-          <i class="el-image-viewer__actions__divider"></i>
-          <i class="el-icon-refresh-left" @click="handleActions('anticlocelise')"></i>
-          <i class="el-icon-refresh-right" @click="handleActions('clocelise')"></i>
+          <i class="el-icon-zoom-out" @click="handleActions('zoomOut')" />
+          <i class="el-icon-zoom-in" @click="handleActions('zoomIn')" />
+          <i class="el-image-viewer__actions__divider" />
+          <i :class="mode.icon" @click="toggleMode" />
+          <i class="el-image-viewer__actions__divider" />
+          <i class="el-icon-refresh-left" @click="handleActions('anticlocelise')" />
+          <i class="el-icon-refresh-right" @click="handleActions('clocelise')" />
         </div>
       </div>
       <!-- CANVAS -->
@@ -46,14 +46,14 @@
           v-for="(url, i) in urlList"
           v-if="i === index"
           ref="img"
-          class="el-image-viewer__img"
           :key="url"
+          class="el-image-viewer__img"
           :src="currentImg"
           :style="imgStyle"
           @load="handleImgLoad"
           @error="handleImgError"
           @mousedown="handleMouseDown"
-        />
+        >
       </div>
     </div>
   </transition>
@@ -77,7 +77,7 @@ const Mode = {
 const mousewheelEventName = isFirefox() ? "DOMMouseScroll" : "mousewheel";
 
 export default {
-  name: "elImageViewer",
+  name: "ElImageViewer",
 
   props: {
     urlList: {
@@ -160,6 +160,12 @@ export default {
         }
       });
     }
+  },
+  mounted() {
+    this.deviceSupportInstall();
+    // add tabindex then wrapper can be focusable via Javascript
+    // focus wrapper so arrow key can't cause inner scroll behavior underneath
+    this.$refs["el-image-viewer__wrapper"].focus();
   },
   methods: {
     hide() {
@@ -306,12 +312,6 @@ export default {
       }
       transform.enableTransition = enableTransition;
     }
-  },
-  mounted() {
-    this.deviceSupportInstall();
-    // add tabindex then wrapper can be focusable via Javascript
-    // focus wrapper so arrow key can't cause inner scroll behavior underneath
-    this.$refs["el-image-viewer__wrapper"].focus();
   }
 };
 </script>

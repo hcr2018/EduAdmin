@@ -1,28 +1,28 @@
 <template>
-  <div class="font16 hgt_full" v-cloak>
+  <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <div class="flex_1">
         <el-table
+          ref="refElTabel"
           height="100%"
           :data="$store.getters.app.platformList"
           tooltip-effect="light"
           border
           style="width: 100%"
-          ref="refElTabel"
         >
-          <el-table-column prop="Id" label="ID" width="50"></el-table-column>
+          <el-table-column prop="Id" label="ID" width="50" />
           <el-table-column prop="Label" label="站点名称" width="110">
             <template slot-scope="scope">
               <span
                 class="color-2e77f8 font-w6 cursor"
                 @click="openMoreOperationDialog(scope.$index, scope.row)"
-              >{{scope.row.Label}}</span>
+              >{{ scope.row.Label }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="MasterLabel" label="负责人" width="120"></el-table-column>
-          <el-table-column prop="Telephone" label="联系电话" width="100"></el-table-column>
-          <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="200"></el-table-column>
-          <el-table-column prop="Description" label="备注" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column prop="MasterLabel" label="负责人" width="120" />
+          <el-table-column prop="Telephone" label="联系电话" width="100" />
+          <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="200" />
+          <el-table-column prop="Description" label="备注" :show-overflow-tooltip="true" />
         </el-table>
       </div>
       <div class="between-center m-v-15">
@@ -34,12 +34,12 @@
       <!-- 更多操作弹窗 -->
       <my-dialog
         :visible.sync="moreOperationDialog"
-        :closeShow="true"
+        :close-show="true"
         :title="platformRowData.Label"
       >
         <!-- 展示站点的基本信息 -->
         <div slot="left_content" class="p_both20 p-b-20">
-          <platform-row-detail ref="refPlatformDetail"></platform-row-detail>
+          <platform-row-detail ref="refPlatformDetail" />
           <div class="text-center m-t-30">
             <el-button type="primary" @click="openPlatformDialog(0)">编辑</el-button>
           </div>
@@ -47,7 +47,7 @@
         <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
       </my-dialog>
       <!-- 站点信息弹出框 -->
-      <platform-row-dialog ref="refPlatformDialog" @subClickEvent="updatePlatformList"></platform-row-dialog>
+      <platform-row-dialog ref="refPlatformDialog" @subClickEvent="updatePlatformList" />
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ import platformRowDetail from "@/views/system/component/platformRowDetail";
 import myDialog from "@/components/myDialog/myDialog";
 // import $AppHttp from "@/service/AppAPI";
 export default {
-  name: "platform",
+  name: "Platform",
   components: {
     myDialog,
     platformRowDialog,
@@ -74,6 +74,9 @@ export default {
       currentPlatformIndex: null
     };
   },
+  mounted() {
+    this.getAllPlatform();
+  },
   methods: {
     // 打开站点的弹出框
     openPlatformDialog(type) {
@@ -86,7 +89,7 @@ export default {
         });
       }
     },
-    //追加数据后更新列表
+    // 追加数据后更新列表
     updatePlatformList(type, rowData) {
       // type=1新增，type=0编辑
       if (type) {
@@ -112,10 +115,6 @@ export default {
       this.platformRowData = { ...row };
       this.moreOperationDialog = true;
     }
-  },
-  mounted() {
-    this.getAllPlatform();
-  
   }
 };
 </script>

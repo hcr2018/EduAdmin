@@ -6,8 +6,8 @@
     :title="courseRow.Id>0?'编辑课程':'新增课程'"
   >
     <el-form
-      :model="courseRow"
       ref="refCourseForm"
+      :model="courseRow"
       :rules="courseFormRules"
       label-width="110px"
       size="small"
@@ -17,34 +17,34 @@
         <el-form-item label="所属学院" class="flex_1">
           <el-select
             v-model="collegeIndex"
-            @change="collegeChangeGetCourseKind"
             placeholder="请选择学院"
+            @change="collegeChangeGetCourseKind"
           >
             <el-option
-              :label="item.Label"
-              :value="index"
               v-for="(item,index) in common.collegeWithCouseKindList"
               :key="index"
-            ></el-option>
+              :label="item.Label"
+              :value="index"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="课程类别" class="flex_1">
-          <el-select v-model="courseRow.TCourseKindID" @change="getBookList" placeholder="请选择课程类别">
+          <el-select v-model="courseRow.TCourseKindID" placeholder="请选择课程类别" @change="getBookList">
             <el-option
-              :label="item.Label"
-              :key="index"
-              :value="item.Id"
               v-for="(item,index) in CourseKindsOps"
-            ></el-option>
+              :key="index"
+              :label="item.Label"
+              :value="item.Id"
+            />
           </el-select>
         </el-form-item>
       </div>
       <div class="between-center">
         <el-form-item label="宣传售价" prop="Price" class="flex_1">
-          <el-input v-model="courseRow.Price" autocomplete="off"></el-input>
+          <el-input v-model="courseRow.Price" autocomplete="off" />
         </el-form-item>
         <el-form-item label="课时量" prop="CourseNum" class="flex_1">
-          <el-input v-model.number="courseRow.CourseNum" autocomplete="off"></el-input>
+          <el-input v-model.number="courseRow.CourseNum" autocomplete="off" />
         </el-form-item>
       </div>
 
@@ -59,26 +59,26 @@
         </el-form-item>
       </div>
       <el-form-item label="产品名称" prop="Label">
-        <el-input v-model="courseRow.Label" required autocomplete="off"></el-input>
+        <el-input v-model="courseRow.Label" required autocomplete="off" />
       </el-form-item>
       <div class="between-center">
         <el-form-item label="产品特征" class="flex_1">
-          <el-input v-model="courseRow.Comments" autocomplete="off"></el-input>
+          <el-input v-model="courseRow.Comments" autocomplete="off" />
         </el-form-item>
         <el-form-item label="展示排序" prop="Sort" class="flex_1">
-          <el-input v-model.number="courseRow.Sort" autocomplete="off"></el-input>
+          <el-input v-model.number="courseRow.Sort" autocomplete="off" />
         </el-form-item>
       </div>
       <el-form-item label="产品描述">
-        <el-input v-model="courseRow.Description" type="textarea" :rows="4" autocomplete="off"></el-input>
+        <el-input v-model="courseRow.Description" type="textarea" :rows="4" autocomplete="off" />
       </el-form-item>
       <el-form-item label="产品缩略图">
         <div class="center">
-          <el-input v-model="courseRow.Background" disabled class="m-r-12 flex_1"></el-input>
+          <el-input v-model="courseRow.Background" disabled class="m-r-12 flex_1" />
           <div>
             <el-upload
-              :auto-upload="false"
               v-loading="isbusy1"
+              :auto-upload="false"
               action
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadCOurseImg(file, fileList,1)}"
@@ -86,16 +86,16 @@
               <el-button>上传</el-button>
             </el-upload>
           </div>
-          <span @click="onPreview(courseRow.Background)" class="m-l-15 wid60 cursor color-2e77f8">预览</span>
+          <span class="m-l-15 wid60 cursor color-2e77f8" @click="onPreview(courseRow.Background)">预览</span>
         </div>
       </el-form-item>
       <el-form-item label="教学体系图">
         <div class="center">
-          <el-input v-model="courseRow.Jxtx" disabled class="m-r-12 flex_1"></el-input>
+          <el-input v-model="courseRow.Jxtx" disabled class="m-r-12 flex_1" />
           <div>
             <el-upload
-              :auto-upload="false"
               v-loading="isbusy2"
+              :auto-upload="false"
               action
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadCOurseImg(file, fileList,2)}"
@@ -103,16 +103,16 @@
               <el-button>上传</el-button>
             </el-upload>
           </div>
-          <span @click="onPreview(courseRow.Jxtx)" class="m-l-15 wid60 cursor color-2e77f8">预览</span>
+          <span class="m-l-15 wid60 cursor color-2e77f8" @click="onPreview(courseRow.Jxtx)">预览</span>
         </div>
       </el-form-item>
       <el-form-item label="产品详情图">
         <div class="center">
-          <el-input v-model="courseRow.Kcxq" disabled class="m-r-12 flex_1"></el-input>
+          <el-input v-model="courseRow.Kcxq" disabled class="m-r-12 flex_1" />
           <div class="color-2e77f8">
             <el-upload
-              :auto-upload="false"
               v-loading="isbusy3"
+              :auto-upload="false"
               action
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadCOurseImg(file, fileList,3)}"
@@ -120,30 +120,30 @@
               <el-button>上传</el-button>
             </el-upload>
           </div>
-          <span @click="onPreview(courseRow.Kcxq)" class="m-l-15 wid60 cursor color-2e77f8">预览</span>
+          <span class="m-l-15 wid60 cursor color-2e77f8" @click="onPreview(courseRow.Kcxq)">预览</span>
         </div>
       </el-form-item>
       <el-form-item label="查找学科">
         <div class="center">
           <el-input
             v-model="searchSubjectContent"
-            @keyup.native.enter="getBookList"
             placeholder="请输入学科名称"
             class="m-r-12 flex_1"
-          ></el-input>
+            @keyup.native.enter="getBookList"
+          />
           <el-button type="primary" @click="getBookList">查询</el-button>
         </div>
       </el-form-item>
       <el-form-item label="已关联科目">
         <div class="flex_dom flex_wrap">
-          <el-tag :key="item.Id" v-for="(item) in courseRow.Children">{{item.Label}}</el-tag>
+          <el-tag v-for="(item) in courseRow.Children" :key="item.Id">{{ item.Label }}</el-tag>
         </div>
       </el-form-item>
       <el-form-item label="可选科目">
         <div class="addSubject flex_dom flex_wrap">
           <p v-for="(item,index) in subjectListOps" :key="item.Id">
-            {{item.Label}}
-            <i class="el-icon-circle-plus" @click="addSubjectToSourse(item,index)"></i>
+            {{ item.Label }}
+            <i class="el-icon-circle-plus" @click="addSubjectToSourse(item,index)" />
           </p>
         </div>
       </el-form-item>
@@ -151,7 +151,7 @@
     <div class="around-center hgt60 bge0e3ea">
       <div>
         <el-button @click="isShowCourseDialog=false">取 消</el-button>
-        <el-button type="primary" @click="saveCourse" class="m-l-40">保 存</el-button>
+        <el-button type="primary" class="m-l-40" @click="saveCourse">保 存</el-button>
       </div>
     </div>
     <!-- 图片预览 -->
@@ -208,6 +208,7 @@ export default {
       isbusy3: false
     };
   },
+  mounted() {},
   methods: {
     // 从父组件获取信息
     getCourseRowData(row) {
@@ -240,6 +241,7 @@ export default {
       this.CourseKindsOps = [
         ...this.common.collegeWithCouseKindList[index].Children
       ];
+      console.log("=====", this.common.collegeWithCouseKindList);
       if (this.CourseKindsOps.length > 0) {
         this.courseRow.TCourseKindID = this.CourseKindsOps[0].Id;
         this.courseKindLabel = this.CourseKindsOps[0].Label;
@@ -258,7 +260,7 @@ export default {
         }
       });
       if (!has) {
-        let courseBookitem = {};
+        const courseBookitem = {};
         courseBookitem.Label = subjectItem.Label;
         courseBookitem.TBookId = subjectItem.Id;
         courseBookitem.TCourseId = this.courseRow.Id;
@@ -273,7 +275,7 @@ export default {
       if (this.searchSubjectContent) {
         params = { label: this.searchSubjectContent };
       }
-      let res = await queryBookList(params);
+      const res = await queryBookList(params);
       if (res.code == 200) {
         this.subjectListOps = res.data ? res.data : [];
       }
@@ -284,14 +286,14 @@ export default {
         if (valid) {
           this.courseRow.CourseNum = parseInt(this.courseRow.CourseNum);
           if (this.courseRow.Id > 0) {
-            let res = await editCourse(this.courseRow.Id, this.courseRow);
+            const res = await editCourse(this.courseRow.Id, this.courseRow);
             if (res.code == 200) {
               this.common.go_alert("修改成功 !");
               this.$emit("subClickEvent", 0, res.data);
               this.isShowCourseDialog = false;
             }
           } else {
-            let res = await addCourse(this.courseRow);
+            const res = await addCourse(this.courseRow);
             if (res.code == 200) {
               this.common.go_alert("添加成功 !");
               this.$emit("subClickEvent", 1, res.data);
@@ -312,7 +314,7 @@ export default {
       } else if (type == 3) {
         this.isbusy3 = true;
       }
-      let res = await UploadImgCourse(this.courseRow.Id, file.raw);
+      const res = await UploadImgCourse(this.courseRow.Id, file.raw);
       if (res.code == 200) {
         if (type == 1) {
           this.courseRow.Background = res.data;
@@ -335,8 +337,7 @@ export default {
     closeViewer() {
       this.showViewer = false;
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style scoped>

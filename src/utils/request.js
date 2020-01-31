@@ -18,7 +18,7 @@ service.interceptors.request.use(
     } else {
       config.headers['token'] = getToken()
     }
-    if ( config.headers['token']==undefined){
+    if (config.headers['token'] == undefined) {
       config.headers['token'] = ""
     }
     return config

@@ -7,21 +7,21 @@
   >
     <div class="basicInfo">
       <el-form
+        ref="refCustomInfo"
         :model="customInfo"
         :rules="customInfoRules"
         label-width="100px"
-        ref="refCustomInfo"
         size="small"
         class="dialog-body-pad"
       >
         <div class="between-center">
           <el-form-item label="客户姓名" prop="Realname" class="flex_1">
-            <el-input v-model="customInfo.Realname" placeholder="请输入客户姓名"></el-input>
+            <el-input v-model="customInfo.Realname" placeholder="请输入客户姓名" />
           </el-form-item>
           <el-form-item label="性别" prop="Sex" class="flex_1">
             <el-select v-model="customInfo.Sex" placeholder="请选择性别">
-              <el-option label="男" value="男"></el-option>
-              <el-option label="女" value="女"></el-option>
+              <el-option label="男" value="男" />
+              <el-option label="女" value="女" />
             </el-select>
           </el-form-item>
           <el-form-item v-show="customInfo.id>0">
@@ -30,89 +30,89 @@
         </div>
         <el-form-item label="客户电话" prop="Telephone" class="flex_1">
           <el-input
-            :disabled="customInfo.id>0"
             v-model="customInfo.Telephone"
-            @blur="checkRepeatPhone"
+            :disabled="customInfo.id>0"
             \placeholder="请输入客户电话"
-          ></el-input>
+            @blur="checkRepeatPhone"
+          />
         </el-form-item>
         <el-form-item label="身份证" prop="Idcard">
-          <el-input v-model="customInfo.Idcard" placeholder="请输入客户身份证"></el-input>
+          <el-input v-model="customInfo.Idcard" placeholder="请输入客户身份证" />
         </el-form-item>
         <el-form-item label="客户微信">
-          <el-input v-model="customInfo.Wechat" placeholder="请输入客户微信号"></el-input>
+          <el-input v-model="customInfo.Wechat" placeholder="请输入客户微信号" />
         </el-form-item>
         <el-form-item label="图片类型">
           <div class="flex_dom flex_wrap">
-            <div class="relative marg15" v-for="(item,index) in customImgArr" :key="index">
-              <my-image-viewer class="wid80 hgt80" :preview-src-list="[item]" :src="item" fit="cover"></my-image-viewer>
+            <div v-for="(item,index) in customImgArr" :key="index" class="relative marg15">
+              <my-image-viewer class="wid80 hgt80" :preview-src-list="[item]" :src="item" fit="cover" />
               <div
-                class="deleImgIcon cursor"
                 v-show="customInfo.id<=0"
+                class="deleImgIcon cursor"
                 @click="deleCustomImg(index)"
               >
-                <img src="/static/img/slice/deleteIcon.png" alt />
+                <img src="/static/img/slice/deleteIcon.png" alt>
               </div>
             </div>
             <el-upload
+              v-show="customInfo.id<=0"
               :auto-upload="false"
               action
               class="avatar-uploader"
-              v-show="customInfo.id<=0"
               :show-file-list="false"
               :on-change="uploadCustomImg"
             >
-              <i class="el-icon-plus avatar-uploader-icon"></i>
+              <i class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
           </div>
         </el-form-item>
         <el-form-item label="客户QQ" prop="Qq">
-          <el-input v-model="customInfo.Qq" placeholder="请输入客户QQ号"></el-input>
+          <el-input v-model="customInfo.Qq" placeholder="请输入客户QQ号" />
         </el-form-item>
         <el-form-item label="当前学历">
           <el-select v-model="customInfo.Education" placeholder="请选择学历">
             <el-option
-              :label="item"
-              :key="index"
-              :value="item"
               v-for="(item,index) in educationallevel"
-            ></el-option>
+              :key="index"
+              :label="item"
+              :value="item"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="意向情况">
           <el-select v-model="customInfo.Kind" placeholder="请选择意向情况">
             <el-option
-              :label="item.Label"
+              v-for="(item) in common.IntentionalCustomerType"
               v-show="item.value!=-1"
               :key="item.value"
+              :label="item.Label"
               :value="item.value"
-              v-for="(item) in common.IntentionalCustomerType"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="意向课程">
           <el-select v-model="customInfo.FocusCourse" placeholder="请选择意向课程">
             <el-option
-              :label="item.Label"
-              :key="item.Id"
-              :value="item.Label"
               v-for="(item) in common.courseKindList"
-            ></el-option>
+              :key="item.Id"
+              :label="item.Label"
+              :value="item.Label"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="渠道来源">
           <el-select
             v-model="customInfo.FromLabel"
             :disabled="customInfo.id>0"
-            @change="inputForceUpdate"
             placeholder="请选择渠道来源"
+            @change="inputForceUpdate"
           >
             <el-option
               v-for="(item,index) in common.channelList"
-              :label="item.Label"
               :key="index"
+              :label="item.Label"
               :value="item.Label"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
 
@@ -120,38 +120,38 @@
           <el-select
             v-model="customInfo.Platform"
             :disabled="this.$route.query.id?true:false"
-            @change="$forceUpdate()"
             placeholder="请选择所属站点"
+            @change="$forceUpdate()"
           >
             <el-option
-              v-show="item.Id!=0"
-              :label="item.Label"
-              :key="item.Id"
-              :value="item.Id"
               v-for="(item) in common.platformList"
-            ></el-option>
+              v-show="item.Id!=0"
+              :key="item.Id"
+              :label="item.Label"
+              :value="item.Id"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="管理员">
-          <el-input v-model="customInfo.ManagerLabel" disabled></el-input>
+          <el-input v-model="customInfo.ManagerLabel" disabled />
         </el-form-item>
         <el-form-item label="描述">
           <el-input
+            v-model="customInfo.Description"
             type="textarea"
             :rows="3"
-            v-model="customInfo.Description"
-            @input="inputForceUpdate()"
             placeholder="客户描述~"
-          ></el-input>
+            @input="inputForceUpdate()"
+          />
         </el-form-item>
         <el-form-item label="备注">
           <el-input
+            v-model="customInfo.Comments"
             type="textarea"
             :rows="3"
-            v-model="customInfo.Comments"
-            @input="inputForceUpdate()"
             placeholder="客户备注~"
-          ></el-input>
+            @input="inputForceUpdate()"
+          />
         </el-form-item>
       </el-form>
       <div class="around-center hgt60 bge0e3ea">
@@ -254,6 +254,7 @@ export default {
       platformTeacherOptions: []
     };
   },
+  mounted() {},
 
   methods: {
     // 获取客户的单条数据
@@ -264,7 +265,7 @@ export default {
       this.customInfo = { ...row };
       if (this.customInfo.id > 0) {
         if (this.customInfo.Info) {
-          let info = JSON.parse(this.customInfo.Info);
+          const info = JSON.parse(this.customInfo.Info);
           if (info.attach_image) {
             this.customImgArr = info.attach_image.split(",");
           }
@@ -280,15 +281,15 @@ export default {
 
     // 重置客户密码
     resetCustomPassword(studentid) {
-      let that = this;
+      const that = this;
       that
         .$confirm("确认重置该账户密码?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         })
-        .then(async () => {
-          let res = await resetCustomPassword(studentid);
+        .then(async() => {
+          const res = await resetCustomPassword(studentid);
           if (res.code == 200) {
             that.$alert("当前密码是:" + res.title, "密码", {
               confirmButtonText: "确定",
@@ -303,10 +304,10 @@ export default {
     // 检查电话号码是否重复
     async checkRepeatPhone() {
       if (this.customInfo.Telephone.length == 11) {
-        let res = await checkTelephone(this.customInfo.Telephone);
+        const res = await checkTelephone(this.customInfo.Telephone);
         if (res.code == 200) {
           if (res.data && res.title != "ok") {
-            let mes = `<span class='color-2e77f8'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-2e77f8'>${res.data.Realname}</span>已使用过该号码哦！`;
+            const mes = `<span class='color-2e77f8'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-2e77f8'>${res.data.Realname}</span>已使用过该号码哦！`;
             this.$alert(mes, "提示", {
               confirmButtonText: "确定",
               type: "warning",
@@ -319,7 +320,7 @@ export default {
     },
     // 客户资料图片上传
     async uploadCustomImg(file) {
-      let res = await UploadAddCustom(file.raw);
+      const res = await UploadAddCustom(file.raw);
       if (res.code == 200) {
         this.common.go_alert("上传成功！");
         this.customImgArr.push(res.data);
@@ -331,7 +332,7 @@ export default {
     },
     // 保存客户信息
     saveCustomInfo() {
-      let that = this;
+      const that = this;
       this.$refs["refCustomInfo"].validate(async valid => {
         if (valid) {
           if (that.customInfo.id == 0) {
@@ -342,7 +343,7 @@ export default {
               this.customInfo.Info.attach_image = this.customImgArr.join(",");
               this.customInfo.Info = JSON.stringify(this.customInfo.Info);
             }
-            let res = await addCustomInfo(that.customInfo);
+            const res = await addCustomInfo(that.customInfo);
             if (res.code == 200) {
               that.common.go_alert("添加成功 !");
               // 添加成功之后要触发父组件信息列表修改
@@ -352,7 +353,7 @@ export default {
           } else {
             // 修改
             this.customInfo.info = JSON.stringify(this.customInfo.info);
-            let res = await editCustomInfo(that.customInfo);
+            const res = await editCustomInfo(that.customInfo);
             if (res.code == 200) {
               that.common.go_alert("修改成功");
               that.customInfo = res.data;
@@ -370,8 +371,7 @@ export default {
     inputForceUpdate() {
       this.$forceUpdate();
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

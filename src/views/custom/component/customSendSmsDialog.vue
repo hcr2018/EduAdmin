@@ -9,15 +9,15 @@
       <el-form :model="sendSmsMSG" label-width="100px" class="dialog-body-pad">
         <el-form-item label="短信内容">
           <el-input
+            v-model="sendSmsMSG.Content"
             type="textarea"
             :rows="3"
-            v-model="sendSmsMSG.Content"
-            @input="inputForceUpdate()"
             maxlength="70"
             minlength="3"
             show-word-limit
             placeholder="请输入短信内容"
-          ></el-input>
+            @input="inputForceUpdate()"
+          />
         </el-form-item>
       </el-form>
       <div class="around-center hgt60 bge0e3ea">
@@ -38,10 +38,11 @@ export default {
       showSendSMSDialog: false,
       // 客户信息表单数据
       customInfo: {},
-      //发送短信的内容。包括电话和短信内容
+      // 发送短信的内容。包括电话和短信内容
       sendSmsMSG: {}
     };
   },
+  mounted() {},
 
   methods: {
     // 获取客户的单条数据
@@ -78,8 +79,7 @@ export default {
     inputForceUpdate() {
       this.$forceUpdate();
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

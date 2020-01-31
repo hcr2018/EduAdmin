@@ -33,7 +33,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { tel, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ tel: tel.trim(), password: password }).then(response => {
+      login("", "", { tel: tel.trim(), password: password }).then(response => {
         commit('SET_ROLES', response.data.role) 
         commit('SET_TOKEN', response.title) 
         setToken(response.title);
@@ -73,19 +73,18 @@ const actions = {
   },
 
   // user logout
-  logout({ commit,  dispatch }) {
+  logout({ commit, dispatch }) {
     return new Promise((resolve) => { 
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
+      resetRouter()
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
+      // reset visited views and cached views
+      // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      dispatch('tagsView/delAllViews', null, { root: true })
 
-        resolve()
-      
+      resolve()
     })
   },
 

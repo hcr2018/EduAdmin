@@ -7,7 +7,7 @@ import { asyncRoutes, constantRoutes } from '@/router'
  */
 function hasPermission(role, route) { 
   if (route.meta && route.meta.roles) { 
-    return  route.meta.roles.includes(role)
+    return route.meta.roles.includes(role)
   } else {
     return true
   }
@@ -50,7 +50,7 @@ const actions = {
   generateRoutes({ commit }, role) { 
     return new Promise(resolve => {
       let accessedRoutes 
-      if (role==1) {
+      if (role == 1) {
         accessedRoutes = asyncRoutes || []
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, role)

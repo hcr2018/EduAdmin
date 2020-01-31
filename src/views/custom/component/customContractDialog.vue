@@ -8,8 +8,8 @@
   >
     <div class="contractform">
       <el-form
-        :rules="contractRules"
         ref="refContractForm"
+        :rules="contractRules"
         :model="contractFormData"
         label-width="105px"
         size="small"
@@ -19,25 +19,25 @@
           <el-input
             v-model="contractFormData.Title"
             :disabled="operationType==0"
-            @input="$forceUpdate()"
             placeholder="请填写合同名称"
-          ></el-input>
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <el-form-item label="客户姓名">
           <el-input
             v-model="contractFormData.StudentLabel"
-            @input="$forceUpdate()"
             disabled
             placeholder="真实姓名"
-          ></el-input>
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <el-form-item label="身份证">
           <el-input
             v-model="contractFormData.IDCard"
             :disabled="operationType==0"
-            @input="$forceUpdate()"
             placeholder="身份证号码"
-          ></el-input>
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <el-form-item label="性别">
           <el-radio v-model="contractFormData.Sex" :disabled="operationType==0" label="男">男</el-radio>
@@ -48,15 +48,15 @@
             v-model="contractFormData.CollegeID"
             class="changInputWidth"
             :disabled="operationType==0"
-            @change="$forceUpdate()"
             placeholder="请选择所属学院"
+            @change="$forceUpdate()"
           >
             <el-option
               v-for="item in common.collegeWithCouseKindList"
-              :label="item.Label"
               :key="item.Id"
+              :label="item.Label"
               :value="item.Id"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <div v-show="operationType!=0">
@@ -65,31 +65,31 @@
               v-model="nowcourseKind"
               class="changInputWidth"
               :disabled="operationType==0"
-              @change="getCourse"
               placeholder="请选择课程大类"
+              @change="getCourse"
             >
               <el-option
-                :label="item.Label"
-                :key="item.Id"
-                :value="item.Label"
                 v-for="(item) in common.courseKindList"
-              ></el-option>
+                :key="item.Id"
+                :label="item.Label"
+                :value="item.Label"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="报名课程" prop="CourseID">
             <el-select
               v-model="contractFormData.CourseID"
-              @change="$forceUpdate()"
               :disabled="operationType==0"
               class="changInputWidth"
               placeholder="请选择报读课程"
+              @change="$forceUpdate()"
             >
               <el-option
-                :label="item.Label"
-                :key="index"
-                :value="item.Id"
                 v-for="(item,index) in courseList"
-              ></el-option>
+                :key="index"
+                :label="item.Label"
+                :value="item.Id"
+              />
             </el-select>
           </el-form-item>
         </div>
@@ -97,165 +97,165 @@
           <el-form-item label="报名课程">
             <el-input
               v-model="contractFormData.CourseLabel"
-              @input="$forceUpdate()"
               :disabled="operationType==0"
               placeholder="请输入报名课程"
-            ></el-input>
+              @input="$forceUpdate()"
+            />
           </el-form-item>
         </div>
         <el-form-item label="报名时间" prop="AddTime">
           <el-date-picker
-            class="changInputWidth"
             v-model="contractFormData.AddTime"
+            class="changInputWidth"
             type="date"
             :disabled="operationType==0"
             value-format="timestamp"
-            @input="$forceUpdate()"
             placeholder="请选择报名时间"
-          ></el-date-picker>
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <el-form-item label="招生老师">
           <el-input
             v-model="PlatformWorkerLabel"
-            @input="$forceUpdate()"
             :disabled="true"
             placeholder="请选择招生老师"
-          ></el-input>
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <div v-show="contractFormData.CollegeID==2">
           <div class="center m-b-20">
-            <span class="flex_1 hgt1 border-db-dcdfe6"></span>
+            <span class="flex_1 hgt1 border-db-dcdfe6" />
             <p class="color-303133 font16 text-center font-w6">学历学籍信息</p>
-            <span class="flex_1 hgt1 border-db-dcdfe6"></span>
+            <span class="flex_1 hgt1 border-db-dcdfe6" />
           </div>
           <el-form-item label="报名院校">
             <el-select
               v-model="contractFormData.UniversityID"
               class="changInputWidth"
               :disabled="operationType==0"
-              @change="$forceUpdate()"
               placeholder="请选择报名院校"
+              @change="$forceUpdate()"
             >
               <el-option
                 v-for="item in common.AllUniversity"
-                :label="item.Label"
                 :key="item.Id"
+                :label="item.Label"
                 :value="item.Id"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="报名专业">
             <el-input
               v-model="contractFormData.UniversityMajor"
-              @input="$forceUpdate()"
               :disabled="operationType==0"
               placeholder="请选择报名专业"
-            ></el-input>
+              @input="$forceUpdate()"
+            />
           </el-form-item>
           <div class="center">
             <el-form-item label="报名层次" class="wid_50">
               <el-select
                 v-model="contractFormData.UniversityLevel"
-                @change="$forceUpdate()"
                 :disabled="operationType==0"
                 placeholder="请选择报名层次"
+                @change="$forceUpdate()"
               >
                 <el-option
                   v-for="item in common.costomSignUpLevel"
-                  :label="item.Label"
                   :key="item.value"
+                  :label="item.Label"
                   :value="item.Label"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="学历性质" class="wid_50">
               <el-select
                 v-model="contractFormData.UniversityXingzhi"
-                @change="$forceUpdate()"
                 :disabled="operationType==0"
                 placeholder="请选择学历性质"
+                @change="$forceUpdate()"
               >
                 <el-option
                   v-for="item in common.costomAcademicQualification"
-                  :label="item.Label"
                   :key="item.value"
+                  :label="item.Label"
                   :value="item.Label"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
           </div>
         </div>
         <div class="center m-b-20">
-          <span class="flex_1 hgt1 border-db-dcdfe6"></span>
+          <span class="flex_1 hgt1 border-db-dcdfe6" />
           <p class="color-303133 font16 text-center font-w6">学费信息</p>
-          <span class="flex_1 hgt1 border-db-dcdfe6"></span>
+          <span class="flex_1 hgt1 border-db-dcdfe6" />
         </div>
         <el-form-item label="课程价格" prop="CoursePrice">
           <el-input
             v-model="contractFormData.CoursePrice"
-            @change="countCourseRealPrice()"
             :disabled="operationType==0"
-            @input="$forceUpdate()"
             placeholder="请输入课程价格"
-          ></el-input>
+            @change="countCourseRealPrice()"
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <el-form-item label="优惠金额" prop="YouhuiPrice">
           <el-input
             v-model="contractFormData.YouhuiPrice"
-            @change="countCourseRealPrice()"
-            @input="$forceUpdate()"
             :disabled="operationType==0"
             placeholder="请输入优惠金额"
-          ></el-input>
+            @change="countCourseRealPrice()"
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <el-form-item label="优惠类型">
           <el-select
             v-model="contractFormData.YouhuiLeixing"
             class="changInputWidth"
-            @change="$forceUpdate()"
             :disabled="operationType==0"
             placeholder="请选择优惠类型"
+            @change="$forceUpdate()"
           >
             <el-option
               v-for="item in common.costomPreferentialType"
-              :label="item.Label"
               :key="item.value"
+              :label="item.Label"
               :value="item.Label"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
         <div class="between-center">
           <el-form-item label="实收学费" prop="ShijiPrice" class="flex_1">
             <el-input
               v-model="contractFormData.ShijiPrice"
-              @input="$forceUpdate()"
               disabled
               placeholder="请输入实收学费"
-            ></el-input>
+              @input="$forceUpdate()"
+            />
           </el-form-item>
           <el-form-item label="支付方式" prop="PayMethod" class="flex_1">
             <el-select
               v-model="contractFormData.PayMethod"
-              @change="$forceUpdate()"
               :disabled="operationType==0"
               placeholder="请选择支付方式"
+              @change="$forceUpdate()"
             >
               <el-option
                 v-for="item in common.costomPaymentMethod"
-                :label="item.Label"
                 :key="item.value"
+                :label="item.Label"
                 :value="item.Label"
-              ></el-option>
+              />
             </el-select>
           </el-form-item>
         </div>
         <el-form-item label="欠款金额" prop="QiankuanPrice">
           <el-input
             v-model="contractFormData.QiankuanPrice"
+            placeholder="请输入欠款金额"
             @change="countCourseRealPrice()"
             @input="$forceUpdate()"
-            placeholder="请输入欠款金额"
-          ></el-input>
+          />
         </el-form-item>
         <el-form-item label="回款时间">
           <el-date-picker
@@ -263,61 +263,61 @@
             type="date"
             value-format="timestamp"
             :disabled="operationType==0"
-            @input="$forceUpdate()"
             class="changInputWidth"
             placeholder="请选择回款时间"
-          ></el-date-picker>
+            @input="$forceUpdate()"
+          />
         </el-form-item>
         <div class="center">
           <el-form-item label="转介绍人" class="wid_50">
             <el-input
               v-model="contractFormData.ZhuanPerson"
-              @input="$forceUpdate()"
               :disabled="operationType==0"
               placeholder="请输入转介绍人"
-            ></el-input>
+              @input="$forceUpdate()"
+            />
           </el-form-item>
 
           <el-form-item label="联系电话" class="wid_50">
             <el-input
               v-model="contractFormData.ZhuanTel"
-              @input="$forceUpdate()"
               :disabled="operationType==0"
               placeholder="请输入联系电话"
-            ></el-input>
+              @input="$forceUpdate()"
+            />
           </el-form-item>
         </div>
         <el-form-item label="图片">
           <div class="flex_dom flex_wrap">
-            <div class="relative marg15" v-for="(item,index) in contractImgArr" :key="index">
-              <my-image-viewer class="wid80 hgt80" :preview-src-list="[item]" :src="item" fit="cover"></my-image-viewer>
+            <div v-for="(item,index) in contractImgArr" :key="index" class="relative marg15">
+              <my-image-viewer class="wid80 hgt80" :preview-src-list="[item]" :src="item" fit="cover" />
               <div
-                class="deleImgIcon cursor"
                 v-show="contractFormData.Id<=0"
+                class="deleImgIcon cursor"
                 @click="deleCustomImg(index)"
               >
-                <img src="/static/img/slice/deleteIcon.png" alt />
+                <img src="/static/img/slice/deleteIcon.png" alt>
               </div>
             </div>
             <el-upload
+              v-show="contractFormData.Id<=0"
               :auto-upload="false"
               action
               class="avatar-uploader"
-              v-show="contractFormData.Id<=0"
               :show-file-list="false"
               :on-change="uploadContractImg"
             >
-              <i class="el-icon-plus avatar-uploader-icon"></i>
+              <i class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
           </div>
         </el-form-item>
         <el-form-item label="情况备注">
           <el-input
-            type="textarea"
-            @input="$forceUpdate()"
             v-model="contractFormData.Comments"
+            type="textarea"
             placeholder="情况备注~"
-          ></el-input>
+            @input="$forceUpdate()"
+          />
         </el-form-item>
       </el-form>
       <div class="around-center hgt60 bge0e3ea">
@@ -356,7 +356,7 @@ import {
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
 import common from "@/utils/common";
 export default {
-  name: "contractFrom",
+  name: "ContractFrom",
   components: {
     myImageViewer
   },
@@ -440,7 +440,7 @@ export default {
     },
     // 客户合同图片上传
     async uploadContractImg(file) {
-      let res = await UploadImgContract(file.raw);
+      const res = await UploadImgContract(file.raw);
       if (res.code == 200) {
         this.common.go_alert("上传成功！");
         this.contractImgArr.push(res.data);
@@ -519,7 +519,7 @@ export default {
           kindId = item.Id;
         }
       });
-      let res = await GetCourseOfKind({ kindid: kindId });
+      const res = await GetCourseOfKind({ kindid: kindId });
       this.courseList = res.data;
       if (this.courseList != null && this.courseList.length > 0) {
         this.contractFormData.CourseID = this.courseList[0].Id;

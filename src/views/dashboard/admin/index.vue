@@ -18,13 +18,13 @@
           </el-radio-group>
         </div>
       </div>
-      <div id="myChart" :style="{width: '100%', height: '100%'}"></div>
+      <div id="myChart" :style="{width: '100%', height: '100%'}" />
     </div>
   </div>
 </template>
 
 <script> 
-
+import { getStudentDataFromAnalysis, getStudentDataTrackAnalysis } from "@/api/custom";
 export default {
   name: "DashboardAdmin",
   data() {
@@ -33,6 +33,11 @@ export default {
       days: "30",
       myChart: null
     };
+  },
+  mounted() {
+    this.myChart = this.$echarts.init(document.getElementById("myChart"));
+    this.myChart.on("updateAxisPointer", this.setChartFunction);
+    this.getDataAnalysis();
   },
   methods: {
     setChartFunction(event) {
@@ -54,19 +59,19 @@ export default {
       }
     },
     async getDataAnalysis() {
-      let that = this;
+      const that = this;
       // 站点-客户数据
       let res;
       if (that.radio1 == "fromid") {
-        res = await $CustomHttp.GetStudentDataFromAnalysis(that.days);
+        res = await getStudentDataFromAnalysis(that.days);
       } else if (that.radio1 == "strack") {
-        res = await $CustomHttp.GetStudentDataTrackAnalysis(that.days);
+        res = await getStudentDataTrackAnalysis(that.days);
       }
       if (res.code == 200) {
-        let title = res.title ? res.title : [];
+        const title = res.title ? res.title : [];
         // 基于准备好的dom，初始化echarts实例
 
-        let option = {
+        const option = {
           legend: {},
           tooltip: {
             trigger: "axis",
@@ -110,11 +115,6 @@ export default {
         that.myChart.setOption(option);
       }
     }
-  },
-  mounted() {
-    this.myChart = this.$echarts.init(document.getElementById("myChart"));
-    this.myChart.on("updateAxisPointer", this.setChartFunction);
-    this.getDataAnalysis();
   }
 };
 </script>

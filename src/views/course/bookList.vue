@@ -1,23 +1,23 @@
 <template>
-  <div class="font16 hgt_full" v-cloak>
+  <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <!-- 查询表单 -->
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="查询内容">
           <el-input
-            class="wid150"
             v-model="searchContent"
-            @keyup.enter.native="searchSubmit"
+            class="wid150"
             placeholder="请输入科目名称"
-          ></el-input>
+            @keyup.enter.native="searchSubmit"
+          />
         </el-form-item>
         <el-form-item>
           <el-input
-            class="wid150"
             v-model="searchBookCourseKind"
-            @keyup.native.enter="searchSubmit"
+            class="wid150"
             placeholder="课程大类"
-          ></el-input>
+            @keyup.native.enter="searchSubmit"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="searchSubmit">查询</el-button>
@@ -26,31 +26,31 @@
       <!-- 科目列表 -->
       <div class="flex_1">
         <el-table
+          ref="refSubjectListElTabel"
           :data="subjectList"
           border
           tooltip-effect="light"
           style="width: 100%"
           height="100%"
-          ref="refSubjectListElTabel"
         >
           >
-          <el-table-column prop="Id" label="ID" width="50"></el-table-column>
+          <el-table-column prop="Id" label="ID" width="50" />
           <el-table-column prop="Label" label="名称" width="200" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span
                 class="color-2e77f8 font-w6 cursor"
                 @click="openMoreOptationDialog(scope.$index, scope.row)"
-              >{{scope.row.Label}}</span>
+              >{{ scope.row.Label }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="Topic" label="章节数" width="60"></el-table-column>
+          <el-table-column prop="Topic" label="章节数" width="60" />
           <el-table-column
             prop="Coursekind"
             label="所属课程类别"
             width="120"
             :show-overflow-tooltip="true"
-          ></el-table-column>
-          <el-table-column prop="Description" :show-overflow-tooltip="true" label="描述"></el-table-column>
+          />
+          <el-table-column prop="Description" :show-overflow-tooltip="true" label="描述" />
           <el-table-column label="操作" width="360" fixed="right">
             <template slot-scope="scope">
               <el-button type="success" @click="addChapter(scope.$index, scope.row)">内容管理</el-button>
@@ -65,12 +65,12 @@
         <div>
           <el-pagination
             background
-            @current-change=" currentPageChange"
             :current-page.sync="nowPage"
             :page-size="rows"
             layout="total,prev, pager, next, jumper"
             :total="allRows"
-          ></el-pagination>
+            @current-change=" currentPageChange"
+          />
         </div>
       </div>
     </div>
@@ -78,18 +78,18 @@
     <div>
       <my-dialog
         :visible.sync="isShowMoreOptationDialog"
-        :closeShow="true"
+        :close-show="true"
         :title="subjectFormData.Label"
       >
         <div slot="left_content" class="p_both20 p-b-20">
-          <subject-row-detail ref="refSubjectDetail"></subject-row-detail>
+          <subject-row-detail ref="refSubjectDetail" />
           <div class="text-center m-t-30">
             <el-button type="primary" @click="openSubjectDialog(0)">编辑</el-button>
           </div>
         </div>
         <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
       </my-dialog>
-      <subject-row-dialog ref="refSubjectDialog" @subClickEvent="updateSubjectList"></subject-row-dialog>
+      <subject-row-dialog ref="refSubjectDialog" @subClickEvent="updateSubjectList" />
     </div>
   </div>
 </template>
@@ -101,12 +101,12 @@ import subjectRowDetail from "@/views/course/component/subjectRowDetail";
 import { queryBookList } from "@/api/book";
 
 export default {
+  name: "SubjectList",
   components: {
     myDialog,
     subjectRowDialog,
     subjectRowDetail
   },
-  name: "subjectList",
   data() {
     return {
       // 数据总条数
@@ -129,6 +129,12 @@ export default {
       currentSubjectIndex: null
     };
   },
+  mounted() {
+    this.getBookList();
+    setTimeout(() => {
+      this.$refs.refSubjectListElTabel.doLayout();
+    }, 2000);
+  },
   methods: {
     // 条件搜索
     searchSubmit() {
@@ -138,14 +144,14 @@ export default {
     // 获取科目列表
     async getBookList() {
       // 取数据的位置
-      let offsetRow = (this.nowPage - 1) * this.rows;
-      let params = {
+      const offsetRow = (this.nowPage - 1) * this.rows;
+      const params = {
         limit: this.rows,
         offset: offsetRow,
         label: this.searchContent,
         coursekind: this.searchBookCourseKind
       };
-      let res = await queryBookList(params);
+      const res = await queryBookList(params);
       if (res.code == 200) {
         this.allRows = res.title;
         this.subjectList = res.data ? res.data : [];
@@ -203,12 +209,6 @@ export default {
         query: { Id: row.Id }
       });
     }
-  },
-  mounted() {
-    this.getBookList();
-    setTimeout(() => {
-      this.$refs.refSubjectListElTabel.doLayout();
-    }, 2000);
   }
 };
 </script>

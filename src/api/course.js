@@ -1,160 +1,179 @@
 import request from '@/utils/request'
 
 // 获取课程列表-查询课程名称获取
-export function getCourseList(data) {
+export function getCourseList(url, param, data) {
   return request({
-    url: '/course',
+    url: '/course' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 
 // 获取课程大类
-export function GetCourseOfKind(data) {
+export function GetCourseOfKind(url, param, data) {
   return request({
-    url: '/course/getCourseOfKind',
+    url: '/course/getCourseOfKind' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 
 // 设置课程是否上架
-export function setCourseUpperShelf(data) {
+export function setCourseUpperShelf(url, param, data) {
   return request({
-    url: '/course/setOpen/',
+    url: '/course/setOpen/' + url,
     method: 'put',
+    params: param,
     data
   })
 } 
 // 添加课程
 
-export function addCourse(data) {
+export function addCourse(url, param, data) {
   return request({
-    url: '/course',
+    url: '/course' + url,
     method: 'post',
+    params: param,
     data
   })
 } 
 // 编辑课程
-export function editCourse(data) {
+export function editCourse(url, param, data) {
   return request({
-    url: '/course/',
+    url: '/course/' + url,
     method: 'put',
+    params: param,
     data
   })
 } 
 // 根据课程获取科目
-export function GetSubjectByCourse(data) {
+export function GetSubjectByCourse(url, param, data) {
   return request({
-    url: '/coursebook/getCourseBookByCourse/',
+    url: '/coursebook/getCourseBookByCourse/' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 // 获取课程的宣传资料
-export function getCourseTravelBrochure(data) {
+export function getCourseTravelBrochure(url, param, data) {
   return request({
-    url: '/course/getCourseShowInfo/',
+    url: '/course/getCourseShowInfo/' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 // 修改课程的宣传资料
-export function updateCourseTravelBrochure(data) {
+export function updateCourseTravelBrochure(url, param, data) {
   return request({
-    url: '/course/updateCourseShowInfo/',
+    url: '/course/updateCourseShowInfo/' + url,
     method: 'put',
+    params: param,
     data
   })
 } 
 // 获取课程价格列表
-export function getCoursePriceList(data) {
+export function getCoursePriceList(url, param, data) {
   return request({
-    url: '/coursebook/getByCourse/',
+    url: '/coursebook/getByCourse/' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 // 保存课程价格列表
-export function saveCoursePriceList(data) {
+export function saveCoursePriceList(url, param, data) {
   return request({
-    url: '/coursebook/addCoursePrice',
+    url: '/coursebook/addCoursePrice' + url,
     method: 'post',
+    params: param,
     data
   })
 } 
 // 章节练习-获取章节练习列表
 
-export function getSubjectChapter(data) {
+export function getSubjectChapter(url, param, data) {
   return request({
-    url: '/exercise/getChapters/',
+    url: '/exercise/getChapters/' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 // 组卷模考-获取组卷模考列表
-export function getExamList(data) {
+export function getExamList(url, param, data) {
   return request({
-    url: '/exercise/getExerciseByBookChapter/',
+    url: '/exercise/getExerciseByBookChapter/' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 // 添加组卷
 
-export function addExam(data) {
+export function addExam(url, param, data) {
   return request({
-    url: '/exercise?public=',
+    url: '/exercise?public=' + url,
     method: 'post',
+    params: param,
     data
   })
 } 
 // 编辑组卷
-export function editExam(data) {
+export function editExam(url, param, data) {
   return request({
-    url: '/exercise/',
+    url: '/exercise/' + url,
     method: 'put',
+    params: param,
     data
   })
 } 
 // 获取科目下的所有章组卷
-export function getZhangOfSubject(data) {
+export function getZhangOfSubject(url, param, data) {
   return request({
-    url: '/exercise/getChapters/',
+    url: '/exercise/getChapters/' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 // 获取科目下的所有题库
-export function getQuestionsOfSubject(data) {
+export function getQuestionsOfSubject(url, param, data) {
   return request({
-    url: '/exercise/getListOfBookZhangJie',
+    url: '/exercise/getListOfBookZhangJie' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
 // 保存exam关联的题库
-export function saveExamQuestions(data) {
+export function saveExamQuestions(url, param, data) {
   return request({
-    url: '/exercise/linkQuestion2Exercise/',
+    url: '/exercise/linkQuestion2Exercise/' + url,
     method: 'post',
+    params: param,
     data
   })
 } 
 // 做题分析
 // 获取做题错的较多的学生的数据
-export function getDoWrongQuseStuList(data) {
+export function getDoWrongQuseStuList(url, param, data) {
   return request({
-    url: '/exercise/getChpaterExerciseRecord/',
+    url: '/exercise/getChpaterExerciseRecord/' + url,
     method: 'get',
+    params: param,
     data
   })
 } 
- // 获取高频错题的数据
-export function getTopWrongQuseList(data) {
+// 获取高频错题的数据
+export function getTopWrongQuseList(url, param, data) {
   return request({
-    url: '/exercise/getTopWrongNumQuestionByChapter/',
+    url: '/exercise/getTopWrongNumQuestionByChapter/' + url,
     method: 'get',
+    params: param,
     data
   })
 }  

@@ -1,15 +1,17 @@
 export default {
   route: {
     dashboard: 'Dashboard',
-    system:'system',
+    system: 'system',
     setting: 'setting',
-    platform:"sites",
-    sendSMS:"send SMS",
-    trackList:'track list',
-    customList:'custom list',
+    platform: "sites",
+    sendSMS: "send SMS",
+    trackList: 'track list',
+    customList: 'custom list',
+    courseList: 'course list',
+    bookList: 'book list',
     documentation: 'Documentation',
-    guide: 'Guide',
-    permission: 'Permission',
+    web: 'web site',
+    platform: 'site list',
     pagePermission: 'Page Permission',
     rolePermission: 'Role Permission',
     directivePermission: 'Directive Permission',
@@ -100,7 +102,7 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
-  customList:'customList',
+  customList: 'customList',
   Custom: {
     
     Title: 'Custom',

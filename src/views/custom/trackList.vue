@@ -1,49 +1,49 @@
 <template>
-  <div class="font16 hgt_full" v-cloak>
+  <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <div class="flex_1 overflow_hide border-e0">
         <div class="hgt_100 overflow_auto">
-           <my-image-viewer
-                  v-if="showViewer"
-                  :on-close="closeViewer"
-                  :url-list="[imageViewerSrc]"
-                />
+          <my-image-viewer
+            v-if="showViewer"
+            :on-close="closeViewer"
+            :url-list="[imageViewerSrc]"
+          />
           <div class="p_both20 p-v-10">
             <div
-              class="m-v-10 radius3 border-e5ecf7"
               v-for="(item,index) in customTrackList"
               :key="index"
+              class="m-v-10 radius3 border-e5ecf7"
             >
               <div class="center p_both20 m-t-10">
                
                 <div class="m-l-15">
                   <p class="font14 color-666">
-                    <span class="color-2e77f8">客户：{{item.StudentLabel}}</span>
-                    <span class="font12 color-2e77f8">{{item.StudentTel}}</span>
+                    <span class="color-2e77f8">客户：{{ item.StudentLabel }}</span>
+                    <span class="font12 color-2e77f8">{{ item.StudentTel }}</span>
                   </p>
                   <p class="m-t-10 font14 color-666">
-                    <span>{{item.ManagerLabel}}：{{item.track_method}}</span>
-                    <span class="font12 m-l-10 color-666">{{common.dateFormat(item.Createtime, 2)}}</span>
+                    <span>{{ item.ManagerLabel }}：{{ item.track_method }}</span>
+                    <span class="font12 m-l-10 color-666">{{ common.dateFormat(item.Createtime, 2) }}</span>
                   </p>
                 </div>
               </div>
               <p v-if="item.Kind==2" class="m-v-15 font14 color-666 p_both20">
                 <audio :src="item.Content" controls="controls">你的浏览器太老，不支持显示录音</audio>
               </p>
-              <p v-else class="m-v-15 font14 color-666 p_both20">{{item.Content}}</p>
-              <div class="p_both20" v-show="item.ImageList.length>0">
+              <p v-else class="m-v-15 font14 color-666 p_both20">{{ item.Content }}</p>
+              <div v-show="item.ImageList.length>0" class="p_both20">
                 <div class="flex_dom flex_wrap">
                   <div
-                    class="marg10 center flex_wrap"
                     v-for="(img,index) in item.ImageList"
                     :key="index"
+                    class="marg10 center flex_wrap"
                   >
                     <img
-                v-if="img"
-                @click="onPreview(img)"
-                class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
-              /> 
+                      v-if="img"
+                      class="wid20"
+                      src="/static/img/slice/uploadedIcon.png"
+                      @click="onPreview(img)"
+                    > 
                   </div>
                 </div>
               </div>
@@ -53,19 +53,19 @@
                   :key="replyIndex"
                   class="color-666 font14 m-b-10"
                 >
-                  <span class="color-2e77f8">{{replyItem.ManagerLabel}}：</span>
-                  <span>{{replyItem.Content}}</span>
+                  <span class="color-2e77f8">{{ replyItem.ManagerLabel }}：</span>
+                  <span>{{ replyItem.Content }}</span>
                 </p>
               </div>
               <div class="bg-f5f9ff p-v-10 p_both20">
                 <div class="between-center">
                   <textarea
+                    v-model="item.replyContent"
                     cols="30"
                     placeholder="评论"
-                    v-model="item.replyContent"
                     rows="2"
                     class="yahei border-e0 radius3 wid_100 default-input input-focus default-textarea p-v-5 p_both10"
-                  ></textarea>
+                  />
                   <el-button type="text" class="m-l-20" @click="submitReplyTrack(item,index)">提交评论</el-button>
                 </div>
               </div>
@@ -77,12 +77,12 @@
         <div>
           <el-pagination
             background
-            @current-change=" getChangePage"
             :current-page.sync="nowPage"
             :page-size="rows"
             layout="total,prev, pager, next, jumper"
             :total="allRows"
-          ></el-pagination>
+            @current-change=" getChangePage"
+          />
         </div>
       </div>
     </div>
@@ -121,7 +121,7 @@ export default {
   data() {
     return {
       common,
-       // 预览图片的图片地址
+      // 预览图片的图片地址
       imageViewerSrc: "",
       // 显示图片查看器
       showViewer: false,
@@ -139,16 +139,19 @@ export default {
       currentReplyIndex: null
     };
   },
+  mounted() {
+    this.getCustomtTracks();
+  },
 
   methods: {
-     // 图片预览
+    // 图片预览
     onPreview(src) {
       this.showViewer = true;
       this.imageViewerSrc = src;
     },
     // 获取客户的跟进记录
     getCustomtTracks() {
-      let offsetRow = (this.nowPage - 1) * this.rows;
+      const offsetRow = (this.nowPage - 1) * this.rows;
       getTrackList(0, {
         limit: this.rows,
         offset: offsetRow
@@ -171,12 +174,12 @@ export default {
     },
     // 提交回复评论
     async submitReplyTrack(track, index) {
-      let oldtrack = { ...track };
+      const oldtrack = { ...track };
       if (!track.replyContent) {
         this.common.go_alert("还没有输入内容哦 ！");
       } else {
         this.currentReplyIndex = index;
-        let res = await replyTracks(track.Id, track.replyContent);
+        const res = await replyTracks(track.Id, track.replyContent);
         if (res.code == 200) {
           this.common.go_alert("评论成功 ！");
           if (res.data) {
@@ -187,9 +190,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.getCustomtTracks();
   }
 };
 </script> 
