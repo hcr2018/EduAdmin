@@ -249,17 +249,17 @@ export default {
     },
     // 根据课程大类获取课程列表
     async getCourseListOfKind() {
-      const res = await GetCourseOfKind({
+      const res = await GetCourseOfKind("",{
         all: 1,
         kindid: this.searchCourseKindId
-      });
+      },"");
       if (res.code == 200) {
         this.courseList = res.data ? res.data : [];
       }
     },
     // 获取所有学院以及所属的课程大类
     async getAllCollegeWithCourseKind() {
-      const res = await getCollegeWithCourseKind({ include: 1 });
+      const res = await getCollegeWithCourseKind("",{ include: 1 } );
       if (res.code == 200) {
         this.collegeList = res.data ? res.data : [];
         this.collegeChange(0);
