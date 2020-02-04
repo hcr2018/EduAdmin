@@ -11,8 +11,8 @@
 #### 安装教程
 后端程序采用的是go语言编写的。提供windows和linux版本供下载
 1.  首先请确保安装最新版的稳定mysql 和redis 版本。
-2.  在[后台程序下载（Linux版本）](http://www.todear.net:8990/download/linux_edu.zip)
-3.  在[后台程序下载（Windows版本）](http://www.todear.net:8990/download/windows_edu.zip)
+2.  在[后台程序下载（Linux版本）](http://edu.todear.net:8990/download/linux_edu.zip)
+3.  在[后台程序下载（Windows版本）](http://edu.todear.net:8990/download/windows_edu.zip)
 4.  在mysql数据库中先建立一个 edu的数据库。
 5.  解压上面下载的后台程序压缩包。将sql导入
 6.  修改conf目录下app.conf配置文件。其中的数据库账号和密码，以及redis账号和db编号。默认为0 第一个
