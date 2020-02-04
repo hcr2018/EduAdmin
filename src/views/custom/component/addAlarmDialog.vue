@@ -39,45 +39,45 @@
   </el-dialog>
 </template>
 <script>
-import {  
+import {
   addAlarm
-} from "@/api/alarm";
- 
+} from '@/api/alarm'
+
 export default {
   data() {
     return {
       // 跟进提醒的表单数据
       alarmFormData: {
-        Content: "",
+        Content: '',
         ExeTime: null,
-        Title: ""
+        Title: ''
       },
       // 控制提醒表单的显隐
       isShowAlarmDialog: false,
       // 表单验证
       alarmFormRules: {
-        Title: [{ required: true, message: "标题不能为空", trigger: "blur" }],
+        Title: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
         ExeTime: [
-          { required: true, message: "提醒时间不能为空", trigger: "blur" }
+          { required: true, message: '提醒时间不能为空', trigger: 'blur' }
         ],
         Content: [
-          { required: true, message: "提醒内容不能为空", trigger: "blur" }
+          { required: true, message: '提醒内容不能为空', trigger: 'blur' }
         ]
       }
-    };
+    }
   },
   mounted() {},
   methods: {
     // 获取客户的基本信息
     getCustomInfo(row) {
       this.alarmFormData = {
-        Content: "",
+        Content: '',
         ExeTime: null,
-        Title: ""
-      };
+        Title: ''
+      }
       this.alarmFormData.Title =
-        row.Realname + "(" + row.Sex + ")-" + row.Telephone + "的跟进提醒";
-      this.isShowAlarmDialog = true;
+        row.Realname + '(' + row.Sex + ')-' + row.Telephone + '的跟进提醒'
+      this.isShowAlarmDialog = true
     },
     // 保存添加的提醒
     saveAlarmFormData() {
@@ -87,24 +87,24 @@ export default {
           if (this.alarmFormData.ExeTime) {
             this.alarmFormData.ExeTime = parseInt(
               this.alarmFormData.ExeTime.getTime() / 1000
-            );
+            )
           }
-          const res = await addAlarm(this.alarmFormData);
+          const res = await addAlarm(this.alarmFormData)
           if (res.code == 200) {
-            res.title = res.title ? res.title : 0;
-            this.$store.dispatch("Alarm", res.title);
-            this.common.go_alert("添加成功！");
-            this.$emit("subClickEvent");
-            this.isShowAlarmDialog = false;
+            res.title = res.title ? res.title : 0
+            this.$store.dispatch('Alarm', res.title)
+            this.common.go_alert('添加成功！')
+            this.$emit('subClickEvent')
+            this.isShowAlarmDialog = false
           }
         } else {
-          return false;
+          return false
         }
-      });
+      })
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .alarmFormCss >>> .el-select {
   width: 100%;
@@ -112,4 +112,4 @@ export default {
 .alarmFormCss >>> .el-date-editor {
   width: 100%;
 }
-</style> 
+</style>

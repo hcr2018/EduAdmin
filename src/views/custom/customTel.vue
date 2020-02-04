@@ -64,7 +64,7 @@
       <h4 class="title">呼叫中心连接异常</h4>
       <p class="text">1. 请检查话机盒子是否已连接，相关线缆是否插牢；</p>
       <p class="text">2. 请检查call应用是否已经安装并启用（客户端下载地址:  ）；</p>
-      <p class="text">3. 如以上问题排查后，问题仍未解决，请联系管理员或客服解决。</p> 
+      <p class="text">3. 如以上问题排查后，问题仍未解决，请联系管理员或客服解决。</p>
     </div>
     <audio ref="ring" loop>
       <source src="./imgs/ring.mp3" type="audio/mp3">
@@ -796,4 +796,4 @@ export default {
     }
   }
 </style>
- 
+

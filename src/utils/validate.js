@@ -14,7 +14,7 @@ export function isExternal(path) {
  * @param {string} str
  * @returns {Boolean}
  */
-export function validUsername(str) { 
+export function validUsername(str) {
   return str.trim().length == 11
 }
 

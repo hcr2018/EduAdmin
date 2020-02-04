@@ -7,7 +7,7 @@ export function getAllTPlatform(url, param, data) {
     params: param,
     data
   })
-} 
+}
 // 获取所有学院，可选择是否获取学院所属的课程大类
 export function getCollegeWithCourseKind(url, param, data) {
   return request({
@@ -16,7 +16,7 @@ export function getCollegeWithCourseKind(url, param, data) {
     params: param,
     data
   })
-} 
+}
 // 绕开学院，直接获取所有课程大类列表
 export function getAllCourseKind(url, param, data) {
   return request({
@@ -25,4 +25,4 @@ export function getAllCourseKind(url, param, data) {
     params: param,
     data
   })
-}  
+}

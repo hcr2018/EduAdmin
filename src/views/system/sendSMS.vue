@@ -32,28 +32,28 @@
 
 <script>
 export default {
-  name: "SendSMS",
+  name: 'SendSMS',
   data() {
     return {
       payload: {
         // 电话号码
-        telephoneList: "",
+        telephoneList: '',
         // 短信内容
-        smsContent: ""
+        smsContent: ''
       },
       // 发送之后的相应结果
       responseData: {}
-    };
+    }
   },
   mounted() {},
   methods: {
     // 发送短信
     async sendSMS() {
-      this.$store.dispatch("app/getPlatformList", this.payload).then(() => {
-        this.responseData = res;
-        this.common.go_alert("发送成功");
-      });
+      this.$store.dispatch('app/getPlatformList', this.payload).then(() => {
+        this.responseData = res
+        this.common.go_alert('发送成功')
+      })
     }
   }
-};
-</script> 
+}
+</script>

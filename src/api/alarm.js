@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-//   ----------------告警提醒 相关操作--------------------- 
+//   ----------------告警提醒 相关操作---------------------
 // 获取提醒列表
 export function getAlarmList(url, query, data) {
   return request({
@@ -35,4 +35,4 @@ export function handleAlarm(url, query, data) {
     params: query,
     data
   })
-}  
+}

@@ -32,6 +32,8 @@
       </div>
     </div>
     <!-- 跟进记录 -->
+    <!-- <my-image-viewer class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" /> -->
+    <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="m-v-30">
       <div
         v-for="(item,index) in customTrackList"
@@ -39,12 +41,18 @@
         class="m-v-10 radius3 border-e5ecf7"
       >
         <div class="center p_both20 m-t-10">
-          <my-image
+          <!-- <my-image
             v-show="item.ManagerFace"
             class="hgt50 wid50"
             :src="item.ManagerFace"
             fit="cover"
-          />
+          /> -->
+          <img
+            v-if="item.ManagerFace"
+            class="wid20"
+            src="/static/img/slice/uploadedIcon.png"
+            @click="onPreview(item.ManagerFace)"
+          >
           <div class="m-l-15">
             <p class="font14 color-666">
               <span>{{ item.ManagerLabel }}</span>
@@ -60,7 +68,13 @@
         <div v-show="item.ImageList.length>0" class="p_both20">
           <div class="flex_dom flex_wrap">
             <div v-for="(img,index) in item.ImageList" :key="index" class="marg10 center flex_wrap">
-              <my-image-viewer class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" />
+              <!-- <my-image-viewer class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" /> -->
+              <img
+                v-if="img"
+                class="wid20"
+                src="/static/img/slice/uploadedIcon.png"
+                @click="onPreview(img)"
+              >
             </div>
           </div>
         </div>
@@ -91,7 +105,7 @@
   </div>
 </template>
 <script>
-import { 
+import {
   GetStudentDataTrackAnalysis,
   getCustomTracks,
   addcustomTracks,
@@ -112,8 +126,8 @@ import {
   setStar,
   batchChangeManager,
   getStudentStatustByStudent
-} from "@/api/custom";
- 
+} from '@/api/custom'
+
 import {
   UploadImgExercise,
   UploadImgCourse,
@@ -125,117 +139,126 @@ import {
   UploadImgCourseTravelBrochure,
   UploadImgCustomTrack,
   UploadImgStudentStatus
-} from "@/api/upload"; 
-import myImageViewer from "@/components/myImageViewer/myImageViewer";
+} from '@/api/upload'
+import myImageViewer from '@/components/myImageViewer/myImageViewer'
+import common from '@/utils/common'
 export default {
-  name: "CustomBasicInfo",
+  name: 'CustomBasicInfo',
   components: {
     myImageViewer
   },
+  props: {
+    // custom数据
+    customData: { }
+  },
   data() {
     return {
+      common,
       // 预览图片的图片地址
-      imageViewerSrc: "",
+      imageViewerSrc: '',
       // 显示图片查看器
       showViewer: false,
       // 客户Id
       customID: null,
       // 跟进客户的方式
-      trackMethod: "邀约上门",
+      trackMethod: '邀约上门',
       //  跟进记录的内容
-      trackContent: "",
+      trackContent: '',
       // 存上传的跟进图片
       trackImgList: [],
       // 该客户所有的跟进记录
       customTrackList: [],
       // 当前回复跟进数据的索引
       currentReplyIndex: null
-    };
+    }
   },
-  mounted() {},
+  mounted() {
+    this.customFormData = this.customData
+    this.getCustomId(this.customFormData.id)
+  },
 
   methods: {
     onPreview(src) {
-      this.showViewer = true;
-      this.imageViewerSrc = src;
+      this.showViewer = true
+      this.imageViewerSrc = src
     },
     // 关闭查看器
     closeViewer() {
-      this.showViewer = false;
+      this.showViewer = false
     },
     // 获取客户的单条数据
     getCustomId(id) {
-      this.customID = id;
-      this.getCustomtTracks();
+      this.customID = id
+      this.getCustomtTracks()
       // 初始化内容
-      this.trackContent = "";
-      this.trackMethod = "邀约上门";
-      this.currentReplyIndex = null;
+      this.trackContent = ''
+      this.trackMethod = '邀约上门'
+      this.currentReplyIndex = null
     },
     // 上传跟进记录的图片
     async uploadTrackImg(file) {
-      const res = await UploadImgCustomTrack(file.raw);
+      const res = await UploadImgCustomTrack(file.raw)
       if (res.code == 200) {
-        this.common.go_alert("上传成功！");
-        this.trackImgList.push(res.data);
+        this.common.go_alert('上传成功！')
+        this.trackImgList.push(res.data)
       }
     },
     // 获取客户的跟进记录
     async getCustomtTracks() {
-      const res = await getCustomTracks(this.customID);
+      const res = await getCustomTracks(this.customID)
       if (res.code == 200) {
-        this.customTrackList = res.data ? res.data : [];
+        this.customTrackList = res.data ? res.data : []
         this.customTrackList.forEach(item => {
           if (item.Reply) {
-            item.Reply = JSON.parse(item.Reply);
+            item.Reply = JSON.parse(item.Reply)
           }
-        });
+        })
       }
     },
     // 提交客户的跟进信息
     async submitCustomTrack() {
       if (this.trackContent.length < 3) {
-        this.common.go_alert("跟进记录不得少于3个字符");
-        return;
+        this.common.go_alert('跟进记录不得少于3个字符')
+        return
       }
-      const trackRow = {};
-      trackRow.student_id = this.customID;
-      trackRow.track_method = this.trackMethod;
-      trackRow.content = this.trackContent;
-      trackRow.filelist = this.trackImgList.toString();
-      trackRow.kind = 1;
-      const res = await addcustomTracks(trackRow);
+      const trackRow = {}
+      trackRow.student_id = this.customID
+      trackRow.track_method = this.trackMethod
+      trackRow.content = this.trackContent
+      trackRow.filelist = this.trackImgList.toString()
+      trackRow.kind = 1
+      const res = await addcustomTracks(trackRow)
       if (res.code == 200 && res.data) {
-        this.customTrackList ? this.customTrackList : [];
-        this.customTrackList.unshift(res.data);
-        this.trackMethod = "邀约上门";
-        this.trackContent = "";
-        this.trackImgList = [];
-        this.common.go_alert("提交成功 ！");
-        this.$refs["trackImageUpload"].clearFiles();
-        this.$emit("subClickEvent", res.title);
+        this.customTrackList ? this.customTrackList : []
+        this.customTrackList.unshift(res.data)
+        this.trackMethod = '邀约上门'
+        this.trackContent = ''
+        this.trackImgList = []
+        this.common.go_alert('提交成功 ！')
+        this.$refs['trackImageUpload'].clearFiles()
+        this.$emit('subClickEvent', res.title)
       }
     },
     // 提交回复评论
     async submitReplyTrack(track, index) {
-      const oldtrack = { ...track };
+      const oldtrack = { ...track }
       if (!track.replyContent) {
-        this.common.go_alert("还没有输入内容哦 ！");
+        this.common.go_alert('还没有输入内容哦 ！')
       } else {
-        this.currentReplyIndex = index;
-        const res = await replyTracks(track.Id, track.replyContent);
+        this.currentReplyIndex = index
+        const res = await replyTracks(track.Id, track.replyContent)
         if (res.code == 200) {
-          this.common.go_alert("评论成功 ！");
+          this.common.go_alert('评论成功 ！')
           if (res.data) {
-            oldtrack.Reply = res.data;
-            oldtrack.replyContent = "";
-            this.customTrackList.splice(this.currentReplyIndex, 1, oldtrack);
+            oldtrack.Reply = res.data
+            oldtrack.replyContent = ''
+            this.customTrackList.splice(this.currentReplyIndex, 1, oldtrack)
           }
         }
       }
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 </style>

@@ -1,0 +1,30 @@
+
+.is-scroll-right::-webkit-scrollbar,
+.is-scroll-left::-webkit-scrollbar,
+.el-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 8px !important;
+}
+/*滚动条的背景区域的内阴影*/
+.el-scrollbar::-webkit-scrollbar-track {
+      box-shadow:0px 1px 3px rgba(0,0,0,0.3) inset;
+     /*滚动条的背景区域的圆角*/
+     border-radius: 10px;  
+     /*滚动条的背景颜色*/
+     background-color: #ddd;
+}
+/*滑块 滚动条的内阴影*/
+.is-scroll-right::-webkit-scrollbar-thumb,
+.is-scroll-left::-webkit-scrollbar-thumb,
+.el-scrollbar::-webkit-scrollbar-thumb {
+    box-shadow:0px 1px 3px rgba(0,0,0,0.3) inset;
+    background-color:#2e77f8;
+    border-radius: 4px;
+}
+::-webkit-scrollbar:horizontal {
+    width:0;
+    height:10px !important;
+}
+::-webkit-scrollbar-track:horizontal {
+    background-color:#fff;
+}

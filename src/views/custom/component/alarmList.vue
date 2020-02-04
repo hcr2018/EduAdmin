@@ -33,33 +33,33 @@ export default {
       rows: 10,
       // 客户合同信息列表
       alarmList: []
-    };
+    }
   },
 
   mounted() {
     setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
-    this.getAlarmList();
+      this.$refs.refElTabel.doLayout()
+    }, 2000)
+    this.getAlarmList()
   },
 
   methods: {
     // 条件搜索
     searchSubmit() {
-      this.nowPage = 1;
-      this.getAlarmList();
+      this.nowPage = 1
+      this.getAlarmList()
     },
     // 分页获取数据
     currentPageChange(val) {
-      this.nowPage = val;
-      this.getAlarmList();
+      this.nowPage = val
+      this.getAlarmList()
     },
     // 获取消息列表
     async getAlarmList() {
-      this.alarmList = [];
+      this.alarmList = []
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 </style>

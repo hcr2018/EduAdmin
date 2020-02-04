@@ -23,8 +23,8 @@ const courseRouter = {
       component: () => import('@/views/course/bookList'),
       name: 'bookList',
       meta: { title: 'bookList' }
-    } 
+    }
 
   ]
 }
-export default courseRouter 
+export default courseRouter

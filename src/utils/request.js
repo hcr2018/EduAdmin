@@ -14,12 +14,12 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     if (store.getters.token) {
-      config.headers['token'] = store.getters.token;
+      config.headers['token'] = store.getters.token
     } else {
       config.headers['token'] = getToken()
     }
     if (config.headers['token'] == undefined) {
-      config.headers['token'] = ""
+      config.headers['token'] = ''
     }
     return config
   },

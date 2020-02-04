@@ -28,15 +28,15 @@ export default {
     return {
       //  科目的基本数据
       subjectRow: {}
-    };
+    }
   },
   mounted() {},
   methods: {
     // 获取表单数据
     getSubjectRow(row) {
-      this.subjectRow = {};
-      this.subjectRow = { ...row };
+      this.subjectRow = {}
+      this.subjectRow = { ...row }
     }
   }
-};
-</script>  
+}
+</script>

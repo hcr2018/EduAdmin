@@ -246,11 +246,11 @@
       <my-dialog
         :visible.sync="customMoreOperationDialog"
         :close-show="true"
-        :title="customFormData.Realname"
+        :this-title="customFormData.Realname"
       >
         <!-- 展示站点的基本信息 -->
         <div slot="left_content" class="p_both20 p-b-20">
-          <custom-row-detail ref="refCustomDetail" />
+          <custom-row-detail :custom-data="customFormData" />
           <div class="text-center m-t-30">
             <el-button type="primary" @click="openCustomDialog(0)">编辑</el-button>
           </div>
@@ -259,19 +259,13 @@
         <div slot="right_content" class="p_both20 m-t-12 m-b-20">
           <el-tabs v-model="activElTab" @tab-click="changDialogTab">
             <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
-              <custom-track ref="refCustomTrack" @subClickEvent="updateCustomRecentTrack" />
+              <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
             </el-tab-pane>
             <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
               <custom-buy-record ref="refBuyRecord" />
             </el-tab-pane>
-            <el-tab-pane id="sztx" label="设置提醒" name="sztx">
-              <alarm-list ref="refCustomAlarm" />
-            </el-tab-pane>
             <el-tab-pane id="htdd" label="合同订单" name="htdd">
               <custom-contract-list ref="refCustomContract" />
-            </el-tab-pane>
-            <el-tab-pane id="xj" label="学籍" name="xj">
-              <custom-stuStatus-list ref="refCustomStuStatus" />
             </el-tab-pane>
             <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
               <scoreEntry ref="scoreEntryComponent" />
@@ -293,7 +287,7 @@
   </div>
 </template>
 <script>
-import $ from "jquery";
+import $ from 'jquery'
 import {
   GetStudentDataTrackAnalysis,
   getCustomTracks,
@@ -313,9 +307,8 @@ import {
   setCustomAccountStatus,
   checkTelephone,
   setStar,
-  batchChangeManager,
-  getStudentStatustByStudent
-} from "@/api/custom";
+  batchChangeManager
+} from '@/api/custom'
 
 import {
   queryPlatform,
@@ -329,27 +322,26 @@ import {
   getWorkersCustomList,
   addWorkersCustom,
   editWorkersCustom
-} from "@/api/platform";
-import customRowDialog from "@/views/custom/component/customRowDialog";
-import customSendSmsDialog from "@/views/custom/component/customSendSmsDialog";
-import customRowDetail from "@/views/custom/component/customRowDetail";
-import customTrack from "@/views/custom/component/customTrack";
-import customBuyRecord from "@/views/custom/component/customBuyRecord";
-import customContractDialog from "@/views/custom/component/customContractDialog";
-import customContractList from "@/views/custom/component/customContractList";
-import customStuStatusList from "@/views/custom/component/customStuStatusList";
-import addAlarmDialog from "@/views/custom/component/addAlarmDialog";
-import batchChangeManagerView from "@/views/custom/component/batchChangeManager";
-import alarmList from "@/views/custom/component/alarmList";
-import scoreEntry from "@/views/custom/component/scoreEntry";
-import myImageViewer from "@/components/myImageViewer/myImageViewer";
-import myDialog from "@/components/myDialog/myDialog";
-import Tinymce from "@/components/Tinymce";
-import common from "@/utils/common";
-import { error } from "util";
+} from '@/api/platform'
+import customRowDialog from '@/views/custom/component/customRowDialog'
+import customSendSmsDialog from '@/views/custom/component/customSendSmsDialog'
+import customRowDetail from '@/views/custom/component/customRowDetail'
+import customTrack from '@/views/custom/component/customTrack'
+import customBuyRecord from '@/views/custom/component/customBuyRecord'
+import customContractDialog from '@/views/custom/component/customContractDialog'
+import customContractList from '@/views/custom/component/customContractList'
+import addAlarmDialog from '@/views/custom/component/addAlarmDialog'
+import batchChangeManagerView from '@/views/custom/component/batchChangeManager'
+import alarmList from '@/views/custom/component/alarmList'
+import scoreEntry from '@/views/custom/component/scoreEntry'
+import myImageViewer from '@/components/myImageViewer/myImageViewer'
+import myDialog from '@/components/myDialog/myDialog'
+import Tinymce from '@/components/Tinymce'
+import common from '@/utils/common'
+import { error } from 'util'
 
 export default {
-  name: "CustomList",
+  name: 'CustomList',
   components: {
     myDialog,
     myImageViewer,
@@ -359,7 +351,6 @@ export default {
     customRowDetail,
     customContractDialog,
     customContractList,
-    customStuStatusList,
     scoreEntry,
     customTrack,
     customBuyRecord,
@@ -369,9 +360,10 @@ export default {
   },
   data() {
     return {
+
       common,
       // 预览图片的图片地址
-      imageViewerSrc: "",
+      imageViewerSrc: '',
       // 显示图片查看器
       showViewer: false,
       // 我的站点-当前工作人员可管理的其他工作人员的列表
@@ -379,29 +371,29 @@ export default {
       // 我的站点-当前所选中销售人员的ID-条件查询
       searchWorkerId: null,
       // 获取当前登录用的角色权限
-      qxRole: "",
+      qxRole: '',
       // 搜索学生的类型-条件查询
       searchTypeVal: -1,
       // 查询客户的条件选项
       searchCustomOptions: [
         {
-          value: "realname",
-          Label: "姓名"
+          value: 'realname',
+          Label: '姓名'
         },
 
         {
-          value: "tel",
-          Label: "电话"
+          value: 'tel',
+          Label: '电话'
         },
         {
-          value: "comments",
-          Label: "备注"
+          value: 'comments',
+          Label: '备注'
         }
       ],
       // 查询客户所选条件值
-      seaechConditionVal: "",
+      seaechConditionVal: '',
       // 查询客户内容的值
-      searchContentVal: "",
+      searchContentVal: '',
       // 筛选客户-全部，公海，意向，成单
       searchHasbuy: 0,
       // 日期选择-日期筛选
@@ -420,13 +412,13 @@ export default {
       // 客户更多操作的弹出框
       customMoreOperationDialog: false,
       // 当前所在tab页
-      activElTab: "gjjl",
+      activElTab: 'gjjl',
       // 平台的下拉选择框
       platFormOps: [],
       // 存放选中的角色-模态框
-      platFormSelect: "",
+      platFormSelect: '',
       // 存放选中的平台-模态框
-      platFormSelect: "",
+      platFormSelect: '',
       // 当前选中行的数据索引
       currentCustomIndex: null,
       // 当前操作学生的Id-打电话用
@@ -443,95 +435,95 @@ export default {
       // 是否是本站的管理员
       isPlatformMaster: false,
       // ------------------------电话
-      connectTelStatus: "0", // 0 没连接。1 已经连接。2.拨号中。3.通话中。
+      connectTelStatus: '0', // 0 没连接。1 已经连接。2.拨号中。3.通话中。
       webSocket: null,
       timer: null,
       // 通讯设备是否连接成功
       connecTelSuccess: false,
       // 要连接的URL；这是WebSocket服务器将响应的URL。
-      websocketURL: "ws://127.0.0.1:8555/api"
-    };
+      websocketURL: 'ws://127.0.0.1:8555/api'
+    }
   },
   watch: {
     // 因为应用同一个页面，只会加载一次，所有需要监听路由的变化
     $route(to, from) {
-      this.customTableDataList = [];
+      this.customTableDataList = []
       if (to.query.id) {
-        this.getPlatformWorkers(to.query.id);
+        this.getPlatformWorkers(to.query.id)
       } else {
-        this.getCustomList();
+        this.getCustomList()
       }
     }
   },
 
   created() {
-    this.seaechConditionVal = this.searchCustomOptions[0].value;
-    this.initWebSocket();
+    this.seaechConditionVal = this.searchCustomOptions[0].value
+    this.initWebSocket()
   },
   mounted() {
-    this.qxRole = sessionStorage.ROLE;
+    this.qxRole = sessionStorage.ROLE
     // 因为客户管理和我的站点应用的是同一个页面所有让当路由有参数是就代表但是我的站点
     if (this.$route.query.id) {
       // 获取该站点下所属我的所有销售成员
 
-      this.getPlatformWorkers(this.$route.query.id);
+      this.getPlatformWorkers(this.$route.query.id)
     } else {
       // 客户管理-直接获取客户列表
-      this.getCustomList();
+      this.getCustomList()
     }
     setTimeout(() => {
-      this.$refs.refCustomListTable.doLayout();
-    }, 2000);
+      this.$refs.refCustomListTable.doLayout()
+    }, 2000)
   },
 
   methods: {
     // 图片预览
     onPreview(src) {
-      this.showViewer = true;
-      this.imageViewerSrc = src;
+      this.showViewer = true
+      this.imageViewerSrc = src
     },
     // 关闭查看器
     closeViewer() {
-      this.showViewer = false;
+      this.showViewer = false
     },
     // 我的站点-根据当前登录用户选择的站点获取该站点下所属自己的销售
     async getPlatformWorkers(platformId) {
-      const res = await getPlatformWorkers(platformId);
+      const res = await getPlatformWorkers(platformId)
       if (res.code == 200) {
         // 默认查看自己的客户
-        this.searchWorkerId = this.$store.state.userInformation.Id;
-        this.myWorkerList = res.data ? res.data : [];
+        this.searchWorkerId = this.$store.state.userInformation.Id
+        this.myWorkerList = res.data ? res.data : []
 
-        this.isPlatformMaster = res.title;
+        this.isPlatformMaster = res.title
       }
-      this.getCustomList();
+      this.getCustomList()
     },
     // 条件查询客户
     searchSubmit() {
-      this.nowPage = 1;
-      this.getCustomList();
+      this.nowPage = 1
+      this.getCustomList()
     },
     // 获取客户列表-tableData
     async getCustomList() {
-      const that = this;
-      this.listLoading = true;
+      const that = this
+      this.listLoading = true
       // 取数据的位置
-      const offsetRow = (this.nowPage - 1) * this.rows;
-      let res;
-      let notInKind = 0; // sql中标识为   kind!=
+      const offsetRow = (this.nowPage - 1) * this.rows
+      let res
+      let notInKind = 0 // sql中标识为   kind!=
       if (this.searchTypeVal == -1) {
         // 选择全部客户的时候， 要排除kind=6 的公海客户
-        notInKind = 6;
+        notInKind = 6
       }
-      let startDate;
-      let endDate;
+      let startDate
+      let endDate
       if (this.queryEndDate && this.queryEndDate.length == 2) {
-        startDate = parseInt(this.queryEndDate[0] / 1000);
-        endDate = parseInt(this.queryEndDate[1] / 1000 + 3600 * 24 - 1);
+        startDate = parseInt(this.queryEndDate[0] / 1000)
+        endDate = parseInt(this.queryEndDate[1] / 1000 + 3600 * 24 - 1)
       }
       if (this.$route.query.id) {
         // 站点-客户数据
-        res = await getCustomInfoList({
+        res = await getCustomInfoList('', {
           platformManager: this.searchWorkerId,
           limit: this.rows,
           offset: offsetRow,
@@ -542,10 +534,10 @@ export default {
           endDate: endDate,
           queryFrom: this.queryFromLabel,
           [this.seaechConditionVal]: this.searchContentVal
-        });
+        }, '')
       } else {
         // 客户管理-客户数据
-        res = await getCustomInfoList({
+        res = await getCustomInfoList('', {
           limit: this.rows,
           offset: offsetRow,
           kind: this.searchTypeVal,
@@ -553,40 +545,40 @@ export default {
           startDate: startDate,
           endDate: endDate,
           [this.seaechConditionVal]: this.searchContentVal
-        });
+        })
       }
       if (res.code == 200) {
-        this.customTableDataLis = [];
-        this.allRows = res.title;
-        this.customTableDataList = res.data ? res.data : [];
+        this.customTableDataLis = []
+        this.allRows = res.title
+        this.customTableDataList = res.data ? res.data : []
         this.customTableDataList.forEach(item => {
           if (item.Info) {
-            const info = JSON.parse(item.Info);
+            const info = JSON.parse(item.Info)
             if (info.attach_image) {
-              const imgArr = info.attach_image.split(",");
-              item.firstAttachImage = imgArr[0];
+              const imgArr = info.attach_image.split(',')
+              item.firstAttachImage = imgArr[0]
             }
           }
-        });
+        })
       }
-      this.listLoading = false;
+      this.listLoading = false
     },
 
     // 分页获取数据
     getCustomListNowpage(val) {
-      this.nowPage = val;
-      this.getCustomList();
+      this.nowPage = val
+      this.getCustomList()
     },
     // 格式化显示时间
     TimeFormatter(row, column, cellValue) {
-      return this.common.dateFormat(cellValue, 2);
+      return this.common.dateFormat(cellValue, 2)
     },
 
     // 设置重点客户
     async setCustomStar(val, row, rowIndex) {
-      const res = await setStar(row.id);
+      const res = await setStar(row.id)
       if (res.code == 200) {
-        this.customTableDataList[rowIndex].Star = res.data;
+        this.customTableDataList[rowIndex].Star = res.data
       }
     },
     // 新增客户合同-办理报名
@@ -600,22 +592,22 @@ export default {
           Id: 0
         },
         1
-      );
+      )
     },
     // 禁用或启用客户的账户
     setCustomAccountStatus(index, row, status) {
-      const that = this;
-      let msg;
+      const that = this
+      let msg
       if (status == 0) {
-        msg = "确认禁用该账户?";
+        msg = '确认禁用该账户?'
       } else if (status == 1) {
-        msg = "确认启用该账户?";
+        msg = '确认启用该账户?'
       }
       that
-        .$confirm(msg, "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        .$confirm(msg, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         })
         .then(async() => {
           const res = await setCustomAccountStatus(
@@ -623,85 +615,85 @@ export default {
             { status: status },
             false,
             true
-          );
+          )
           if (res.code == 200) {
-            that.$set(that.customTableDataList, index, res.data);
-            if (res.title != "ok") {
+            that.$set(that.customTableDataList, index, res.data)
+            if (res.title != 'ok') {
               this.$confirm(
-                "启用成功，并设置密码为：" + res.title + " 已发送短信告知对方",
+                '启用成功，并设置密码为：' + res.title + ' 已发送短信告知对方',
                 {
-                  confirmButtonText: "确定",
-                  type: "success"
+                  confirmButtonText: '确定',
+                  type: 'success'
                 }
-              );
+              )
             } else {
-              this.$alert("设置成功");
+              this.$alert('设置成功')
             }
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     // 打开更多操作的模态框
     async openCustomMoreOperation(index, row) {
-      this.activElTab = "gjjl";
-      this.currentCustomIndex = index;
-      this.customFormData = { ...row };
-      this.customMoreOperationDialog = true;
-      this.$refs.refCustomTrack.getCustomId(this.customFormData.id);
-      this.$refs.refCustomDetail.getCustomRowData({ ...row });
+      this.activElTab = 'gjjl'
+      this.currentCustomIndex = index
+      this.customFormData = { ...row }
+      this.customMoreOperationDialog = true
+
+      // this.$refs.refCustomDetail.getCustomRowData({ ...row });
     },
     // 切换tabs标签页在调用函数
     changDialogTab(tab) {
-      if (tab.$attrs.id == "gjjl") {
-        this.$refs.refCustomTrack.getCustomId(this.customFormData.id);
-      } else if (tab.$attrs.id == "gmjl") {
-        this.$refs.refBuyRecord.getCustomId(this.customFormData.id);
-      } else if (tab.$attrs.id == "htdd") {
-        this.$refs.refCustomContract.getCustomRowData(this.customFormData);
-      } else if (tab.$attrs.id == "xj") {
-        this.$refs.refCustomStuStatus.getCustomRowData(this.customFormData);
-      } else if (tab.$attrs.id == "cjlr") {
-        this.getScoreEntry(this.customFormData.id);
+      if (tab.$attrs.id == 'gjjl') {
+        this.$refs.refCustomTrack.getCustomId(this.customFormData.id)
+      } else if (tab.$attrs.id == 'gmjl') {
+        this.$refs.refBuyRecord.getCustomId(this.customFormData.id)
+      } else if (tab.$attrs.id == 'htdd') {
+        this.$refs.refCustomContract.getCustomRowData(this.customFormData)
+      } else if (tab.$attrs.id == 'xj') {
+        this.$refs.refCustomStuStatus.getCustomRowData(this.customFormData)
+      } else if (tab.$attrs.id == 'cjlr') {
+        this.getScoreEntry(this.customFormData.id)
       }
     },
     // 打开客户信息弹窗
     openCustomDialog(type) {
       // type=1新增，type=0编辑
       if (type) {
-        this.$refs.refCustomDialog.getCustomRowData({ id: 0 });
+        this.$refs.refCustomDialog.getCustomRowData({ id: 0 })
       } else {
         this.$refs.refCustomDialog.getCustomRowData({
           ...this.customFormData
-        });
+        })
       }
     },
     // 获取选中的学生
     selectionCustomChange(val) {
-      this.mulSelectionCustomId = [];
+      this.mulSelectionCustomId = []
       val.forEach(item => {
-        this.mulSelectionCustomId.push(item.id);
-      });
+        this.mulSelectionCustomId.push(item.id)
+      })
     },
     // 转移学员的管理员到其他管理名下
     changeManager() {
       if (this.mulSelectionCustomId.length <= 0) {
-        this.common.go_alert("你还没有勾选学员哦！");
-        return;
+        this.common.go_alert('你还没有勾选学员哦！')
+        return
       }
-      this.$refs.refChangeManager.getCustomIds(this.mulSelectionCustomId);
+      this.$refs.refChangeManager.getCustomIds(this.mulSelectionCustomId)
     },
     // 更新客户列表数据-转移客户之后
     updateCustomList(rowsDatas) {
       rowsDatas.forEach(row => {
         this.customTableDataList.forEach(item => {
           if (item.id == row.id) {
-            item.ManagerID = row.ManagerID;
-            item.ManagerLabel = row.ManagerLabel;
-            item.ManagerTel = row.ManagerTel;
+            item.ManagerID = row.ManagerID
+            item.ManagerLabel = row.ManagerLabel
+            item.ManagerTel = row.ManagerTel
           }
-        });
-      });
-      this.$refs.refCustomListTable.clearSelection();
+        })
+      })
+      this.$refs.refCustomListTable.clearSelection()
     },
     // 更新客户列表数据
     updateCustomInfoList(type, rowData) {
@@ -709,262 +701,262 @@ export default {
       // 显示第一章图片格式化
       if (rowData) {
         if (rowData.Info) {
-          const info = JSON.parse(rowData.Info);
+          const info = JSON.parse(rowData.Info)
           if (info.attach_image) {
-            const imgArr = info.attach_image.split(",");
-            rowData.firstAttachImage = imgArr[0];
+            const imgArr = info.attach_image.split(',')
+            rowData.firstAttachImage = imgArr[0]
           }
         }
       }
       if (type == -1) {
       } else if (type == 1) {
-        this.customTableDataList.unshift(rowData);
+        this.customTableDataList.unshift(rowData)
       } else if (type == 0) {
-        this.customFormData = { ...rowData };
-        this.$set(this.customTableDataList, this.currentCustomIndex, rowData);
-        this.$refs.refCustomDetail.getCustomRowData({ ...rowData });
+        this.customFormData = { ...rowData }
+        this.$set(this.customTableDataList, this.currentCustomIndex, rowData)
+        this.$refs.refCustomDetail.getCustomRowData({ ...rowData })
       }
     },
     // 添加跟进记录后更新用户列表的最新跟进记录
     updateCustomRecentTrack(RecentTrack) {
-      this.customFormData.RecentTrack = RecentTrack;
+      this.customFormData.RecentTrack = RecentTrack
       this.$set(
         this.customTableDataList,
         this.currentCustomIndex,
         this.customFormData
-      );
+      )
     },
     // 强制刷新
     change(e) {
-      this.$forceUpdate();
+      this.$forceUpdate()
     },
     // 显示日期处理
     dateFormat({ cellValue, row, column }) {
-      return this.common.dateFormat(cellValue, false);
+      return this.common.dateFormat(cellValue, false)
     },
     // 显示来电用户的信息 msgJsonData.dynamicdata.number
     async showIncomeingUserInfo(telephone) {
-      const res = await checkTelephone(telephone);
+      const res = await checkTelephone(telephone)
       if (res.code == 200 && res.data) {
-        const content = res.data.Description ? res.data.Description : "暂无描述";
-        this.$alert("客户描述：" + content, res.data.Realname + "来电", {
-          confirmButtonText: "知道了"
-        }).catch(() => {});
+        const content = res.data.Description ? res.data.Description : '暂无描述'
+        this.$alert('客户描述：' + content, res.data.Realname + '来电', {
+          confirmButtonText: '知道了'
+        }).catch(() => {})
       }
     },
     // 触发成绩录入子组件函数
     getScoreEntry(id) {
-      this.$refs.scoreEntryComponent.getScoreEntryData(id);
+      this.$refs.scoreEntryComponent.getScoreEntryData(id)
     },
     // 点击添加提醒弹出模态框
     addAlarm(index, row) {
-      this.$refs.refAlarmForm.getCustomInfo(row);
+      this.$refs.refAlarmForm.getCustomInfo(row)
     },
     // -----------------------------------------------电话
 
     initWebSocket() {
       // 初始化weosocket
-      this.webSocket = new WebSocket(this.websocketURL);
-      this.webSocket.onopen = this.websocketonopen;
-      this.webSocket.onerror = this.websocketonerror;
-      this.webSocket.onmessage = this.websocketonmessage;
-      this.webSocket.onclose = this.websocketclose;
+      this.webSocket = new WebSocket(this.websocketURL)
+      this.webSocket.onopen = this.websocketonopen
+      this.webSocket.onerror = this.websocketonerror
+      this.webSocket.onmessage = this.websocketonmessage
+      this.webSocket.onclose = this.websocketclose
     },
     // 当WebSocket 的连接状态readyState 变为“OPEN”时调用;这意味着当前连接已经准备好发送和接受数据
     // 这个事件处理程序通过 事件（建立连接时）触发。
     websocketonopen() {
-      this.webSocket.send('{"command":"GetConnectedState"}');
-      this.websocketsend('{"command":"SMSEnable","arguments":{"content":"1"}}');
-      this.timer = setInterval(this.HeartBeatCheck, 10000);
+      this.webSocket.send('{"command":"GetConnectedState"}')
+      this.websocketsend('{"command":"SMSEnable","arguments":{"content":"1"}}')
+      this.timer = setInterval(this.HeartBeatCheck, 10000)
     },
     HeartBeatCheck() {
-      this.webSocket.send("HeartBeatData");
+      this.webSocket.send('HeartBeatData')
     },
     // 在 WebSocket.onerror 属性，发生错误时执行的回调函数
     websocketonerror(e) {
       // 错误
-      this.connectTelStatus = "-1";
-      this.webSocket = new WebSocket(this.websocketURL);
-      clearInterval(this.timer);
+      this.connectTelStatus = '-1'
+      this.webSocket = new WebSocket(this.websocketURL)
+      clearInterval(this.timer)
     },
     // WebSocket.onclose 属性返回一个事件监听器，这个事件监听器将在 WebSocket 连接的readyState 变为 CLOSED时被调用
     websocketclose(e) {
-      this.connectTelStatus = "-2";
+      this.connectTelStatus = '-2'
     },
     formatTelephoneStatus() {
       switch (this.connectTelStatus) {
-        case "-2":
-          this.connecTelSuccess = false;
-          return "通讯设备连接异常";
-          break;
-        case "-1":
-          this.connecTelSuccess = false;
-          return "通讯设备异常";
-          break;
-        case "0":
-          this.connecTelSuccess = false;
-          return "通讯设备未连接";
-          break;
-        case "1":
-          this.connecTelSuccess = true;
-          return "通讯设备已连接";
-          break;
-        case "2":
-          this.connecTelSuccess = true;
-          return "正在拨号中";
-          break;
-        case "3":
-          this.connecTelSuccess = true;
-          return "正在通话中";
-          break;
+        case '-2':
+          this.connecTelSuccess = false
+          return '通讯设备连接异常'
+          break
+        case '-1':
+          this.connecTelSuccess = false
+          return '通讯设备异常'
+          break
+        case '0':
+          this.connecTelSuccess = false
+          return '通讯设备未连接'
+          break
+        case '1':
+          this.connecTelSuccess = true
+          return '通讯设备已连接'
+          break
+        case '2':
+          this.connecTelSuccess = true
+          return '正在拨号中'
+          break
+        case '3':
+          this.connecTelSuccess = true
+          return '正在通话中'
+          break
         default:
-          this.connecTelSuccess = false;
-          return "未知状态";
-          break;
+          this.connecTelSuccess = false
+          return '未知状态'
+          break
       }
     },
     OnOpenDevice() {
-      if (this.connectTelStatus == "1") {
-        this.webSocket.send('{"command":"CloseDevice"}');
+      if (this.connectTelStatus == '1') {
+        this.webSocket.send('{"command":"CloseDevice"}')
       } else {
-        this.webSocket.send('{"command":"OpenDevice"}');
+        this.webSocket.send('{"command":"OpenDevice"}')
       }
     },
     // WebSocket.onmessage 属性是一个当收到来自服务器的消息时被调用的 EventHandler。它由一个MessageEvent调用。
     websocketonmessage(e) {
       // 数据接收
-      const msgJsonData = JSON.parse(e.data); // 注意：长连接我们是后台直接1秒推送一条数据，
+      const msgJsonData = JSON.parse(e.data) // 注意：长连接我们是后台直接1秒推送一条数据，
       // 但是点击某个列表时，会发送给后台一个标识，后台根据此标识返回相对应的数据，
       // 这个时候数据就只能从一个出口出，所以让后台加了一个键，例如键为1时，是每隔1秒推送的数据，为2时是发送标识后再推送的数据，以作区分
-      var msg = msgJsonData.message;
-      var now;
-      if (msgJsonData.type == "InstructionTrace") {
-      } else if (msgJsonData.type == "RealTimeState") {
+      var msg = msgJsonData.message
+      var now
+      if (msgJsonData.type == 'InstructionTrace') {
+      } else if (msgJsonData.type == 'RealTimeState') {
         if (msgJsonData.dynamicdata) {
           switch (msgJsonData.dynamicdata.realtimestate) {
-            case "outgoing":
-              $("#callId" + this.currentStudentid + " > span").html("正在拨号");
-              this.connectTelStatus = "2";
-              break;
-            case "hangup":
-              $("#callId" + this.currentStudentid + " > span").html("已挂断");
+            case 'outgoing':
+              $('#callId' + this.currentStudentid + ' > span').html('正在拨号')
+              this.connectTelStatus = '2'
+              break
+            case 'hangup':
+              $('#callId' + this.currentStudentid + ' > span').html('已挂断')
 
-              this.connectTelStatus = "1";
-              this.websocketsend('{"command":"HungUp"}');
-              break;
-            case "outconnected":
-              $("#callId" + this.currentStudentid + " > span").html("正在录音");
-              this.connectTelStatus = "2";
-              now = new Date().getTime();
+              this.connectTelStatus = '1'
+              this.websocketsend('{"command":"HungUp"}')
+              break
+            case 'outconnected':
+              $('#callId' + this.currentStudentid + ' > span').html('正在录音')
+              this.connectTelStatus = '2'
+              now = new Date().getTime()
               this.websocketsend(
                 '{"command":"StartRecord","arguments":{"content":"' +
                   now +
                   '.wav"}}'
-              );
-              break;
-            case "ringback":
-              $("#callId" + this.currentStudentid + " > span").html("对方振铃");
-              this.connectTelStatus = "2";
-              break;
-            case "incoming":
-              this.connectTelStatus = "2";
+              )
+              break
+            case 'ringback':
+              $('#callId' + this.currentStudentid + ' > span').html('对方振铃')
+              this.connectTelStatus = '2'
+              break
+            case 'incoming':
+              this.connectTelStatus = '2'
               // 显示来电用户的信息
-              this.showIncomeingUserInfo(msgJsonData.dynamicdata.number);
-              break;
-            case "inconnected":
-              $("#callId" + this.currentStudentid + " > span").html("正在录音");
-              this.connectTelStatus = "2";
-              now = new Date().getTime();
+              this.showIncomeingUserInfo(msgJsonData.dynamicdata.number)
+              break
+            case 'inconnected':
+              $('#callId' + this.currentStudentid + ' > span').html('正在录音')
+              this.connectTelStatus = '2'
+              now = new Date().getTime()
               this.websocketsend(
                 '{"command":"StartRecord","arguments":{"content":"' +
                   now +
                   '.wav"}}'
-              );
-              break;
+              )
+              break
           }
         }
-      } else if (msgJsonData.type == "CommandResponse") {
+      } else if (msgJsonData.type == 'CommandResponse') {
         switch (msgJsonData.data.invoke_command) {
-          case "OpenDevice":
+          case 'OpenDevice':
             if (msgJsonData.data.state == true) {
-              this.connectTelStatus = "1";
+              this.connectTelStatus = '1'
             } else {
-              this.connectTelStatus = "1";
+              this.connectTelStatus = '1'
             }
 
-            break;
-          case "Dial":
+            break
+          case 'Dial':
             if (msgJsonData.data.state == true) {
-              $("#callId" + this.currentStudentid + " > span").html("点击停止");
-              this.connectTelStatus = "2";
+              $('#callId' + this.currentStudentid + ' > span').html('点击停止')
+              this.connectTelStatus = '2'
             } else {
-              $("#callId" + this.currentStudentid + " > span").html("拨打电话");
-              this.connectTelStatus = "1";
+              $('#callId' + this.currentStudentid + ' > span').html('拨打电话')
+              this.connectTelStatus = '1'
             }
-            break;
-          case "HungUp":
-            $("#callId" + this.currentStudentid + " > span").html("拨打电话");
-            this.connectTelStatus = "1";
+            break
+          case 'HungUp':
+            $('#callId' + this.currentStudentid + ' > span').html('拨打电话')
+            this.connectTelStatus = '1'
             this.websocketsend(
               '{"command":"StopRecord","arguments":{"isconverttomp3":true}}'
-            );
+            )
 
-            break;
-          case "CloseDevice":
-            this.connectTelStatus = "0";
-            break;
-          case "UploadFile":
-            console.log("上传录音文件结果1:" + msgJsonData.data);
+            break
+          case 'CloseDevice':
+            this.connectTelStatus = '0'
+            break
+          case 'UploadFile':
+            console.log('上传录音文件结果1:' + msgJsonData.data)
 
-            break;
-          case "GetConnectedState":
+            break
+          case 'GetConnectedState':
             if (msgJsonData.data.state) {
-              this.connectTelStatus = "1";
+              this.connectTelStatus = '1'
             } else {
-              this.connectTelStatus = "0";
+              this.connectTelStatus = '0'
             }
-            break;
-          case "SMSEnable":
+            break
+          case 'SMSEnable':
             if (msgJsonData.data.state == true) {
-              console.log("可以收取短信:", msgJsonData.data);
+              console.log('可以收取短信:', msgJsonData.data)
             } else {
-              console.log("不能收取短信:", msgJsonData.data);
+              console.log('不能收取短信:', msgJsonData.data)
             }
 
-            break;
-          case "GetSMSCount":
-            console.log("短信条数:" + msgJsonData.dynamicdata);
-            break;
-          case "ReadSms":
+            break
+          case 'GetSMSCount':
+            console.log('短信条数:' + msgJsonData.dynamicdata)
+            break
+          case 'ReadSms':
             console.log(
-              "收到的短信:" + msgJsonData.dynamicdata.phone,
+              '收到的短信:' + msgJsonData.dynamicdata.phone,
               msgJsonData.dynamicdata.content
-            );
+            )
 
-            this.receiveSMS(msgJsonData.dynamicdata);
+            this.receiveSMS(msgJsonData.dynamicdata)
 
-            this.websocketsend('{"command":"GetSMSCount"}');
-            break;
-          case "SendSMS":
+            this.websocketsend('{"command":"GetSMSCount"}')
+            break
+          case 'SendSMS':
             if (msgJsonData.data.state) {
-              this.waitSendSMS();
+              this.waitSendSMS()
             } else {
-              console.log("短信发送失败:" + msgJsonData.data.message);
+              console.log('短信发送失败:' + msgJsonData.data.message)
 
-              this.$alert("短信发送失败", {
-                confirmButtonText: "知道了"
-              });
+              this.$alert('短信发送失败', {
+                confirmButtonText: '知道了'
+              })
             }
-            break;
-          case "StopRecord":
+            break
+          case 'StopRecord':
             // 开始上传录音文件+
             if (msgJsonData.dynamicdata) {
               const currentRecordname =
                 this.$store.state.userInformation.Id +
-                "-" +
-                this.currentStudentid;
+                '-' +
+                this.currentStudentid
               const url =
-                window.location.protocol + "//" + window.location.hostname;
+                window.location.protocol + '//' + window.location.hostname
 
               this.websocketsend(
                 '{"command":"UploadFile","arguments":{"url":"' +
@@ -974,86 +966,86 @@ export default {
                   '","diykey":"attach","diyvalue":"' +
                   currentRecordname +
                   '"}}'
-              );
+              )
             }
 
-            break;
+            break
           default:
-            break;
+            break
         }
-      } else if (msgJsonData.type == "DeviceConnectedState") {
+      } else if (msgJsonData.type == 'DeviceConnectedState') {
         if (msgJsonData.dynamicdata.state) {
-          this.connectTelStatus = "1";
+          this.connectTelStatus = '1'
         } else {
-          this.connectTelStatus = "0";
+          this.connectTelStatus = '0'
         }
-      } else if (msgJsonData.type == "NewSMS") {
-        console.log("收到了新短信", msgJsonData);
-        this.websocketsend('{"command":"ReadSms","arguments":{"content":"1"}}');
+      } else if (msgJsonData.type == 'NewSMS') {
+        console.log('收到了新短信', msgJsonData)
+        this.websocketsend('{"command":"ReadSms","arguments":{"content":"1"}}')
       } else {
         if (msg != null) {
           // console.log(" -------------:", msg);
         }
         if (msgJsonData.dynamicdata != null) {
-          if (msgJsonData.type == "SpeechRecogn") {
-            msgJsonData.dynamicdata.result;
+          if (msgJsonData.type == 'SpeechRecogn') {
+            msgJsonData.dynamicdata.result
           }
         }
         if (msgJsonData.data != null) {
-          if (msgJsonData.data.invoke_command.toLowerCase() == "readsms") {
-            var a = msgJsonData.dynamicdata;
-            "时间：" + a.time + "\n电话：" + a.phone + "\n内容：" + a.content;
+          if (msgJsonData.data.invoke_command.toLowerCase() == 'readsms') {
+            var a = msgJsonData.dynamicdata
+            '时间：' + a.time + '\n电话：' + a.phone + '\n内容：' + a.content
           }
 
           if (
             msgJsonData.data.invoke_command.toLowerCase() ==
-            "getspeechrecognenbale"
+            'getspeechrecognenbale'
           ) {
             if (msgJsonData.data.state) {
-              ("打开");
+              ('打开')
             } else {
-              ("关闭");
+              ('关闭')
             }
           }
         }
       }
     },
     // 收到客户发回来的短信
-    async receiveSMS(msg) { 
-      const res = await receiveSmsTrack(msg.phone, msg.content);
+    async receiveSMS(msg) {
+      const res = await receiveSmsTrack(msg.phone, msg.content)
     },
     async waitSendSMS() {
-      const trackRow = {};
-      trackRow.student_id = this.customFormData.id;
-      trackRow.track_method = "短信联系";
-      trackRow.content = this.$refs.refsendSMSDialog.getContent();
-      trackRow.kind = 6;
-      this.$refs.refsendSMSDialog.closeDialog();
-      const res = await addcustomTracks(trackRow);
-      this.common.go_alert("短信发送成功");
+      const trackRow = {}
+      trackRow.student_id = this.customFormData.id
+      trackRow.track_method = '短信联系'
+      trackRow.content = this.$refs.refsendSMSDialog.getContent()
+      trackRow.kind = 6
+      this.$refs.refsendSMSDialog.closeDialog()
+      const res = await addcustomTracks(trackRow)
+      this.common.go_alert('短信发送成功')
     },
     websocketsend(agentData) {
       // 数据发送
       // 			webSocket.send('{"command":"CloseSpeechRecogn"}');
-      this.webSocket.send(agentData);
+      this.webSocket.send(agentData)
     },
     // 拨打电话
     callTelephone(event, row) {
-      this.currentStudentid = row.id;
-      if (this.connectTelStatus == "2") {
+      this.currentStudentid = row.id
+      if (this.connectTelStatus == '2') {
         this.websocketsend(
           '{"command":"HungUp","arguments":{"phone":"' + row.Telephone + '"}}'
-        );
+        )
       } else {
         this.websocketsend(
           '{"command":"Dial","arguments":{"phone":"' + row.Telephone + '"}}'
-        );
+        )
       }
     },
     // 打开发送短信对话框
     openSendSMSDialog(row) {
-      this.customFormData = row;
-      this.$refs.refsendSMSDialog.getCustomRowData(row);
+      this.customFormData = row
+      this.$refs.refsendSMSDialog.getCustomRowData(row)
     },
     // 发送短信
     sendSMS(sendMSG) {
@@ -1063,11 +1055,11 @@ export default {
           '","content":"' +
           sendMSG.Content +
           '"}}'
-      );
+      )
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .boxShadow1 {
   box-shadow: 0px 2px 2px 0px rgba(4, 0, 0, 0.3);

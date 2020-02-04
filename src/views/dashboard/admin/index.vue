@@ -23,100 +23,100 @@
   </div>
 </template>
 
-<script> 
-import { getStudentDataFromAnalysis, getStudentDataTrackAnalysis } from "@/api/custom";
+<script>
+import { getStudentDataFromAnalysis, getStudentDataTrackAnalysis } from '@/api/custom'
 export default {
-  name: "DashboardAdmin",
+  name: 'DashboardAdmin',
   data() {
     return {
-      radio1: "fromid",
-      days: "30",
+      radio1: 'fromid',
+      days: '30',
       myChart: null
-    };
+    }
   },
   mounted() {
-    this.myChart = this.$echarts.init(document.getElementById("myChart"));
-    this.myChart.on("updateAxisPointer", this.setChartFunction);
-    this.getDataAnalysis();
+    this.myChart = this.$echarts.init(document.getElementById('myChart'))
+    this.myChart.on('updateAxisPointer', this.setChartFunction)
+    this.getDataAnalysis()
   },
   methods: {
     setChartFunction(event) {
-      var xAxisInfo = event.axesInfo[0];
+      var xAxisInfo = event.axesInfo[0]
       if (xAxisInfo) {
-        var dimension = xAxisInfo.value + 1;
+        var dimension = xAxisInfo.value + 1
         this.myChart.setOption({
           series: {
-            id: "pie",
+            id: 'pie',
             label: {
-              formatter: "{b}: {@[" + dimension + "]} ({d}%)"
+              formatter: '{b}: {@[' + dimension + ']} ({d}%)'
             },
             encode: {
               value: dimension,
               tooltip: dimension
             }
           }
-        });
+        })
       }
     },
     async getDataAnalysis() {
-      const that = this;
+      const that = this
       // 站点-客户数据
-      let res;
-      if (that.radio1 == "fromid") {
-        res = await getStudentDataFromAnalysis(that.days);
-      } else if (that.radio1 == "strack") {
-        res = await getStudentDataTrackAnalysis(that.days);
+      let res
+      if (that.radio1 == 'fromid') {
+        res = await getStudentDataFromAnalysis(that.days)
+      } else if (that.radio1 == 'strack') {
+        res = await getStudentDataTrackAnalysis(that.days)
       }
       if (res.code == 200) {
-        const title = res.title ? res.title : [];
+        const title = res.title ? res.title : []
         // 基于准备好的dom，初始化echarts实例
 
         const option = {
           legend: {},
           tooltip: {
-            trigger: "axis",
+            trigger: 'axis',
             showContent: false
           },
           dataset: {
             source: res.data
           },
-          xAxis: { type: "category" },
+          xAxis: { type: 'category' },
           yAxis: { gridIndex: 0 },
-          grid: { top: "55%" },
+          grid: { top: '55%' },
           series: []
-        };
+        }
 
         title.forEach(element => {
           option.series.unshift({
-            type: "line",
+            type: 'line',
             smooth: true,
-            seriesLayoutBy: "row"
-          });
-        });
-        let tooltipvalue = "0";
+            seriesLayoutBy: 'row'
+          })
+        })
+        let tooltipvalue = '0'
         if (res.data[0] && res.data[0][res.data[0].length - 1]) {
-          tooltipvalue = res.data[0][res.data[0].length - 1];
+          tooltipvalue = res.data[0][res.data[0].length - 1]
         }
         option.series.unshift({
-          type: "pie",
-          id: "pie",
-          radius: "30%",
-          center: ["50%", "30%"],
+          type: 'pie',
+          id: 'pie',
+          radius: '30%',
+          center: ['50%', '30%'],
           label: {
-            formatter: "{b}: {@" + tooltipvalue + "} ({d}%)"
+            formatter: '{b}: {@' + tooltipvalue + '} ({d}%)'
           },
           encode: {
-            itemName: "day",
+            itemName: 'day',
             value: tooltipvalue,
             tooltip: tooltipvalue
           }
-        });
+        })
 
-        that.myChart.setOption(option);
+        that.myChart.setOption(option)
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

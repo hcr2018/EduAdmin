@@ -3,8 +3,8 @@ export default {
     dashboard: 'Dashboard',
     system: 'system',
     setting: 'setting',
-    platform: "sites",
-    sendSMS: "send SMS",
+    platform: 'sites',
+    sendSMS: 'send SMS',
     trackList: 'track list',
     customList: 'custom list',
     courseList: 'course list',
@@ -43,7 +43,7 @@ export default {
     'menu1-2-1': 'Menu 1-2-1',
     'menu1-2-2': 'Menu 1-2-2',
     'menu1-3': 'Menu 1-3',
-    menu2: 'Menu 2', 
+    menu2: 'Menu 2',
     dynamicTable: 'Dynamic Table',
     dragTable: 'Drag Table',
     inlineEditTable: 'Inline Edit',
@@ -104,7 +104,7 @@ export default {
   },
   customList: 'customList',
   Custom: {
-    
+
     Title: 'Custom',
     New: 'New',
     Update: 'Update',

@@ -112,15 +112,14 @@
 </template>
 
 <script>
-import { 
-  getStudentStatusSubject,
+import {
   getStudentScore
-} from "@/api/custom"; 
-  
+} from '@/api/custom'
+
 // import $StudentStatusSubjectHttp from "@/service/StudentStatusSubjectAPI";
 // import $StudentScoreHttp from "@/service/StudentScoreAPI";
 export default {
-  name: "ScoreEntry",
+  name: 'ScoreEntry',
   data() {
     return {
       // 客户的Id
@@ -151,78 +150,66 @@ export default {
       // 成绩录入的表单验证
       scoreEntryRules: {
         score: [
-          { required: true, message: "成绩不能为空", trigger: "blur" },
-          { pattern: /^\d/, message: "成绩必须为数字", trigger: "blur" }
+          { required: true, message: '成绩不能为空', trigger: 'blur' },
+          { pattern: /^\d/, message: '成绩必须为数字', trigger: 'blur' }
         ],
         examTime: [
-          { required: true, message: "考试时间不能为空", trigger: "blur" }
+          { required: true, message: '考试时间不能为空', trigger: 'blur' }
         ]
       }
-    };
+    }
   },
   mounted() {},
   methods: {
     // 父组件触发方法获取id
     getScoreEntryData(id) {
       // 初始化数据
-      this.addScoreDialog = false;
-      this.majorId = null;
-      this.majorScore = {};
-      this.allSubjectList = [];
-      this.customId = id;
-      this.getStudentStatusSubject();
+      this.addScoreDialog = false
+      this.majorId = null
+      this.majorScore = {}
+      this.allSubjectList = []
+      this.customId = id
     },
-    // 获取所有高校专业的列表
-    async getStudentStatusSubject() {
-      const res = await getStudentStatusSubject({
-        limit: 10000
-      });
-      if (res.code == 200) {
-        this.majorOptions = res.data ? res.data : [];
-        if (this.majorOptions.length > 0) {
-          this.getStuScore();
-        }
-      }
-    },
+
     // 改变专业,展示科目，录成绩
     changSelectMajor(val) {
-      this.currentMajorInfo = {};
-      this.allSubjectList = [];
-      this.majorScore = {};
+      this.currentMajorInfo = {}
+      this.allSubjectList = []
+      this.majorScore = {}
       this.majorOptions.forEach(item => {
         if (item.Id == val) {
-          this.currentMajorInfo = { ...item };
+          this.currentMajorInfo = { ...item }
         }
-      });
+      })
       if (this.currentMajorInfo.Content) {
-        this.getStuScore();
+        this.getStuScore()
       } else {
-        this.common.go_alert("该专业下没有任何科目哦，请添加科目后再操作!");
+        this.common.go_alert('该专业下没有任何科目哦，请添加科目后再操作!')
       }
     },
     // 获取学生改科目的成绩
     async getStuScore() {
-      let oldSocre = {};
-      const res = await getStudentScore(this.customId);
+      let oldSocre = {}
+      const res = await getStudentScore(this.customId)
       if (res.code == 200) {
         // 第二次及以上录入成绩
         if (res.data && res.data != {} > 0) {
-          this.currentMajorInfo = {};
-          this.disableMajor = true;
-          const scorekey = Object.keys(res.data)[0];
-          oldSocre = res.data[scorekey];
-          this.majorId = oldSocre.StatusSubjectID;
+          this.currentMajorInfo = {}
+          this.disableMajor = true
+          const scorekey = Object.keys(res.data)[0]
+          oldSocre = res.data[scorekey]
+          this.majorId = oldSocre.StatusSubjectID
           this.majorOptions.forEach(item => {
             if (item.Id == oldSocre.StatusSubjectID) {
-              this.currentMajorInfo = { ...item };
+              this.currentMajorInfo = { ...item }
             }
-          });
+          })
         } else {
           if (!this.majorId) {
-            this.disableMajor = false;
+            this.disableMajor = false
             // 如果第一次录入，默认选中第一个专业
-            this.majorId = this.majorOptions[0].Id;
-            this.currentMajorInfo = this.majorOptions[0];
+            this.majorId = this.majorOptions[0].Id
+            this.currentMajorInfo = this.majorOptions[0]
           }
         }
         // 不管有没有添加成绩都将科目信息重新赋值
@@ -232,70 +219,70 @@ export default {
           UniversityXingzhi: this.currentMajorInfo.UniversityXingzhi,
           StudentID: this.customId,
           StatusSubjectID: this.currentMajorInfo.Id
-        };
+        }
         if (res.data && res.data != {} > 0) {
-          this.majorScore.Id = oldSocre.Id;
+          this.majorScore.Id = oldSocre.Id
         }
         // 将科目直接赋值
-        this.allSubjectList = JSON.parse(this.currentMajorInfo.Content);
+        this.allSubjectList = JSON.parse(this.currentMajorInfo.Content)
         // 遍历科目添加其他值
         this.allSubjectList.forEach(item => {
           // 设置成绩和状态的初始值-这样后面新增的科目可以直接赋初始值
           // 添加存放成绩的数组
-          item.scoreList = [];
+          item.scoreList = []
           // 添加状态，0考试没有通过，1考试通过,默认0
-          item.status = 0;
+          item.status = 0
           // 如果已经添加成绩过则需要显示之前的成绩数据
           if (oldSocre && oldSocre.Record) {
-            const subjectRecord = JSON.parse(oldSocre.Record);
+            const subjectRecord = JSON.parse(oldSocre.Record)
             subjectRecord.forEach(subjectItem => {
               if (subjectItem.Id == item.Id) {
-                item.scoreList = subjectItem.scoreList;
-                item.status = subjectItem.status;
+                item.scoreList = subjectItem.scoreList
+                item.status = subjectItem.status
               }
-            });
+            })
           }
-        });
+        })
       }
     },
     // 打开添加成绩的模态框
     openAddScoreDialog(index) {
-      this.addScoreDialog = true;
+      this.addScoreDialog = true
       this.addScoreFormData = {
         score: null,
         examTime: null
-      };
-      this.scoreEntrySubjectIndex = index;
+      }
+      this.scoreEntrySubjectIndex = index
     },
     // 删除成绩
     deleScore(scoreItem, scoreIndex, itemIndex) {
-      this.$confirm("确认删除此次考试成绩吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('确认删除此次考试成绩吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
-          const allSubScore = [...this.allSubjectList];
+          const allSubScore = [...this.allSubjectList]
           if (scoreItem.score >= 60) {
-            this.allSubjectList[itemIndex].status = 0;
+            this.allSubjectList[itemIndex].status = 0
           }
-          allSubScore[itemIndex].scoreList.splice(scoreIndex, 1);
-          this.saveScoreDele(allSubScore);
+          allSubScore[itemIndex].scoreList.splice(scoreIndex, 1)
+          this.saveScoreDele(allSubScore)
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     // 保存删除成绩
     async saveScoreDele(url, param, data) {
-      const subjectListStr = JSON.stringify(this.allSubjectList);
-      const subjectListArr = JSON.parse(subjectListStr);
-      this.majorScore.Record = JSON.stringify(subjectListArr);
+      const subjectListStr = JSON.stringify(this.allSubjectList)
+      const subjectListArr = JSON.parse(subjectListStr)
+      this.majorScore.Record = JSON.stringify(subjectListArr)
       const res = await $StudentScoreHttp.addStudentScore(
         this.customId,
         this.majorScore
-      );
+      )
       if (res.code == 200) {
-        this.allSubjectList = data;
-        this.common.go_alert("删除成功");
+        this.allSubjectList = data
+        this.common.go_alert('删除成功')
       }
     },
     // 保存录入的成绩
@@ -303,34 +290,34 @@ export default {
       this.$refs.refScoreEntryForm.validate(async valid => {
         if (valid) {
           // 拷贝一份数据，成绩保存成功之后才在页面显示
-          const subjectListStr = JSON.stringify(this.allSubjectList);
-          const subjectListArr = JSON.parse(subjectListStr);
+          const subjectListStr = JSON.stringify(this.allSubjectList)
+          const subjectListArr = JSON.parse(subjectListStr)
           subjectListArr[this.scoreEntrySubjectIndex].scoreList.push(
             this.addScoreFormData
-          );
+          )
           if (this.addScoreFormData.score >= 60) {
-            subjectListArr[this.scoreEntrySubjectIndex].status = 1;
+            subjectListArr[this.scoreEntrySubjectIndex].status = 1
           }
-          this.majorScore.Record = JSON.stringify(subjectListArr);
+          this.majorScore.Record = JSON.stringify(subjectListArr)
           const res = await $StudentScoreHttp.addStudentScore(
             this.customId,
             this.majorScore
-          );
+          )
           if (res.code == 200) {
-            this.common.go_alert("录入成功");
-            this.allSubjectList = [];
-            this.allSubjectList = subjectListArr;
-            this.majorScore.Id = res.data.Id;
-            this.addScoreDialog = false;
+            this.common.go_alert('录入成功')
+            this.allSubjectList = []
+            this.allSubjectList = subjectListArr
+            this.majorScore.Id = res.data.Id
+            this.addScoreDialog = false
           }
         } else {
-          return false;
+          return false
         }
-      });
+      })
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .entry_score >>> .el-date-editor {
   width: 100%;

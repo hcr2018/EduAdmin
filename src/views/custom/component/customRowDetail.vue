@@ -57,22 +57,28 @@
 </template>
 
 <script>
- 
+import common from '@/utils/common'
 export default {
-  name: "PlatformForm",
+  name: 'PlatformForm',
+  props: {
+    // custom数据
+    customData: {}
+  },
   data() {
     return {
-      //  客户的基本数据
+      common,
       customRow: {}
-    };
-  },
-  mounted() {},
-  methods: {
-    // 获取表单数据
-    getCustomRowData(row) {
-      this.customRow = {};
-      this.customRow = { ...row };
     }
+  },
+  mounted() {
+    this.customRow = this.customData
+  },
+  methods: {
+    // // 获取表单数据
+    // getcustomDataData(row) {
+    //   this.customData = {};
+    //   this.customData = { ...row };
+    // }
   }
-};
-</script>  
+}
+</script>

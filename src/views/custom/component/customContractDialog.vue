@@ -336,11 +336,11 @@ import {
   addCustomContract,
   deleCustomContract,
   updateCustomContract
-} from "@/api/contract"; 
-import { 
-  GetCourseOfKind 
-} from "@/api/course"; 
-  
+} from '@/api/contract'
+import {
+  GetCourseOfKind
+} from '@/api/course'
+
 import {
   UploadImgExercise,
   UploadImgCourse,
@@ -352,11 +352,11 @@ import {
   UploadImgCourseTravelBrochure,
   UploadImgCustomTrack,
   UploadImgStudentStatus
-} from "@/api/upload";
-import myImageViewer from "@/components/myImageViewer/myImageViewer";
-import common from "@/utils/common";
+} from '@/api/upload'
+import myImageViewer from '@/components/myImageViewer/myImageViewer'
+import common from '@/utils/common'
 export default {
-  name: "ContractFrom",
+  name: 'ContractFrom',
   components: {
     myImageViewer
   },
@@ -370,164 +370,164 @@ export default {
       // 存放合同图片的数组
       contractImgArr: [],
       // 课程大类
-      nowcourseKind: "",
+      nowcourseKind: '',
       // 当前用户姓名-添加合同
-      PlatformWorkerLabel: "",
+      PlatformWorkerLabel: '',
       // 所有获取课程
       courseList: [],
       // 操作类型:1添加，2追加，0编辑
       operationType: null,
       // 表单验证规则
       contractRules: {
-        Title: [{ required: true, message: "请输入合同名称", trigger: "blur" }],
+        Title: [{ required: true, message: '请输入合同名称', trigger: 'blur' }],
         AddTime: [
-          { required: true, message: "请选择报名时间", trigger: "blur" }
+          { required: true, message: '请选择报名时间', trigger: 'blur' }
         ],
         CourseID: [
-          { required: true, message: "请选择报名课程", trigger: "blur" }
+          { required: true, message: '请选择报名课程', trigger: 'blur' }
         ],
         CoursePrice: [
-          { required: true, message: "请输入课程价格", trigger: "blur" }
+          { required: true, message: '请输入课程价格', trigger: 'blur' }
         ],
         YouhuiPrice: [
-          { required: true, message: "请输入优惠金额", trigger: "blur" }
+          { required: true, message: '请输入优惠金额', trigger: 'blur' }
         ],
         PayMethod: [
-          { required: true, message: "请选择支付方式", trigger: "blur" }
+          { required: true, message: '请选择支付方式', trigger: 'blur' }
         ],
         QiankuanPrice: [
-          { required: true, message: "请输入欠款金额", trigger: "blur" }
+          { required: true, message: '请输入欠款金额', trigger: 'blur' }
         ]
       }
-    };
+    }
   },
   methods: {
     // 获取重复组件传递过来的值
     getContractFormData(rowData, type) {
       // 初始化数据
-      this.courseList = [];
-      this.operationType = type;
-      this.contractImgArr = [];
-      this.contractFormData = {};
-      this.contractFormData = { ...rowData };
-      this.PlatformWorkerLabel = this.contractFormData.PlatformWorkerLabel;
+      this.courseList = []
+      this.operationType = type
+      this.contractImgArr = []
+      this.contractFormData = {}
+      this.contractFormData = { ...rowData }
+      this.PlatformWorkerLabel = this.contractFormData.PlatformWorkerLabel
       if (this.contractFormData.Id == 0) {
-        this.contractFormData.PlatformWorkerID = this.$store.state.userInformation.Id;
-        this.PlatformWorkerLabel = this.$store.state.userInformation.Realname;
+        this.contractFormData.PlatformWorkerID = this.$store.state.userInformation.Id
+        this.PlatformWorkerLabel = this.$store.state.userInformation.Realname
       } else if (this.contractFormData.Id > 0) {
         if (this.contractFormData.Picture) {
-          this.contractImgArr = JSON.parse(this.contractFormData.Picture);
+          this.contractImgArr = JSON.parse(this.contractFormData.Picture)
         }
         if (this.contractFormData.AddTime) {
-          this.contractFormData.AddTime = this.contractFormData.AddTime * 1000;
+          this.contractFormData.AddTime = this.contractFormData.AddTime * 1000
         }
         if (this.contractFormData.HuikuanTime) {
           this.contractFormData.HuikuanTime =
-            this.contractFormData.HuikuanTime * 1000;
+            this.contractFormData.HuikuanTime * 1000
         }
       }
-      this.isShowContractDialog = true;
+      this.isShowContractDialog = true
     },
     // 计算实际价格
     countCourseRealPrice() {
       this.contractFormData.ShijiPrice =
         parseFloat(this.contractFormData.CoursePrice) -
         parseFloat(this.contractFormData.YouhuiPrice) -
-        parseFloat(this.contractFormData.QiankuanPrice);
+        parseFloat(this.contractFormData.QiankuanPrice)
       this.contractFormData.ShijiPrice = this.contractFormData.ShijiPrice.toFixed(
         2
-      );
+      )
     },
     // 客户合同图片上传
     async uploadContractImg(file) {
-      const res = await UploadImgContract(file.raw);
+      const res = await UploadImgContract('', '', file.raw)
       if (res.code == 200) {
-        this.common.go_alert("上传成功！");
-        this.contractImgArr.push(res.data);
+        this.common.go_alert('上传成功！')
+        this.contractImgArr.push(res.data)
       }
     },
     // 删除合同资料的图片
     deleCustomImg(index) {
-      this.contractImgArr.splice(index, 1);
+      this.contractImgArr.splice(index, 1)
     },
     // 保存新增合同
     async saveAddContract() {
-      this.$refs["refContractForm"].validate(async valid => {
+      this.$refs['refContractForm'].validate(async valid => {
         if (valid) {
           if (this.contractFormData.AddTime) {
             this.contractFormData.AddTime = parseInt(
               this.contractFormData.AddTime / 1000
-            );
+            )
           }
           if (this.contractFormData.HuikuanTime) {
             this.contractFormData.HuikuanTime = parseInt(
               this.contractFormData.HuikuanTime / 1000
-            );
+            )
           }
 
           if (this.contractImgArr.length > 0) {
-            this.contractFormData.Picture = JSON.stringify(this.contractImgArr);
+            this.contractFormData.Picture = JSON.stringify(this.contractImgArr)
           }
           if (this.contractFormData.ShijiPrice < 0) {
-            this.common.go_alert("实际价格不能为负数");
-            return;
+            this.common.go_alert('实际价格不能为负数')
+            return
           }
           this.contractFormData.CoursePrice = parseFloat(
             this.contractFormData.CoursePrice
-          );
+          )
           this.contractFormData.ShijiPrice = parseFloat(
             this.contractFormData.ShijiPrice
-          );
+          )
           this.contractFormData.YouhuiPrice = parseFloat(
             this.contractFormData.YouhuiPrice
-          );
+          )
           this.contractFormData.QiankuanPrice = parseFloat(
             this.contractFormData.QiankuanPrice
-          );
-          let res;
+          )
+          let res
           if (this.contractFormData.Id > 0) {
             res = await updateCustomContract(
               this.contractFormData.Id,
               this.contractFormData
-            );
+            )
           } else {
-            res = await addCustomContract(this.contractFormData);
+            res = await addCustomContract(this.contractFormData)
           }
 
           if (res.code == 200) {
             if (this.contractFormData.Id > 0) {
-              this.$emit("updateContractData", 0, res.data);
-              this.common.go_alert("修改成功 ！");
+              this.$emit('updateContractData', 0, res.data)
+              this.common.go_alert('修改成功 ！')
             } else {
               if (this.operationType == 2) {
-                this.$emit("updateContractData", 1, res.data);
+                this.$emit('updateContractData', 1, res.data)
               }
-              this.common.go_alert("添加成功 ！");
+              this.common.go_alert('添加成功 ！')
             }
-            this.isShowContractDialog = false;
+            this.isShowContractDialog = false
           }
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     // 获取课程
     async getCourse(value) {
-      let kindId = 1;
+      let kindId = 1
       this.common.courseKindList.forEach(item => {
         if (item.Label == value) {
-          kindId = item.Id;
+          kindId = item.Id
         }
-      });
-      const res = await GetCourseOfKind({ kindid: kindId });
-      this.courseList = res.data;
+      })
+      const res = await GetCourseOfKind({ kindid: kindId })
+      this.courseList = res.data
       if (this.courseList != null && this.courseList.length > 0) {
-        this.contractFormData.CourseID = this.courseList[0].Id;
+        this.contractFormData.CourseID = this.courseList[0].Id
       }
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .contractform /deep/ .changInputWidth {
   width: 100%;

@@ -43,13 +43,13 @@
   </el-dialog>
 </template>
 <script>
-import {  
+import {
   batchChangeManager
-} from "@/api/custom"; 
-import { getPlatformTeacher } from "@/api/manager";
-import common from "@/utils/common";
+} from '@/api/custom'
+import { getPlatformTeacher } from '@/api/manager'
+import common from '@/utils/common'
 export default {
-  name: "",
+  name: '',
   data() {
     return {
       common,
@@ -60,51 +60,51 @@ export default {
       // 存放平台老师的的数组
       platformTeacherOptions: [],
       // 目标人员id
-      targetManagerID: "",
+      targetManagerID: '',
       // 转移客户的ID
       customIds: []
-    };
+    }
   },
   mounted() {},
   methods: {
     // 获取学员Id
     getCustomIds(Ids) {
-      this.targetPlatform = this.$store.state.userInformation.Platform;
+      this.targetPlatform = this.$store.state.userInformation.Platform
       if (this.targetPlatform == 0) {
-        this.targetPlatform = this.common.platformList[0].Id;
+        this.targetPlatform = this.common.platformList[0].Id
       }
-      this.platformTeacherOptions = [];
-      this.customIds = [];
-      this.targetManagerID = "";
-      this.customIds = [...Ids];
-      this.getTeacherOfPlatform();
-      this.isShowChangeManagerDialog = true;
+      this.platformTeacherOptions = []
+      this.customIds = []
+      this.targetManagerID = ''
+      this.customIds = [...Ids]
+      this.getTeacherOfPlatform()
+      this.isShowChangeManagerDialog = true
     },
     // 获取平台老师
     async getTeacherOfPlatform() {
-      this.platformTeacherOptions = [];
+      this.platformTeacherOptions = []
       const res = await getPlatformTeacher({
         platform: this.targetPlatform
-      });
+      })
       if (res.code == 200) {
-        this.platformTeacherOptions = res.data;
+        this.platformTeacherOptions = res.data
       }
     },
     // 保存转移学生的提醒
     async changeManager() {
       const res = await batchChangeManager(
-        this.targetPlatform + "/" + this.targetManagerID,
+        this.targetPlatform + '/' + this.targetManagerID,
         this.customIds
-      );
+      )
       if (res.code == 200) {
-        this.isShowChangeManagerDialog = false;
-        this.common.go_alert("转移成功！");
-        this.$emit("subClickEvent", res.data);
+        this.isShowChangeManagerDialog = false
+        this.common.go_alert('转移成功！')
+        this.$emit('subClickEvent', res.data)
       }
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .alarmFormCss >>> .el-select {
   width: 100%;
@@ -112,4 +112,4 @@ export default {
 .alarmFormCss >>> .el-date-editor {
   width: 100%;
 }
-</style> 
+</style>

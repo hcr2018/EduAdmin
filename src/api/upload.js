@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-//   ----------------上传 相关操作--------------------- 
+//   ----------------上传 相关操作---------------------
 //   客户学籍页面上传图片
 export function UploadImgStudentStatus(url, query, data) {
   return request({
@@ -89,4 +89,4 @@ export function UploadImgExercise(url, query, data) {
     params: query,
     data
   })
-}  
+}

@@ -95,13 +95,13 @@
 </template>
 
 <script>
-import myDialog from "@/components/myDialog/myDialog";
-import subjectRowDialog from "@/views/course/component/subjectRowDialog";
-import subjectRowDetail from "@/views/course/component/subjectRowDetail";
-import { queryBookList } from "@/api/book";
+import myDialog from '@/components/myDialog/myDialog'
+import subjectRowDialog from '@/views/course/component/subjectRowDialog'
+import subjectRowDetail from '@/views/course/component/subjectRowDetail'
+import { queryBookList } from '@/api/book'
 
 export default {
-  name: "SubjectList",
+  name: 'SubjectList',
   components: {
     myDialog,
     subjectRowDialog,
@@ -116,9 +116,9 @@ export default {
       // 每页数据的总条
       rows: 20,
       // 搜索查询-课程大类
-      searchBookCourseKind: "",
+      searchBookCourseKind: '',
       // 查询内容
-      searchContent: "",
+      searchContent: '',
       // 科目的列表数据
       subjectList: [],
       // 控制更多操作模态框的显示和隐藏
@@ -127,90 +127,90 @@ export default {
       subjectFormData: {},
       // 当前操作科目的索引
       currentSubjectIndex: null
-    };
+    }
   },
   mounted() {
-    this.getBookList();
+    this.getBookList()
     setTimeout(() => {
-      this.$refs.refSubjectListElTabel.doLayout();
-    }, 2000);
+      this.$refs.refSubjectListElTabel.doLayout()
+    }, 2000)
   },
   methods: {
     // 条件搜索
     searchSubmit() {
-      this.nowPage = 1;
-      this.getBookList();
+      this.nowPage = 1
+      this.getBookList()
     },
     // 获取科目列表
     async getBookList() {
       // 取数据的位置
-      const offsetRow = (this.nowPage - 1) * this.rows;
+      const offsetRow = (this.nowPage - 1) * this.rows
       const params = {
         limit: this.rows,
         offset: offsetRow,
         label: this.searchContent,
         coursekind: this.searchBookCourseKind
-      };
-      const res = await queryBookList(params);
+      }
+      const res = await queryBookList(params)
       if (res.code == 200) {
-        this.allRows = res.title;
-        this.subjectList = res.data ? res.data : [];
+        this.allRows = res.title
+        this.subjectList = res.data ? res.data : []
       }
     },
     // 分页获取数据
     currentPageChange(val) {
-      this.nowPage = val;
-      this.getBookList();
+      this.nowPage = val
+      this.getBookList()
     },
 
     // 打开更多操作弹出框
     openMoreOptationDialog(index, row) {
-      this.currentSubjectIndex = index;
-      this.subjectFormData = { ...row };
-      this.isShowMoreOptationDialog = true;
-      this.$refs.refSubjectDetail.getSubjectRow(row);
+      this.currentSubjectIndex = index
+      this.subjectFormData = { ...row }
+      this.isShowMoreOptationDialog = true
+      this.$refs.refSubjectDetail.getSubjectRow(row)
     },
     // 打开科目弹出框
     openSubjectDialog(type) {
       if (type) {
-        this.$refs.refSubjectDialog.getSubjectRow({ Id: 0 });
+        this.$refs.refSubjectDialog.getSubjectRow({ Id: 0 })
       } else {
-        this.$refs.refSubjectDialog.getSubjectRow(this.subjectFormData);
+        this.$refs.refSubjectDialog.getSubjectRow(this.subjectFormData)
       }
     },
     // 添加或编辑之后更新列表数据
     updateSubjectList(type, rowData) {
       if (type) {
-        this.subjectList.push(rowData);
+        this.subjectList.push(rowData)
       } else {
-        this.$set(this.subjectList, this.currentSubjectIndex, rowData);
-        this.$refs.refSubjectDetail.getSubjectRow(rowData);
-        this.subjectFormData = { ...rowData };
+        this.$set(this.subjectList, this.currentSubjectIndex, rowData)
+        this.$refs.refSubjectDetail.getSubjectRow(rowData)
+        this.subjectFormData = { ...rowData }
       }
     },
     // 关联章节管理
     addChapter: function(index, row) {
       this.$router.push({
-        name: "addChapter",
+        name: 'addChapter',
         query: { Label: row.Label, Id: row.Id }
-      });
+      })
     },
     // 关联试题管理
     questionManager: function(index, row) {
       this.$router.push({
-        name: "questionsList",
+        name: 'questionsList',
         query: { Label: row.Label, Id: row.Id }
-      });
+      })
     },
     // 学生作业
     gotoBookExercisePage(index, row) {
       this.$router.push({
-        name: "chapterExercise",
+        name: 'chapterExercise',
         query: { Id: row.Id }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style scope>
 .el-dialog.exerciseSitaution {

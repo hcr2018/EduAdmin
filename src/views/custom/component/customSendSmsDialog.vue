@@ -40,7 +40,7 @@ export default {
       customInfo: {},
       // 发送短信的内容。包括电话和短信内容
       sendSmsMSG: {}
-    };
+    }
   },
   mounted() {},
 
@@ -48,20 +48,20 @@ export default {
     // 获取客户的单条数据
     getCustomRowData(row) {
       // 初始化数据
-      this.showSendSMSDialog = true;
-      this.customInfo = {};
-      this.sendSmsMSG = {};
-      this.customInfo = { ...row };
-      this.sendSmsMSG.Telephone = this.customInfo.Telephone;
+      this.showSendSMSDialog = true
+      this.customInfo = {}
+      this.sendSmsMSG = {}
+      this.customInfo = { ...row }
+      this.sendSmsMSG.Telephone = this.customInfo.Telephone
       this.sendSmsMSG.Content =
         this.customInfo.Realname +
-        ",你好，你最近还在找工作没。我这边是成都阿多比设计的老师，我们在招UI设计师学徒。不知道你这边有没有兴趣";
+        ',你好，你最近还在找工作没。我这边是成都阿多比设计的老师，我们在招UI设计师学徒。不知道你这边有没有兴趣'
     },
     getContent() {
-      return this.sendSmsMSG.Content;
+      return this.sendSmsMSG.Content
     },
     closeDialog() {
-      this.showSendSMSDialog = false;
+      this.showSendSMSDialog = false
     },
 
     // 发送短信
@@ -70,17 +70,17 @@ export default {
         this.sendSmsMSG.Content.length >= 3 &&
         this.sendSmsMSG.Content.length <= 70
       ) {
-        this.$emit("sendSMS", this.sendSmsMSG);
+        this.$emit('sendSMS', this.sendSmsMSG)
       } else {
-        this.common.go_alert("请输入3-70个字符");
+        this.common.go_alert('请输入3-70个字符')
       }
     },
     // 强制刷新
     inputForceUpdate() {
-      this.$forceUpdate();
+      this.$forceUpdate()
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 </style>

@@ -1,12 +1,12 @@
 import { asyncRoutes, constantRoutes } from '@/router'
-
+import Layout from '@/layout'
 /**
  * Use meta.role to determine if the current user has permission
  * @param role
  * @param route
  */
-function hasPermission(role, route) { 
-  if (route.meta && route.meta.roles) { 
+function hasPermission(role, route) {
+  if (route.meta && route.meta.roles) {
     return route.meta.roles.includes(role)
   } else {
     return true
@@ -47,14 +47,39 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, role) { 
+  generateRoutes({ commit }, managerdata) {
     return new Promise(resolve => {
-      let accessedRoutes 
-      if (role == 1) {
+      let accessedRoutes
+      if (managerdata.role == 1) {
+        // 分校工作员
         accessedRoutes = asyncRoutes || []
       } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, role)
+        // 管理员
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, managerdata.role)
       }
+
+      const topPlatformRoute = {
+        path: '/platform',
+        component: Layout,
+        redirect: 'noRedirect',
+        name: 'platform',
+        meta: {
+          title: 'platform',
+          icon: 'nested'
+        },
+        children: []
+      }
+
+      managerdata.myPlatformList.forEach(platform => {
+        const platformRoute = {
+          path: 'list/' + platform.Id,
+          component: () => import('@/views/platform/index'), // Parent router-view
+          name: platform.Label,
+          meta: { title: platform.Label }
+        }
+        topPlatformRoute.children.push(platformRoute)
+      })
+      accessedRoutes.push(topPlatformRoute)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })

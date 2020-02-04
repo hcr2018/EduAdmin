@@ -1,9 +1,9 @@
 import request from '@/utils/request'
-//   ----------------客户跟进记录相关操作--------------------- 
+//   ----------------客户跟进记录相关操作---------------------
 // 获取客户的跟进数据
 export function getCustomTracks(url, query, data) {
   return request({
-    url: "/studenttrack/getStudentTracks/" + url,
+    url: '/studenttrack/getStudentTracks/' + url,
     method: 'get',
     params: query,
     data
@@ -12,7 +12,7 @@ export function getCustomTracks(url, query, data) {
 // 添加客户的跟进数据
 export function addcustomTracks(url, query, data) {
   return request({
-    url: "/studenttrack/addStudentTrack" + url,
+    url: '/studenttrack/addStudentTrack' + url,
     method: 'post',
     params: query,
     data
@@ -21,7 +21,7 @@ export function addcustomTracks(url, query, data) {
 // 上传跟进记录中的照片
 export function uploadImgInTracks(url, query, data) {
   return request({
-    url: "/managecourse/uploadImage/studentTrack" + url,
+    url: '/managecourse/uploadImage/studentTrack' + url,
     method: 'post',
     params: query,
     data
@@ -30,7 +30,7 @@ export function uploadImgInTracks(url, query, data) {
 // 回复跟进记录
 export function replyTracks(url, query, data) {
   return request({
-    url: "/studenttrack/replyStudentTrack/" + url,
+    url: '/studenttrack/replyStudentTrack/' + url,
     method: 'put',
     params: query,
     data
@@ -39,7 +39,7 @@ export function replyTracks(url, query, data) {
 // 客户回复短信，写入跟进记录
 export function receiveSmsTrack(url, query, data) {
   return request({
-    url: "/studenttrack/receiveSmsTrack/" + url,
+    url: '/studenttrack/receiveSmsTrack/' + url,
     method: 'post',
     params: query,
     data
@@ -48,19 +48,19 @@ export function receiveSmsTrack(url, query, data) {
 // 获取跟进记录列表
 export function getTrackList(url, query, data) {
   return request({
-    url: "/studenttrack/getAllTracks/" + url,
+    url: '/studenttrack/getAllTracks/' + url,
     method: 'get',
     params: query,
     data
   })
 }
 
-//   ----------------客户购买课程相关操作--------------------- 
+//   ----------------客户购买课程相关操作---------------------
 
 // 获取客户购买课程的记录
 export function getCustomBuyCouseRecord(url, query, data) {
   return request({
-    url: "/student/queryStudentPayedRecord" + url,
+    url: '/student/queryStudentPayedRecord' + url,
     method: 'get',
     params: query,
     data
@@ -93,7 +93,7 @@ export function deleteBuyCourse(url, query, data) {
     data
   })
 }
-//   ----------------客户个人信息相关操作--------------------- 
+//   ----------------客户个人信息相关操作---------------------
 
 // 获取客户信息列表
 export function getCustomInfoList(url, query, data) {
@@ -167,14 +167,3 @@ export function batchChangeManager(url, query, data) {
     data
   })
 }
-
-//   ----------------客户-学籍相关操作--------------------- 
-// 获取客户的学籍列表
-export function getStudentStatustByStudent(url, query, data) {
-  return request({
-    url: "/student_status/getStudentStatustByStudent/" + url,
-    method: 'get',
-    params: query,
-    data
-  })
-} 

@@ -31,7 +31,7 @@
               {{ $t('navbar.profile') }}
             </el-dropdown-item>
           </router-link>
-        
+
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>

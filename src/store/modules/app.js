@@ -68,11 +68,11 @@ const actions = {
     commit('SET_SIZE', size)
   },
   // getPlatformList
-  getPlatformList({ commit }) { 
+  getPlatformList({ commit }) {
     return new Promise((resolve, reject) => {
-      getAllTPlatform("", "", "").then(response => {
-        commit('SET_PLATFORMLIST', response.data)  
-        resolve();
+      getAllTPlatform('', '', '').then(response => {
+        commit('SET_PLATFORMLIST', response.data)
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -81,9 +81,9 @@ const actions = {
   // getPlatformList
   getCollegeWithCourseKind({ commit }) {
     return new Promise((resolve, reject) => {
-      getCollegeWithCourseKind("", "", "").then(response => {
+      getCollegeWithCourseKind('', '', '').then(response => {
         commit('SET_COLLEGEWITHCOURSEKIND', response.data)
-        resolve();
+        resolve()
       }).catch(error => {
         rr
         reject(error)
@@ -93,9 +93,9 @@ const actions = {
   // getPlatformList
   getAllCourseKind({ commit }) {
     return new Promise((resolve, reject) => {
-      getAllCourseKind("", "", "").then(response => {
+      getAllCourseKind('', '', '').then(response => {
         commit('SET_COURSEKIND', response.data)
-        resolve();
+        resolve()
       }).catch(error => {
         reject(error)
       })

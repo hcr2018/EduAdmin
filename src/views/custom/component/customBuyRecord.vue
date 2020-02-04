@@ -3,7 +3,6 @@
   <!-- --------------------客户的跟进记录模块----------------------- -->
   <div class="p_both10 p-t-5">
     <el-table
-      ref="refElTabel"
       :data="customBuyCourseList"
       border
       tooltip-effect="dark"
@@ -139,7 +138,7 @@
 </template>
 
 <script>
-import { 
+import {
   GetStudentDataTrackAnalysis,
   getCustomTracks,
   addcustomTracks,
@@ -160,14 +159,21 @@ import {
   setStar,
   batchChangeManager,
   getStudentStatustByStudent
-} from "@/api/custom"; 
+} from '@/api/custom'
+import {
+
+  UploadImgCustomTrack
+} from '@/api/upload'
+
 import {
   GetCourseOfKind
-} from "@/api/course";  
+} from '@/api/course'
+import common from '@/utils/common'
 export default {
-  name: "CustomBuyRecord",
+  name: 'CustomBuyRecord',
   data() {
     return {
+      common,
       sendSMS: true,
       // 客户Id
       customID: null,
@@ -194,114 +200,114 @@ export default {
       // 表单验证
       buyCourseRules: {
         selectedCourseId: [
-          { required: true, message: "课程不能为空", trigger: "blur" }
+          { required: true, message: '课程不能为空', trigger: 'blur' }
         ],
         courseStudyTime: [
-          { required: true, message: "课时时效不能为空", trigger: "blur" }
+          { required: true, message: '课时时效不能为空', trigger: 'blur' }
         ],
         actualPrice: [
-          { required: true, message: "实际金额不能为空", trigger: "blur" }
+          { required: true, message: '实际金额不能为空', trigger: 'blur' }
         ]
       }
-    };
+    }
   },
   mounted() {
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
+    // setTimeout(() => {
+    //   this.$refs.refElTabel.doLayout();
+    // }, 2000);
   },
 
   methods: {
     // 根据选中的学院获取课程大类
     collegeChange(selVa) {
-      this.selectCourseKindId = null;
-      this.selectCourseKindIndex = null;
-      this.addBuyCourseFormData.selectedCourseId = null;
-      this.courseOptions = [];
-      const courseKindArr = this.common.collegeWithCouseKindList[selVa].Children;
-      this.courseKindsOps = courseKindArr || [];
-      this.selectCollegeid = this.common.collegeWithCouseKindList[selVa].Id;
+      this.selectCourseKindId = null
+      this.selectCourseKindIndex = null
+      this.addBuyCourseFormData.selectedCourseId = null
+      this.courseOptions = []
+      const courseKindArr = this.common.collegeWithCouseKindList[selVa].Children
+      this.courseKindsOps = courseKindArr || []
+      this.selectCollegeid = this.common.collegeWithCouseKindList[selVa].Id
       if (this.courseKindsOps.length > 0) {
-        this.selectCourseKindIndex = 0;
-        this.changeSelectCourseKind(0);
+        this.selectCourseKindIndex = 0
+        this.changeSelectCourseKind(0)
       }
     },
     // 根据选中的课程大类获取课程
     async changeSelectCourseKind(selVa) {
-      this.addBuyCourseFormData.selectedCourseId = null;
-      this.selectCourseKindId = this.courseKindsOps[selVa].Id;
-      const res = await GetCourseOfKind({
+      this.addBuyCourseFormData.selectedCourseId = null
+      this.selectCourseKindId = this.courseKindsOps[selVa].Id
+      const res = await GetCourseOfKind('', {
         kindid: this.selectCourseKindId
-      });
-      this.courseOptions = res.data ? res.data : [];
+      })
+      this.courseOptions = res.data ? res.data : []
       if (this.courseOptions.length > 0) {
-        this.addBuyCourseFormData.selectedCourseId = this.courseOptions[0].Id;
+        this.addBuyCourseFormData.selectedCourseId = this.courseOptions[0].Id
       }
     },
     forceUpdate($event) {
-      this.$forceUpdate();
+      this.$forceUpdate()
     },
     // 获取客户的单条数据
     getCustomId(id) {
-      this.customBuyCourseList = [];
-      this.addBuyCourseFormData = {};
-      this.courseStudyDay = 0;
-      this.selectCourseKindId = null;
-      this.courseOptions = [];
-      this.customID = id;
-      this.getBuyCouseRecord();
+      this.customBuyCourseList = []
+      this.addBuyCourseFormData = {}
+      this.courseStudyDay = 0
+      this.selectCourseKindId = null
+      this.courseOptions = []
+      this.customID = id
+      this.getBuyCouseRecord()
     },
     // 上传跟进记录的图片
     async uploadTrackImg(file) {
-      const res = await $ImgHttp.UploadImgCustomTrack(file.raw);
+      const res = await UploadImgCustomTrack(file.raw)
       if (res.code == 200) {
-        this.common.go_alert("上传成功！");
-        this.trackImgList.push(res.data);
+        this.common.go_alert('上传成功！')
+        this.trackImgList.push(res.data)
       }
     },
 
     // 获取客户的购买记录
     async getBuyCouseRecord() {
-      const res = await getCustomBuyCouseRecord({
+      const res = await getCustomBuyCouseRecord('', {
         studentid: this.customID,
         kind: 2,
         limit: 100000,
         offset: 0
-      });
+      })
       if (res.code == 200) {
         if (res.data) {
           res.data.forEach(item => {
-            const newitem = item;
-            if (item.Info != "") {
-              const info = JSON.parse(item.Info);
-              newitem.ForbiddenVideo = info.ForbiddenVideo;
+            const newitem = item
+            if (item.Info != '') {
+              const info = JSON.parse(item.Info)
+              newitem.ForbiddenVideo = info.ForbiddenVideo
             }
-            this.customBuyCourseList.unshift(newitem);
-          });
+            this.customBuyCourseList.unshift(newitem)
+          })
         }
       }
     },
     // 点击添加购买课程记录
     addBuyCourse() {
-      this.addBuyCourseDialog = true;
-      this.addBuyCourseFormData = {};
+      this.addBuyCourseDialog = true
+      this.addBuyCourseFormData = {}
     },
 
     // 显示日期处理
     dateFormat(row, column, cellValue, index) {
-      return this.common.dateFormat(cellValue, false);
+      return this.common.dateFormat(cellValue, false)
     },
     // 指定格式支付方式
     paymethodFormat(row, column, cellValue, index) {
       switch (cellValue) {
-        case "":
-          return "线下购买";
-        case "alipay":
-          return "支付宝";
-        case "wxpay":
-          return "微信";
+        case '':
+          return '线下购买'
+        case 'alipay':
+          return '支付宝'
+        case 'wxpay':
+          return '微信'
       }
-      return cellValue;
+      return cellValue
     },
     // 处理日期格式
     changeSelectStudyTime() {
@@ -309,19 +315,19 @@ export default {
         (this.addBuyCourseFormData.courseStudyTime[1] -
           this.addBuyCourseFormData.courseStudyTime[0]) /
         3600 /
-        24000;
+        24000
     },
     // 保存购买记录
     saveBuyCourseRecord() {
       this.$refs.refbuyCourse.validate(valid => {
         if (valid) {
-          const that = this;
-          that.customBuyCourseList = [];
+          const that = this
+          that.customBuyCourseList = []
           that
-            .$confirm("确认添加吗", "提示", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning"
+            .$confirm('确认添加吗', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
             })
             .then(async() => {
               const params = {
@@ -335,65 +341,65 @@ export default {
                 shishou: that.addBuyCourseFormData.actualPrice,
                 sms: that.sendSMS,
                 collegeid: that.selectCollegeid
-              };
+              }
               const res = await addCustomBuyCourseRecord(
                 that.addBuyCourseFormData.selectedCourseId,
                 params,
-                true
-              );
+                ''
+              )
               if (res.code == 200) {
                 if (res.data) {
                   res.data.forEach(item => {
-                    const newitem = item;
-                    if (item.Info != "") {
-                      const info = JSON.parse(item.Info);
-                      newitem.ForbiddenVideo = info.ForbiddenVideo;
+                    const newitem = item
+                    if (item.Info != '') {
+                      const info = JSON.parse(item.Info)
+                      newitem.ForbiddenVideo = info.ForbiddenVideo
                     }
-                    that.customBuyCourseList.unshift(newitem);
-                  });
+                    that.customBuyCourseList.unshift(newitem)
+                  })
                 }
-                that.addBuyCourseDialog = false;
+                that.addBuyCourseDialog = false
                 if (that.sendSMS == true) {
-                  this.common.go_alert("手动添加成功，并已发送短信告知对方");
+                  this.common.go_alert('手动添加成功，并已发送短信告知对方')
                 } else {
-                  this.common.go_alert("手动添加成功!");
+                  this.common.go_alert('手动添加成功!')
                 }
               }
             })
-            .catch(() => {});
+            .catch(() => {})
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     // 允许做题与否
     async onChangeExamHandler(checked, row, vedioOrExam) {
-      const urlParams = row.Id + "/" + vedioOrExam + "/" + checked;
-      const res = customAllowDoExercise(urlParams);
+      const urlParams = row.Id + '/' + vedioOrExam + '/' + checked
+      const res = customAllowDoExercise(urlParams)
       if (res.code == 200) {
       }
     },
     // 删除购买记录
     deleteBuyCourseRecord(id, index) {
-      this.$confirm("确定删除吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('确定删除吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(async() => {
-          const res = await deleteBuyCourse(id);
+          const res = await deleteBuyCourse(id, '', '')
           if (res.code == 200) {
-            this.common.go_alert("删除成功!");
-            this.customBuyCourseList.splice(index, 1);
+            this.common.go_alert('删除成功!')
+            this.customBuyCourseList.splice(index, 1)
           }
         })
         .catch(() => {
-          return false;
-        });
+          return false
+        })
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .addBuyCourse >>> .el-select,
 .addBuyCourse >>> .el-date-editor,

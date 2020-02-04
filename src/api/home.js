@@ -18,4 +18,4 @@ export function GetStudentDataTrackAnalysis(url, query, data) {
     data
   })
 }
- 
+

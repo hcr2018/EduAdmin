@@ -58,8 +58,8 @@
   </el-dialog>
 </template>
 <script>
-import { editBook, addBook } from "@/api/book";
-import common from "@/utils/common";
+import { editBook, addBook } from '@/api/book'
+import common from '@/utils/common'
 export default {
   data() {
     return {
@@ -73,72 +73,72 @@ export default {
       courseKindsOps: [],
       // 表单验证
       subjectFormRules: {
-        Label: [{ required: true, message: "名称不能为空", trigger: "blur" }],
-        Topic: [{ required: true, message: "请输入章节数", trigger: "blur" }]
+        Label: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
+        Topic: [{ required: true, message: '请输入章节数', trigger: 'blur' }]
       }
-    };
+    }
   },
   mounted() {},
   methods: {
     // 获取获取科目数据
     getSubjectRow(row) {
-      this.collegeIndex = 0;
-      this.subjectRowData = {};
-      this.courseKindsOps = [];
-      this.subjectRowData = { ...row };
+      this.collegeIndex = 0
+      this.subjectRowData = {}
+      this.courseKindsOps = []
+      this.subjectRowData = { ...row }
       if (this.subjectRowData.Id == 0) {
-        this.collegeChange(0);
-        this.subjectRowData.Content = "[]";
+        this.collegeChange(0)
+        this.subjectRowData.Content = '[]'
       }
-      this.isShowSubjectDialog = true;
+      this.isShowSubjectDialog = true
     },
     // 保存添加或编辑数据
     saveSubjectFormData() {
       // 验证表单数据
       this.$refs.refSubjectElForm.validate(async valid => {
         if (valid) {
-          let res;
+          let res
           if (this.subjectRowData.Id > 0) {
             // 编辑科目
             res = await editBook(
               this.subjectRowData.Id,
               this.subjectRowData
-            );
+            )
             if (res.code == 200) {
-              this.common.go_alert("修改成功！");
-              this.isShowSubjectDialog = false;
-              this.$emit("subClickEvent", 0, res.data);
+              this.common.go_alert('修改成功！')
+              this.isShowSubjectDialog = false
+              this.$emit('subClickEvent', 0, res.data)
             }
           } else {
             // 创建科目
-            res = await addBook(this.subjectRowData);
+            res = await addBook(this.subjectRowData)
             if (res.code == 200) {
-              this.common.go_alert("创建成功！");
-              this.$emit("subClickEvent", 1, res.data);
-              this.subjectRowData = {};
-              this.isShowSubjectDialog = false;
+              this.common.go_alert('创建成功！')
+              this.$emit('subClickEvent', 1, res.data)
+              this.subjectRowData = {}
+              this.isShowSubjectDialog = false
             }
           }
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     // 选中学院后回调选中课程大类
     collegeChange(selVa) {
-      this.subjectRowData.Coursekind = "";
+      this.subjectRowData.Coursekind = ''
       if (this.common.collegeWithCouseKindList[selVa].Children) {
         this.courseKindsOps = [
           ...this.common.collegeWithCouseKindList[selVa].Children
-        ];
+        ]
         if (this.courseKindsOps.length > 0) {
-          this.subjectRowData.Coursekind = this.courseKindsOps[0].Label;
+          this.subjectRowData.Coursekind = this.courseKindsOps[0].Label
         }
       }
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .subjectInfo >>> .el-select {
   width: 100%;
@@ -146,4 +146,4 @@ export default {
 .subjectInfo >>> .el-date-editor {
   width: 100%;
 }
-</style> 
+</style>

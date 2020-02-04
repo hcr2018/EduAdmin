@@ -45,9 +45,9 @@
   </el-dialog>
 </template>
 
-<script> 
+<script>
 export default {
-  name: "PlatformRowDialog",
+  name: 'PlatformRowDialog',
   data() {
     return {
       // 是否显示平台弹出框
@@ -61,35 +61,35 @@ export default {
       // 表单验证
       platFormInfoRules: {
         Label: [
-          { required: true, message: "站点名称不能为空", trigger: "blur" }
+          { required: true, message: '站点名称不能为空', trigger: 'blur' }
         ],
         Telephone: [
-          { required: true, message: "请输入电话号码", trigger: "blur" },
+          { required: true, message: '请输入电话号码', trigger: 'blur' },
           {
             pattern: /^\d{11}$/,
-            message: "请输入正确的手机号",
-            trigger: "blur"
+            message: '请输入正确的手机号',
+            trigger: 'blur'
           }
         ]
       }
-    };
+    }
   },
   mounted() {},
   methods: {
     change($event) {
-      this.$forceUpdate();
+      this.$forceUpdate()
     },
     // 获取表单数据
     getPlatformRowData(rowData) {
       // 初始化数据
-      this.masterID = null;
-      this.platformInfoData = {};
-      this.PlatformWorkers = {};
-      this.isShowPlatformDialog = true;
-      this.platformInfoData = { ...rowData };
-      this.masterID = this.platformInfoData.MasterID;
+      this.masterID = null
+      this.platformInfoData = {}
+      this.PlatformWorkers = {}
+      this.isShowPlatformDialog = true
+      this.platformInfoData = { ...rowData }
+      this.masterID = this.platformInfoData.MasterID
       if (this.platformInfoData.Id) {
-        this.platformWorkers();
+        this.platformWorkers()
       }
     },
     // 保存客户信息
@@ -139,5 +139,5 @@ export default {
       // }
     }
   }
-};
-</script>  
+}
+</script>

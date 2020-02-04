@@ -165,7 +165,7 @@
 </template>
 
 <script>
-import { 
+import {
   GetStudentDataTrackAnalysis,
   getCustomTracks,
   addcustomTracks,
@@ -186,8 +186,8 @@ import {
   setStar,
   batchChangeManager,
   getStudentStatustByStudent
-} from "@/api/custom";
-  
+} from '@/api/custom'
+
 import {
   UploadImgExercise,
   UploadImgCourse,
@@ -199,9 +199,9 @@ import {
   UploadImgCourseTravelBrochure,
   UploadImgCustomTrack,
   UploadImgStudentStatus
-} from "@/api/upload"; 
-import myImageViewer from "@/components/myImageViewer/myImageViewer";
-import common from "@/utils/common";
+} from '@/api/upload'
+import myImageViewer from '@/components/myImageViewer/myImageViewer'
+import common from '@/utils/common'
 export default {
   components: {
     myImageViewer
@@ -216,164 +216,164 @@ export default {
       // 表单验证规则
       customInfoRules: {
         Realname: [
-          { required: true, message: "请输入客户姓名", trigger: "blur" }
+          { required: true, message: '请输入客户姓名', trigger: 'blur' }
         ],
         Qq: [
           {
             pattern: /^[0-9]*$/,
-            message: "QQ号必须为数字值",
-            trigger: "blur"
+            message: 'QQ号必须为数字值',
+            trigger: 'blur'
           }
         ],
-        Sex: [{ required: true, message: "请选择客户性别", trigger: "blur" }],
+        Sex: [{ required: true, message: '请选择客户性别', trigger: 'blur' }],
         Telephone: [
-          { required: true, message: "请输入电话号码", trigger: "blur" },
+          { required: true, message: '请输入电话号码', trigger: 'blur' },
           {
             pattern: /^\d{11}$/,
-            message: "请输入正确的手机号",
-            trigger: "blur"
+            message: '请输入正确的手机号',
+            trigger: 'blur'
           }
         ],
         Platform: [
-          { required: true, message: "必须选择一个站点", trigger: "blur" }
+          { required: true, message: '必须选择一个站点', trigger: 'blur' }
         ]
       },
       // 学历选择
       educationallevel: [
-        "高中及以下",
-        "大学专科",
-        "大学本科",
-        "研究生及以上",
-        "学历不详"
+        '高中及以下',
+        '大学专科',
+        '大学本科',
+        '研究生及以上',
+        '学历不详'
       ],
       // 创建日期的字段
-      createTime: "",
+      createTime: '',
       // 存放客户图片的数组
       customImgArr: [],
       // 存放平台老师的的数组
       platformTeacherOptions: []
-    };
+    }
   },
   mounted() {},
 
   methods: {
     // 获取客户的单条数据
     getCustomRowData(row) {
-      this.showCustomDialog = true;
-      this.customImgArr = [];
-      this.customInfo = {};
-      this.customInfo = { ...row };
+      this.showCustomDialog = true
+      this.customImgArr = []
+      this.customInfo = {}
+      this.customInfo = { ...row }
       if (this.customInfo.id > 0) {
         if (this.customInfo.Info) {
-          const info = JSON.parse(this.customInfo.Info);
+          const info = JSON.parse(this.customInfo.Info)
           if (info.attach_image) {
-            this.customImgArr = info.attach_image.split(",");
+            this.customImgArr = info.attach_image.split(',')
           }
         }
       } else {
         if (this.$route.query.id) {
-          this.customInfo.Platform = parseInt(this.$route.query.id);
+          this.customInfo.Platform = parseInt(this.$route.query.id)
         }
-        this.customInfo.ManagerID = this.$store.state.userInformation.Id;
-        this.customInfo.ManagerLabel = this.$store.state.userInformation.Realname;
+        this.customInfo.ManagerID = this.$store.state.userInformation.Id
+        this.customInfo.ManagerLabel = this.$store.state.userInformation.Realname
       }
     },
 
     // 重置客户密码
     resetCustomPassword(studentid) {
-      const that = this;
+      const that = this
       that
-        .$confirm("确认重置该账户密码?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        .$confirm('确认重置该账户密码?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         })
         .then(async() => {
-          const res = await resetCustomPassword(studentid);
+          const res = await resetCustomPassword(studentid)
           if (res.code == 200) {
-            that.$alert("当前密码是:" + res.title, "密码", {
-              confirmButtonText: "确定",
+            that.$alert('当前密码是:' + res.title, '密码', {
+              confirmButtonText: '确定',
               callback: action => {
-                that.$set(that.customTableDataList, index, res.data);
+                that.$set(that.customTableDataList, index, res.data)
               }
-            });
+            })
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     // 检查电话号码是否重复
     async checkRepeatPhone() {
       if (this.customInfo.Telephone.length == 11) {
-        const res = await checkTelephone(this.customInfo.Telephone);
+        const res = await checkTelephone(this.customInfo.Telephone)
         if (res.code == 200) {
-          if (res.data && res.title != "ok") {
-            const mes = `<span class='color-2e77f8'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-2e77f8'>${res.data.Realname}</span>已使用过该号码哦！`;
-            this.$alert(mes, "提示", {
-              confirmButtonText: "确定",
-              type: "warning",
+          if (res.data && res.title != 'ok') {
+            const mes = `<span class='color-2e77f8'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-2e77f8'>${res.data.Realname}</span>已使用过该号码哦！`
+            this.$alert(mes, '提示', {
+              confirmButtonText: '确定',
+              type: 'warning',
               dangerouslyUseHTMLString: true,
               callback: action => {}
-            });
+            })
           }
         }
       }
     },
     // 客户资料图片上传
     async uploadCustomImg(file) {
-      const res = await UploadAddCustom(file.raw);
+      const res = await UploadAddCustom('', '', file.raw)
       if (res.code == 200) {
-        this.common.go_alert("上传成功！");
-        this.customImgArr.push(res.data);
+        this.common.go_alert('上传成功！')
+        this.customImgArr.push(res.data)
       }
     },
     // 删除客户资料的图片
     deleCustomImg(index) {
-      this.customImgArr.splice(index, 1);
+      this.customImgArr.splice(index, 1)
     },
     // 保存客户信息
     saveCustomInfo() {
-      const that = this;
-      this.$refs["refCustomInfo"].validate(async valid => {
+      const that = this
+      this.$refs['refCustomInfo'].validate(async valid => {
         if (valid) {
           if (that.customInfo.id == 0) {
             // 新增
-            that.customInfo.kind = 3;
+            that.customInfo.kind = 3
             if (this.customImgArr.length > 0) {
-              this.customInfo.Info = {};
-              this.customInfo.Info.attach_image = this.customImgArr.join(",");
-              this.customInfo.Info = JSON.stringify(this.customInfo.Info);
+              this.customInfo.Info = {}
+              this.customInfo.Info.attach_image = this.customImgArr.join(',')
+              this.customInfo.Info = JSON.stringify(this.customInfo.Info)
             }
-            const res = await addCustomInfo(that.customInfo);
+            const res = await addCustomInfo('', '', that.customInfo)
             if (res.code == 200) {
-              that.common.go_alert("添加成功 !");
+              that.common.go_alert('添加成功 !')
               // 添加成功之后要触发父组件信息列表修改
-              that.$emit("subClickEvent", 1, res.data);
-              this.showCustomDialog = false;
+              that.$emit('subClickEvent', 1, res.data)
+              this.showCustomDialog = false
             }
           } else {
             // 修改
-            this.customInfo.info = JSON.stringify(this.customInfo.info);
-            const res = await editCustomInfo(that.customInfo);
+            this.customInfo.info = JSON.stringify(this.customInfo.info)
+            const res = await editCustomInfo('', '', that.customInfo)
             if (res.code == 200) {
-              that.common.go_alert("修改成功");
-              that.customInfo = res.data;
+              that.common.go_alert('修改成功')
+              that.customInfo = res.data
               // 修改成功之后要触发父组件信息列表修改
-              that.$emit("subClickEvent", 0, res.data);
-              this.showCustomDialog = false;
+              that.$emit('subClickEvent', 0, res.data)
+              this.showCustomDialog = false
             }
           }
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     // 强制刷新
     inputForceUpdate() {
-      this.$forceUpdate();
+      this.$forceUpdate()
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 .basicInfo >>> .el-select {
   width: 100%;

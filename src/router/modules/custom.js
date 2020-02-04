@@ -23,8 +23,8 @@ const customRouter = {
       component: () => import('@/views/custom/trackList'),
       name: 'trackList',
       meta: { title: 'trackList' }
-    } 
+    }
 
   ]
 }
-export default customRouter 
+export default customRouter

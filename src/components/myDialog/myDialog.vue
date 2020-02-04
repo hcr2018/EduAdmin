@@ -2,10 +2,11 @@
   <!-- 封装右侧弹出框 -->
   <div>
     <el-drawer
-      title="thisTitle"
+      :title="thisTitle"
       :visible.sync="visible"
       direction="rtl"
       :before-close="handleClose"
+      size="60%"
     >
       <div ref="msk" class="body_div flex_column" :style="style">
         <p class="dialog_header">{{ thisTitle }}</p>
@@ -61,23 +62,25 @@ export default {
     },
     width: {
       type: String,
-      default: "70%"
+      default: '70%'
     },
     thisTitle: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
-    return {};
+    return {
+      showDialog: false
+    }
   },
   computed: {
     style() {
-      const style = {};
+      const style = {}
       if (this.width) {
-        style.width = this.width;
+        style.width = this.width
       }
-      return style;
+      return style
     }
   },
   mounted() {},
@@ -85,9 +88,10 @@ export default {
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
-          this.drawer = false;
+          this.$emit('update:visible', false)
+          // this.visible = false;
         })
-        .catch(_ => {});
+        .catch(_ => {})
     }
     // close() {
     //   this.$emit("update:visible", false);
@@ -99,7 +103,7 @@ export default {
     // 　　　　}
     //       }
   }
-};
+}
 </script>
 <style scoped>
 .p-t-20 {

@@ -15,7 +15,7 @@
               class="m-v-10 radius3 border-e5ecf7"
             >
               <div class="center p_both20 m-t-10">
-               
+
                 <div class="m-l-15">
                   <p class="font14 color-666">
                     <span class="color-2e77f8">客户：{{ item.StudentLabel }}</span>
@@ -43,7 +43,7 @@
                       class="wid20"
                       src="/static/img/slice/uploadedIcon.png"
                       @click="onPreview(img)"
-                    > 
+                    >
                   </div>
                 </div>
               </div>
@@ -110,11 +110,11 @@ import {
   setStar,
   batchChangeManager,
   getStudentStatustByStudent
-} from "@/api/custom";
-import common from "@/utils/common";
-import myImageViewer from "@/components/myImageViewer/myImageViewer";
+} from '@/api/custom'
+import common from '@/utils/common'
+import myImageViewer from '@/components/myImageViewer/myImageViewer'
 export default {
-  name: "CustomBasicInfo",
+  name: 'CustomBasicInfo',
   components: {
     myImageViewer
   },
@@ -122,7 +122,7 @@ export default {
     return {
       common,
       // 预览图片的图片地址
-      imageViewerSrc: "",
+      imageViewerSrc: '',
       // 显示图片查看器
       showViewer: false,
       // 数据总条数
@@ -137,61 +137,61 @@ export default {
       customTrackList: [],
       // 当前回复跟进数据的索引
       currentReplyIndex: null
-    };
+    }
   },
   mounted() {
-    this.getCustomtTracks();
+    this.getCustomtTracks()
   },
 
   methods: {
     // 图片预览
     onPreview(src) {
-      this.showViewer = true;
-      this.imageViewerSrc = src;
+      this.showViewer = true
+      this.imageViewerSrc = src
     },
     // 获取客户的跟进记录
     getCustomtTracks() {
-      const offsetRow = (this.nowPage - 1) * this.rows;
+      const offsetRow = (this.nowPage - 1) * this.rows
       getTrackList(0, {
         limit: this.rows,
         offset: offsetRow
       })
         .then(res => {
-          this.allRows = res.title;
-          this.customTrackList = res.data ? res.data : [];
+          this.allRows = res.title
+          this.customTrackList = res.data ? res.data : []
           this.customTrackList.forEach(item => {
             if (item.Reply) {
-              item.Reply = JSON.parse(item.Reply);
+              item.Reply = JSON.parse(item.Reply)
             }
-          });
+          })
         })
-        .catch(err => {});
+        .catch(err => {})
     },
     // 分页获取数据
     getChangePage(val) {
-      this.nowPage = val;
-      this.getCustomtTracks();
+      this.nowPage = val
+      this.getCustomtTracks()
     },
     // 提交回复评论
     async submitReplyTrack(track, index) {
-      const oldtrack = { ...track };
+      const oldtrack = { ...track }
       if (!track.replyContent) {
-        this.common.go_alert("还没有输入内容哦 ！");
+        this.common.go_alert('还没有输入内容哦 ！')
       } else {
-        this.currentReplyIndex = index;
-        const res = await replyTracks(track.Id, track.replyContent);
+        this.currentReplyIndex = index
+        const res = await replyTracks(track.Id, '', track.replyContent)
         if (res.code == 200) {
-          this.common.go_alert("评论成功 ！");
+          this.common.go_alert('评论成功 ！')
           if (res.data) {
-            oldtrack.Reply = res.data;
-            oldtrack.replyContent = "";
-            this.customTrackList.splice(this.currentReplyIndex, 1, oldtrack);
+            oldtrack.Reply = res.data
+            oldtrack.replyContent = ''
+            this.customTrackList.splice(this.currentReplyIndex, 1, oldtrack)
           }
         }
       }
     }
   }
-};
-</script> 
+}
+</script>
 <style scoped>
 </style>

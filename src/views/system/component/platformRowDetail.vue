@@ -26,22 +26,22 @@
   </div>
 </template>
 
-<script> 
+<script>
 export default {
-  name: "PlatformForm",
+  name: 'PlatformForm',
   data() {
     return {
       //  站点的基本数据
       platformRow: {}
-    };
+    }
   },
   mounted() {},
   methods: {
     // 获取表单数据
     getPlatformRowData(row) {
-      this.platformRow = {};
-      this.platformRow = { ...row };
+      this.platformRow = {}
+      this.platformRow = { ...row }
     }
   }
-};
-</script>  
+}
+</script>

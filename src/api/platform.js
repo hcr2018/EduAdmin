@@ -38,7 +38,7 @@ export function setPlatformWorker(url, query, data) {
     data
   })
 }
-// 直接重新设置的工作人员列表  
+// 直接重新设置的工作人员列表
 export function setNewPlatformWorks(url, query, data) {
   return request({
     url: '/platform/setNewPlatformWorks/' + url,
@@ -48,7 +48,7 @@ export function setNewPlatformWorks(url, query, data) {
   })
 }
 
-// 获取的工作人员所在的校区 
+// 获取的工作人员所在的校区
 export function getPlatformAboutWorkers(url, query, data) {
   return request({
     url: '/platform/getPlatformOfManager/' + url,
@@ -58,7 +58,7 @@ export function getPlatformAboutWorkers(url, query, data) {
   })
 }
 
-// 获取的工作人员 
+// 获取的工作人员
 export function getPlatformWorkers(url, query, data) {
   return request({
     url: '/platform/getPlatformWorkers/' + url,
@@ -77,7 +77,7 @@ export function setPlatformMaster(url, query, data) {
     data
   })
 }
-//   ----------------销售人员的客户数据--------------------- 
+//   ----------------销售人员的客户数据---------------------
 // 获取客户信息列表
 
 export function getWorkersCustomList(url, query, data) {

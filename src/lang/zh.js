@@ -3,8 +3,8 @@ export default {
     dashboard: '数据仪表',
     system: '系统设置',
     setting: '设置',
-    platform: "分校",
-    sendSMS: "发送短信",
+    platform: '分校',
+    sendSMS: '发送短信',
     trackList: '跟进记录',
     customList: '客户列表',
     courseList: '课程列表',
@@ -44,7 +44,7 @@ export default {
     'menu1-2-2': '菜单 1-2-2',
     'menu1-3': '菜单 1-3',
     menu2: '菜单 2',
- 
+
     dynamicTable: '动态 Table',
     dragTable: '拖拽 Table',
     inlineEditTable: 'Table 内编辑',
@@ -176,5 +176,5 @@ export default {
     closeOthers: '关闭其它',
     closeAll: '关闭所有'
   }
- 
+
 }

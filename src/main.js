@@ -17,10 +17,21 @@ import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
-
-import * as filters from './filters' // global filters
+import VXETable from 'vxe-table'
+import VXETablePluginElement from 'vxe-table-plugin-element'
+import '../static/css/pcglobal.css'
+import '../static/css/theme/index.css'
+import '../static/css/lw.css'
+import '../static/css/scrollBar.css'
+import '../static/css/vxe.css'
+import 'vxe-table/lib/index.css'
+import 'xe-utils'
+import 'vxe-table-plugin-element/dist/style.css'
 import echarts from 'echarts'
+import * as filters from './filters' // global filters
 Vue.prototype.$echarts = echarts
+Vue.use(VXETable)
+VXETable.use(VXETablePluginElement)
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

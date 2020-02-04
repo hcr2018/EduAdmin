@@ -6,11 +6,11 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-/* Router Modules */ 
+/* Router Modules */
 import customRouter from './modules/custom'
 import courseRouter from './modules/course'
 import webRouter from './modules/web'
-import platformRouter from './modules/platform'
+// import platformRouter from './modules/platform'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -175,12 +175,12 @@ export const asyncRoutes = [
       }
     ]
   },
- 
+
   /** when your routing map is too long, you can split it into small modules **/
-  customRouter, 
+  customRouter,
   courseRouter,
   webRouter,
-  platformRouter, 
+  // platformRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

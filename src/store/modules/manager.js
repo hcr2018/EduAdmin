@@ -7,7 +7,8 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: 0
+  roles: 0,
+  myPlatformList: []
 }
 
 const mutations = {
@@ -24,7 +25,10 @@ const mutations = {
     state.avatar = avatar
   },
   SET_ROLES: (state, roles) => {
-    state.roles = roles 
+    state.roles = roles
+  },
+  SET_PLATFORMLIST: (state, list) => {
+    state.myPlatformList = list
   }
 }
 
@@ -33,11 +37,12 @@ const actions = {
   login({ commit }, userInfo) {
     const { tel, password } = userInfo
     return new Promise((resolve, reject) => {
-      login("", "", { tel: tel.trim(), password: password }).then(response => {
-        commit('SET_ROLES', response.data.role) 
-        commit('SET_TOKEN', response.title) 
-        setToken(response.title);
-        resolve();
+      login('', '', { tel: tel.trim(), password: password }).then(response => {
+        commit('SET_PLATFORMLIST', response.data.MyPlatformList)
+        commit('SET_ROLES', response.data.role)
+        commit('SET_TOKEN', response.title)
+        setToken(response.title)
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -74,7 +79,7 @@ const actions = {
 
   // user logout
   logout({ commit, dispatch }) {
-    return new Promise((resolve) => { 
+    return new Promise((resolve) => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       removeToken()
