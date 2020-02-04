@@ -9,16 +9,15 @@
 
 
 #### 安装教程
+后端程序采用的是go语言编写的。提供windows和linux版本供下载
+1.  首先请确保安装最新版的稳定mysql 和redis 版本。
+2.  在[后台程序下载（Linux版本）](http://www.todear.net:8990/download/linux_edu.zip)
+3.  在[后台程序下载（Windows版本）](http://www.todear.net:8990/download/windows_edu.zip)
+4.  在mysql数据库中先建立一个 edu的数据库。
+5.  解压上面下载的后台程序压缩包。将sql导入
+6.  修改conf目录下app.conf配置文件。其中的数据库账号和密码，以及redis账号和db编号。默认为0 第一个
+7.  运行程序即可完成。
 
-1.  后端
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
 
 #### 参与贡献
 
@@ -29,10 +28,4 @@
 
 
 #### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+ 
