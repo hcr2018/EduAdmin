@@ -1,9 +1,10 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <!-- 搜索内容-->
-      <div>
-        <el-form :inline="true" class="demo-form-inline">
+      <!-- 搜索内容-->   
+      <div class="p-t-20">
+        <el-form :inline="true">
+        
           <el-form-item label="所属学院">
             <el-select
               v-model="collegeIndex"
@@ -36,8 +37,7 @@
           </el-form-item>
           <el-form-item label="课程名称">
             <el-input
-              v-model="searchCourseLabel"
-              class="wid200"
+              v-model="searchCourseLabel"          
               placeholder="请输入课程名称"
               @keyup.native.enter="searchSubmit"
             />
@@ -45,6 +45,7 @@
           <el-form-item>
             <el-button type="primary" @click="searchSubmit">查询</el-button>
           </el-form-item>
+        
         </el-form>
       </div>
       <!-- 列表 -->

@@ -2,7 +2,7 @@
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <!-- 条件查询表单 -->
-      <div class="m-b-10">
+      <div class="p-t-20">
         <el-form :inline="true">
           <!-- 我的站点的时候使用，用来展示本站点所属的工作人员 -->
           <div v-show="this.$route.query.id">

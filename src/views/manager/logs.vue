@@ -1,7 +1,7 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <div class="flex_1 overflow_hide border-e0">
+      <div class="flex_1 overflow_hide border-e0 m-t-20">
         <div class="hgt_100 overflow_auto">
           <my-image-viewer
             v-if="showViewer"
