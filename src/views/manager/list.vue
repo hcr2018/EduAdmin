@@ -2,7 +2,7 @@
   <div class="font16 hgt_full" v-cloak>
     <div class="flex_column hgt_full">
       <!-- 查询表单 -->
-      <div class="m-b-10">
+      <div class="p-t-20">
         <el-form :inline="true">
           <el-form-item label="身份类型">
             <el-select v-model="searchRoleVal" class="wid140" placeholder="请选择身份类型">
