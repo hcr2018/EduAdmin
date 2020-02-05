@@ -140,7 +140,11 @@ export default {
     }
   },
   mounted() {
-    this.getCustomtTracks()
+    console.log(this.customTrackList );
+    if (this.customTrackList.length==0){
+ 
+      this.getCustomtTracks()
+      }
   },
 
   methods: {
