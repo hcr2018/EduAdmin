@@ -10,7 +10,7 @@ import Layout from '@/layout'
 import customRouter from './modules/custom'
 import courseRouter from './modules/course'
 import webRouter from './modules/web'
-// import platformRouter from './modules/platform'
+import managerRouter from './modules/manager'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -177,6 +177,7 @@ export const asyncRoutes = [
   },
 
   /** when your routing map is too long, you can split it into small modules **/
+  managerRouter,
   customRouter,
   courseRouter,
   webRouter,
