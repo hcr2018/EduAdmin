@@ -60,7 +60,7 @@
           <el-table-column label="姓名" width="120">
             <template slot-scope="scope">
               <span
-                class="color-2e77f8 font-w6 cursor"
+                class="color-1890ff font-w6 cursor"
                 @click="moreOperationOfTeacher(scope.$index, scope.row)"
               >{{scope.row.Realname}}</span>
             </template>
@@ -110,7 +110,7 @@
     <my-dialog
       :visible.sync="moreOperationDialog"
       :closeShow="true"
-      :title="teacherRowData.Realname"
+      :this-title="teacherRowData.Realname"
     >
       <div slot="left_content" class="p_both20 p-b-20">
         <teacher-row-detail ref="refTeacherDetail"></teacher-row-detail>

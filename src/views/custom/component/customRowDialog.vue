@@ -307,7 +307,7 @@ export default {
         const res = await checkTelephone(this.customInfo.Telephone)
         if (res.code == 200) {
           if (res.data && res.title != 'ok') {
-            const mes = `<span class='color-2e77f8'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-2e77f8'>${res.data.Realname}</span>已使用过该号码哦！`
+            const mes = `<span class='color-1890ff'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-1890ff'>${res.data.Realname}</span>已使用过该号码哦！`
             this.$alert(mes, '提示', {
               confirmButtonText: '确定',
               type: 'warning',

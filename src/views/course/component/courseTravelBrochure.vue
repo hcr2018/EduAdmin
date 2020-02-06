@@ -3,7 +3,7 @@
   <div class="p_both10 p-t-5">
     <!-- 展示图片 -->
     <div>
-      <p class="font16 color-2e77f8 border-b-e0 p-b-10 font-w6">展示图片</p>
+      <p class="font16 color-1890ff border-b-e0 p-b-10 font-w6">展示图片</p>
       <div class="flex_dom flex_wrap p-v-20">
         <div
           v-for="(item,index) in travelBrochureData.ImageList"
@@ -17,7 +17,7 @@
             fit="cover"
           />
           <div class="between-center m-v-5 wid80">
-            <span class="text-center color-2e77f8 font14 m-r-5">{{ item.Label }}</span>
+            <span class="text-center color-1890ff font14 m-r-5">{{ item.Label }}</span>
             <el-upload
               :auto-upload="false"
               action
@@ -50,7 +50,7 @@
       :url-list="[imageViewerSrc]"
     />
     <div class="m-t-20">
-      <p class="font16 color-2e77f8 border-b-e0 p-b-10 font-w6">任课老师</p>
+      <p class="font16 color-1890ff border-b-e0 p-b-10 font-w6">任课老师</p>
       <div class="flex_dom flex_wrap p-v-20">
         <div
           v-for="(item,index) in travelBrochureData.TeacherList"
@@ -70,7 +70,7 @@
             @click="onPreview(item.List)"
           >
           <div class="between-center m-v-5 wid80">
-            <span class="text-center color-2e77f8 font14 m-r-5">{{ item.Label }}</span>
+            <span class="text-center color-1890ff font14 m-r-5">{{ item.Label }}</span>
             <el-upload
               :auto-upload="false"
               action
@@ -97,7 +97,7 @@
     </div>
     <!-- 宣传视频 -->
     <div class="m-t-20">
-      <p class="font16 color-2e77f8 border-b-e0 p-b-10 font-w6">宣传视频</p>
+      <p class="font16 color-1890ff border-b-e0 p-b-10 font-w6">宣传视频</p>
       <div class="m-t-30">
         <el-form
           ref="refvideoForm"

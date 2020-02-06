@@ -86,7 +86,7 @@
               <el-button>上传</el-button>
             </el-upload>
           </div>
-          <span class="m-l-15 wid60 cursor color-2e77f8" @click="onPreview(courseRow.Background)">预览</span>
+          <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(courseRow.Background)">预览</span>
         </div>
       </el-form-item>
       <el-form-item label="教学体系图">
@@ -103,13 +103,13 @@
               <el-button>上传</el-button>
             </el-upload>
           </div>
-          <span class="m-l-15 wid60 cursor color-2e77f8" @click="onPreview(courseRow.Jxtx)">预览</span>
+          <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(courseRow.Jxtx)">预览</span>
         </div>
       </el-form-item>
       <el-form-item label="产品详情图">
         <div class="center">
           <el-input v-model="courseRow.Kcxq" disabled class="m-r-12 flex_1" />
-          <div class="color-2e77f8">
+          <div class="color-1890ff">
             <el-upload
               v-loading="isbusy3"
               :auto-upload="false"
@@ -120,7 +120,7 @@
               <el-button>上传</el-button>
             </el-upload>
           </div>
-          <span class="m-l-15 wid60 cursor color-2e77f8" @click="onPreview(courseRow.Kcxq)">预览</span>
+          <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(courseRow.Kcxq)">预览</span>
         </div>
       </el-form-item>
       <el-form-item label="查找学科">
