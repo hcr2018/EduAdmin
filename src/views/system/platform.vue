@@ -39,15 +39,15 @@
       >
         <!-- 展示站点的基本信息 -->
         <div slot="left_content" class="p_both20 p-b-20">
-          <platform-row-detail ref="refPlatformDetail" />
+          <platform-row-detail v-bind:platformInfoData="platformRowData" ref="refPlatformDetail" />
           <div class="text-center m-t-30">
-            <el-button type="primary" @click="openPlatformDialog(0)">编辑</el-button>
+            <el-button type="primary" @click="openPlatformDialog()">编辑</el-button>
           </div>
         </div>
         <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
       </my-dialog>
       <!-- 站点信息弹出框 -->
-      <platform-row-dialog ref="refPlatformDialog" @subClickEvent="updatePlatformList" />
+      <platform-row-dialog  v-bind:visible="editDialog" @subClickEvent="updatePlatformList" />
     </div>
   </div>
 </template>
@@ -68,6 +68,8 @@ export default {
     return {
       // 更多操作弹窗
       moreOperationDialog: false,
+       // 更多操作弹窗
+      editDialog: false,
       // 模态框获得的单条数据
       platformRowData: {},
       // 当前操作平台的索引
@@ -79,15 +81,9 @@ export default {
   },
   methods: {
     // 打开站点的弹出框
-    openPlatformDialog(type) {
-      // type=1新增，type=0编辑
-      if (type) {
-        this.$refs.refPlatformDialog.getPlatformRowData({ id: 0 })
-      } else {
-        this.$refs.refPlatformDialog.getPlatformRowData({
-          ...this.platformRowData
-        })
-      }
+    openPlatformDialog() { 
+      this.editDialog = true;
+      
     },
     // 追加数据后更新列表
     updatePlatformList(type, rowData) {
@@ -103,16 +99,13 @@ export default {
     },
     // 获取所有平台的信息
     getAllPlatform() {
-      this.$store.dispatch('app/getPlatformList').then(() => {
-        this.$refs.refElTabel.doLayout()
+      this.$store.dispatch('app/getPlatformList').then(() => { 
       })
     },
     // 打开更多操作的弹出框
-    openMoreOperationDialog(index, row) {
-      this.$refs.refPlatformDetail.getPlatformRowData({ ...row })
-      this.platformRowData = {}
+    openMoreOperationDialog(index, row) { 
       this.currentPlatformIndex = index
-      this.platformRowData = { ...row }
+      this.platformRowData = { ...row } 
       this.moreOperationDialog = true
     }
   }

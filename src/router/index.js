@@ -11,6 +11,7 @@ import customRouter from './modules/custom'
 import courseRouter from './modules/course'
 import webRouter from './modules/web'
 import managerRouter from './modules/manager'
+import systemRouter from './modules/system'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -38,28 +39,12 @@ import managerRouter from './modules/manager'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index')
-      }
-    ]
-  },
+export const constantRoutes = [ 
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
-  },
-  {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/auth-redirect'),
-    hidden: true
-  },
+  }, 
   {
     path: '/404',
     component: () => import('@/views/error-page/404'),
@@ -129,54 +114,9 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
-    path: '/system',
-    component: Layout,
-    redirect: 'noRedirect',
-    alwaysShow: true, // will always show the root menu
-    name: 'system',
-    meta: {
-      title: 'system',
-      icon: 'lock',
-      roles: [1, 0] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'setting',
-        component: () => import('@/views/system/setting'),
-        name: 'setting',
-        meta: {
-          title: 'setting',
-          icon: 'lock',
-          roles: [1, 0] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'platform',
-        component: () => import('@/views/system/platform'),
-        name: 'platform',
-        meta: {
-          title: 'platform',
-          icon: 'lock',
-          roles: [1, 0]
-          // if do not set roles, means: this page does not require permission
-        }
-      },
-      {
-        path: 'sendSMS',
-        component: () => import('@/views/system/sendSMS'),
-        name: 'sendSMS',
-        meta: {
-          title: 'sendSMS',
-          icon: 'lock',
-          roles: [1, 0]
-          // if do not set roles, means: this page does not require permission
-        }
-      }
-    ]
-  },
-
+  
   /** when your routing map is too long, you can split it into small modules **/
+  systemRouter,
   managerRouter,
   customRouter,
   courseRouter,

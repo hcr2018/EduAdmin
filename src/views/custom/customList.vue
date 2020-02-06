@@ -201,26 +201,26 @@
         </el-table-column>
         <el-table-column prop="Createtime" width="130" :formatter="TimeFormatter" label="录入时间" />
         <el-table-column prop="Comments" width="200" label="备注" :show-overflow-tooltip="true" />
-        <el-table-column label="操作" width="340" fixed="right">
+        <el-table-column label="操作" width="310" fixed="right">
           <template slot-scope="scope">
-            <el-button type="danger" @click="addCustomContract(scope.$index, scope.row)">办理报名</el-button>
-            <el-button
+            <el-button type="danger" style="margin:0px;" @click="addCustomContract(scope.$index, scope.row)">办理报名</el-button>
+            <el-button style="margin:0px"  size="mini"
               v-show="scope.row.status==1"
               type="info"
               @click="setCustomAccountStatus(scope.$index, scope.row,0)"
             >禁用</el-button>
-            <el-button
+            <el-button style="margin:0px" 
               v-show="scope.row.status==0"
-              type="success"
+              type="success"   size="mini"
               @click="setCustomAccountStatus(scope.$index, scope.row,1)"
             >启用</el-button>
-            <el-button
+            <el-button style="margin:0px" 
               :id="'callId'+scope.row.id"
               :disabled="connectTelStatus<=0"
-              type="warning"
+              type="warning"   size="mini"
               @click="callTelephone($event,scope.row)"
             >打电话</el-button>
-            <el-button :disabled="connectTelStatus<=0" @click="openSendSMSDialog(scope.row)">发短信</el-button>
+            <el-button :disabled="connectTelStatus<=0"   size="mini" style="margin:0px"  @click="openSendSMSDialog(scope.row)">发短信</el-button>
           </template>
         </el-table-column>
       </el-table>

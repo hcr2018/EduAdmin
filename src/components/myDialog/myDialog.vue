@@ -2,6 +2,7 @@
   <!-- 封装右侧弹出框 -->
   <div>
     <el-drawer
+    :wrapperClosable="false"
       :title="thisTitle"
       :visible.sync="visible"
       direction="rtl"
@@ -86,12 +87,12 @@ export default {
   mounted() {},
   methods: {
     handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          this.$emit('update:visible', false)
-          // this.visible = false;
-        })
-        .catch(_ => {})
+      this.$emit('update:visible', false)
+      // this.$confirm('确认关闭？')
+      //   .then(_ => {
+      //     // this.visible = false;
+      //   })
+      //   .catch(_ => {})
     }
     // close() {
     //   this.$emit("update:visible", false);
