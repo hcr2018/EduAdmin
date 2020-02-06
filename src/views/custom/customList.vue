@@ -4,7 +4,7 @@
       <!-- 条件查询表单 -->
       <div class="p-t-20">
         <el-form :inline="true">
-          <!-- 我的站点的时候使用，用来展示本站点所属的工作人员 -->
+          <!-- 我的校区的时候使用，用来展示本校区所属的工作人员 -->
           <div v-show="this.$route.query.id">
             <el-form-item label>
               <el-switch
@@ -141,7 +141,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="Description" width="100" label="描述" :show-overflow-tooltip="true" />
-        <el-table-column prop="Platform" width="110" label="归属站点">
+        <el-table-column prop="Platform" width="110" label="归属校区">
           <template
             slot-scope="scope"
           >{{ common.FormatSelect(common.platformList,scope.row.Platform) }}</template>
@@ -248,7 +248,7 @@
         :close-show="true"
         :this-title="customFormData.Realname"
       >
-        <!-- 展示站点的基本信息 -->
+        <!-- 展示校区的基本信息 -->
         <div slot="left_content" class="p_both20 p-b-20">
           <custom-row-detail :custom-data="customFormData" />
           <div class="text-center m-t-30">
@@ -366,9 +366,9 @@ export default {
       imageViewerSrc: '',
       // 显示图片查看器
       showViewer: false,
-      // 我的站点-当前工作人员可管理的其他工作人员的列表
+      // 我的校区-当前工作人员可管理的其他工作人员的列表
       myWorkerList: [],
-      // 我的站点-当前所选中销售人员的ID-条件查询
+      // 我的校区-当前所选中销售人员的ID-条件查询
       searchWorkerId: null,
       // 获取当前登录用的角色权限
       qxRole: '',
@@ -462,9 +462,9 @@ export default {
   },
   mounted() {
     this.qxRole = sessionStorage.ROLE
-    // 因为客户管理和我的站点应用的是同一个页面所有让当路由有参数是就代表但是我的站点
+    // 因为客户管理和我的校区应用的是同一个页面所有让当路由有参数是就代表但是我的校区
     if (this.$route.query.id) {
-      // 获取该站点下所属我的所有销售成员
+      // 获取该校区下所属我的所有销售成员
 
       this.getPlatformWorkers(this.$route.query.id)
     } else {
@@ -486,7 +486,7 @@ export default {
     closeViewer() {
       this.showViewer = false
     },
-    // 我的站点-根据当前登录用户选择的站点获取该站点下所属自己的销售
+    // 我的校区-根据当前登录用户选择的校区获取该校区下所属自己的销售
     async getPlatformWorkers(platformId) {
       const res = await getPlatformWorkers(platformId)
       if (res.code == 200) {
@@ -522,7 +522,7 @@ export default {
         endDate = parseInt(this.queryEndDate[1] / 1000 + 3600 * 24 - 1)
       }
       if (this.$route.query.id) {
-        // 站点-客户数据
+        // 校区-客户数据
         res = await getCustomInfoList('', {
           platformManager: this.searchWorkerId,
           limit: this.rows,

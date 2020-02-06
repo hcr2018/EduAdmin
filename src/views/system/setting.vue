@@ -39,7 +39,7 @@ export default {
   },
   mounted() {},
   methods: {
-    // 打开站点的弹出框
+    // 打开校区的弹出框
     openPlatformDialog(type) {
       // type=1新增，type=0编辑
       if (type) {

@@ -1,46 +1,74 @@
 <template>
   <div>
-    <p class="hgt50 l-h-50 border-2b-e0e3ea">基本信息 </p>
-    <div class="p_both10 p-v-20">
-      <div class="flex_dom">
-        <p class="color-606266 wid90 text-right">站点名称：</p>
-        <p class="fex_1 m-l-5">{{ platformInfoData.Label }}</p>
-      </div>
-      <div class="flex_dom m-t-10">
-        <p class="color-606266 wid90 text-right">负责人：</p>
-        <p class="fex_1 m-l-5">{{ platformInfoData.MasterLabel }}</p>
-      </div>
-      <div class="flex_dom m-t-10">
-        <p class="color-606266 wid90 text-right">联系电话：</p>
-        <p class="fex_1 m-l-5">{{ platformInfoData.Telephone }}</p>
-      </div>
-      <div class="flex_dom m-t-10">
-        <p class="color-606266 wid90 text-right">地址：</p>
-        <p class="fex_1 m-l-5">{{ platformInfoData.Address }}</p>
-      </div>
-      <div class="flex_dom m-t-10">
-        <p class="color-606266 wid90 text-right">备注：</p>
-        <p class="fex_1 m-l-5">{{ platformInfoData.Description }}</p>
-      </div>
-    </div>
+    <el-form
+      ref="refPlatForm"
+      :disabled="editEnable==false"
+      :model="platformInfoData"
+      :rules="platFormInfoRules" 
+       style="padding:50px 0px 0px 0px"
+       label-width="80px"
+      size="small" 
+    >
+      <el-form-item label="名称" prop="Label">
+        <el-input v-model="platformInfoData.Label" :disabled="platformInfoData.Id>0" />
+      </el-form-item>
+      <el-form-item label="联系电话" prop="Telephone">
+        <el-input v-model="platformInfoData.Telephone" @input="change()" />
+      </el-form-item>
+      <el-form-item label="地址">
+        <el-input v-model="platformInfoData.Address" @input="change()" />
+      </el-form-item>
+      <!-- 校区负责人 -->
+      <el-form-item label="负责人">
+        <el-radio-group v-model="platformInfoData.MasterID">
+          <el-radio-button
+            v-for="item in PlatformWorkers"
+            :key="item.Id"
+            :label="item.Id"
+          >{{ item.Realname }}</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="备注">
+        <el-input v-model="platformInfoData.Description" @input="change()" />
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
 export default {
-   props:{
-   // 站点的表单数据
-      platformInfoData: {
+   props: {
+    // 校区的表单数据
+    platformInfoData: {
       type: Object,
       default: function() {
-        return {   };
+        return { Id: 0 };
       }
+    }, 
+    editEnable: {
+      typ: Boolean,
+      default: false
     }
   },
   name: 'PlatformForm',
   data() {
     return {
-    
+       // 校区对应的工作人员
+      PlatformWorkers: [],
+    // 表单验证
+      platFormInfoRules: {
+        Label: [
+          { required: true, message: "校区名称不能为空", trigger: "blur" }
+        ],
+        Telephone: [
+          { required: true, message: "请输入电话号码", trigger: "blur" },
+          {
+            pattern: /^\d{11}$/,
+            message: "请输入正确的手机号",
+            trigger: "blur"
+          }
+        ]
+      }
     }
   },
   mounted() {},

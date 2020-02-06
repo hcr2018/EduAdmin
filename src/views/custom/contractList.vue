@@ -6,8 +6,8 @@
         <el-form :inline="true">
           <div class="between-center">
             <div class="flex_1">
-              <el-form-item label="所属站点">
-                <el-select v-model="searchPlatform" class="wid140" placeholder="请选择所属站点">
+              <el-form-item label="所属校区">
+                <el-select v-model="searchPlatform" class="wid140" placeholder="请选择所属校区">
                   <el-option label="全部" :value="0" />
                   <el-option
                     v-for="(item) in common.platformList"

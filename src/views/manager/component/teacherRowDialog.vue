@@ -37,12 +37,12 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="归属站点" prop="platformSelect">
+        <el-form-item label="归属校区" prop="platformSelect">
           <el-select
             multiple
             v-model="teacherFormData.platformSelect"
             @change="inputForceUpdate"
-            placeholder="请选择归属站点"
+            placeholder="请选择归属校区"
           >
             <el-option :value="0" label="全部"></el-option>
             <el-option
@@ -120,7 +120,7 @@ export default {
           { required: true, message: "必须选择身份角色", trigger: "blur" }
         ],
         platformSelect: [
-          { required: true, message: "至少选择一个站点", trigger: "blur" }
+          { required: true, message: "至少选择一个校区", trigger: "blur" }
         ]
       }
     };

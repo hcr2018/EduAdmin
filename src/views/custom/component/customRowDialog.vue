@@ -116,11 +116,11 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="所属站点" prop="Platform">
+        <el-form-item label="所属校区" prop="Platform">
           <el-select
             v-model="customInfo.Platform"
             :disabled="this.$route.query.id?true:false"
-            placeholder="请选择所属站点"
+            placeholder="请选择所属校区"
             @change="$forceUpdate()"
           >
             <el-option
@@ -235,7 +235,7 @@ export default {
           }
         ],
         Platform: [
-          { required: true, message: '必须选择一个站点', trigger: 'blur' }
+          { required: true, message: '必须选择一个校区', trigger: 'blur' }
         ]
       },
       // 学历选择

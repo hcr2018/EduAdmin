@@ -65,7 +65,7 @@ export default {
     getDataAnalysis() {
       const that = this
 
-      // 站点-客户数据
+      // 校区-客户数据
       if (that.radio1 == 'fromid') {
         GetStudentDataFromAnalysis(that.days)
           .then(res => {

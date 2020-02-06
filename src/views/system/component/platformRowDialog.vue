@@ -2,40 +2,11 @@
   <el-dialog
     :visible.sync="visible"
     width="740px"
-    :title="platformInfoData.Id>0?'编辑站点':'新增站点'"
+    :before-close="handleClose"
+    :title="platformInfoData.Id>0?'编辑校区':'新增校区'"
   >
-    <el-form
-      ref="refPlatForm"
-      :model="platformInfoData"
-      :rules="platFormInfoRules"
-      label-width="100px"
-      size="small"
-      class="dialog-body-pad"
-    >
-      <el-form-item label="名称" prop="Label">
-        <el-input v-model="platformInfoData.Label" :disabled="platformInfoData.Id>0" />
-      </el-form-item>
-      <el-form-item label="联系电话" prop="Telephone">
-        <el-input v-model="platformInfoData.Telephone" @input="change()" />
-      </el-form-item>
-      <el-form-item label="地址">
-        <el-input v-model="platformInfoData.Address" @input="change()" />
-      </el-form-item>
-      <!-- 站点负责人 -->
-      <el-form-item label="负责人">
-        <el-radio-group v-model="platformInfoData.MasterID">
-          <el-radio-button
-            v-for="item in PlatformWorkers"
-            :key="item.Id"
-            :label="item.Id"
-          >{{ item.Realname }}</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="备注">
-        <el-input v-model="platformInfoData.Description" @input="change()" />
-      </el-form-item>
-    </el-form>
-    <div class="around-center hgt60 bge0e3ea">
+   
+    <div class="around-center hgt60 bge0e3ea" v-show="editEnable">
       <div>
         <el-button @click="isShowPlatformDialog=false">取 消</el-button>
         <el-button type="primary" class="m-l-40" @click="saveplatformInfoData">确 认</el-button>
@@ -45,32 +16,49 @@
 </template>
 
 <script>
+import {
+  queryPlatform,
+  addPlatform,
+  updatePlatform,
+  setPlatformWorker,
+  setNewPlatformWorks,
+  getPlatformAboutWorkers,
+  getPlatformWorkers,
+  setPlatformMaster,
+  getWorkersCustomList,
+  addWorkersCustom,
+  editWorkersCustom
+} from '@/api/platform'
 export default {
   props: {
-    // 站点的表单数据
+    // 校区的表单数据
     platformInfoData: {
       type: Object,
       default: function() {
         return { Id: 0 };
       }
     },
-    visible:{
-      typ:Boolean,
-      default:false
+    visible: {
+      typ: Boolean,
+      default: false
+    }
+    ,
+    editEnable: {
+      typ: Boolean,
+      default: false
     }
   },
   name: "PlatformRowDialog",
   data() {
-    return { 
-
-      // 站点对应的工作人员
+    return {
+      // 校区对应的工作人员
       PlatformWorkers: [],
       // // 校区负责人ID
       // masterID: null,
       // 表单验证
       platFormInfoRules: {
         Label: [
-          { required: true, message: "站点名称不能为空", trigger: "blur" }
+          { required: true, message: "校区名称不能为空", trigger: "blur" }
         ],
         Telephone: [
           { required: true, message: "请输入电话号码", trigger: "blur" },
@@ -84,9 +72,14 @@ export default {
     };
   },
   mounted() {
+    console.log("=======",this.editEnable);
     this.getPlatformRowData();
   },
   methods: {
+    handleClose(done) {
+      console.log("====handleClose===",done);
+      this.$emit("update:visible", false);
+    },
     change($event) {
       this.$forceUpdate();
     },
@@ -105,41 +98,41 @@ export default {
     },
     // 保存客户信息
     saveplatformInfoData() {
-      // this.$refs.refPlatForm.validate(async valid => {
-      //   if (valid) {
-      //     this.platformInfoData.MasterID = this.masterID;
-      //     if (
-      //       this.platformInfoData.Id == null ||
-      //       this.platformInfoData.Id == 0
-      //     ) {
-      //       // 新增
-      //       let res = await $PlatformHttp.addPlatform(this.platformInfoData);
-      //       if (res.code == 200) {
-      //         // 添加成功之后要触发父组件信息列表修改
-      //         this.$emit("subClickEvent", 1, res.data);
-      //         this.common.go_alert("添加成功 !");
-      //         this.isShowPlatformDialog = false;
-      //       }
-      //     } else {
-      //       // 修改
-      //       let res = await $PlatformHttp.updatePlatform(
-      //         this.platformInfoData.Id,
-      //         this.platformInfoData
-      //       );
-      //       if (res.code == 200) {
-      //         this.platformInfoData = res.data;
-      //         // 修改成功之后要触发父组件信息列表修改
-      //         this.$emit("subClickEvent", 0, res.data);
-      //         this.common.go_alert("修改成功");
-      //         this.isShowPlatformDialog = false;
-      //       }
-      //     }
-      //   } else {
-      //     return false;
-      //   }
-      // });
+      this.$refs.refPlatForm.validate(async valid => {
+        if (valid) {
+          this.platformInfoData.MasterID = this.masterID;
+          if (
+            this.platformInfoData.Id == null ||
+            this.platformInfoData.Id == 0
+          ) {
+            // 新增
+            let res = await  addPlatform(this.platformInfoData);
+            if (res.code == 200) {
+              // 添加成功之后要触发父组件信息列表修改
+              this.$emit("subClickEvent", 1, res.data);
+              this.common.go_alert("添加成功 !");
+              this.isShowPlatformDialog = false;
+            }
+          } else {
+            // 修改
+            let res = await  updatePlatform(
+              this.platformInfoData.Id,
+              this.platformInfoData
+            );
+            if (res.code == 200) {
+              this.platformInfoData = res.data;
+              // 修改成功之后要触发父组件信息列表修改
+              this.$emit("subClickEvent", 0, res.data);
+              this.common.go_alert("修改成功");
+              this.isShowPlatformDialog = false;
+            }
+          }
+        } else {
+          return false;
+        }
+      });
     },
-    // 获取站点的工作人员
+    // 获取校区的工作人员
     async platformWorkers() {
       // this.PlatformWorkers = [];
       // let res = await $PlatformHttp.getPlatformWorkers(

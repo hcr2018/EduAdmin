@@ -60,7 +60,7 @@ export default {
     },
     async getDataAnalysis() {
       const that = this
-      // 站点-客户数据
+      // 校区-客户数据
       let res
       if (that.radio1 == 'fromid') {
         res = await getStudentDataFromAnalysis(that.days)

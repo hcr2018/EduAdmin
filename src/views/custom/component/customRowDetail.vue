@@ -37,7 +37,7 @@
         <p class="fex_1 m-l-5">{{ customRow.FocusCourse }}</p>
       </div>
       <div class="flex_dom m-t-10">
-        <p class="color-606266 wid90 text-right">所属站点：</p>
+        <p class="color-606266 wid90 text-right">所属校区：</p>
         <p class="fex_1 m-l-5">{{ common.FormatSelect(common.platformList,customRow.Platform) }}</p>
       </div>
       <div class="flex_dom m-t-10">

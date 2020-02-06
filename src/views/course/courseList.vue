@@ -124,7 +124,7 @@
         :close-show="true"
         :title="courseRowData.Label"
       >
-        <!-- 展示站点的基本信息 -->
+        <!-- 展示校区的基本信息 -->
         <div slot="left_content" class="p_both20 p-b-20">
           <course-row-detail ref="refCourseDetail" :travel-brochure-data="courseRowData" />
           <div class="text-center m-t-30">

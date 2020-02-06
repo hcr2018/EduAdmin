@@ -151,7 +151,7 @@ export default {
         label: this.searchContent,
         coursekind: this.searchBookCourseKind
       };
-      const res = await queryBookList(params);
+      const res = await queryBookList("",params);
       if (res.code == 200) {
         this.allRows = res.title;
         this.subjectList = res.data ? res.data : [];
