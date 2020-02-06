@@ -9,22 +9,19 @@
           <el-input v-model="systemForm.loginBg" type="textarea" :row="3" placeholder="短信内容，不宜太长。" />
         </el-form-item>
       </el-form>
-    </div>
-    <platformRowDialog v-bind:platformInfoData="platformRowData" />
+    </div> 
     <platformRowDetail v-bind:platformInfoData="platformRowData" />
   </div>
 </template>
 
-<script>
-import platformRowDialog from "@/views/system/component/platformRowDialog";
+<script> 
 import platformRowDetail from "@/views/system/component/platformRowDetail";
 import myDialog from "@/components/myDialog/myDialog";
 // import $AppHttp from "@/service/AppAPI";
 export default {
   name: "Setting",
   components: {
-    myDialog,
-    platformRowDialog,
+    myDialog, 
     platformRowDetail
   },
   data() {
