@@ -269,44 +269,25 @@
             <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
               <scoreEntry ref="scoreEntryComponent" />
             </el-tab-pane>
-            <el-tab-pane id="dazl" label="档案资料" name="cjlr">
+            <el-tab-pane id="dazl" label="档案资料" name="dazl">
               <scoreEntry ref="dazl" />
             </el-tab-pane>
           </el-tabs>~
         </div>
       </my-dialog>
 
-      <!-- 新增校区信息弹出框 -->
+      <!-- 新增信息弹出框 -->
       <el-dialog
         :visible.sync="editDialog"
-        width="500px"
-        :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增校区'"
+        width="600px" 
+        :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增'"
       >
-        <custom-row-detail ref="refPlatForm" :editEnable="true" :formItemData="customFormData" />
+        <custom-row-detail style="padding:20px 20px 20px 20px" :editEnable="true" :formItemData="customFormData" />
       </el-dialog>
-
-      <!--       
-      <my-dialog
-        :visible.sync="customMoreOperationDialog"
-        :close-show="true"
-        :this-title="customFormData.Realname"
-      >-->
-      <!-- 展示校区的基本信息 -->
-      <!-- <div slot="left_content" class="p_both20 p-b-20">
-          <custom-row-detail :custom-data="customFormData" />
-          <div class="text-center m-t-30">
-            <el-button type="primary" @click="openCustomDialog(0)">编辑</el-button>
-          </div>
-      </div>-->
-      <!-- 更多操作的内容 -->
-      <!-- <div slot="right_content" class="p_both20 m-t-12 m-b-20">
-          
-        </div>
-      </my-dialog>-->
+ 
       <!--  发送短信弹出框 -->
       <custom-send-sms-dialog ref="refsendSMSDialog" @sendSMS="sendSMS" />
-      <!-- 客户信息弹出框 -->
-      <custom-row-dialog ref="refCustomDialog" @subClickEvent="updateCustomInfoList" />
+       
       <!-- 合同信息弹出框 -->
       <custom-contract-dialog ref="refContractDialog" />
       <!-- 添加提醒弹出框 -->
@@ -353,9 +334,8 @@ import {
   addWorkersCustom,
   editWorkersCustom
 } from "@/api/platform";
-import customRowDialog from "@/views/custom/component/customRowDialog";
-import customSendSmsDialog from "@/views/custom/component/customSendSmsDialog";
 import customRowDetail from "@/views/custom/component/customRowDetail";
+import customSendSmsDialog from "@/views/custom/component/customSendSmsDialog"; 
 import customTrack from "@/views/custom/component/customTrack";
 import customBuyRecord from "@/views/custom/component/customBuyRecord";
 import customContractDialog from "@/views/custom/component/customContractDialog";
@@ -375,8 +355,7 @@ export default {
   components: {
     myDialog,
     myImageViewer,
-    Tinymce,
-    customRowDialog,
+    Tinymce, 
     customSendSmsDialog,
     customRowDetail,
     customContractDialog,
