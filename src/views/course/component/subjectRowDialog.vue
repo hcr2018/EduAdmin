@@ -85,7 +85,7 @@ export default {
       this.collegeIndex = 0
       this.subjectRowData = {}
       this.courseKindsOps = []
-      this.subjectRowData = { ...row }
+      this.subjectRowData = row
       if (this.subjectRowData.Id == 0) {
         this.collegeChange(0)
         this.subjectRowData.Content = '[]'

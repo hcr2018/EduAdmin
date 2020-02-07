@@ -315,7 +315,7 @@ export default {
       this.isShoworeOptationDialog = true
       this.activeName = 'travelBrochure'
       this.currentCourseIndex = index
-      this.courseRowData = { ...row }
+      this.courseRowData = row
       // this.$refs.travelBrochure.getTravelBrochure(this.courseRowData.Id);
       // this.$refs.refCourseDetail.getCourseRowData(row);
     },
@@ -339,7 +339,7 @@ export default {
         this.courseList.unshift(row)
       } else {
         this.courseList.splice(this.currentCourseIndex, 1, row)
-        this.courseRowData = { ...row }
+        this.courseRowData = row
         // this.$refs.refCourseDetail.getCourseRowData(row);
       }
     },

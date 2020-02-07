@@ -290,7 +290,7 @@ export default {
     },
     // 点击编辑视频地址按钮
     clickEditVideoUrl(index, row) {
-      this.videoRowData = { ...row }
+      this.videoRowData = row
       this.videoRowIndex = index
       this.isEditVideo = true
     },

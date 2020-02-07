@@ -215,7 +215,7 @@ export default {
       this.showViewer = false
       this.courseKindLabel = ''
       this.subjectListOps = []
-      this.courseRow = { ...row }
+      this.courseRow = row
       if (this.courseRow.Id > 0) {
         this.common.collegeWithCouseKindList.forEach((item, index) => {
           if (this.courseRow.TCollegeID == item.Id) {

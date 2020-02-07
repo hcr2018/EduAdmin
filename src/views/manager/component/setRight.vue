@@ -51,7 +51,7 @@ export default {
     getRowDataAddPower(row, power) {
       this.teacherFormData = {};
       this.managerRightsObj = {};
-      this.teacherFormData = { ...row };
+      this.teacherFormData = row;
       this.managerRightsObj = { ...power };
     },
     changeRight(checked, itemObj) {

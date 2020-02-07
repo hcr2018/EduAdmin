@@ -30,7 +30,7 @@ export default {
     // 获取表单数据
     getTeacherRowData(row) {
       this.teacherRow = {};
-      this.teacherRow = { ...row };
+      this.teacherRow = row;
     }
   },
   mounted() {}

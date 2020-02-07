@@ -262,7 +262,7 @@ export default {
       this.showCustomDialog = true
       this.customImgArr = []
       this.customInfo = {}
-      this.customInfo = { ...row }
+      this.customInfo = row
       if (this.customInfo.id > 0) {
         if (this.customInfo.Info) {
           const info = JSON.parse(this.customInfo.Info)

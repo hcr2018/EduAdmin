@@ -23,12 +23,10 @@
           <el-table-column prop="Telephone" label="联系电话" width="100" />
           <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="200" />
           <el-table-column prop="Description" label="备注" :show-overflow-tooltip="true" />
-
-           
         </el-table>
       </div>
       <div class="between-center m-v-15">
-        <el-button type="primary" @click="openPlatformDialog(null)">新增校区</el-button>
+        <el-button type="primary" @click="openItemDialog( )">新增校区</el-button>
       </div>
     </div>
     <!-- 弹出框 -->
@@ -41,11 +39,10 @@
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">
-          <platformRowDetail :editEnable="false" v-bind:platformInfoData="platformRowData" />
+          <platformRowDetail v-bind:formItemData="platformRowData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
       </my-dialog>
-
 
       <!-- 新增校区信息弹出框 -->
       <el-dialog
@@ -53,12 +50,7 @@
         width="500px"
         :title="platformRowData.Id>0?'编辑'+platformRowData.Label:'新增校区'"
       >
-        <platformRowDetail
-          ref="refPlatForm"
-          :editEnable.sync="editDialog"
-          :platformInfoData="platformRowData"
-          @subClickEvent="updatePlatformList"
-        />
+        <platformRowDetail ref="refPlatForm" :editEnable="true" :formItemData="platformRowData" />
       </el-dialog>
     </div>
   </div>
@@ -90,41 +82,21 @@ export default {
   },
   methods: {
     // 打开校区的弹出框
-    openPlatformDialog(currentdata) {
-      if (currentdata == null) {
+    openNewItem( ) {
+      
         this.editDialog = true;
         this.platformRowData = {};
-      } else {
-        this.editDialog = false;
-        this.platformRowData = currentdata;
-      }
-      this.editDialog = true;
+       
     },
-    // 追加数据后更新列表
-    updatePlatformList(type, rowData) {
-      // type=0新增，type=1编辑
-        console.log(type,rowData)
-        
-      if (type===1) {
 
-  this.$set(this.common.platformList, this.currentPlatformIndex, rowData);
-
-        this.$store.getters.platformList;
-      } else {
-        // 更新展示的基本信息
-         this.common.platformList.unshift(rowData);
-        // this.$refs.refPlatformDetail.getPlatformRowData({ ...rowData });
-        this.platformRowData = { ...rowData };
-      }
-    },
     // 获取所有平台的信息
     getAllPlatform() {
       this.$store.dispatch("app/getPlatformList").then(() => {});
     },
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
-      this.currentPlatformIndex = index;
-      this.platformRowData = { ...row };
+      this.currentPlatformIndex = index; 
+      this.platformRowData = row;
       this.moreOperationDialog = true;
     }
   }

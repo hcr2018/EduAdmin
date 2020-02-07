@@ -1,26 +1,26 @@
 <template>
   <div>
     <el-form
-      ref="refPlatForm"
-      :disabled="editEnable==false"
-      :model="platformInfoData"
+      ref="formUI"
+      :disabled="currenteditEnable==false"
+      :model="formItemData"
       :rules="platFormInfoRules"
       style="padding:50px 0px 0px 0px"
       label-width="80px"
       size="small"
     >
       <el-form-item label="名称" prop="Label">
-        <el-input v-model="platformInfoData.Label" :disabled="platformInfoData.Id>0" />
+        <el-input v-model="formItemData.Label" :disabled="formItemData.Id>0" />
       </el-form-item>
       <el-form-item label="联系电话" prop="Telephone">
-        <el-input v-model="platformInfoData.Telephone" />
+        <el-input v-model="formItemData.Telephone" />
       </el-form-item>
       <el-form-item label="地址">
-        <el-input v-model="platformInfoData.Address" />
+        <el-input v-model="formItemData.Address" />
       </el-form-item>
       <!-- 校区负责人 -->
       <el-form-item label="负责人">
-        <el-radio-group v-model="platformInfoData.MasterID">
+        <el-radio-group v-model="formItemData.MasterID">
           <el-radio-button
             v-for="item in PlatformWorkers"
             :key="item.Id"
@@ -29,23 +29,34 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="备注">
-        <el-input v-model="platformInfoData.Description" />
-      </el-form-item>
-
-      <el-form-item label>
-        <el-button type="primary" class="m-l-40" @click="saveplatformInfoData">确 认</el-button>
+        <el-input v-model="formItemData.Description" />
       </el-form-item>
     </el-form>
+    <div>
+      <el-button
+        type="warning"
+        :disabled="false"
+        v-show="!currenteditEnable"
+        class="m-l-40"
+        @click="currenteditEnable=true"
+      >编辑</el-button>
+      <el-button
+        type="primary"
+        :disabled="false"
+        v-show="currenteditEnable"
+        class="m-l-40"
+        @click="saveFormItemData"
+      >确 认</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-import { addPlatform, updatePlatform } from "@/api/platform";
-import { Message } from "element-ui";
+import { addPlatform, updatePlatform } from "@/api/platform"; 
 export default {
   props: {
     // 校区的表单数据
-    platformInfoData: {
+    formItemData: {
       type: Object,
       default: function() {
         return { Id: 0 };
@@ -59,6 +70,7 @@ export default {
   name: "PlatformForm",
   data() {
     return {
+      currenteditEnable: this.editEnable, 
       // 校区对应的工作人员
       PlatformWorkers: [],
       // 表单验证
@@ -79,44 +91,41 @@ export default {
   },
   mounted() {},
   methods: {
+    
     // 保存客户信息
-    async saveplatformInfoData() {
-      this.$refs.refPlatForm.validate(async valid => {
+    async saveFormItemData() {
+      this.$refs.formUI.validate(async valid => {
         if (valid) {
-          this.platformInfoData.MasterID = this.masterID;
-          if (
-            this.platformInfoData.Id == null ||
-            this.platformInfoData.Id == 0
-          ) {
+          this.formItemData.MasterID = this.masterID;
+          if (this.formItemData.Id == null || this.formItemData.Id == 0) {
             // 新增
-            let res = await addPlatform("", "", this.platformInfoData);
+            let res = await addPlatform("", "", this.formItemData);
             if (res.code == 200) {
               // 添加成功之后要触发父组件信息列表修改
-              this.$emit("subClickEvent", 0, res.data); 
-              this.isShowPlatformDialog = false;
-              Message({
-                message: "添加成功",
-                type: "success",
-                duration: 3 * 1000
+              this.$store.dispatch("app/pushPlatform", res.data).then(() => {
+                this.isShowPlatformDialog = false;
+                this.formItemData = res.data;
+                this.$message({
+                  message: "添加成功",
+                  type: "success"
+                });
               });
             }
           } else {
             // 修改
             let res = await updatePlatform(
-              this.platformInfoData.Id,
+              this.formItemData.Id,
               "",
-              this.platformInfoData
+              this.formItemData
             );
             if (res.code == 200) {
-              this.platformInfoData = res.data;
-              // 修改成功之后要触发父组件信息列表修改
-              this.$emit("subClickEvent", 1, res.data);
-             Message({
-                message: "修改成功",
-                type: "success",
-                duration: 3 * 1000
+              this.$store.dispatch("app/pushPlatform", res.data).then(() => {
+                this.isShowPlatformDialog = false;
+                this.$message({
+                  message: "修改成功",
+                  type: "success"
+                });
               });
-              this.isShowPlatformDialog = false;
             }
           }
         } else {

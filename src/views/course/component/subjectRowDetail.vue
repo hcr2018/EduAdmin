@@ -35,7 +35,7 @@ export default {
     // 获取表单数据
     getSubjectRow(row) {
       this.subjectRow = {}
-      this.subjectRow = { ...row }
+      this.subjectRow = row
     }
   }
 }

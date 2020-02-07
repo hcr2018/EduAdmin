@@ -302,10 +302,10 @@ export default {
       this.managerRightsMap = {};
       this.activElTab = "qxsz";
       this.currentTeacherIndex = index;
-      this.teacherRowData = { ...row };
+      this.teacherRowData = row;
       this.moreOperationDialog = true;
       this.getAllManagerPower();
-      this.$refs.refTeacherDetail.getTeacherRowData({ ...row });
+      this.$refs.refTeacherDetail.getTeacherRowData(row);
     },
     // 切换tabs标签页在调用函数
     changDialogTab(tab) {

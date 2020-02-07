@@ -166,7 +166,7 @@ export default {
     // 打开更多操作弹出框
     openMoreOptationDialog(index, row) {
       this.currentSubjectIndex = index;
-      this.subjectFormData = { ...row };
+      this.subjectFormData = row;
       this.isShowMoreOptationDialog = true;
       this.$refs.refSubjectDetail.getSubjectRow(row);
     },

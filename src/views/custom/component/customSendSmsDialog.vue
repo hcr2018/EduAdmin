@@ -51,7 +51,7 @@ export default {
       this.showSendSMSDialog = true
       this.customInfo = {}
       this.sendSmsMSG = {}
-      this.customInfo = { ...row }
+      this.customInfo = row
       this.sendSmsMSG.Telephone = this.customInfo.Telephone
       this.sendSmsMSG.Content =
         this.customInfo.Realname +

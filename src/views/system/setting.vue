@@ -2,10 +2,10 @@
   <div v-cloak class="font16 hgt_full" style="height:100%">
     <div class="flex_column hgt_full">
       <el-form label-width="80px" class="demo-ruleForm" size="small">
-        <el-form-item label="后台名">
+        <el-form-item label="后台登陆页标题">
           <el-input v-model="systemForm.name" placeholder="可以输入多个号码，用英文逗号,隔开" />
         </el-form-item>
-        <el-form-item label="登录背景">
+        <el-form-item label="后台登陆页背景">
           <el-input v-model="systemForm.loginBg" type="textarea" :row="3" placeholder="短信内容，不宜太长。" />
         </el-form-item>
       </el-form>
@@ -65,10 +65,10 @@ export default {
     },
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
-      this.$refs.refPlatformDetail.getPlatformRowData({ ...row });
+      this.$refs.refPlatformDetail.getPlatformRowData(row);
       // this.platformRowData = {};
       this.currentPlatformIndex = index;
-      // this.platformRowData = { ...row };
+      // this.platformRowData = row;
       this.moreOperationDialog = true;
     }
   }

@@ -129,7 +129,7 @@ export default {
     // 获取表单数据
     getTeacherRowData(row) {
       this.teacherFormData = {};
-      this.teacherFormData = { ...row };
+      this.teacherFormData = row;
       this.isShowTeacherDialog = true;
 
       if (this.teacherFormData.Platform) {

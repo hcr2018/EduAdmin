@@ -48,6 +48,19 @@ const mutations = {
   },
   SET_COURSEKIND: (state, data) => {
     state.courseKind = data
+  },
+  PUSH_PLATFORM:(state,newItem)=>{
+    let hasIn = false;
+    state.platformList.forEach(item=>{
+      if (item.Id ===newItem.Id ){
+        item = newItem; 
+        hasIn = true;
+        return
+      }
+    })
+    if (hasIn == false){
+      state.platformList.push(newItem);
+    }
   }
 }
 
@@ -100,6 +113,10 @@ const actions = {
         reject(error)
       })
     })
+  },
+   // setPlatformList
+   pushPlatform({ commit },newItem) { 
+    commit('PUSH_PLATFORM', newItem)
   }
 }
 
