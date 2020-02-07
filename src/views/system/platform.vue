@@ -23,6 +23,8 @@
           <el-table-column prop="Telephone" label="联系电话" width="100" />
           <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="200" />
           <el-table-column prop="Description" label="备注" :show-overflow-tooltip="true" />
+
+           
         </el-table>
       </div>
       <div class="between-center m-v-15">
@@ -55,6 +57,7 @@
           ref="refPlatForm"
           :editEnable.sync="editDialog"
           :platformInfoData="platformRowData"
+          @subClickEvent="updatePlatformList"
         />
       </el-dialog>
     </div>
@@ -99,11 +102,17 @@ export default {
     },
     // 追加数据后更新列表
     updatePlatformList(type, rowData) {
-      // type=1新增，type=0编辑
-      if (type) {
+      // type=0新增，type=1编辑
+        console.log(type,rowData)
+        
+      if (type===1) {
+
+  this.$set(this.common.platformList, this.currentPlatformIndex, rowData);
+
         this.$store.getters.platformList;
       } else {
         // 更新展示的基本信息
+         this.common.platformList.unshift(rowData);
         // this.$refs.refPlatformDetail.getPlatformRowData({ ...rowData });
         this.platformRowData = { ...rowData };
       }

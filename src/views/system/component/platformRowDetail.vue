@@ -4,10 +4,10 @@
       ref="refPlatForm"
       :disabled="editEnable==false"
       :model="platformInfoData"
-      :rules="platFormInfoRules" 
-       style="padding:50px 0px 0px 0px"
-       label-width="80px"
-      size="small" 
+      :rules="platFormInfoRules"
+      style="padding:50px 0px 0px 0px"
+      label-width="80px"
+      size="small"
     >
       <el-form-item label="名称" prop="Label">
         <el-input v-model="platformInfoData.Label" :disabled="platformInfoData.Id>0" />
@@ -32,39 +32,36 @@
         <el-input v-model="platformInfoData.Description" />
       </el-form-item>
 
-    <el-form-item label="">
-         
-            <el-button type="primary" class="m-l-40" @click="saveplatformInfoData">确 认</el-button>
-   </el-form-item>
+      <el-form-item label>
+        <el-button type="primary" class="m-l-40" @click="saveplatformInfoData">确 认</el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import {
-  addPlatform,
-  updatePlatform
-} from '@/api/platform'
+import { addPlatform, updatePlatform } from "@/api/platform";
+import { Message } from "element-ui";
 export default {
-   props: {
+  props: {
     // 校区的表单数据
     platformInfoData: {
       type: Object,
       default: function() {
         return { Id: 0 };
       }
-    }, 
+    },
     editEnable: {
       typ: Boolean,
       default: false
     }
   },
-  name: 'PlatformForm',
+  name: "PlatformForm",
   data() {
     return {
-       // 校区对应的工作人员
+      // 校区对应的工作人员
       PlatformWorkers: [],
-    // 表单验证
+      // 表单验证
       platFormInfoRules: {
         Label: [
           { required: true, message: "校区名称不能为空", trigger: "blur" }
@@ -78,11 +75,11 @@ export default {
           }
         ]
       }
-    }
+    };
   },
   mounted() {},
   methods: {
-       // 保存客户信息
+    // 保存客户信息
     async saveplatformInfoData() {
       this.$refs.refPlatForm.validate(async valid => {
         if (valid) {
@@ -92,24 +89,33 @@ export default {
             this.platformInfoData.Id == 0
           ) {
             // 新增
-            let res = await addPlatform("","",this.platformInfoData);
+            let res = await addPlatform("", "", this.platformInfoData);
             if (res.code == 200) {
               // 添加成功之后要触发父组件信息列表修改
-              this.$emit("subClickEvent", 1, res.data);
-              this.common.go_alert("添加成功 !");
+              this.$emit("subClickEvent", 0, res.data); 
               this.isShowPlatformDialog = false;
+              Message({
+                message: "添加成功",
+                type: "success",
+                duration: 3 * 1000
+              });
             }
           } else {
             // 修改
             let res = await updatePlatform(
-              this.platformInfoData.Id,"",
+              this.platformInfoData.Id,
+              "",
               this.platformInfoData
             );
             if (res.code == 200) {
               this.platformInfoData = res.data;
               // 修改成功之后要触发父组件信息列表修改
-              this.$emit("subClickEvent", 0, res.data);
-              this.common.go_alert("修改成功");
+              this.$emit("subClickEvent", 1, res.data);
+             Message({
+                message: "修改成功",
+                type: "success",
+                duration: 3 * 1000
+              });
               this.isShowPlatformDialog = false;
             }
           }
@@ -119,5 +125,5 @@ export default {
       });
     }
   }
-}
+};
 </script>
