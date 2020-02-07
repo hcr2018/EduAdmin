@@ -183,6 +183,7 @@ import {
 } from '@/api/app'
 
 export default {
+  name:"courseList",
   components: {
     myDialog,
     myImageViewer,

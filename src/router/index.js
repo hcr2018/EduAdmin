@@ -11,7 +11,7 @@ import customRouter from './modules/custom'
 import courseRouter from './modules/course'
 import webRouter from './modules/web'
 import managerRouter from './modules/manager'
-import systemRouter from './modules/system'
+import systemRouter from './modules/system' 
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -120,7 +120,7 @@ export const asyncRoutes = [
   managerRouter,
   customRouter,
   courseRouter,
-  webRouter,
+  webRouter, 
   // platformRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

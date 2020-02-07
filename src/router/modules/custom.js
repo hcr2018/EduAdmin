@@ -10,19 +10,26 @@ const customRouter = {
   meta: {
     title: 'customList',
     icon: 'table'
+    
   },
   children: [
     {
       path: 'list',
       component: () => import('@/views/custom/customList'),
       name: 'customList',
-      meta: { title: 'customList' }
+      meta: {
+        title: 'customList'
+        
+      }
     },
     {
       path: 'trackList',
       component: () => import('@/views/custom/trackList'),
       name: 'trackList',
-      meta: { title: 'trackList' }
+      meta: {
+        title: 'trackList'
+        
+      }
     }
 
   ]

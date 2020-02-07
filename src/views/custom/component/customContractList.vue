@@ -41,9 +41,18 @@ import {
   addCustomContract,
   deleCustomContract,
   updateCustomContract
-} from '@/api/contract'
-import customContractDialog from '@/views/custom/component/customContractDialog'
+} from "@/api/contract";
+import customContractDialog from "@/views/custom/component/customContractDialog";
 export default {
+  props: {
+    // 校区的表单数据
+    customData: {
+      type: Object,
+      default: function() {
+        return { Id: 0 };
+      }
+    }
+  },
   components: {
     customContractDialog
   },
@@ -52,32 +61,24 @@ export default {
       // 客户合同信息列表
       customContractList: [],
       // 客户的个人信息
-      customRowData: {},
+      customRowData: this.customData,
       // 当前操作合同的索引
       currentContractIndex: null
-    }
+    };
   },
 
-  mounted() {
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout()
-    }, 2000)
+  mounted() { 
+    this.getContractList();
   },
 
   methods: {
-    //  获取客户信息
-    getCustomRowData(customRowData) {
-      // 初始化数据
-      this.customContractList = []
-      this.customRowData = {}
-      this.customRowData = { ...customRowData }
-      this.getContractList()
-    },
     // 获取合同信息列表
-    async getContractList() {
-      const res = await getCustomContract(this.customRowData.id)
+    async getContractList() { 
+      // 初始化数据
+      this.customContractList = [];
+      const res = await getCustomContract(this.customRowData.id);
       if (res.code == 200) {
-        this.customContractList = res.data ? res.data : []
+        this.customContractList = res.data ? res.data : [];
       }
     },
     // 新增客户合同
@@ -91,24 +92,24 @@ export default {
           Id: 0
         },
         2
-      )
+      );
     },
     // 编辑合同表单的详情信息
     editCustomContract(index, row) {
-      this.currentContractIndex = index
-      this.$refs.refContractDialog.getContractFormData(row, 0)
+      this.currentContractIndex = index;
+      this.$refs.refContractDialog.getContractFormData(row, 0);
     },
     // 追加或编辑合同之后更新合同列表数据
     updateContractList(type, rowData) {
       // type=0编辑，type=1添加
       if (type == 1) {
-        this.customContractList.unshift(rowData)
+        this.customContractList.unshift(rowData);
       } else if (type == 0) {
-        this.customContractList.splice(this.currentContractIndex, 1, rowData)
+        this.customContractList.splice(this.currentContractIndex, 1, rowData);
       }
     }
   }
-}
+};
 </script>
 <style scoped>
 </style>

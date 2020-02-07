@@ -3,11 +3,7 @@
     <div class="flex_column hgt_full">
       <div class="flex_1 overflow_hide border-e0 m-t-20">
         <div class="hgt_100 overflow_auto">
-          <my-image-viewer
-            v-if="showViewer"
-            :on-close="closeViewer"
-            :url-list="[imageViewerSrc]"
-          />
+          <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
           <div class="p_both20 p-v-10">
             <div
               v-for="(item,index) in customTrackList"
@@ -15,7 +11,6 @@
               class="m-v-10 radius3 border-e5ecf7"
             >
               <div class="center p_both20 m-t-10">
-
                 <div class="m-l-15">
                   <p class="font14 color-666">
                     <span class="color-1890ff">客户：{{ item.StudentLabel }}</span>
@@ -23,7 +18,9 @@
                   </p>
                   <p class="m-t-10 font14 color-666">
                     <span>{{ item.ManagerLabel }}：{{ item.track_method }}</span>
-                    <span class="font12 m-l-10 color-666">{{ common.dateFormat(item.Createtime, 2) }}</span>
+                    <span
+                      class="font12 m-l-10 color-666"
+                    >{{ common.dateFormat(item.Createtime, 2) }}</span>
                   </p>
                 </div>
               </div>
@@ -43,7 +40,7 @@
                       class="wid20"
                       src="/static/img/slice/uploadedIcon.png"
                       @click="onPreview(img)"
-                    >
+                    />
                   </div>
                 </div>
               </div>
@@ -110,11 +107,11 @@ import {
   setStar,
   batchChangeManager,
   getStudentStatustByStudent
-} from '@/api/custom'
-import common from '@/utils/common'
-import myImageViewer from '@/components/myImageViewer/myImageViewer'
+} from "@/api/custom";
+import common from "@/utils/common";
+import myImageViewer from "@/components/myImageViewer/myImageViewer";
 export default {
-  name: 'CustomBasicInfo',
+  name: "trackList",
   components: {
     myImageViewer
   },
@@ -122,7 +119,7 @@ export default {
     return {
       common,
       // 预览图片的图片地址
-      imageViewerSrc: '',
+      imageViewerSrc: "",
       // 显示图片查看器
       showViewer: false,
       // 数据总条数
@@ -137,65 +134,63 @@ export default {
       customTrackList: [],
       // 当前回复跟进数据的索引
       currentReplyIndex: null
-    }
+    };
   },
   mounted() {
-    console.log(this.customTrackList );
-    if (this.customTrackList.length==0){
- 
-      this.getCustomtTracks()
-      }
+    if (this.customTrackList.length == 0) {
+      this.getCustomtTracks();
+    }
   },
 
   methods: {
     // 图片预览
     onPreview(src) {
-      this.showViewer = true
-      this.imageViewerSrc = src
+      this.showViewer = true;
+      this.imageViewerSrc = src;
     },
     // 获取客户的跟进记录
     getCustomtTracks() {
-      const offsetRow = (this.nowPage - 1) * this.rows
+      const offsetRow = (this.nowPage - 1) * this.rows;
       getTrackList(0, {
         limit: this.rows,
         offset: offsetRow
       })
         .then(res => {
-          this.allRows = res.title
-          this.customTrackList = res.data ? res.data : []
+          this.allRows = res.title;
+          this.customTrackList = res.data ? res.data : [];
           this.customTrackList.forEach(item => {
             if (item.Reply) {
-              item.Reply = JSON.parse(item.Reply)
+              item.Reply = JSON.parse(item.Reply);
             }
-          })
+          });
         })
-        .catch(err => {})
+        .catch(err => {});
     },
     // 分页获取数据
     getChangePage(val) {
-      this.nowPage = val
-      this.getCustomtTracks()
+      this.nowPage = val;
+      this.getCustomtTracks();
     },
     // 提交回复评论
     async submitReplyTrack(track, index) {
-      const oldtrack = { ...track }
+      const oldtrack = { ...track };
       if (!track.replyContent) {
-        this.common.go_alert('还没有输入内容哦 ！')
+        this.common.go_alert("还没有输入内容哦 ！");
       } else {
-        this.currentReplyIndex = index
-        const res = await replyTracks(track.Id, '', track.replyContent)
+        this.currentReplyIndex = index;
+        const res = await replyTracks(track.Id, "", track.replyContent);
         if (res.code == 200) {
-          this.common.go_alert('评论成功 ！')
+          this.common.go_alert("评论成功 ！");
           if (res.data) {
-            oldtrack.Reply = res.data
-            oldtrack.replyContent = ''
-            this.customTrackList.splice(this.currentReplyIndex, 1, oldtrack)
+            oldtrack.Reply = res.data;
+            oldtrack.replyContent = "";
+            this.customTrackList.splice(this.currentReplyIndex, 1, oldtrack);
           }
         }
       }
     }
   }
-}
+};
 </script>
 <style scoped>
 </style>

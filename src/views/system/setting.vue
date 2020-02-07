@@ -19,7 +19,7 @@ import platformRowDetail from "@/views/system/component/platformRowDetail";
 import myDialog from "@/components/myDialog/myDialog";
 // import $AppHttp from "@/service/AppAPI";
 export default {
-  name: "Setting",
+  name: "setting",
   components: {
     myDialog, 
     platformRowDetail

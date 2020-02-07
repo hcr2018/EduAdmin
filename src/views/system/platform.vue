@@ -60,7 +60,7 @@
 import platformRowDetail from "@/views/system/component/platformRowDetail";
 import myDialog from "@/components/myDialog/myDialog";
 export default {
-  name: "Platform",
+  name: "setPlatform",
   components: {
     myDialog,
     platformRowDetail

@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: 'SendSMS',
+  name: 'sendSMS',
   data() {
     return {
       payload: {

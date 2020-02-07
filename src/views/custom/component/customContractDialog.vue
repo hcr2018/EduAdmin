@@ -4,7 +4,7 @@
     :visible.sync="isShowContractDialog"
     :append-to-body="true"
     width="740px"
-    :title="'['+contractFormData.StudentLabel+'] 合同订单'"
+    :title="'['+formItemData.RealName+'] 合同订单'"
   >
     <div class="contractform">
       <el-form
@@ -356,6 +356,15 @@ import {
 import myImageViewer from '@/components/myImageViewer/myImageViewer'
 import common from '@/utils/common'
 export default {
+   props: {
+    // 校区的表单数据
+    formItemData: {
+      type: Object,
+      default: function() {
+        return { Id: 0 };
+      }
+    } 
+  },
   name: 'ContractFrom',
   components: {
     myImageViewer
@@ -401,6 +410,9 @@ export default {
       }
     }
   },
+ mounted() {
+   console.log("---------contract dialog ")
+ },
   methods: {
     // 获取重复组件传递过来的值
     getContractFormData(rowData, type) {

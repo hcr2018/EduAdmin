@@ -142,7 +142,7 @@ import {
 } from '@/api/contract'
 import customContractDialog from '@/views/custom/component/customContractDialog'
 export default {
-  name: 'ContractList',
+  name: 'contractList',
   components: {
     customContractDialog
   },

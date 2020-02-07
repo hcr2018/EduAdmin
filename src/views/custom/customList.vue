@@ -1,4 +1,4 @@
-<template>
+<template  >
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <!-- 条件查询表单 -->
@@ -261,16 +261,16 @@
               <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
             </el-tab-pane>
             <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
-              <custom-buy-record ref="refBuyRecord" />
+              <custom-buy-record  :customData="customFormData"  />
             </el-tab-pane>
             <el-tab-pane id="htdd" label="合同订单" name="htdd">
-              <custom-contract-list ref="refCustomContract" />
+              <custom-contract-list  :customData="customFormData" />
             </el-tab-pane>
             <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
-              <scoreEntry ref="scoreEntryComponent" />
+              <scoreEntry  :customData="customFormData"  />
             </el-tab-pane>
             <el-tab-pane id="dazl" label="档案资料" name="dazl">
-              <scoreEntry ref="dazl" />
+              <scoreEntry  :customData="customFormData"  />
             </el-tab-pane>
           </el-tabs>~
         </div>
@@ -351,7 +351,7 @@ import common from "@/utils/common";
 import { error } from "util";
 
 export default {
-  name: "CustomList",
+  name: "customList",
   components: {
     myDialog,
     myImageViewer,
@@ -456,17 +456,7 @@ export default {
       websocketURL: "ws://127.0.0.1:8555/api"
     };
   },
-  watch: {
-    // 因为应用同一个页面，只会加载一次，所有需要监听路由的变化
-    $route(to, from) {
-      this.customTableDataList = [];
-      if (to.query.id) {
-        this.getPlatformWorkers(to.query.id);
-      } else {
-        this.getCustomList();
-      }
-    }
-  },
+ 
 
   created() {
     this.seaechConditionVal = this.searchCustomOptions[0].value;
@@ -483,9 +473,7 @@ export default {
       // 客户管理-直接获取客户列表
       this.getCustomList();
     }
-    setTimeout(() => {
-      this.$refs.refCustomListTable.doLayout();
-    }, 2000);
+ 
   },
 
   methods: {
@@ -660,28 +648,28 @@ export default {
     // 切换tabs标签页在调用函数
     changDialogTab(tab) {
       if (tab.$attrs.id == "gjjl") {
-        this.$refs.refCustomTrack.getCustomId(this.customFormData.id);
+        // this.$refs.refCustomTrack.getCustomId(this.customFormData.id);
       } else if (tab.$attrs.id == "gmjl") {
-        this.$refs.refBuyRecord.getCustomId(this.customFormData.id);
+        // this.$refs.refBuyRecord.getCustomId(this.customFormData.id);
       } else if (tab.$attrs.id == "htdd") {
-        this.$refs.refCustomContract.getCustomRowData(this.customFormData);
+        // this.$refs.refCustomContract.getCustomRowData(this.customFormData);
       } else if (tab.$attrs.id == "xj") {
-        this.$refs.refCustomStuStatus.getCustomRowData(this.customFormData);
+        // this.$refs.refCustomStuStatus.getCustomRowData(this.customFormData);
       } else if (tab.$attrs.id == "cjlr") {
-        this.getScoreEntry(this.customFormData.id);
+        // this.getScoreEntry(this.customFormData.id);
       }
     },
-    // 打开客户信息弹窗
-    openCustomDialog(type) {
-      // type=1新增，type=0编辑
-      if (type) {
-        this.$refs.refCustomDialog.getCustomRowData({ id: 0 });
-      } else {
-        this.$refs.refCustomDialog.getCustomRowData({
-          ...this.customFormData
-        });
-      }
-    },
+    // // 打开客户信息弹窗
+    // openCustomDialog(type) {
+    //   // type=1新增，type=0编辑
+    //   if (type) {
+    //     this.$refs.refCustomDialog.getCustomRowData({ id: 0 });
+    //   } else {
+    //     this.$refs.refCustomDialog.getCustomRowData({
+    //       ...this.customFormData
+    //     });
+    //   }
+    // },
     // 获取选中的学生
     selectionCustomChange(val) {
       this.mulSelectionCustomId = [];

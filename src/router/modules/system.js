@@ -12,6 +12,7 @@ const systemRouter =
   meta: {
     title: 'system',
     icon: 'lock'
+    
   },
   children: [
     {
@@ -21,15 +22,17 @@ const systemRouter =
       meta: {
         title: 'setting',
         icon: 'lock'
+        
       }
     },
     {
       path: 'platform',
       component: () => import('@/views/system/platform'),
-      name: 'platform',
+      name: 'setPlatform',
       meta: {
         title: 'platform',
         icon: 'lock'
+        
         // if do not set roles, means: this page does not require permission
       }
     },
@@ -40,6 +43,7 @@ const systemRouter =
       meta: {
         title: 'sendSMS',
         icon: 'lock'
+        
         // if do not set roles, means: this page does not require permission
       }
     }
