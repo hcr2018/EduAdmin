@@ -98,7 +98,7 @@
             <!-- <el-form-item>
               <div
                 class="center m-r-20 radius4 hgt27 wid130 border-909399 color-909399 p_both15"
-                :class="{'color-2e77f8':connecTelSuccess,'bg-2e77f8':connecTelSuccess}"
+                :class="{'color-1890ff':connecTelSuccess,'bg-1890ff':connecTelSuccess}"
               >
                 <img
                   :src="connecTelSuccess?'/static/img/slice/wifiactive.png':'/static/img/slice/wifi.png'"
@@ -149,7 +149,7 @@
         <el-table-column width="120" fixed label="姓名">
           <template slot-scope="scope">
             <span
-              class="color-2e77f8 font-w6 cursor"
+              class="color-1890ff font-w6 cursor"
               @click="openCustomMoreOperation(scope.$index, scope.row)"
             >{{ scope.row.Realname }}</span>
           </template>
@@ -174,7 +174,7 @@
               :content="scope.row.RecentTrack.substr(17)"
               placement="top-start"
             >
-              <span class="color-2e77f8 font-w6 cursor">{{ scope.row.RecentTrack.substr(0,16) }}</span>
+              <span class="color-1890ff font-w6 cursor">{{ scope.row.RecentTrack.substr(0,16) }}</span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -189,7 +189,7 @@
               :content="'电话:'+scope.row.ManagerTel"
               placement="top-start"
             >
-              <span class="color-2e77f8 font-w6 cursor">{{ scope.row.ManagerLabel }}</span>
+              <span class="color-1890ff font-w6 cursor">{{ scope.row.ManagerLabel }}</span>
             </el-tooltip>
           </template>
         </el-table-column>

@@ -14,8 +14,8 @@
     background-color: #f5f9ff;
 }
 
-.bg-2e77f8 {
-    background: #2e77f8;
+.bg-1890ff {
+    background: #1890ff;
 }
 
 .bg-339967 {
@@ -34,8 +34,8 @@
     background: #cccccc;
 }
 
-.bg2e77f8 {
-    background: #2e77f8;
+.bg1890ff {
+    background: #1890ff;
 }
 
 .bge0e3ea {
@@ -74,8 +74,8 @@
     color: #686868;
 }
 
-.color-2e77f8 {
-    color: #2e77f8;
+.color-1890ff {
+    color: #1890ff;
 }
 
 .color-2d3547 {
@@ -177,8 +177,8 @@
     border: solid 1px #909399;
 }
 
-.border-2e77f8 {
-    border: solid 1px #2e77f8;
+.border-1890ff {
+    border: solid 1px #1890ff;
 }
 
 .border-10-e0e3ea {
@@ -205,8 +205,8 @@
     border-bottom: solid 1px #e0e0e0;
 }
 
-.border-2b-2e77f8 {
-    border-bottom: solid 2px #2e77f8!important;
+.border-2b-1890ff {
+    border-bottom: solid 2px #1890ff!important;
 }
 
 .border-e5ecf7 {
@@ -415,7 +415,7 @@
 }
 
 .my_tab_header_bar:hover, .tab_bar_active {
-    color: #2e77f8;
+    color: #1890ff;
 }
 
 .tab_bar_active::after {
@@ -423,7 +423,7 @@
     content: "";
     bottom: -1px;
     left: 50%;
-    background-color: #2e77f8;
+    background-color: #1890ff;
     width: 100%;
     height: 1px;
     transform: translateX(-50%);
@@ -434,7 +434,7 @@
     content: "";
     bottom: 0px;
     left: 50%;
-    background-color: #2e77f8;
+    background-color: #1890ff;
     width: 100%;
     height: 2px;
     z-index: 2;

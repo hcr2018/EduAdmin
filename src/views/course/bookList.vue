@@ -38,7 +38,7 @@
           <el-table-column prop="Label" label="名称" width="200" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span
-                class="color-2e77f8 font-w6 cursor"
+                class="color-1890ff font-w6 cursor"
                 @click="openMoreOptationDialog(scope.$index, scope.row)"
               >{{ scope.row.Label }}</span>
             </template>
@@ -224,6 +224,6 @@ export default {
   overflow: auto;
 }
 .closeDialog:hover {
-  color: #2e77f8;
+  color: #1890ff;
 }
 </style>

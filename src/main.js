@@ -20,7 +20,6 @@ import './utils/error-log' // error log
 import VXETable from 'vxe-table'
 import VXETablePluginElement from 'vxe-table-plugin-element'
 import './static/css/pcglobal.css'
-import './static/css/theme/index.css'
 import './static/css/lw.css'
 import './static/css/scrollBar.css'
 import './static/css/vxe.css'

@@ -94,7 +94,7 @@
           <el-table-column label="产品名称" width="260" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span
-                class="color-2e77f8 font-w6 cursor"
+                class="color-1890ff font-w6 cursor"
                 @click="openMoreOptationDialog(scope.$index, scope.row)"
               >{{ scope.row.Label }}</span>
             </template>

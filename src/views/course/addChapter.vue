@@ -245,7 +245,7 @@ export default {
 </script>
 <style scoped>
 .el-icon-success {
-  color: #2e77f8;
+  color: #1890ff;
   font-size: 24px;
 }
 .el-icon-error {

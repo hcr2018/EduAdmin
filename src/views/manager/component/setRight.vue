@@ -81,7 +81,7 @@ export default {
 .splitLine {
   width: 2px;
   height: 14px;
-  background-color: #2e77f8;
+  background-color: #1890ff;
   border-radius: 1px;
   display: inline-block;
 }

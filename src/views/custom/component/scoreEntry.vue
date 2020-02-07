@@ -18,13 +18,13 @@
       </el-select>
     </div>
     <div class="m-t-20">
-      <p class="font16 color-2e77f8 border-b-e0 p-v-10 font-w6">专业科目</p>
+      <p class="font16 color-1890ff border-b-e0 p-v-10 font-w6">专业科目</p>
 
       <div v-for="(item,itemIndex) in allSubjectList" :key="itemIndex">
         <div class="center p-v-20 border-b-e0">
           <div class="center">
             <span
-              class="p_both15 m-r-10 color-fff font12 bg-2e77f8 inline_div hgt20 l-h-20 radius2"
+              class="p_both15 m-r-10 color-fff font12 bg-1890ff inline_div hgt20 l-h-20 radius2"
             >{{ item.examType }}</span>
             <span
               v-show="item.status==1"
@@ -48,7 +48,7 @@
             >
               <div
                 class="text-center hgt40 wid80 radius3"
-                :class="[scoreItem.score<60?'bg-ccc':'bg-2e77f8']"
+                :class="[scoreItem.score<60?'bg-ccc':'bg-1890ff']"
               >
                 <p :class="[scoreItem.score<60?'color-68':'color-fff']">{{ scoreItem.score }}分</p>
                 <p
@@ -62,7 +62,7 @@
             </div>
             <div
               v-show="item.status==0&&item.miaoKao==0"
-              class="m_both10 m-v-5 bg-2e77f8 text-center hgt40 p_both15 radius3"
+              class="m_both10 m-v-5 bg-1890ff text-center hgt40 p_both15 radius3"
               @click="openAddScoreDialog(itemIndex)"
             >
               <i class="el-icon-plus m-v-10 font20 font-w6 color-fff" />
