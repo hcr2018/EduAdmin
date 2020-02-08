@@ -6,8 +6,8 @@
         <span>跟进方式：</span>
         <el-radio v-model="trackMethod" label="邀约上门">邀约上门</el-radio>
         <el-radio v-model="trackMethod" label="电话沟通">电话沟通</el-radio>
-        <el-radio v-model="trackMethod" label="QQ咨询(需配图)">QQ咨询(需配图)</el-radio>
-        <el-radio v-model="trackMethod" label="微信咨询(需配图)">微信咨询(需配图)</el-radio>
+        <el-radio v-model="trackMethod" label="QQ咨询">QQ咨询 </el-radio>
+        <el-radio v-model="trackMethod" label="微信咨询">微信咨询</el-radio>
       </div>
       <div class="bg-fff p_both20 p-v-10">
         <textarea
@@ -197,7 +197,7 @@ export default {
     },
     // 上传跟进记录的图片
     async uploadTrackImg(file) {
-      const res = await UploadImgCustomTrack(file.raw)
+      const res = await UploadImgCustomTrack("","",file.raw)
       if (res.code == 200) {
         this.common.go_alert('上传成功！')
         this.trackImgList.push(res.data)
@@ -227,7 +227,7 @@ export default {
       trackRow.content = this.trackContent
       trackRow.filelist = this.trackImgList.toString()
       trackRow.kind = 1
-      const res = await addcustomTracks(trackRow)
+      const res = await addcustomTracks("","",trackRow)
       if (res.code == 200 && res.data) {
         this.customTrackList ? this.customTrackList : []
         this.customTrackList.unshift(res.data)

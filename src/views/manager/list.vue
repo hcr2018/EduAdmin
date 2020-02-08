@@ -148,7 +148,7 @@ import teacherRowDetail from "@/views/manager/component/teacherRowDetail";
 import setRight from "@/views/manager/component/setRight";
 import teacherBook from "@/views/manager/component/teacherBook";
 export default {
-  name: "teacherList",
+  name: "managerList",
   components: {
     myDialog,
     teacherRowDialog,

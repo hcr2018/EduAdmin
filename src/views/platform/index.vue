@@ -16,7 +16,7 @@
 import tabPane from './components/TabPane'
 
 export default {
-  name: 'Tab',
+  name: 'platform',
   components: { tabPane },
   data() {
     return {

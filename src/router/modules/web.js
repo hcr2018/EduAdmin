@@ -21,8 +21,26 @@ const webRouter = {
     {
       path: 'webOther',
       name: 'webOther',
-      component: () => import('@/views/web/other'),
+      component: () => import('@/views/web/news'),
       meta: { title: 'webOther' }
+    },
+    {
+      path: 'news',
+      name: 'news',
+      component: () => import('@/views/web/news'),
+      meta: { title: 'news' }
+    },
+    {
+      path: 'race',
+      name: 'race',
+      component: () => import('@/views/web/news'),
+      meta: { title: 'race' }
+    },
+    {
+      path: 'teacher',
+      name: 'teacher',
+      component: () => import('@/views/web/news'),
+      meta: { title: 'teacher' }
     }
   ]
 }

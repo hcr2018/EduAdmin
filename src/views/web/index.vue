@@ -13,7 +13,7 @@
 <script>
 import Driver from 'driver.js' // import driver.js
 import 'driver.js/dist/driver.min.css' // import driver.js css
-import steps from './steps'
+ 
 
 export default {
   name: 'Guide',
@@ -26,8 +26,7 @@ export default {
     this.driver = new Driver()
   },
   methods: {
-    guide() {
-      this.driver.defineSteps(steps)
+    guide() { 
       this.driver.start()
     }
   }
