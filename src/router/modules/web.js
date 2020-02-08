@@ -19,14 +19,14 @@ const webRouter = {
       meta: { title: 'webIndex' }
     },
     {
-      path: 'webOther',
-      name: 'webOther',
+      path: 'docDownload',
+      name: 'docDownload',
       component: () => import('@/views/web/news'),
-      meta: { title: 'webOther' }
+      meta: { title: 'docDownload' }
     },
     {
       path: 'news',
-      name: 'news',
+      name: 'newsList',
       component: () => import('@/views/web/news'),
       meta: { title: 'news' }
     },

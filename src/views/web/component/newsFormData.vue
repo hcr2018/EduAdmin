@@ -2,7 +2,7 @@
   <!-- --------------------新闻数据编辑或者添加表单组件----------------------- -->
   <div class="pad20">
     <el-form
-      :model="newsFormData"
+      :model="formItemData"
       :rules="newsFormRules"
       ref="newsForm"
       size="small"
@@ -17,13 +17,13 @@
             :auto-upload="false"
             action
           >
-            <img :src="newsFormData.icon" width="100px" height="100px" />
+            <img :src="formItemData.icon" width="100px" height="100px" />
           </el-upload>
         </el-tooltip>
         <div class="flex_1 m-l-30">
           <div class="center">
             <el-form-item label="类别">
-              <el-select v-model="newsFormData.KindId" placeholder="请选择类别">
+              <el-select v-model="formItemData.KindId" placeholder="请选择类别">
                 <el-option
                   :label="item.Label"
                   :key="index"
@@ -40,20 +40,20 @@
                 :auto-upload="false"
                 action
               >
-                <el-input placeholder="附件地址" v-model="newsFormData.Downfile"></el-input>
+                <el-input placeholder="附件地址" v-model="formItemData.Downfile"></el-input>
               </el-upload>
             </el-form-item>
           </div>
           <el-form-item label="新闻标题" prop="Title">
-            <el-input placeholder="请输入内容" v-model="newsFormData.Title"></el-input>
+            <el-input placeholder="请输入内容" v-model="formItemData.Title"></el-input>
           </el-form-item>
         </div>
       </div>
       <el-form-item label="副标题">
-        <el-input placeholder="请输入内容" v-model="newsFormData.Description"></el-input>
+        <el-input placeholder="请输入内容" v-model="formItemData.Description"></el-input>
       </el-form-item>
       <el-form-item label="新闻内容">
-        <Tinymce ref v-if="tinymceShow" :height="400" v-model="newsFormData.Content"></Tinymce>
+        <Tinymce ref :height="400" v-model="formItemData.Content"></Tinymce>
       </el-form-item>
     </el-form>
     <div class="center-end m-v-15">
@@ -69,15 +69,26 @@ import { editNewsRow, addNewsRow } from "@/api/news";
 import common from "@/utils/common";
 import { UploadImgNews } from "@/api/upload";
 export default {
-  name: "newsFormData",
+  name: "newsForm",
+  props: {
+    // 表单数据
+    formItemData: {
+      type: Object,
+      default: function() {
+        return { Id: 0 };
+      }
+    },
+    editEnable: {
+      typ: Boolean,
+      default: false
+    }
+  },
   components: {
     Tinymce
   },
   data() {
     return {
       common,
-      // 新闻的表单数据
-      newsFormData: {},
       // 新闻类型的选项
       newsKindOptions: [
         {
@@ -98,23 +109,15 @@ export default {
         Title: [
           { required: true, message: "新闻标题不能为空", trigger: "blur" }
         ]
-      },
-      // 控制富文本的显示
-      tinymceShow: false
+      }
     };
   },
   methods: {
-    // 获取数据进行添加编辑
-    getFormData(data) {
-      this.tinymceShow = true;
-      this.newsFormData = {};
-      this.newsFormData = data;
-    },
     // 上传新闻的图片
     async newsImgUpload(file) {
       let res = await UploadImgNews(file.raw);
       if (res.code == 200) {
-        this.newsFormData.icon = res.data;
+        this.formItemData.icon = res.data;
       }
     },
     // 上传附件之前的验证
@@ -177,9 +180,9 @@ export default {
       // 上传附件之前的验证
       let RightType = this.beforeUploadEnclosure(file.raw.type);
       if (RightType) {
-        let res = await UploadImgNews(file.raw);
+        let res = await UploadImgNews("","",file.raw);
         if (res.code == 200) {
-          this.newsFormData.Downfile = res.data;
+          this.formItemData.Downfile = res.data;
         }
       }
     },
@@ -188,25 +191,33 @@ export default {
       // 验证表单数据
       this.$refs.newsForm.validate(async valid => {
         if (valid) {
-          if (this.newsFormData.Id > 0) {
+          if (this.formItemData.Id > 0) {
             // 编辑数据
             let res = await editNewsRow(
-              this.newsFormData.Id,
-              this.newsFormData
+              this.formItemData.Id,
+              "",
+              this.formItemData
             );
             if (res.code == 200) {
-              this.common.go_alert("修改成功 !");
-              this.$emit("updateRowData", res.data, 0);
+              this.isShowPlatformDialog = false;
+              this.formItemData = res.data;
+              this.$message({
+                message: "修改成功",
+                type: "success"
+              });
             }
-          } else if (this.newsFormData.Id == 0) {
+          } else if (this.formItemData.Id == 0) {
             // 添加数据
-            let res = await addNewsRow(this.newsFormData);
+            let res = await addNewsRow("", "", this.formItemData);
             if (res.code == 200) {
-              this.common.go_alert("添加成功 !");
-              this.$emit("updateRowData", res.data, 1);
+              this.isShowPlatformDialog = false;
+              this.formItemData = res.data;
+              this.$message({
+                message: "添加成功",
+                type: "success"
+              });
             }
           }
-          this.tinymceShow = false;
         } else {
           return false;
         }

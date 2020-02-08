@@ -41,9 +41,15 @@
     </div>
     <!-- 弹出框 -->
     <div>
-      <my-dialog :closeShow="true" title="新闻详情编辑" :visible.sync="newsFormDialog" :closeLeft="false">
+      <my-dialog
+        :closeShow="true"
+        title="新闻详情编辑"
+        :showLeft="false"
+        :visible.sync="newsFormDialog"
+        :closeLeft="false"
+      >
         <div slot="right_content">
-          <newsFormData ref="newsForm" @updateRowData="updateNewsList"></newsFormData>
+          <newsFormData ref="newsForm" :formItemData="newsFormData" @updateRowData="updateNewsList"></newsFormData>
         </div>
       </my-dialog>
     </div>
@@ -51,13 +57,10 @@
 </template>
 
 <script>
-import myDialog from "@/components/myDialog/myDialog"; 
+import myDialog from "@/components/myDialog/myDialog";
 import common from "@/utils/common";
 import newsFormData from "@/views/web/component/newsFormData";
-import {
-  getNewsList,
-  deleNewsRow 
-} from "@/api/news";
+import { getNewsList, deleNewsRow } from "@/api/news";
 export default {
   name: "newsList",
   components: {
@@ -107,7 +110,7 @@ export default {
         limit: this.rows,
         offset: offsetRow
       };
-      let res = await getNewsList("",newParams);
+      let res = await getNewsList("", newParams);
       if (res.code == 200) {
         this.newsListTable = [];
         if (res.data) {
@@ -130,7 +133,7 @@ export default {
       })
         .then(async () => {
           this.currentNewsIndex = index;
-          let res = await  deleNewsRow(row.Id);
+          let res = await deleNewsRow(row.Id);
           if (res.code == 200) {
             this.getNewsList();
           }
@@ -141,10 +144,7 @@ export default {
     editNewsRow(index, row) {
       this.newsFormDialog = true;
       this.currentNewsIndex = index;
-      // 将单条数据传给子组件
-      let rowData = {};
-      Object.assign(rowData, row);
-      this.$refs.newsForm.getFormData(rowData);
+      this.newsFormData = row;
     },
     // 显示列表的时候格式化时间
     TimeFormatter(row, column, cellValue) {
@@ -153,7 +153,7 @@ export default {
     // 点击新增新闻
     newsAdd() {
       this.newsFormDialog = true;
-      let addRowData = {
+      this.newsFormData = {
         icon: "upload/news/defaultNewsIcon.jpg",
         Id: 0,
         Downfile: "",
@@ -162,7 +162,6 @@ export default {
         Content: "",
         KindId: null
       };
-      this.$refs.newsForm.getFormData(addRowData);
     },
     // 编辑或者添加之后更新表格数据-新闻列表
     updateNewsList(rowData, isType) {

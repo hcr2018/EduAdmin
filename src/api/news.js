@@ -9,7 +9,7 @@ export function getNewsList(url, param, data) {
   })
 }
 // 删除单条新闻数据
-export function deleNewsRow(token) {
+export function deleNewsRow(url, param, data) {
   return request({
     url: '/news/'+url,
     method: 'delete',
@@ -18,7 +18,7 @@ export function deleNewsRow(token) {
   })
 }
 // 编辑单条新闻数据
-export function editNewsRow() {
+export function editNewsRow(url, param, data) {
   return request({
     url: '/news/updateNews/'+url,
     method: 'post',
@@ -27,7 +27,7 @@ export function editNewsRow() {
   })
 }
 // 添加单条新闻数据
-export function addNewsRow() {
+export function addNewsRow(url, param, data) {
   return request({
     url: '/news'+url,
     method: 'post',
