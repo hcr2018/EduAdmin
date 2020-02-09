@@ -9,20 +9,20 @@ const courseRouter = {
   name: 'course',
   meta: {
     title: 'courseList',
-    icon: 'table'
+    icon: 'education'
   },
   children: [
     {
       path: 'list',
       component: () => import('@/views/course/courseList'),
       name: 'courseList',
-      meta: { title: 'courseList' }
+      meta: { title: 'courseList',icon: 'documentation' }
     },
     {
       path: 'bookList',
       component: () => import('@/views/course/bookList'),
       name: 'bookList',
-      meta: { title: 'bookList' }
+      meta: { title: 'bookList',icon:"clipboard" }
     }
 
   ]

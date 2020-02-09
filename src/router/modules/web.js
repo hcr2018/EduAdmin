@@ -9,38 +9,38 @@ const webRouter = {
   name: 'web',
   meta: {
     title: 'web',
-    icon: 'nested'
+    icon: 'international'
   },
   children: [
     {
       path: 'webIndex',
       component: () => import('@/views/web/index'), // Parent router-view
       name: 'webIndex',
-      meta: { title: 'webIndex' }
+      meta: { title: 'webIndex',icon:"guide" }
     },
     {
       path: 'docDownload',
       name: 'docDownload',
       component: () => import('@/views/web/news'),
-      meta: { title: 'docDownload' }
+      meta: { title: 'docDownload' ,icon:"guide"}
     },
     {
       path: 'news',
       name: 'newsList',
       component: () => import('@/views/web/news'),
-      meta: { title: 'news' }
+      meta: { title: 'news' ,icon:"guide"}
     },
     {
       path: 'race',
       name: 'race',
       component: () => import('@/views/web/news'),
-      meta: { title: 'race' }
+      meta: { title: 'race',icon:"guide" }
     },
     {
       path: 'teacher',
       name: 'teacher',
       component: () => import('@/views/web/news'),
-      meta: { title: 'teacher' }
+      meta: { title: 'teacher' ,icon:"guide"}
     }
   ]
 }
