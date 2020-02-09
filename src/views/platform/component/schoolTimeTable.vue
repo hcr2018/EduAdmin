@@ -1,80 +1,9 @@
 
 <template>
   <div class="p_both10 p-t-5">
-     <vxe-table
-          ref="ClassTeacherTable"
-          size="mini"
-          border
-          :edit-rules="ClassOpenTableRules"
-          :fit="true"
-          @edit-disabled="editDisabledRow"
-          :data="teacherList"
-          :edit-config="{trigger: 'dblclick', mode: 'row',showIcon:false, activeMethod: activeTeacherRow}"
-        >
-          <vxe-table-column
-            field="teacher_label"
-            title="老师名称"
-            :edit-render="{type: 'default'}"
-            width="110"
-          >
-            <template v-slot:edit="{row,rowIndex}">
-              <el-select
-                v-model="row.teacher_label"
-                @change="(val)=>{return changeTeacher(val, row,rowIndex)}"
-              >
-                <el-option
-                  v-for="(item,index) in teacherOptionList"
-                  :key="index"
-                  :label="item.Realname"
-                  :value="item.Realname"
-                ></el-option>
-              </el-select>
-            </template>
-          </vxe-table-column>
 
-          <vxe-table-column
-            field="book_label"
-            title="教学科目"
-            :edit-render="{type: 'default'}"
-            width="220"
-            show-overflow
-          >
-            <template v-slot:edit="{row,rowIndex}">
-              <el-select
-                v-model="row.book_label"
-                @change="(val)=>{return changeTeachingBook(val, row,rowIndex)}"
-              >
-                <el-option
-                  v-for="(item,index) in  teacheingBookOptions"
-                  :key="index"
-                  :label="item.Label"
-                  :value="item.Label"
-                ></el-option>
-              </el-select>
-            </template>
-          </vxe-table-column>
-          <vxe-table-column
-            field="total_time"
-            title="总课时"
-            :edit-render="{type: 'default'}"
-            width="80"
-          >
-            <template v-slot:edit="{ row }">
-              <el-input-number v-model="row.total_time" :min="0"></el-input-number>
-            </template>
-          </vxe-table-column>
-          <vxe-table-column title="操作" show-overflow>
-            <template v-slot="{ row,rowIndex }">
-              <el-button v-if="row.id<0" @click="deleTeacherRow(row,rowIndex)">删除</el-button>
-            </template>
-          </vxe-table-column>
-        </vxe-table>
-        <div class="between-center m-t-30">
-          <el-button @click="insertTableRow(-1)">添加老师</el-button>
-          <el-button type="primary" @click="saveClassOpenFormData">保 存</el-button>
-        </div>
     <div class="flex_dom">
-      <div class="mycalendar bg-999" >
+      <div class="mycalendar bg-999">
         <el-calendar id="calendar" v-model="showDate">
           <template slot="dateCell" slot-scope="{date, data}">
             <div
@@ -83,7 +12,7 @@
             >{{ data.day.split('-').slice(2).join('-') }}</div>
           </template>
         </el-calendar>
-      </div> 
+      </div>
 
       <div class="flex_1 m-l-20">
         <vxe-table
@@ -187,6 +116,76 @@
         </div>
       </div>
     </div>
+
+    
+    <vxe-table
+      ref="ClassTeacherTable"
+      size="mini"
+      border
+      :edit-rules="ClassOpenTableRules"
+      :fit="true"
+      @edit-disabled="editDisabledRow"
+      :data="teacherList"
+      :edit-config="{trigger: 'dblclick', mode: 'row',showIcon:false, activeMethod: activeTeacherRow}"
+    >
+      <vxe-table-column
+        field="teacher_label"
+        title="老师名称"
+        :edit-render="{type: 'default'}"
+        width="110"
+      >
+        <template v-slot:edit="{row,rowIndex}">
+          <el-select
+            v-model="row.teacher_label"
+            @change="(val)=>{return changeTeacher(val, row,rowIndex)}"
+          >
+            <el-option
+              v-for="(item,index) in teacherOptionList"
+              :key="index"
+              :label="item.Realname"
+              :value="item.Realname"
+            ></el-option>
+          </el-select>
+        </template>
+      </vxe-table-column>
+
+      <vxe-table-column
+        field="book_label"
+        title="教学科目"
+        :edit-render="{type: 'default'}"
+        width="220"
+        show-overflow
+      >
+        <template v-slot:edit="{row,rowIndex}">
+          <el-select
+            v-model="row.book_label"
+            @change="(val)=>{return changeTeachingBook(val, row,rowIndex)}"
+          >
+            <el-option
+              v-for="(item,index) in  teacheingBookOptions"
+              :key="index"
+              :label="item.Label"
+              :value="item.Label"
+            ></el-option>
+          </el-select>
+        </template>
+      </vxe-table-column>
+      <vxe-table-column field="total_time" title="总课时" :edit-render="{type: 'default'}" width="80">
+        <template v-slot:edit="{ row }">
+          <el-input-number v-model="row.total_time" :min="0"></el-input-number>
+        </template>
+      </vxe-table-column>
+      <vxe-table-column title="操作" show-overflow>
+        <template v-slot="{ row,rowIndex }">
+          <el-button v-if="row.id<0" @click="deleTeacherRow(row,rowIndex)">删除</el-button>
+        </template>
+      </vxe-table-column>
+    </vxe-table>
+    <div class="between-center m-t-30">
+      <el-button @click="insertTableRow(-1)">添加老师</el-button>
+      <el-button type="primary" @click="saveClassOpenFormData">保 存</el-button>
+    </div>
+    
     <!-- 模态框 -->
     <div>
       <!-- 考勤记录 -->
@@ -479,13 +478,12 @@ export default {
   text-align: center;
   line-height: 40px;
   height: 40px;
-  
 }
 .mycalendar >>> .calendar-day {
   text-align: center;
   width: 25px;
   height: 25px;
-  line-height: 20px; 
+  line-height: 20px;
   font-size: 15px;
   margin: 0px 5px;
 }
@@ -500,6 +498,6 @@ export default {
 .mycalendar >>> .prev {
   border: none;
   border-bottom: 1px solid #eaeaea;
-  height: 40px; 
+  height: 40px;
 }
 </style> 
