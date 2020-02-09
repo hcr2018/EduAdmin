@@ -9,7 +9,7 @@ const customRouter = {
   name: 'custom',
   meta: {
     title: 'customList',
-    icon: 'table'
+    icon: 'peoples'
     
   },
   children: [
@@ -18,7 +18,8 @@ const customRouter = {
       component: () => import('@/views/custom/customList'),
       name: 'customList',
       meta: {
-        title: 'customList'
+        title: 'customList',
+        icon: 'user' 
         
       }
     },
@@ -27,7 +28,8 @@ const customRouter = {
       component: () => import('@/views/custom/trackList'),
       name: 'trackList',
       meta: {
-        title: 'trackList'
+        title: 'trackList',
+        icon: 'form' 
         
       }
     },
@@ -37,9 +39,7 @@ const customRouter = {
       name: 'sendSMS',
       meta: {
         title: 'sendSMS',
-        icon: 'lock'
-        
-        // if do not set roles, means: this page does not require permission
+        icon: 'email' 
       }
     }
 

@@ -11,7 +11,7 @@ const systemRouter =
   name: 'system',
   meta: {
     title: 'system',
-    icon: 'lock'
+    icon: 'skill'
     
   },
   children: [
@@ -21,7 +21,7 @@ const systemRouter =
       name: 'setting',
       meta: {
         title: 'setting',
-        icon: 'lock'
+        icon: 'edit'
         
       }
     },
@@ -31,7 +31,7 @@ const systemRouter =
       name: 'setPlatform',
       meta: {
         title: 'platform',
-        icon: 'lock'
+        icon: 'tree-table'
         
         // if do not set roles, means: this page does not require permission
       }

@@ -9,7 +9,7 @@ const managerRouter = {
   name: 'manager',
   meta: {
     title: 'managerList',
-    icon: 'table'
+    icon: 'people'
   },
   children: [
     {
