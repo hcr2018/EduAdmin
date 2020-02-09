@@ -10,10 +10,9 @@
       :before-close="handleClose"
       size="70%"
     >
-    
       <div class="flex_dom drawer_body">
         <div v-if="showLeft" class="left_content">
-          <div class="is-scroll-left hgt_100 left_body_div">         
+          <div class="is-scroll-left hgt_100 left_body_div">
             <slot name="left_content">展示基本信息区域</slot>
           </div>
         </div>
@@ -106,12 +105,12 @@ export default {
   overflow-y: scroll;
 }
 .myDrawer /deep/ .el-drawer__header {
-  padding: 20px;
-  background: #1890ff;
-  margin-bottom: 15px;
-  color:#ffffff;
+  padding: 15px;
+  background: #2b2f3a; 
+  margin-bottom: 1px;
+  color: #ffffff;
 }
 .myDrawer /deep/ .el-dialog__close {
- color: #ffffff;
+  color: #ffffff;
 }
 </style>
