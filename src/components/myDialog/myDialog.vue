@@ -106,9 +106,9 @@ export default {
   overflow-y: scroll;
 }
 .myDrawer /deep/ .el-drawer__header {
-  padding: 20px;
-  background: #1890ff;
-  margin-bottom: 15px;
+  padding: 15px;
+  background: #2b2f3a; 
+  margin-bottom: 1px;
   color: #ffffff;
 }
 .myDrawer /deep/ .el-dialog__close {

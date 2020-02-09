@@ -52,10 +52,7 @@ const actions = {
       commit('SET_TOKEN', '') 
       commit('SET_MANAGER', {}) 
       removeToken()
-      resetRouter()
-
-      // reset visited views and cached views
-      // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+      resetRouter() 
       dispatch('tagsView/delAllViews', null, { root: true })
 
       resolve()
@@ -64,39 +61,13 @@ const actions = {
 
   // remove token
   resetToken({ commit }) {
-    return new Promise(resolve => {
-      console.log("--------------------------resetToken");
+    return new Promise(resolve => { 
       commit('SET_TOKEN', '') 
       commit('SET_MANAGER',{}) 
       removeToken()
       resolve()
     })
-  },
-
-  // // dynamically modify permissions
-  // changeRoles({ commit, dispatch }, role) {
-  //   return new Promise(async resolve => {
-  //     const token = role + '-token'
-
-  //     commit('SET_TOKEN', token)
-  //     setToken(token)
-
-  //     const { roles } = await dispatch('getInfo')
-
-  //     resetRouter()
-
-  //     // generate accessible routes map based on roles
-  //     const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
-
-  //     // dynamically add accessible routes
-  //     router.addRoutes(accessRoutes)
-
-  //     // reset visited views and cached views
-  //     dispatch('tagsView/delAllViews', null, { root: true })
-
-  //     resolve()
-  //   })
-  // }
+  }
 }
 
 export default {

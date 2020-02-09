@@ -266,7 +266,12 @@ export default {
       // 单条课程表的数据
       timeTableRow: {},
       // 班级的学生列表
-      classAllStuList: []
+      classAllStuList: [],
+      ClassOpenTableRules: {
+        teacher_label: [{ required: true, message: "授课课时不能为空" }],
+        book_label: [{ required: true, message: "授课科目不能为空" }],
+        total_time: [{ required: true, message: "总课时不能为空" }]
+      }
     };
   },
   methods: {
@@ -406,6 +411,55 @@ export default {
               type: "success"
             });
           }
+        } else {
+          return false;
+        }
+      });
+    },
+
+    // 保存开班申请的所有数据
+    saveClassOpenFormData() {
+      // 验证表单数据
+      this.$refs.classOpenForm.validate(valid => {
+        if (valid) {
+          this.$refs.ClassTeacherTable.validate(async valid => {
+            if (valid) {
+              let rowdata = { ...this.classOpenFormData };
+              rowdata.kksq_image = JSON.stringify(rowdata.kksq_image);
+              if (isNaN(rowdata.opentime)) {
+                rowdata.opentime = Math.floor(
+                  rowdata.opentime.getTime() / 1000
+                );
+              } else {
+                rowdata.opentime = rowdata.opentime / 1000;
+              }
+              if (isNaN(rowdata.endtime)) {
+                rowdata.endtime = Math.floor(rowdata.endtime.getTime() / 1000);
+              } else {
+                rowdata.endtime = rowdata.endtime / 1000;
+              }
+              let res = await addClassOpenData(
+                this.classRowData.Id,
+                "",
+                rowdata
+              );
+              if (res.code == 200) {
+                if (res.data) {
+                  res.data.kksq_image = JSON.parse(res.data.kksq_image);
+                  res.data.opentime = res.data.opentime * 1000;
+                  res.data.endtime = res.data.endtime * 1000;
+                  this.isEditImgIcon = false;
+                  this.classOpenFormData = res.data;
+                }
+                this.$message({
+                  message: "保存成功！",
+                  type: "success"
+                });
+              }
+            } else {
+              return false;
+            }
+          });
         } else {
           return false;
         }
