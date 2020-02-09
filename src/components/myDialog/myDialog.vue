@@ -8,6 +8,7 @@
       direction="rtl"
       class="myDrawer"
       :before-close="handleClose"
+      :modal-append-to-body="false"
       size="70%"
     >
       <div class="flex_dom drawer_body">
@@ -112,5 +113,9 @@ export default {
 }
 .myDrawer /deep/ .el-dialog__close {
   color: #ffffff;
+}
+.myDrawer /deep/ .el-drawer__body {
+ height:100%;
+ overflow: hidden;
 }
 </style>
