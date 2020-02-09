@@ -61,7 +61,7 @@
             <template slot-scope="scope">
               <span
                 class="color-1890ff font-w6 cursor"
-                @click="moreOperationOfTeacher(scope.$index, scope.row)"
+                @click="openMoreOperationDialog(scope.$index, scope.row)"
               >{{scope.row.Realname}}</span>
             </template>
           </el-table-column>
@@ -92,7 +92,7 @@
       </div>
       <!-- 用户操作 -->
       <div class="between-center m-v-15">
-        <el-button type="primary" @click="openTeacherDialog(1)">新增用户</el-button>
+        <el-button type="primary" @click="openNewItem()">新增用户</el-button>
         <div>
           <el-pagination
             background
@@ -107,6 +107,31 @@
     </div>
 
     <!-- 老师信息的弹出框 -->
+
+    <!-- 更多操作弹窗 -->
+    <my-dialog
+      :visible.sync="moreOperationDialog"
+      :close-show="true"
+      :title="teacherRowData.Realname"
+    >
+      <!-- 展示校区的基本信息 -->
+      <div slot="left_content">
+        <teacher-row-detail v-bind:formItemData="teacherRowData" />
+      </div>
+      <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
+    </my-dialog>
+
+    <!-- 新增校区信息弹出框 -->
+    <el-dialog
+      :visible.sync="editDialog"
+      width="500px"
+      :title="teacherRowData.Id>0?'编辑'+teacherRowData.Label:'新增校区'"
+    >
+      <teacher-row-detail :editEnable="true" :formItemData="teacherRowData" />
+    </el-dialog>
+
+    <!-- 
+
     <my-dialog
       :visible.sync="moreOperationDialog"
       :closeShow="true"
@@ -128,20 +153,19 @@
           </el-tab-pane>
         </el-tabs>
       </div>
-    </my-dialog>
-    <!-- 用户信息弹出框 -->
-    <teacherRowDialog ref="refTeacherDialog" @subClickEvent="updateTeacherList"></teacherRowDialog>
+    </my-dialog> 
+    <teacherRowDialog ref="refTeacherDialog" @subClickEvent="updateTeacherList"></teacherRowDialog>-->
   </div>
 </template>
 
 <script>
-import common from '@/utils/common'
+import common from "@/utils/common";
 import {
-  getManagerList, 
+  getManagerList,
   setStateManager,
   resetPasswordManager,
-   getManagerPower
-} from '@/api/manager'
+  getManagerPower
+} from "@/api/manager";
 import myDialog from "@/components/myDialog/myDialog";
 import teacherRowDialog from "@/views/manager/component/teacherRowDialog";
 import teacherRowDetail from "@/views/manager/component/teacherRowDetail";
@@ -193,6 +217,7 @@ export default {
       currentTeacherIndex: null,
       // 点开弹出默认显示老师信息
       activElTab: "qxsz",
+      editDialog: false,
       // 更多操作弹框展示
       moreOperationDialog: false,
       // 当前用户所有的权限数据
@@ -205,7 +230,7 @@ export default {
       let offsetRow = (this.nowPage - 1) * this.rows;
       let searchCondition = this.searchConditionVal;
       let searchVal = this.searchVal;
-      let res = await  getManagerList("",{
+      let res = await getManagerList("", {
         limit: this.rows,
         offset: offsetRow,
         role: this.searchRoleVal,
@@ -240,7 +265,7 @@ export default {
         type: "warning"
       })
         .then(async () => {
-          let res = await  setStateManager(
+          let res = await setStateManager(
             row.Id,
             { status: status },
             false,
@@ -252,6 +277,11 @@ export default {
         })
         .catch(() => {});
     },
+    // 打开校区的弹出框
+    openNewItem() {
+      this.editDialog = true;
+      this.teacherRowData = {};
+    },
     // 重置密码
     resetPassword(index, row) {
       this.$confirm("确认重置该账户密码?", "提示", {
@@ -259,8 +289,8 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       })
-        .then(async () => { 
-          let res = await  resetPasswordManager(row.Id);
+        .then(async () => {
+          let res = await resetPasswordManager(row.Id);
           if (res.code == 200) {
             this.$alert("当前密码是:" + res.title, "密码", {
               confirmButtonText: "确定",
@@ -272,21 +302,27 @@ export default {
         })
         .catch(() => {});
     },
-    // 打开老师的弹出框
-    openTeacherDialog(type) {
-      // type=1新增，type=0编辑
-      if (type) {
-        this.$refs.refTeacherDialog.getTeacherRowData({ id: 0 });
-      } else {
-        this.$refs.refTeacherDialog.getTeacherRowData({
-          ...this.teacherRowData
-        });
-      }
+    // 打开更多操作的弹出框
+    openMoreOperationDialog(index, row) {
+      this.currentTeacherIndex = index;
+      this.teacherRowData = row;
+      this.moreOperationDialog = true;
     },
-    // 打开模态框时获取所有的权限选择 
+    // // 打开老师的弹出框
+    // openTeacherDialog(type) {
+    //   // type=1新增，type=0编辑
+    //   if (type) {
+    //     this.$refs.refTeacherDialog.getTeacherRowData({ id: 0 });
+    //   } else {
+    //     this.$refs.refTeacherDialog.getTeacherRowData({
+    //       ...this.teacherRowData
+    //     });
+    //   }
+    // },
+    // 打开模态框时获取所有的权限选择
     async getAllManagerPower(index) {
       this.managerRightsMap = [];
-      let res = await  getManagerPower(this.teacherRowData.Id);
+      let res = await getManagerPower(this.teacherRowData.Id);
       if (res.code == 200) {
         this.managerRightsMap = res.data ? res.data : [];
         this.$refs.refsetRight.getRowDataAddPower(
