@@ -11,8 +11,8 @@
       size="70%"
     >
       <div class="flex_dom drawer_body">
-        <div v-if="showLeft" class="left_content">
-          <div class="is-scroll-left hgt_100 left_body_div">
+        <div v-if="showLeft" class="left_content flex_column">
+          <div class="is-scroll-left hgt_100 left_body_div flex_1">
             <slot name="left_content">展示基本信息区域</slot>
           </div>
         </div>
