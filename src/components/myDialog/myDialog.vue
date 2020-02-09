@@ -8,7 +8,7 @@
       direction="rtl"
       class="myDrawer"
       :before-close="handleClose"
-      size="61.8%"
+      size="70%"
     >
     
       <div class="flex_dom drawer_body">
