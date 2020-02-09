@@ -65,6 +65,7 @@ const actions = {
         path: '/platform',
         component: Layout,
         redirect: 'noRedirect',
+        alwaysShow: true,
         name: 'platform',
         meta: {
           title: 'platform',
@@ -77,7 +78,7 @@ const actions = {
         myPlatformList.forEach(platform => {
           const platformRoute = {
             path: 'list/' + platform.Id,
-            component: () => import('@/views/system/platform'), // Parent router-view
+            component: () => import('@/views/platform/classList'), // Parent router-view
             name: platform.Label,
             meta: { title: platform.Label }
           }

@@ -30,6 +30,17 @@ const customRouter = {
         title: 'trackList'
         
       }
+    },
+    {
+      path: 'sendSMS',
+      component: () => import('@/views/business/sendSMS'),
+      name: 'sendSMS',
+      meta: {
+        title: 'sendSMS',
+        icon: 'lock'
+        
+        // if do not set roles, means: this page does not require permission
+      }
     }
 
   ]

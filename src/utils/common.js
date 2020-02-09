@@ -458,5 +458,8 @@ export default {
       }
     })
     return title
+  },
+  FormatUnixTime(input){
+    return input*1000;
   }
 }
