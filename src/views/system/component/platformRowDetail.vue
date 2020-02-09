@@ -47,6 +47,7 @@
         class="m-l-40"
         @click="saveFormItemData"
       >确 认</el-button>
+       <el-button    v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
     </div>
   </div>
 </template>

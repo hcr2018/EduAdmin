@@ -1,24 +1,24 @@
 <template>
   <div>
+    <my-image-viewer class="wid80 hgt80" :preview-src-list="[item]" :src="item" fit="cover" />
     <el-form
       ref="refCustomInfo"
+      :disabled="currenteditEnable==false"
       :model="formItemData"
       :rules="customInfoRules"
       style="padding:10px 0px 0px 0px"
       label-width="80px"
       size="small"
     >
-      <div class="between-center">
-        <el-form-item label="客户姓名" prop="Realname" class="flex_1">
+      <el-form-item label="客户姓名" prop="Realname" class="flex_1">
+        <div class="flex_dom">
           <el-input v-model="formItemData.Realname" placeholder="请输入客户姓名" />
-        </el-form-item>
-        <el-form-item label="性别" prop="Sex" class="flex_1">
-          <el-select v-model="formItemData.Sex" placeholder="请选择性别">
+          <el-select v-model="formItemData.Sex" style="width:100px" placeholder="请选择性别">
             <el-option label="男" value="男" />
             <el-option label="女" value="女" />
           </el-select>
-        </el-form-item>
-      </div>
+        </div>
+      </el-form-item>
       <el-form-item label="客户电话" prop="Telephone" class="flex_1">
         <el-input
           v-model="formItemData.Telephone"
@@ -33,15 +33,9 @@
       <el-form-item label="客户微信">
         <el-input v-model="formItemData.Wechat" placeholder="请输入客户微信号" />
       </el-form-item>
-      <el-form-item label="图片类型">
+      <el-form-item label="图片">
         <div class="flex_dom flex_wrap">
           <div v-for="(item,index) in customImgArr" :key="index" class="relative marg15">
-            <my-image-viewer
-              class="wid80 hgt80"
-              :preview-src-list="[item]"
-              :src="item"
-              fit="cover"
-            />
             <div
               v-show="formItemData.id<=0"
               class="deleImgIcon cursor"
@@ -100,7 +94,7 @@
         <el-select
           v-model="formItemData.FromLabel"
           :disabled="formItemData.id>0"
-          placeholder="请选择渠道来源" 
+          placeholder="请选择渠道来源"
         >
           <el-option
             v-for="(item,index) in common.channelList"
@@ -131,27 +125,30 @@
         <el-input v-model="formItemData.ManagerLabel" disabled />
       </el-form-item>
       <el-form-item label="描述">
-        <el-input
-          v-model="formItemData.Description"
-          type="textarea"
-          :rows="3"
-          placeholder="客户描述~" 
-        />
+        <el-input v-model="formItemData.Description" type="textarea" :rows="3" placeholder="客户描述~" />
       </el-form-item>
       <el-form-item label="备注">
-        <el-input
-          v-model="formItemData.Comments"
-          type="textarea"
-          :rows="3"
-          placeholder="客户备注~" 
-        />
+        <el-input v-model="formItemData.Comments" type="textarea" :rows="3" placeholder="客户备注~" />
       </el-form-item>
     </el-form>
     <div class="around-center hgt60 bge0e3ea">
       <div>
-        <el-button @click="showCustomDialog=false">取 消</el-button>
-        <el-button type="primary m-l-40" @click="saveFormItemData">保 存</el-button>
+        <el-button
+          type="warning"
+          :disabled="false"
+          v-show="!currenteditEnable"
+          class="m-l-40"
+          @click="currenteditEnable=true"
+        >编辑</el-button>
+        <el-button
+          type="primary"
+          :disabled="false"
+          v-show="currenteditEnable"
+          class="m-l-40"
+          @click="saveFormItemData"
+        >确 认</el-button>
 
+        <el-button v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
         <el-button
           type="danger"
           v-show="formItemData.id>0"
@@ -249,56 +246,55 @@ export default {
   methods: {
     // 重置客户密码
     resetCustomPassword(studentid) {
-      const that = this
+      const that = this;
       that
-        .$confirm('确认重置该账户密码?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        .$confirm("确认重置该账户密码?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
-        .then(async() => {
-          const res = await resetCustomPassword(studentid)
+        .then(async () => {
+          const res = await resetCustomPassword(studentid);
           if (res.code == 200) {
-            that.$alert('当前密码是:' + res.title, '密码', {
-              confirmButtonText: '确定',
+            that.$alert("当前密码是:" + res.title, "密码", {
+              confirmButtonText: "确定",
               callback: action => {
-                that.$set(that.customTableDataList, index, res.data)
+                that.$set(that.customTableDataList, index, res.data);
               }
-            })
+            });
           }
         })
-        .catch(() => {})
+        .catch(() => {});
     },
     // 检查电话号码是否重复
     async checkRepeatPhone() {
       if (this.customInfo.Telephone.length == 11) {
-        const res = await checkTelephone(this.customInfo.Telephone)
+        const res = await checkTelephone(this.customInfo.Telephone);
         if (res.code == 200) {
-          if (res.data && res.title != 'ok') {
-            const mes = `<span class='color-1890ff'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-1890ff'>${res.data.Realname}</span>已使用过该号码哦！`
-            this.$alert(mes, '提示', {
-              confirmButtonText: '确定',
-              type: 'warning',
+          if (res.data && res.title != "ok") {
+            const mes = `<span class='color-1890ff'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-1890ff'>${res.data.Realname}</span>已使用过该号码哦！`;
+            this.$alert(mes, "提示", {
+              confirmButtonText: "确定",
+              type: "warning",
               dangerouslyUseHTMLString: true,
               callback: action => {}
-            })
+            });
           }
         }
       }
     },
     // 客户资料图片上传
     async uploadCustomImg(file) {
-      const res = await UploadAddCustom('', '', file.raw)
+      const res = await UploadAddCustom("", "", file.raw);
       if (res.code == 200) {
-        this.common.go_alert('上传成功！')
-        this.customImgArr.push(res.data)
+        this.common.go_alert("上传成功！");
+        this.customImgArr.push(res.data);
       }
     },
     // 删除客户资料的图片
     deleCustomImg(index) {
-      this.customImgArr.splice(index, 1)
-    }, 
-
+      this.customImgArr.splice(index, 1);
+    },
 
     // 保存客户信息
     async saveFormItemData() {

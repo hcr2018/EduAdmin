@@ -2,6 +2,7 @@
   <div>
     <el-form
       :model="formItemData"
+        :disabled="currenteditEnable==false"
       :rules="teacherFormRules"
       ref="refTeacherForm"
       style="padding:50px 0px 0px 0px"
@@ -66,8 +67,25 @@
       </el-form-item>
     </el-form>
     <div>
+       <el-button
+        type="warning"
+        :disabled="false"
+        v-show="!currenteditEnable"
+        class="m-l-40"
+        @click="currenteditEnable=true"
+      >编辑</el-button>
+      <el-button
+        type="primary"
+        :disabled="false"
+        v-show="currenteditEnable"
+        class="m-l-40"
+        @click="saveFormItemData"
+      >确 认</el-button>
+      <el-button    v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
+<!-- 
+
       <el-button @click="isShowTeacherDialog=false">取 消</el-button>
-      <el-button type="primary m-l-40" @click="saveFormItemData">保 存</el-button>
+      <el-button type="primary m-l-40" @click="saveFormItemData">保 存</el-button> -->
     </div>
   </div>
 </template>
@@ -92,6 +110,7 @@ export default {
   data() {
     return {
       common,
+       currenteditEnable: this.editEnable,
       // 是否显示模态框
       isShowTeacherDialog: false, 
       // 表单验证

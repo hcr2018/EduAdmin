@@ -73,7 +73,7 @@
           <el-table-column prop="Sex" width="50" label="性别"></el-table-column>
           <el-table-column prop="tel" label="电话号码" width="100"></el-table-column>
           <el-table-column prop="info" label="个人描述" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column label="操作" width="280">
+          <el-table-column label="操作" width="180">
             <template slot-scope="scope">
               <el-button type="danger" @click="resetPassword(scope.$index, scope.row)">重置密码</el-button>
               <el-button
