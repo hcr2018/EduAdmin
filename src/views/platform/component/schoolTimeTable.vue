@@ -110,11 +110,14 @@
             </template>
           </vxe-table-column>
         </vxe-table>
-        
+        <div class="between-center m-v-15">
+          <el-button v-show="isAllowEdit" @click="insertTableRow(-1)">添加课程</el-button>
+          <el-button type="primary" v-show="isAllowEdit" @click="saveTimeTableList">保 存</el-button>
+        </div>
       </div>
     </div>
 
-
+    
     <vxe-table
       ref="ClassTeacherTable"
       size="mini"
