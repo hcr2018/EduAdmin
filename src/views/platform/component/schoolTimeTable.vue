@@ -1,7 +1,6 @@
 
 <template>
   <div class="p_both10 p-t-5">
-
     <div class="flex_dom">
       <div class="mycalendar bg-999">
         <el-calendar id="calendar" v-model="showDate">
@@ -117,7 +116,6 @@
       </div>
     </div>
 
-    
     <vxe-table
       ref="ClassTeacherTable"
       size="mini"
@@ -185,7 +183,7 @@
       <el-button @click="insertTableRow(-1)">添加老师</el-button>
       <el-button type="primary" @click="saveClassOpenFormData">保 存</el-button>
     </div>
-    
+
     <!-- 模态框 -->
     <div>
       <!-- 考勤记录 -->
@@ -461,7 +459,7 @@ export default {
 </script> 
 <style scoped>
 #calendar {
-  width: 350px;
+  width: 235px;
 }
 .day_selected {
   border-radius: 50%;
@@ -481,10 +479,10 @@ export default {
 }
 .mycalendar >>> .calendar-day {
   text-align: center;
-  width: 25px;
-  height: 25px;
-  line-height: 20px;
-  font-size: 15px;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  font-size: 14px;
   margin: 0px 5px;
 }
 .mycalendar >>> .el-calendar__body {

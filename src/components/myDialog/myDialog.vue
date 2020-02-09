@@ -10,10 +10,9 @@
       :before-close="handleClose"
       size="70%"
     >
-    
       <div class="flex_dom drawer_body">
-        <div v-if="showLeft" class="left_content">
-          <div class="is-scroll-left hgt_100 left_body_div">         
+        <div v-if="showLeft" class="left_content flex_column">
+          <div class="is-scroll-left hgt_100 left_body_div flex_1">
             <slot name="left_content">展示基本信息区域</slot>
           </div>
         </div>
@@ -109,9 +108,9 @@ export default {
   padding: 20px;
   background: #1890ff;
   margin-bottom: 15px;
-  color:#ffffff;
+  color: #ffffff;
 }
 .myDrawer /deep/ .el-dialog__close {
- color: #ffffff;
+  color: #ffffff;
 }
 </style>
