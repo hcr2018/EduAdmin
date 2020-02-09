@@ -24,7 +24,11 @@
 </template>
 
 <script>
-import { getStudentDataFromAnalysis, getStudentDataTrackAnalysis } from '@/api/custom'
+import {
+  GetStudentDataFromAnalysis,
+  GetStudentDataTrackAnalysis
+} from '@/api/home'
+import { getToken } from '../../../utils/auth'
 export default {
   name: 'DashboardAdmin',
   data() {
@@ -58,62 +62,79 @@ export default {
         })
       }
     },
-    async getDataAnalysis() {
+    getDataAnalysis() {
       const that = this
+
       // 校区-客户数据
-      let res
       if (that.radio1 == 'fromid') {
-        res = await getStudentDataFromAnalysis(that.days)
-      } else if (that.radio1 == 'strack') {
-        res = await getStudentDataTrackAnalysis(that.days)
-      }
-      if (res.code == 200) {
-        const title = res.title ? res.title : []
-        // 基于准备好的dom，初始化echarts实例
-
-        const option = {
-          legend: {},
-          tooltip: {
-            trigger: 'axis',
-            showContent: false
-          },
-          dataset: {
-            source: res.data
-          },
-          xAxis: { type: 'category' },
-          yAxis: { gridIndex: 0 },
-          grid: { top: '55%' },
-          series: []
-        }
-
-        title.forEach(element => {
-          option.series.unshift({
-            type: 'line',
-            smooth: true,
-            seriesLayoutBy: 'row'
+        GetStudentDataFromAnalysis(that.days)
+          .then(res => {
+            that.drawChart(res)
           })
-        })
-        let tooltipvalue = '0'
-        if (res.data[0] && res.data[0][res.data[0].length - 1]) {
-          tooltipvalue = res.data[0][res.data[0].length - 1]
-        }
-        option.series.unshift({
-          type: 'pie',
-          id: 'pie',
-          radius: '30%',
-          center: ['50%', '30%'],
-          label: {
-            formatter: '{b}: {@' + tooltipvalue + '} ({d}%)'
-          },
-          encode: {
-            itemName: 'day',
-            value: tooltipvalue,
-            tooltip: tooltipvalue
-          }
-        })
-
-        that.myChart.setOption(option)
+          .catch(err => {
+            console.log('GetStudentDataFromAnalysis Error:', err)
+          })
+      } else if (that.radio1 == 'strack') {
+        GetStudentDataTrackAnalysis(that.days)
+          .then(res => {
+            that.drawChart(res)
+          })
+          .catch(err => {
+            console.log('GetStudentDataTrackAnalysis Error:', err)
+          })
       }
+      that.loading = false
+    },
+    drawChart(res) {
+      if (res == null) {
+        return
+      }
+      const title = res.title ? res.title : []
+      // 基于准备好的dom，初始化echarts实例
+
+      const option = {
+        legend: {},
+        tooltip: {
+          trigger: 'axis',
+          showContent: false
+        },
+        dataset: {
+          source: res.data
+        },
+        xAxis: { type: 'category' },
+        yAxis: { gridIndex: 0 },
+        grid: { top: '55%' },
+        series: []
+      }
+
+      title.forEach(element => {
+        option.series.unshift({
+          type: 'line',
+          smooth: true,
+          seriesLayoutBy: 'row'
+        })
+      })
+      let tooltipvalue = '0'
+      if (res.data[0] && res.data[0][res.data[0].length - 1]) {
+        tooltipvalue = res.data[0][res.data[0].length - 1]
+      }
+      option.series.unshift({
+        type: 'pie',
+        id: 'pie',
+        radius: '30%',
+        center: ['50%', '30%'],
+        label: {
+          formatter: '{b}: {@' + tooltipvalue + '} ({d}%)'
+        },
+        encode: {
+          itemName: 'day',
+          value: tooltipvalue,
+          tooltip: tooltipvalue
+        }
+      })
+
+      this.myChart.setOption(option)
+      this.loading = false
     }
   }
 }

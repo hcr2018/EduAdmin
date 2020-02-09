@@ -11,7 +11,7 @@ export function login(url, param, data) {
 
 export function getInfo(url, param, data) {
   return request({
-    url: '/manager/info' + url,
+    url: '/manager/info/mine' + url,
     method: 'get',
     params: param,
     data

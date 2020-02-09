@@ -27,12 +27,12 @@ router.beforeEach(async(to, from, next) => {
     } else {
       try {
         // 如果还没有计算出路由，则计算
-        if (store.getters.permission_routes.length == 0) {
-          const accessRoutes = await store.dispatch('permission/generateRoutes', store.getters.currentManager)
-          router.addRoutes(accessRoutes)
+        if (store.getters.permission_routes.length == 0) { 
+          const accessRoutes = await store.dispatch('permission/generateRoutes')
+          router.addRoutes(accessRoutes) 
           next({ ...to, replace: true })
         } else {
-          next()
+          next() 
         }
       } catch (error) {
         // remove token and go to login page to re-login

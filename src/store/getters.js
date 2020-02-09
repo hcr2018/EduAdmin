@@ -6,11 +6,9 @@ const getters = {
   device: state => state.app.device,
   visitedViews: state => state.tagsView.visitedViews,
   cachedViews: state => state.tagsView.cachedViews,
-  token: state => state.manager.token,
-  avatar: state => state.manager.face,
-  name: state => state.manager.Realname,
-  currentManager: state => state.manager,
-  roles: state => state.manager.roles,
+  token: state => state.manager.token, 
+  manager: state => state.manager.manager,
+  myPlatformList: state => state.manager.myPlatformList,
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs
 }

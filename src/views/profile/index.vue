@@ -45,9 +45,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'name',
-      'avatar',
+    ...mapGetters([ 
+      'currentManager',
       'roles'
     ])
   },
@@ -56,13 +55,12 @@ export default {
   },
   methods: {
     getUser() {
-      this.user = {
-        name: this.name,
+      this.user = { 
         role: this.roles.join(' | '),
         email: 'admin@test.com',
-        avatar: this.avatar
+        avatar: this.currentManager.Face
       }
     }
   }
 }
-</script>
+</script> 

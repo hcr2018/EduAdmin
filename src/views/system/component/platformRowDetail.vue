@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { addPlatform, updatePlatform } from "@/api/platform"; 
+import { addPlatform, updatePlatform } from "@/api/platform";
 export default {
   props: {
     // 校区的表单数据
@@ -70,7 +70,7 @@ export default {
   name: "PlatformForm",
   data() {
     return {
-      currenteditEnable: this.editEnable, 
+      currenteditEnable: this.editEnable,
       // 校区对应的工作人员
       PlatformWorkers: [],
       // 表单验证
@@ -91,7 +91,6 @@ export default {
   },
   mounted() {},
   methods: {
-    
     // 保存客户信息
     async saveFormItemData() {
       this.$refs.formUI.validate(async valid => {

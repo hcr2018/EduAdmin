@@ -35,17 +35,6 @@ const systemRouter =
         
         // if do not set roles, means: this page does not require permission
       }
-    },
-    {
-      path: 'sendSMS',
-      component: () => import('@/views/system/sendSMS'),
-      name: 'sendSMS',
-      meta: {
-        title: 'sendSMS',
-        icon: 'lock'
-        
-        // if do not set roles, means: this page does not require permission
-      }
     }
   ]
 }

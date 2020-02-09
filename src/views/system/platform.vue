@@ -50,7 +50,7 @@
         width="500px"
         :title="platformRowData.Id>0?'编辑'+platformRowData.Label:'新增校区'"
       >
-        <platformRowDetail ref="refPlatForm" :editEnable="true" :formItemData="platformRowData" />
+        <platformRowDetail   :editEnable="true" :formItemData="platformRowData" />
       </el-dialog>
     </div>
   </div>

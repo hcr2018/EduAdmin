@@ -12,7 +12,7 @@ import courseRouter from './modules/course'
 import webRouter from './modules/web'
 import managerRouter from './modules/manager'
 import systemRouter from './modules/system' 
-
+import businessRouter from './modules/business'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -121,7 +121,7 @@ export const asyncRoutes = [
   customRouter,
   courseRouter,
   webRouter, 
-  // platformRouter,
+  businessRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

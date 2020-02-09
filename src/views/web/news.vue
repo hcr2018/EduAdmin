@@ -19,7 +19,7 @@
           </el-table-column>
           <el-table-column prop="Creattime" :formatter="TimeFormatter" label="发布时间" width="130"></el-table-column>
           <el-table-column prop="AuthorLabel" label="发布人" width="100"></el-table-column>
-          <el-table-column label="操作" width="280" fixed="right">
+          <el-table-column label="操作" width="150" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" @click="editNewsRow(scope.$index, scope.row)">编辑</el-button>
               <el-button type="danger" @click="deleteNewsRow(scope.$index, scope.row)">删除</el-button>

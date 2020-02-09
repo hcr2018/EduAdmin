@@ -4,7 +4,7 @@
       <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
     </div>
     <div style="position:relative;">
-      <pan-thumb :image="avatar" class="panThumb" />
+      <pan-thumb :image="manager.Face" class="panThumb" />
       <mallki class-name="mallki-text" text="vue-element-admin" />
       <div style="padding-top:35px;" class="progress-item">
         <span>Vue</span>
@@ -54,7 +54,7 @@ export default {
   computed: {
     ...mapGetters([
       'name',
-      'avatar',
+      'manager',
       'roles'
     ])
   }

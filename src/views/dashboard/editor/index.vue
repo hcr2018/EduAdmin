@@ -30,7 +30,7 @@ import {
 } from '@/api/home'
 import { getToken } from '../../../utils/auth'
 export default {
-  name: 'DashboardAdmin',
+  name: 'DashboardTeacher',
   data() {
     return {
       radio1: 'fromid',

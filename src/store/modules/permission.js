@@ -1,5 +1,6 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import Layout from '@/layout'
+import store from '@/store' 
 /**
  * Use meta.role to determine if the current user has permission
  * @param role
@@ -42,22 +43,24 @@ const state = {
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+    state.routes = constantRoutes.concat(routes) 
   }
 }
 
 const actions = {
-  generateRoutes({ commit }, managerdata) {
-    return new Promise(resolve => {
+  generateRoutes({ commit }) {
+    return new Promise(async resolve => {  
+      if (!store.getters.manager.tel){
+        await store.dispatch('manager/getInfo') 
+      } 
       let accessedRoutes
-      if (managerdata.role == 1) {
+      if (store.getters.manager.role == 1) {
         // 分校工作员
         accessedRoutes = asyncRoutes || []
       } else {
         // 管理员
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, managerdata.role)
-      }
-
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, store.getters.manager.role)
+      } 
       const topPlatformRoute = {
         path: '/platform',
         component: Layout,
@@ -69,16 +72,18 @@ const actions = {
         },
         children: []
       }
-
-      managerdata.myPlatformList.forEach(platform => {
-        const platformRoute = {
-          path: 'list/' + platform.Id,
-          component: () => import('@/views/platform/index'), // Parent router-view
-          name: platform.Label,
-          meta: { title: platform.Label }
-        }
-        topPlatformRoute.children.push(platformRoute)
-      })
+      let myPlatformList =store.getters.manager.myPlatformList;  
+      if (myPlatformList) {
+        myPlatformList.forEach(platform => {
+          const platformRoute = {
+            path: 'list/' + platform.Id,
+            component: () => import('@/views/system/platform'), // Parent router-view
+            name: platform.Label,
+            meta: { title: platform.Label }
+          }
+          topPlatformRoute.children.push(platformRoute)
+        })
+      } 
       accessedRoutes.push(topPlatformRoute)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
