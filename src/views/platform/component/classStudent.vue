@@ -1,7 +1,6 @@
 <template>
   <div class="p_both10 p-t-5">
     <el-table
-      ref="refElTabel"
       :data="classAllStuList"
       @selection-change="changeSelectStu"
       border
@@ -15,7 +14,7 @@
       <el-table-column prop="Telephone" label="电话" width="100"></el-table-column>
       <el-table-column prop="Education" label="学历" width="120"></el-table-column>
       <el-table-column prop="FromLabel" label="渠道来源" width="120"></el-table-column>
-      <el-table-column label="教材分发情况"  :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column label="备注" :show-overflow-tooltip="true"></el-table-column>
     </el-table>
     <div class="m-v-15">
       <!-- <el-button type="danger" @click="removeClassStu" class="border0 m-t-30">移除学员</el-button> -->
@@ -68,7 +67,7 @@
   </div>
 </template>
 <script>
- import { 
+import {
   getAllClass,
   editClassInfo,
   addClassInfo,
@@ -82,7 +81,7 @@
   addClassStu,
   getClassStu,
   handOutTask,
-  getAllClassTaskRecord 
+  getAllClassTaskRecord
 } from "@/api/class";
 import {
   GetStudentDataTrackAnalysis,
@@ -108,11 +107,23 @@ import {
 import common from "@/utils/common";
 export default {
   name: "ClassStudent",
+  props: {
+    // 校区的表单数据
+    formItemData: {
+      type: Object,
+      default: function() {
+        return { Id: 0 };
+      }
+    }
+  },
+  watch: {
+    formItemData(newval) {
+      this.getClassAllStuList();
+    }
+  },
   data() {
     return {
       common,
-      // 班级的表单数据
-      classRowData: {},
       // 搜索表单数据
       stuSearchForm: {
         searchPhone: "",
@@ -143,22 +154,13 @@ export default {
     };
   },
   methods: {
-    //获取班级的基本信息
-    getClassRow(formData) {
-      this.ShowSearchForm = false;
-      this.classRowData = {};
-      this.classRowData = { ...formData };
-      this.getClassAllStuList();
-      this.serachStuList = [];
-      this.ShowSearchForm = false;
-      this.showSrarchStuResult = false;
-    },
     // 获取班级的所有学员
     async getClassAllStuList() {
-      let res = await  getClassStu(this.classRowData.Id);
-      if (res.code == 200) {
-        this.classAllStuList = res.data ? res.data : [];
-      }
+      this.serachStuList = [];
+      this.ShowSearchForm = false;
+      this.showSrarchStuResult = false; 
+      let res = await getClassStu(this.formItemData.Id);
+      this.classAllStuList = res.data ? res.data : [];
     },
     // 查找学员
     searchStudent() {
@@ -169,7 +171,7 @@ export default {
       }
       this.$refs.stuSearchForm.validate(async valid => {
         if (valid) {
-          let res = await  getCustomInfoList({
+          let res = await getCustomInfoList("", {
             limit: 10000,
             tel: this.stuSearchForm.searchPhone,
             realname: this.stuSearchForm.searchName
@@ -208,7 +210,7 @@ export default {
         this.checkBoxAddStu = [];
         return;
       }
-      let res = await  addClassStu(this.classRowData.Id, newStu);
+      let res = await addClassStu(this.formItemData.Id, "", newStu);
       if (res.code == 200) {
         this.common.go_alert("添加成功！");
         // 清空搜索和选中的学员数据
@@ -239,11 +241,7 @@ export default {
       }
     }
   },
-  mounted() {
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
-  }
+  mounted() {}
 };
 </script> 
 <style scoped>

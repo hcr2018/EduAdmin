@@ -3,12 +3,13 @@
     <el-form
       :model="formItemData"
       ref="classForm"
+      :disabled="currenteditEnable==false"
       :rules="ClassFormRules"
       style="padding:50px 0px 0px 0px"
       label-width="80px"
       size="small"
     >
-      <el-form-item label="归属校区" prop="PlatformID">
+      <el-form-item label="归属校区" v-show="currenteditEnable" prop="PlatformID">
         <el-select v-model="formItemData.PlatformID" placeholder="请选择归属校区">
           <el-option
             v-show="item.Id!=0"
@@ -22,11 +23,21 @@
       <el-form-item label="班级名称" prop="Label">
         <el-input v-model="formItemData.Label" placeholder="请输入班级名称"></el-input>
       </el-form-item>
-       <el-form-item label="开班时间" prop="OpenTime">
-        <el-date-picker v-model="formItemData.OpenTime"  value-format="timestamp" style="width:170px"  type="date"></el-date-picker>
+      <el-form-item label="开班时间" prop="OpenTime">
+        <el-date-picker
+          v-model="formItemData.OpenTime"
+          value-format="timestamp"
+          style="width:170px"
+          type="date"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="结课时间" prop="Endtime">
-        <el-date-picker v-model="formItemData.Endtime"  value-format="timestamp" style="width:170px"  type="date"></el-date-picker>
+        <el-date-picker
+          v-model="formItemData.Endtime"
+          value-format="timestamp"
+          style="width:170px"
+          type="date"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="授课形式">
         <el-select v-model="formItemData.TeachMethod" placeholder="请选择授课形式">
@@ -42,14 +53,36 @@
         <el-input v-model="createPerson" disabled></el-input>
       </el-form-item>
       <el-form-item label="创建时间">
-        <el-date-picker v-model="createClassTime" value-format="timestamp" style="width:170px" disabled type="date"></el-date-picker>
+        <el-date-picker
+          v-model="createClassTime"
+          value-format="timestamp"
+          style="width:170px"
+          disabled
+          type="date"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="情况备注">
         <el-input type="textarea" :rows="3" v-model="formItemData.Description" placeholder="情况备注~"></el-input>
       </el-form-item>
     </el-form>
-    <el-button @click="isShowClassDialog=false">取 消</el-button>
-    <el-button type="primary" class="m-l-40" @click="saveClassFormData">保 存</el-button>
+
+    <div class="around-center hgt60 bge0e3ea">
+      <el-button
+        type="warning"
+        :disabled="false"
+        v-show="!currenteditEnable"
+        class="m-l-40"
+        @click="currenteditEnable=true"
+      >编辑</el-button>
+      <el-button
+        type="primary"
+        :disabled="false"
+        v-show="currenteditEnable"
+        class="m-l-40"
+        @click="saveFormItemData"
+      >确 认</el-button>
+      <el-button v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
+    </div>
   </div>
 </template>
 
@@ -88,6 +121,7 @@ export default {
   data() {
     return {
       common,
+      currenteditEnable: this.editEnable,
       // 控制班级弹出框
       isShowClassDialog: false,
       // 创建班级的时间
@@ -104,7 +138,7 @@ export default {
   },
   methods: {
     // 添加或编辑数据
-    saveClassFormData() {
+    saveFormItemData() {
       // 验证表单数据
       this.$refs.classForm.validate(async valid => {
         if (valid) {

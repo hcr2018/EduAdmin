@@ -107,7 +107,7 @@ export default {
 }
 .myDrawer /deep/ .el-drawer__header {
   padding: 15px;
-  background: #2b2f3a; 
+  background: rgb(48, 65, 86); 
   margin-bottom: 1px;
   color: #ffffff;
 }

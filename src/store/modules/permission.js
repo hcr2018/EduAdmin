@@ -75,12 +75,15 @@ const actions = {
       }
       let myPlatformList =store.getters.manager.myPlatformList;  
       if (myPlatformList) {
+        let index=0;
         myPlatformList.forEach(platform => {
+          index++;
           const platformRoute = {
-            path: 'list/' + platform.Id,
+            path: 'list/' +index,// platform.Id,
             component: () => import('@/views/platform/classList'), // Parent router-view
-            name: platform.Label,
+            name: platform.Id,
             meta: { title: platform.Label,icon:"tree-table" }
+
           }
           topPlatformRoute.children.push(platformRoute)
         })
