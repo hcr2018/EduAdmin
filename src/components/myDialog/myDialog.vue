@@ -17,6 +17,10 @@
             <slot name="left_content">展示基本信息区域</slot>
           </div>
         </div>
+         <div style="width:5px;height:100%;  background:#e0e3ea; ">
+
+
+         </div>
         <div class="right_content" :class="{'no_left':!showLeft}">
           <div class="is-scroll-left hgt_100 right_body_div">
             <slot name="right_content">default left_content</slot>
@@ -82,15 +86,15 @@ export default {
   width: 300px;
   height: 100%;
   margin-left: 10px;
-  border: 5px solid #e0e3ea;
+  /* border: 5px solid #e0e3ea; */
   border-right: none;
 }
 .right_content {
   overflow: hidden;
   width: calc(100% - 320px);
   height: 100%;
-  margin-right: 10px;
-  border: 5px solid #e0e3ea;
+  margin-right: 0px;
+  /* border: 5px solid #e0e3ea; */
 }
 
 .no_left {
