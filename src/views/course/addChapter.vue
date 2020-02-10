@@ -21,7 +21,12 @@
           <vxe-table-column type="index" width="120" title="序号" tree-node />
           <vxe-table-column field="Label" title="名称" :edit-render="{name: 'input'}" />
           <vxe-table-column field="Video" title="视频地址" :edit-render="{name: 'input'}" />
-          <vxe-table-column field="TopicNo" :edit-render="{name: 'input'}" title="视频编号" width="130" />
+          <vxe-table-column
+            field="TopicNo"
+            :edit-render="{name: 'input'}"
+            title="视频编号"
+            width="130"
+          />
           <vxe-table-column field="Description" title="描述" :edit-render="{name: 'input'}" />
           <vxe-table-column field="Taste" title="允许试读" width="80">
             <template v-slot="{ row}">
@@ -56,42 +61,48 @@
   </div>
 </template>
 <script>
-import $BookHttp from '@/service/BookAPI'
+import {
+  editBookVideo,
+  addBookVideo,
+  deleBookVideo,
+  getBookVideo,
+  createBookStructure
+} from "@/api/book";
 export default {
-  name: 'AddChapter',
+  name: "AddChapter",
   data() {
     return {
       // 书名称
-      subjectLabel: '',
+      subjectLabel: "",
       // 书的Id
-      subjectId: null,
+      subjectId: "",
       // 书的章节列表
       chaperListOfBook: [],
       //  列表的children数据
       treeConfig: {
-        children: 'Children'
+        children: "Children"
       }
-    }
+    };
   },
   mounted() {
-    this.subjectId = this.$route.query.Id
-    this.subjectLabel = this.$route.query.Label
-    this.getBookChapter()
+    this.subjectId = this.$router.currentRoute.params.Id;
+    this.subjectLabel = this.$router.currentRoute.params.Label; 
+    this.getBookChapter();
   },
   methods: {
     // 编辑章节
     editChapter(row) {
-      this.$refs.chapterTreeTable.setActiveRow(row)
+      this.$refs.chapterTreeTable.setActiveRow(row);
     },
     // 新增子级节点
     addChildNode(row, isZhang) {
-      const that = this
-      const chapterTreeTable = that.$refs.chapterTreeTable
-      let labelStr = ''
+      const that = this;
+      const chapterTreeTable = that.$refs.chapterTreeTable;
+      let labelStr = "";
       if (isZhang == true) {
-        labelStr = '新的节'
+        labelStr = "新的节";
       } else {
-        labelStr = '新的视频'
+        labelStr = "新的视频";
       }
       chapterTreeTable
         .createRow({
@@ -99,8 +110,8 @@ export default {
           Id: new Date().getTime(),
           Children: [],
           Taste: 0,
-          Video: '',
-          TopicNo: '',
+          Video: "",
+          TopicNo: "",
           Zhang: 0,
           Jie: 0
         })
@@ -109,139 +120,139 @@ export default {
             that.chaperListOfBook,
             item => item.Id === row.Id,
             that.treeConfig
-          )
+          );
           if (rowNode) {
             rowNode.items.forEach((item, index) => {
               if (isZhang == true) {
                 // 如果是章，那么设置为节
-                newRow.Jie = 1
+                newRow.Jie = 1;
               } else {
-                newRow.Jie = 0
+                newRow.Jie = 0;
               }
               if (item.Id == row.Id) {
-                rowNode.items[index].Children.push(newRow)
+                rowNode.items[index].Children.push(newRow);
                 chapterTreeTable
                   .refreshData()
-                  .then(() => chapterTreeTable.setActiveRow(newRow))
+                  .then(() => chapterTreeTable.setActiveRow(newRow));
               }
-            })
+            });
           }
-        })
+        });
     },
     // 保存编辑
     saveChapter(row) {
-      const that = this
-      row.TBookID = that.subjectId
-      row.Taste = parseInt(row.Taste)
-      row.TBookID = parseInt(row.TBookID)
-      row.Jie = parseInt(row.Jie)
-      row.Zhang = parseInt(row.Zhang)
+      const that = this;
+      row.TBookID = that.subjectId;
+      row.Taste = parseInt(row.Taste);
+      row.TBookID = parseInt(row.TBookID);
+      row.Jie = parseInt(row.Jie);
+      row.Zhang = parseInt(row.Zhang);
       that
-        .$confirm('确认修改吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        .$confirm("确认修改吗?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
-        .then(async() => {
+        .then(async () => {
           if (row.Id > 0) {
             // ID大于零代表修改，否则就是新增
-            const res = await $BookHttp.editBookVideo(row.Id, row)
+            const res = await editBookVideo(row.Id, row);
             if (res.code == 200) {
-              that.cancelRowEvent()
-              that.common.go_alert('修改成功 !')
+              that.cancelRowEvent();
+              that.common.go_alert("修改成功 !");
             }
           } else {
-            const res = await $BookHttp.addBookVideo(row)
+            const res = await addBookVideo(row);
             if (res.code == 200) {
-              that.cancelRowEvent()
-              that.common.go_alert('添加成功 !')
-              that.getBookChapter()
+              that.cancelRowEvent();
+              that.common.go_alert("添加成功 !");
+              that.getBookChapter();
             }
           }
         })
-        .catch(() => {})
+        .catch(() => {});
     },
     // 取消编辑
     cancelEditChapter(row, index) {
-      this.$refs.chapterTreeTable.clearActived()
-      this.$refs.chapterTreeTable.revert(row)
+      this.$refs.chapterTreeTable.clearActived();
+      this.$refs.chapterTreeTable.revert(row);
       if (row.Id <= 0) {
-        this.$refs.chapterTreeTable.remove(row)
+        this.$refs.chapterTreeTable.remove(row);
       }
     },
     // 新增章
     addChapter() {
       const newItem = {
         Id: new Date().getTime(),
-        Label: '新的章',
+        Label: "新的章",
         Children: [],
         Taste: 0,
-        Video: '',
-        TopicNo: '',
+        Video: "",
+        TopicNo: "",
         Zhang: 1,
         Jie: 0
-      }
-      this.chaperListOfBook.push(newItem)
+      };
+      this.chaperListOfBook.push(newItem);
     },
     // 批量删除
     deleteSelectItems() {
-      const that = this
-      const selectChapterItems = that.$refs.chapterTreeTable.getSelectRecords()
-      const ids = []
+      const that = this;
+      const selectChapterItems = that.$refs.chapterTreeTable.getSelectRecords();
+      const ids = [];
       for (const chapterItem of selectChapterItems) {
-        ids.push(chapterItem.Id)
+        ids.push(chapterItem.Id);
       }
       that
-        .$confirm('确认删除吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        .$confirm("确认删除吗?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
-        .then(async() => {
-          const res = await $BookHttp.deleBookVideo({
+        .then(async () => {
+          const res = await deleBookVideo({
             idlist: ids.toString()
-          })
+          });
           if (res.code == 200) {
-            that.getBookChapter()
-            that.common.go_alert('删除成功 !')
+            that.getBookChapter();
+            that.common.go_alert("删除成功 !");
           }
         })
-        .catch(() => {})
+        .catch(() => {});
     },
     // 获取章节列表
     async getBookChapter() {
-      const res = await $BookHttp.getBookVideo(this.subjectId, {
+      const res = await getBookVideo(this.subjectId, {
         limit: 100000,
         offset: 0
-      })
+      });
       if (res.code == 200 && res.data.Content) {
-        this.chaperListOfBook = JSON.parse(res.data.Content)
+        this.chaperListOfBook = JSON.parse(res.data.Content);
       }
     },
     // 生成科目章节
     createSubjectChapter: function() {
-      const that = this
+      const that = this;
       that
-        .$confirm('确认保存吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        .$confirm("确认保存吗?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
-        .then(async() => {
+        .then(async () => {
           if (that.chaperListOfBook.length > 0) {
-            const res = await $BookHttp.createBookStructure(
+            const res = await createBookStructure(
               that.subjectId,
               that.chaperListOfBook
-            )
+            );
             if (res.data == 200) {
-              that.common.go_alert('保存成功 !')
+              that.common.go_alert("保存成功 !");
             }
           }
         })
-        .catch(() => {})
+        .catch(() => {});
     }
   }
-}
+};
 </script>
 <style scoped>
 .el-icon-success {

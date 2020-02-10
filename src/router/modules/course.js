@@ -22,7 +22,14 @@ const courseRouter = {
       path: 'bookList',
       component: () => import('@/views/course/bookList'),
       name: 'bookList',
-      meta: { title: 'bookList',icon:"clipboard" }
+      meta: { title: 'bookList',icon:"book" }
+    },
+    {
+      path: 'book',
+      component: () => import('@/views/course/addChapter'),
+      name: 'bookAdpter',
+      hidden: true,
+      meta: { title: 'bookAdpter',icon:"book" }
     }
 
   ]

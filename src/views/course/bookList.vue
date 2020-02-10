@@ -51,7 +51,7 @@
             :show-overflow-tooltip="true"
           />
           <el-table-column prop="Description" :show-overflow-tooltip="true" label="描述" />
-          <el-table-column label="操作" width="360" fixed="right">
+          <el-table-column label="操作" width="300" fixed="right">
             <template slot-scope="scope">
               <el-button type="success" @click="addChapter(scope.$index, scope.row)">内容管理</el-button>
               <el-button type="warning" @click="questionManager(scope.$index, scope.row)">试题管理</el-button>
@@ -131,9 +131,6 @@ export default {
   },
   mounted() {
     this.getBookList();
-    setTimeout(() => {
-      this.$refs.refSubjectListElTabel.doLayout();
-    }, 2000);
   },
   methods: {
     // 条件搜索
@@ -151,7 +148,7 @@ export default {
         label: this.searchContent,
         coursekind: this.searchBookCourseKind
       };
-      const res = await queryBookList("",params);
+      const res = await queryBookList("", params);
       if (res.code == 200) {
         this.allRows = res.title;
         this.subjectList = res.data ? res.data : [];
@@ -189,10 +186,10 @@ export default {
       }
     },
     // 关联章节管理
-    addChapter: function(index, row) {
-      this.$router.push({
-        name: "addChapter",
-        query: { Label: row.Label, Id: row.Id }
+    addChapter: function(index, row) { 
+      this.$router.replace({ 
+        name:"bookAdpter",  
+        params: { Id:row.Id, Label: row.Label }
       });
     },
     // 关联试题管理

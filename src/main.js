@@ -23,13 +23,12 @@ import './static/css/pcglobal.css'
 import './static/css/lw.css'
 import './static/css/scrollBar.css'
 import './static/css/vxe.css'
-import 'vxe-table/lib/index.css'
-import 'xe-utils'
+import 'vxe-table/lib/index.css' 
 import 'vxe-table-plugin-element/dist/style.css'
 import echarts from 'echarts'
 import * as filters from './filters' // global filters
 Vue.prototype.$echarts = echarts
-Vue.use(VXETable)
+Vue.use(VXETable)  
 VXETable.use(VXETablePluginElement)
 /**
  * If you don't want to use mock-server

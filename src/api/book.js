@@ -1,6 +1,7 @@
 import request from '@/utils/request'
 // 获取指定大类的科目列表
 export function queryBookList(url, param, data) {
+  
   return request({
     url: '/book'+url,
     method: 'get',
@@ -29,7 +30,7 @@ export function editBook(url, param, data) {
   })
 }
 // 获取书章节知识点的视频
-export function getBookVideo(url, param, data) {
+export function getBookVideo(url, param, data) { 
   return request({
     url: '/book/'+url,
     method: 'get',

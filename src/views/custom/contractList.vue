@@ -88,12 +88,7 @@
           <el-table-column prop="PlatformLabel" width="110" label="归属校区" />
           <el-table-column prop="StudentLabel" width="120" label="客户姓名" fixed />
           <el-table-column prop="Telephone" width="120" label="客户电话" />
-          <el-table-column
-            prop="UniversityLabel"
-            width="220"
-            label="报名院校"
-            :show-overflow-tooltip="true"
-          />
+     
           <el-table-column
             prop="CourseLabel"
             width="220"
@@ -105,7 +100,7 @@
           <el-table-column prop="QiankuanPrice" width="70" label="欠款金额" />
           <el-table-column prop="PayMethod" width="100" label="付款方式" />
           <el-table-column prop="Comments" label="备注" width="200" :show-overflow-tooltip="true" />
-          <el-table-column label="操作" width="200" fixed="right">
+          <el-table-column label="操作" width="80" fixed="right">
             <template slot-scope="scope">
               <el-button type="primary" @click="deleteContractRecord(scope.row.Id,scope.$index)">删除</el-button>
             </template>
@@ -141,6 +136,8 @@ import {
   updateCustomContract
 } from '@/api/contract'
 import customContractDialog from '@/views/custom/component/customContractDialog'
+import myDialog from "@/components/myDialog/myDialog";
+import common from "@/utils/common";
 export default {
   name: 'contractList',
   components: {
@@ -148,6 +145,7 @@ export default {
   },
   data() {
     return {
+      common,
       // 数据总条数
       allRows: 0,
       // 当前页数

@@ -25,6 +25,7 @@ const systemRouter =
         
       }
     },
+    
     {
       path: 'platform',
       component: () => import('@/views/system/platform'),
@@ -35,7 +36,13 @@ const systemRouter =
         
         // if do not set roles, means: this page does not require permission
       }
-    }
+    },
+    {
+      path: 'list',
+      component: () => import('@/views/manager/list'),
+      name: 'managerList',
+      meta: { title: 'managerList',icon:"user" }
+    } 
   ]
 }
 export default systemRouter

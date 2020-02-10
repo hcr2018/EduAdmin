@@ -20,7 +20,7 @@ export default {
     teacher: '优秀老师',
     classList: '班级列表',
     business: '教务管理',
-    dropzone: 'Dropzone',
+    contractList: '合同列表',
     sticky: 'Sticky',
     countTo: 'Count To',
     componentMixin: '小组件',

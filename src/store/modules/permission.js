@@ -82,7 +82,7 @@ const actions = {
             path: 'list/' +index,// platform.Id,
             component: () => import('@/views/platform/classList'), // Parent router-view
             name: platform.Id,
-            meta: { title: platform.Label,icon:"tree-table" }
+            meta: { title: platform.Label,icon:"platform" }
 
           }
           topPlatformRoute.children.push(platformRoute)

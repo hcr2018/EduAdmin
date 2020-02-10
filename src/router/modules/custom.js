@@ -19,7 +19,7 @@ const customRouter = {
       name: 'customList',
       meta: {
         title: 'customList',
-        icon: 'user' 
+        icon: 'student' 
         
       }
     },
@@ -29,7 +29,17 @@ const customRouter = {
       name: 'trackList',
       meta: {
         title: 'trackList',
-        icon: 'form' 
+        icon: 'zuji' 
+        
+      }
+    },
+    {
+      path: 'contractList',
+      component: () => import('@/views/custom/contractList'),
+      name: 'contractList',
+      meta: {
+        title: 'contractList',
+        icon: 'contract' 
         
       }
     },

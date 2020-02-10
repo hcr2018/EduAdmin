@@ -16,7 +16,7 @@ const webRouter = {
       path: 'webIndex',
       component: () => import('@/views/web/index'), // Parent router-view
       name: 'webIndex',
-      meta: { title: 'webIndex',icon:"guide" }
+      meta: { title: 'webIndex',icon:"website" }
     },
     {
       path: 'docDownload',

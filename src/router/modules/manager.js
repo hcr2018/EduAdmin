@@ -16,14 +16,8 @@ const managerRouter = {
       path: 'list',
       component: () => import('@/views/manager/list'),
       name: 'managerList',
-      meta: { title: 'managerList' }
-    },
-    {
-      path: 'logs',
-      component: () => import('@/views/manager/logs'),
-      name: 'managerLogs',
-      meta: { title: 'managerLogs' }
-    }
+      meta: { title: 'managerList',icon:"user" }
+    } 
 
   ]
 }

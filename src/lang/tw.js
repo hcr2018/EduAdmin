@@ -22,7 +22,7 @@ export default {
     business: '教务管理',
     splitPane: 'Splitpane',
     avatarUpload: '頭像上傳',
-    dropzone: 'Dropzone',
+    contractList: '合同列表',
     sticky: 'Sticky',
     countTo: 'Count To',
     componentMixin: '小組件',
