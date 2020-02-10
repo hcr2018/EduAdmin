@@ -28,7 +28,7 @@ const actions = {
         setToken(response.title)
         resolve()
       }).catch(error => {
-        reject(error)
+        console.log(error)
       })
     })
   },
@@ -41,7 +41,7 @@ const actions = {
         commit('SET_TOKEN', response.title) 
         resolve()
       }).catch(error => {
-        reject(error)
+        console.log(error)
       })
     })
   },

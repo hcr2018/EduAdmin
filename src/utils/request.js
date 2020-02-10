@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { getToken ,removeToken} from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -46,12 +46,16 @@ service.interceptors.response.use(
     const res = response.data
     if (res.code == 200) {
       return res
-    }
+    }   
     Message({
       message: res.title || 'Error',
       type: 'error',
       duration: 5 * 1000
     })
+    if (res.code == 401) { 
+      removeToken();
+      location.href="/login" 
+    }
     return Promise.reject(new Error(res.title || 'Error'))
     // // if the custom code is not 20000, it is judged as an error.
     // if (res.code !== 200) {
