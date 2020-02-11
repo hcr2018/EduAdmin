@@ -1,6 +1,6 @@
 <template>
   <div>
-  <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+    <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <el-form
       ref="refCustomInfo"
       :disabled="currenteditEnable==false"
@@ -14,7 +14,7 @@
         <div class="flex_dom">
           <el-input v-model="currentItemData.Realname" placeholder="请输入客户姓名" />
           <el-select v-model="currentItemData.Sex" style="width:140px" placeholder="性别">
-            <el-option label="男" value="男"  />
+            <el-option label="男" value="男" />
             <el-option label="女" value="女" />
           </el-select>
         </div>
@@ -41,12 +41,7 @@
               class="deleImgIcon cursor"
               @click="deleCustomImg(index)"
             >
-            <img 
-                class="wid20"
-                src="/static/img/slice/deleteIcon.png"
-                @click="onPreview(item)"
-              />
- 
+              <img class="wid20" src="/static/img/slice/deleteIcon.png" @click="onPreview(item)" />
             </div>
           </div>
           <el-upload
@@ -130,7 +125,12 @@
         <el-input v-model="currentItemData.ManagerLabel" disabled />
       </el-form-item>
       <el-form-item label="描述">
-        <el-input v-model="currentItemData.Description" type="textarea" :rows="3" placeholder="客户描述~" />
+        <el-input
+          v-model="currentItemData.Description"
+          type="textarea"
+          :rows="3"
+          placeholder="客户描述~"
+        />
       </el-form-item>
       <el-form-item label="备注">
         <el-input v-model="currentItemData.Comments" type="textarea" :rows="3" placeholder="客户备注~" />
@@ -209,11 +209,11 @@ export default {
   data() {
     return {
       common,
-       // 预览图片的图片地址
+      // 预览图片的图片地址
       imageViewerSrc: "",
-       // 显示图片查看器
+      // 显示图片查看器
       showViewer: false,
-      currentItemData:{},
+      currentItemData: {},
       currenteditEnable: this.editEnable,
       // 表单验证规则
       customInfoRules: {
@@ -256,18 +256,24 @@ export default {
       platformTeacherOptions: []
     };
   },
-   watch: {
-    formItemData(newvar){
-      this.currentItemData = this.formItemData; 
+  watch: {
+    formItemData(newvar) {
+      this.currentItemData = this.formItemData;
+      if (this.currentItemData.Info && this.currentItemData.Info.attach_image) {
+        const info = JSON.parse(this.currentItemData.Info);
+        if (info.attach_image) {
+          this.customImgArr = info.attach_image.split(",");
+        }
+      }
+      console.log("this.customImgArr:", this.customImgArr);
     }
   },
 
   mounted() {
-    this.currentItemData = this.formItemData; 
-
+    this.currentItemData = this.formItemData;
   },
   methods: {
-     // 图片预览
+    // 图片预览
     onPreview(src) {
       this.showViewer = true;
       this.imageViewerSrc = src;
@@ -346,11 +352,7 @@ export default {
             }
           } else {
             // 修改
-            let res = await editCustomInfo(
-             "",
-              "",
-              this.currentItemData
-            );
+            let res = await editCustomInfo("", "", this.currentItemData);
             if (res.code == 200) {
               this.isShowPlatformDialog = false;
               this.$message({

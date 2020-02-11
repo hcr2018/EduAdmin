@@ -130,16 +130,15 @@
           <template
             slot-scope="scope"
           >{{ common.FormatSelect($store.getters.app.platformList,scope.row.Platform) }}</template>
-        </el-table-column>
-        
+        </el-table-column> 
         <el-table-column width="50" label="图片">
           <template slot-scope="scope">
             <div>
               <img
                 v-if="scope.row.firstAttachImage"
+                @click="onPreview(scope.row.firstAttachImage)"
                 class="wid20"
                 src="/static/img/slice/uploadedIcon.png"
-                @click="onPreview(scope.row.firstAttachImage)"
               />
             </div>
           </template>
@@ -481,7 +480,7 @@ export default {
   methods: {
     // 图片预览
     onPreview(src) {
-      this.showViewer = true;
+      this.showViewer = true; 
       this.imageViewerSrc = src;
     },
     // 关闭查看器
