@@ -27,17 +27,7 @@
                 >{{ item.Realname }}</el-radio-button>
               </el-radio-group>
             </el-form-item>
-          </div>
-          <!-- <div v-show="!this.$route.query.id">
-            <el-form-item label>
-              <el-radio-group v-model="searchHasbuy" @change="getCustomList">
-                <el-radio-button :label="0">全部</el-radio-button>
-                <el-radio-button :label="1">意向客户</el-radio-button>
-                <el-radio-button :label="2">成交客户</el-radio-button>
-                <el-radio-button :label="-1">公海</el-radio-button>
-              </el-radio-group>
-            </el-form-item>
-          </div>-->
+          </div> 
           <div class="between-center flex_wrap">
             <div class="flex_1">
               <el-form-item label="客户类型">
@@ -110,6 +100,14 @@
         height="100%"
         @selection-change="selectionCustomChange"
       >
+      <el-table-column width="120" fixed label="姓名">
+          <template slot-scope="scope">
+            <span
+              class="color-1890ff font-w6 cursor"
+              @click="openMoreOperationDialog(scope.$index, scope.row)"
+            >{{ scope.row.Realname }}</span>
+          </template>
+        </el-table-column>
         <el-table-column type="selection" width="40" />
         <el-table-column prop="id" width="80" label="编号" />
         <el-table-column label="提醒" width="50">
@@ -133,14 +131,7 @@
             slot-scope="scope"
           >{{ common.FormatSelect(common.platformList,scope.row.Platform) }}</template>
         </el-table-column>
-        <el-table-column width="120" fixed label="姓名">
-          <template slot-scope="scope">
-            <span
-              class="color-1890ff font-w6 cursor"
-              @click="openMoreOperationDialog(scope.$index, scope.row)"
-            >{{ scope.row.Realname }}</span>
-          </template>
-        </el-table-column>
+        
         <el-table-column width="50" label="图片">
           <template slot-scope="scope">
             <div>
@@ -253,7 +244,7 @@
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">
-          <custom-row-detail v-bind:formItemData="customFormData" />
+          <custom-row-detail :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
           <el-tabs v-model="activElTab" @tab-click="changDialogTab">
@@ -652,7 +643,7 @@ export default {
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
       this.currentPlatformIndex = index;
-      this.customFormData = row;
+      this.customFormData = row; 
       this.moreOperationDialog = true;
     },
 
@@ -691,7 +682,7 @@ export default {
     // 转移学员的管理员到其他管理名下
     changeManager() {
       if (this.mulSelectionCustomId.length <= 0) {
-        this.common.go_alert("你还没有勾选学员哦！");
+        this.$message("你还没有勾选学员哦！");
         return;
       }
       this.$refs.refChangeManager.getCustomIds(this.mulSelectionCustomId);
@@ -1038,7 +1029,7 @@ export default {
       trackRow.kind = 6;
       this.$refs.refsendSMSDialog.closeDialog();
       const res = await addcustomTracks(trackRow);
-      this.common.go_alert("短信发送成功");
+      this.$message("短信发送成功");
     },
     websocketsend(agentData) {
       // 数据发送

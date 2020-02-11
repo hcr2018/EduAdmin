@@ -297,7 +297,7 @@ export default {
             true
           )
           if (res.code == 200) {
-            this.common.go_alert('设置成功')
+            this.$message('设置成功')
             this.$set(this.courseList, index, res.data)
           }
         })

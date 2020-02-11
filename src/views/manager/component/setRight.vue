@@ -70,7 +70,7 @@ export default {
         this.currentManagerRights
       );
       if (res.code == 200) {
-        this.common.go_alert("设置成功!");
+        this.$message("设置成功!");
         this.$emit("subClickEvent", 0, res.data);
       }
     }

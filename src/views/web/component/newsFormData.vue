@@ -169,7 +169,7 @@ export default {
       }
       console.log(isRightType);
       if (!isRightType) {
-        this.common.go_alert(
+        this.$message(
           "文件仅支持jpg/jpeg/png/gif/pdf/doc/docx/xls/xlsx/ppt/pptx/rar/zip等格式!"
         );
       }

@@ -166,7 +166,7 @@ export default {
     searchStudent() {
       // 验证表单数据
       if (!this.stuSearchForm.searchPhone && !this.stuSearchForm.searchName) {
-        this.common.go_alert("必须填写学生手机号或姓名之后才能查询哦！");
+        this.$message("必须填写学生手机号或姓名之后才能查询哦！");
         return false;
       }
       this.$refs.stuSearchForm.validate(async valid => {
@@ -182,7 +182,7 @@ export default {
               this.showSrarchStuResult = true;
             } else {
               this.serachStuList = [];
-              this.common.go_alert("没有找到该学员哦！");
+              this.$message("没有找到该学员哦！");
             }
           }
         } else {
@@ -193,7 +193,7 @@ export default {
     // 向班级添加学员
     async addStudentToClass() {
       if (this.checkBoxAddStu.length < 1) {
-        this.common.go_alert("还没有选中要添加的学员哦！");
+        this.$message("还没有选中要添加的学员哦！");
         return;
       }
       let newStu = [...this.checkBoxAddStu];
@@ -206,13 +206,13 @@ export default {
         });
       }
       if (newStu.length == 0) {
-        this.common.go_alert("该学员已经添加过了哦,换个试试吧！");
+        this.$message("该学员已经添加过了哦,换个试试吧！");
         this.checkBoxAddStu = [];
         return;
       }
       let res = await addClassStu(this.formItemData.Id, "", newStu);
       if (res.code == 200) {
-        this.common.go_alert("添加成功！");
+        this.$message("添加成功！");
         // 清空搜索和选中的学员数据
         this.checkBoxAddStu = [];
         this.serachStuList = [];
@@ -235,7 +235,7 @@ export default {
     // 移除班级学员
     removeClassStu() {
       if (this.checkBoxStuID.length == 0) {
-        this.common.go_alert("还没有勾选学员哦！");
+        this.$message("还没有勾选学员哦！");
       } else {
         console.log(this.checkBoxStuID);
       }

@@ -410,8 +410,7 @@ export default {
       }
     }
   },
- mounted() {
-   console.log("---------contract dialog ")
+ mounted() { 
  },
   methods: {
     // 获取重复组件传递过来的值
@@ -454,7 +453,7 @@ export default {
     async uploadContractImg(file) {
       const res = await UploadImgContract('', '', file.raw)
       if (res.code == 200) {
-        this.common.go_alert('上传成功！')
+        this.$message('上传成功！')
         this.contractImgArr.push(res.data)
       }
     },
@@ -481,7 +480,7 @@ export default {
             this.contractFormData.Picture = JSON.stringify(this.contractImgArr)
           }
           if (this.contractFormData.ShijiPrice < 0) {
-            this.common.go_alert('实际价格不能为负数')
+            this.$message('实际价格不能为负数')
             return
           }
           this.contractFormData.CoursePrice = parseFloat(
@@ -509,12 +508,12 @@ export default {
           if (res.code == 200) {
             if (this.contractFormData.Id > 0) {
               this.$emit('updateContractData', 0, res.data)
-              this.common.go_alert('修改成功 ！')
+              this.$message('修改成功 ！')
             } else {
               if (this.operationType == 2) {
                 this.$emit('updateContractData', 1, res.data)
               }
-              this.common.go_alert('添加成功 ！')
+              this.$message('添加成功 ！')
             }
             this.isShowContractDialog = false
           }

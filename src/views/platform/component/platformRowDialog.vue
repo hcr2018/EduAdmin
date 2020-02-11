@@ -106,7 +106,7 @@ export default {
             if (res.code == 200) {
               // 添加成功之后要触发父组件信息列表修改
               this.$emit("subClickEvent", 1, res.data);
-              this.common.go_alert("添加成功 !");
+              this.$message("添加成功 !");
               this.isShowPlatformDialog = false;
             }
           } else {
@@ -119,7 +119,7 @@ export default {
               this.platformInfoData = res.data;
               // 修改成功之后要触发父组件信息列表修改
               this.$emit("subClickEvent", 0, res.data);
-              this.common.go_alert("修改成功");
+              this.$message("修改成功");
               this.isShowPlatformDialog = false;
             }
           }

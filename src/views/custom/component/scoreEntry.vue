@@ -184,7 +184,7 @@ export default {
       if (this.currentMajorInfo.Content) {
         this.getStuScore()
       } else {
-        this.common.go_alert('该专业下没有任何科目哦，请添加科目后再操作!')
+        this.$message('该专业下没有任何科目哦，请添加科目后再操作!')
       }
     },
     // 获取学生改科目的成绩
@@ -282,7 +282,7 @@ export default {
       )
       if (res.code == 200) {
         this.allSubjectList = data
-        this.common.go_alert('删除成功')
+        this.$message('删除成功')
       }
     },
     // 保存录入的成绩
@@ -304,7 +304,7 @@ export default {
             this.majorScore
           )
           if (res.code == 200) {
-            this.common.go_alert('录入成功')
+            this.$message('录入成功')
             this.allSubjectList = []
             this.allSubjectList = subjectListArr
             this.majorScore.Id = res.data.Id

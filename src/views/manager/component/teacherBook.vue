@@ -157,7 +157,7 @@ export default {
         false
       );
       if (res.code == 200) {
-        this.common.go_alert("设置成功!");
+        this.$message("设置成功!");
         this.teacherInfoForm = res.data;
         this.$emit("subClickEvent", 0, res.data);
       }

@@ -261,7 +261,7 @@ export default {
     async uploadTrackImg(file) {
       const res = await UploadImgCustomTrack(file.raw)
       if (res.code == 200) {
-        this.common.go_alert('上传成功！')
+        this.$message('上传成功！')
         this.trackImgList.push(res.data)
       }
     },
@@ -360,9 +360,9 @@ export default {
                 }
                 that.addBuyCourseDialog = false
                 if (that.sendSMS == true) {
-                  this.common.go_alert('手动添加成功，并已发送短信告知对方')
+                  this.$message('手动添加成功，并已发送短信告知对方')
                 } else {
-                  this.common.go_alert('手动添加成功!')
+                  this.$message('手动添加成功!')
                 }
               }
             })
@@ -389,7 +389,7 @@ export default {
         .then(async() => {
           const res = await deleteBuyCourse(id, '', '')
           if (res.code == 200) {
-            this.common.go_alert('删除成功!')
+            this.$message('删除成功!')
             this.customBuyCourseList.splice(index, 1)
           }
         })

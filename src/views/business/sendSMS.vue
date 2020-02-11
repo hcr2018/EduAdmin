@@ -51,7 +51,7 @@ export default {
     async sendSMS() {
       this.$store.dispatch('app/getPlatformList', this.payload).then(() => {
         this.responseData = res
-        this.common.go_alert('发送成功')
+        this.$message('发送成功')
       })
     }
   }

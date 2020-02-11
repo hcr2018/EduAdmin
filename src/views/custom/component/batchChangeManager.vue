@@ -98,7 +98,7 @@ export default {
       )
       if (res.code == 200) {
         this.isShowChangeManagerDialog = false
-        this.common.go_alert('转移成功！')
+        this.$message('转移成功！')
         this.$emit('subClickEvent', res.data)
       }
     }

@@ -310,7 +310,7 @@ export default {
         .then(async() => {
           const res = await deleCustomContract(id)
           if (res.code == 200) {
-            this.common.go_alert('删除成功!')
+            this.$message('删除成功!')
             this.contractList.splice(index, 1)
           }
         })

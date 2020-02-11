@@ -307,7 +307,7 @@ export default {
       if (res.code == 200) {
         if (res.data) {
           this.travelBrochureData = res.data
-          this.common.go_alert('保存成功！')
+          this.$message('保存成功！')
         }
       }
     }

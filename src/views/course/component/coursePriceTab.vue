@@ -86,7 +86,7 @@ export default {
         cancelButtonText: '取消'
       })
         .then(({ value }) => {
-          this.common.go_alert('新增成功')
+          this.$message('新增成功')
           this.coursePriceColumnTitle.push({
             editRender: { name: 'input' },
             field: value,
@@ -123,7 +123,7 @@ export default {
           const urlParams = '?id=' + this.courseRowData.Id
           const res = await saveCoursePriceList(urlParams, this.coursePriceList)
           if (res.code == 200) {
-            this.common.go_alert('设置成功')
+            this.$message('设置成功')
             this.getCoursePrice()
           }
         })

@@ -93,7 +93,7 @@ export default {
           if (res.code == 200) {
             res.title = res.title ? res.title : 0
             this.$store.dispatch('Alarm', res.title)
-            this.common.go_alert('添加成功！')
+            this.$message('添加成功！')
             this.$emit('subClickEvent')
             this.isShowAlarmDialog = false
           }

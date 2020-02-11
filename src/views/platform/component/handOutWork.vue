@@ -225,7 +225,7 @@ export default {
       if (res.code == 200) {
         this.taskExamOptions = res.data ? res.data : [];
         if (this.taskExamOptions.length == 0) {
-          this.common.go_alert("该科目下还没有作业组卷哦！");
+          this.$message("该科目下还没有作业组卷哦！");
         }
       }
     },
@@ -271,11 +271,11 @@ export default {
           //   res = await $ClassHttp.handOutTask(urlParams, this.checkedStus);
           // }
           if (res.code == 200) {
-            this.common.go_alert("分发成功！");
+            this.$message("分发成功！");
             this.allTaskRecord = res.data ? res.data : [];
           }
           // } else {
-          //   this.common.go_alert("请选择分发作业的学员！");
+          //   this.$message("请选择分发作业的学员！");
           // }
         } else {
           return false;

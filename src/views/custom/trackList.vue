@@ -175,12 +175,12 @@ export default {
     async submitReplyTrack(track, index) {
       const oldtrack = { ...track };
       if (!track.replyContent) {
-        this.common.go_alert("还没有输入内容哦 ！");
+        this.$message("还没有输入内容哦 ！");
       } else {
         this.currentReplyIndex = index;
         const res = await replyTracks(track.Id, "", track.replyContent);
         if (res.code == 200) {
-          this.common.go_alert("评论成功 ！");
+          this.$message("评论成功 ！");
           if (res.data) {
             oldtrack.Reply = res.data;
             oldtrack.replyContent = "";

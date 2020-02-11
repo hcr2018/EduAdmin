@@ -261,7 +261,7 @@ export default {
         }
       });
       if (this.searchResultStuList.length == 0) {
-        this.common.go_alert("没有找到该学生哦，换个名字试试吧！");
+        this.$message("没有找到该学生哦，换个名字试试吧！");
       }
       this.searchStudentName = "";
     },
@@ -286,7 +286,7 @@ export default {
     async uploadTimeTagImg(file) {
       let res = await UploadClassTimeTagImg(file.raw);
       if (res.code == 200) {
-        this.common.go_alert("上传成功！");
+        this.$message("上传成功！");
         let ImgItem = { ImgSrc: res.data, Label: file.raw.name };
         this.timeTagFormData.Dianmingbiao.push(ImgItem);
       }
@@ -295,7 +295,7 @@ export default {
     async updateTimeTagImg(file, fileList, index) {
       let res = await UploadClassTimeTagImg(file.raw);
       if (res.code == 200) {
-        this.common.go_alert("上传成功！");
+        this.$message("上传成功！");
         let ImgItem = { ImgSrc: res.data, Label: file.raw.name };
         this.timeTagFormData.Dianmingbiao.splice(index, 1, ImgItem);
       }
@@ -314,7 +314,7 @@ export default {
           Obg.planStudentNum = this.planStudentNum;
           let res = await  addTimeTag(this.timeTableRowData.Id, Obg);
           if (res.code == 200) {
-            this.common.go_alert("保存成功！");
+            this.$message("保存成功！");
             // this.isEditTimeTag = false;
             // this.timeTagFormData = {};
             // if (res.data.QueqingStudent) {

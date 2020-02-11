@@ -287,14 +287,14 @@ export default {
           if (this.courseRow.Id > 0) {
             const res = await editCourse(this.courseRow.Id, this.courseRow)
             if (res.code == 200) {
-              this.common.go_alert('修改成功 !')
+              this.$message('修改成功 !')
               this.$emit('subClickEvent', 0, res.data)
               this.isShowCourseDialog = false
             }
           } else {
             const res = await addCourse(this.courseRow)
             if (res.code == 200) {
-              this.common.go_alert('添加成功 !')
+              this.$message('添加成功 !')
               this.$emit('subClickEvent', 1, res.data)
               this.isShowCourseDialog = false
             }

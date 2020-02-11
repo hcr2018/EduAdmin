@@ -72,7 +72,7 @@ export default {
       ) {
         this.$emit('sendSMS', this.sendSmsMSG)
       } else {
-        this.common.go_alert('请输入3-70个字符')
+        this.$message('请输入3-70个字符')
       }
     },
     // 强制刷新

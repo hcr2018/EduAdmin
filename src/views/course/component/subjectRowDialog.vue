@@ -105,7 +105,7 @@ export default {
               this.subjectRowData
             )
             if (res.code == 200) {
-              this.common.go_alert('修改成功！')
+              this.$message('修改成功！')
               this.isShowSubjectDialog = false
               this.$emit('subClickEvent', 0, res.data)
             }
@@ -113,7 +113,7 @@ export default {
             // 创建科目
             res = await addBook(this.subjectRowData)
             if (res.code == 200) {
-              this.common.go_alert('创建成功！')
+              this.$message('创建成功！')
               this.$emit('subClickEvent', 1, res.data)
               this.subjectRowData = {}
               this.isShowSubjectDialog = false

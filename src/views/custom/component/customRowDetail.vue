@@ -13,8 +13,8 @@
       <el-form-item label="客户姓名" prop="Realname" class="flex_1">
         <div class="flex_dom">
           <el-input v-model="currentItemData.Realname" placeholder="请输入客户姓名" />
-          <el-select v-model="currentItemData.Sex" style="width:100px" placeholder="请选择性别">
-            <el-option label="男" value="男" />
+          <el-select v-model="currentItemData.Sex" style="width:140px" placeholder="性别">
+            <el-option label="男" value="男"  />
             <el-option label="女" value="女" />
           </el-select>
         </div>
@@ -256,8 +256,14 @@ export default {
       platformTeacherOptions: []
     };
   },
+   watch: {
+    formItemData(newvar){
+      this.currentItemData = this.formItemData; 
+    }
+  },
+
   mounted() {
-    this.currentItemData = this.formItemData;
+    this.currentItemData = this.formItemData; 
 
   },
   methods: {
@@ -313,7 +319,7 @@ export default {
     async uploadCustomImg(file) {
       const res = await UploadAddCustom("", "", file.raw);
       if (res.code == 200) {
-        this.common.go_alert("上传成功！");
+        this.$message("上传成功！");
         this.customImgArr.push(res.data);
       }
     },
