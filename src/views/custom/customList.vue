@@ -239,10 +239,11 @@
       <my-dialog
         :visible.sync="moreOperationDialog"
         :close-show="true"
-        :title="customFormData.Label"
+        :thisTitle="customFormData.Realname"
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">
+         
           <custom-row-detail :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
