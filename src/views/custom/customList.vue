@@ -239,7 +239,7 @@
       <my-dialog
         :visible.sync="moreOperationDialog"
         :close-show="true"
-        :title="customFormData.Label"
+        :title="customFormData.Realname"
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">

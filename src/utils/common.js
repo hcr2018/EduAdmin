@@ -216,34 +216,16 @@ export default {
       Label: '主动电访'
     },
     {
-      Label: '微信开发'
-    },
-    {
-      Label: 'QQ开发'
-    },
+      Label: '网上开发'
+    }, 
     {
       Label: '转介绍'
     },
     {
       Label: '地推客户'
-    },
-    {
-      Label: '合作客户'
-    },
+    }, 
     {
       Label: '网销分配'
-    },
-    {
-      Label: '百度移动'
-    },
-    {
-      Label: '今日头条'
-    },
-    {
-      Label: '抖音推广'
-    },
-    {
-      Label: '百度PC'
     },
     {
       Label: '其他渠道'
@@ -262,28 +244,15 @@ export default {
     },
     {
       value: 1,
-      Label: '精准意向'
+      Label: '有意向'
     },
     {
       value: 2,
-      Label: '中等意向'
+      Label: '暂无意向'
     },
-
     {
       value: 3,
-      Label: '潜在意向'
-    },
-    {
-      value: 4,
-      Label: '线下签单'
-    },
-    {
-      value: 5,
-      Label: '暂无需求'
-    },
-    {
-      value: 6,
-      Label: '公海学员'
+      Label: '彻底抛弃'
     }
   ],
   // 客户签订合同-层次类别
@@ -336,10 +305,6 @@ export default {
     },
     {
       value: 3,
-      Label: '百度分期'
-    },
-    {
-      value: 4,
       Label: 'pos机刷卡'
     }
   ],
@@ -359,7 +324,7 @@ export default {
     },
     {
       value: 2,
-      Label: '工作员'
+      Label: '加盟商'
     }
   ],
   // 授课形式

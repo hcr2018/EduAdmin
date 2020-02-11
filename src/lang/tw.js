@@ -5,7 +5,7 @@ export default {
     setting: '设置', 
     sendSMS: '发送短信',
     trackList: '跟进记录',
-    customList: '客户列表',
+    customList: '客户学员',
     courseList: '课程列表',
     bookList: '教材列表',
     documentation: '文檔',

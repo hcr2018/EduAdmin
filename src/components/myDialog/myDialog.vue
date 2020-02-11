@@ -3,7 +3,7 @@
   <div>
     <el-drawer
       :wrapperClosable="false"
-      :title="thisTitle"
+      :title="title"
       :visible.sync="visible"
       direction="rtl"
       class="myDrawer"
@@ -46,7 +46,7 @@ export default {
       type: Boolean,
       default: true
     },
-    thisTitle: {
+    title: {
       type: String,
       default: ""
     }
