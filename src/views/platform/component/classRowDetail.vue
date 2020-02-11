@@ -15,7 +15,7 @@
             v-show="item.Id!=0"
             :label="item.Label"
             :value="item.Id"
-            v-for="item in common.platformList"
+            v-for="item in $store.getters.app.platformList"
             :key="item.Id"
           ></el-option>
         </el-select>

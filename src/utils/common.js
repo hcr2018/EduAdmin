@@ -208,9 +208,7 @@ export default {
       }
     ]
   },
-  // 存放所有的平台.数据
-  platformList: [
-  ],
+ 
   // 客户推广渠道
   channelList: [
 
@@ -306,38 +304,7 @@ export default {
       value: 3,
       Label: '本升硕(研究生)'
     }
-  ],
-  // 客户签订合同-学历性质
-  costomAcademicQualification: [
-    {
-      value: 0,
-      Label: '应用型自考'
-    },
-    {
-      value: 1,
-      Label: '社会型自考'
-    },
-    {
-      value: 2,
-      Label: '网络教育'
-    },
-    {
-      value: 3,
-      Label: '成人高考'
-    },
-    {
-      value: 4,
-      Label: '国开(电大)'
-    },
-    {
-      value: 5,
-      Label: '全日制升本'
-    },
-    {
-      value: 6,
-      Label: '硕士研究生'
-    }
-  ],
+  ], 
   // 客户签订合同- 优惠类型
   costomPreferentialType: [
     {
@@ -373,18 +340,6 @@ export default {
     },
     {
       value: 4,
-      Label: '小雨花分期'
-    },
-    {
-      value: 6,
-      Label: '分付君分期'
-    },
-    {
-      value: 7,
-      Label: '鸿学金信分期'
-    },
-    {
-      value: 5,
       Label: 'pos机刷卡'
     }
   ],
@@ -438,9 +393,7 @@ export default {
       Label: '其他类型'
     }
   ],
-  collegeWithCouseKindList: [], // 所有学院以及学院所带的课程大类
-  courseKindList: [], // 所有的课程大类
-  AllUniversity: [], // 所有的高校列表
+ 
   AllQuestionTypes: [], // 所有题的类型
   // 根据类型变化返回一些数据的Label
   FormatSelect(options, typeId) {

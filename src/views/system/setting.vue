@@ -53,7 +53,7 @@ export default {
       if (type) {
         this.$store.getters.platformList;
       } else {
-        this.$set(this.common.platformList, this.currentPlatformIndex, rowData);
+        this.$set(this.$store.getters.app.platformList, this.currentPlatformIndex, rowData);
         // 更新展示的基本信息
         this.$refs.refPlatformDetail.getPlatformRowData({ ...rowData });
         // this.platformRowData = { ...rowData };

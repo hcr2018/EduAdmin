@@ -10,7 +10,7 @@
                 <el-select v-model="searchPlatform" class="wid140" placeholder="请选择所属校区">
                   <el-option label="全部" :value="0" />
                   <el-option
-                    v-for="(item) in common.platformList"
+                    v-for="(item) in $store.getters.app.platformList"
                     :key="item.Id"
                     :label="item.Label"
                     :value="item.Id"

@@ -129,7 +129,7 @@
         <el-table-column prop="Platform" width="110" label="归属校区">
           <template
             slot-scope="scope"
-          >{{ common.FormatSelect(common.platformList,scope.row.Platform) }}</template>
+          >{{ common.FormatSelect($store.getters.app.platformList,scope.row.Platform) }}</template>
         </el-table-column>
         
         <el-table-column width="50" label="图片">

@@ -30,7 +30,7 @@
         <el-form-item label="学院">
           <el-select v-model="collegeIndex" placeholder="请选择学院" @change="collegeChange">
             <el-option
-              v-for="(item,index) in common.collegeWithCouseKindList"
+              v-for="(item,index) in $store.getters.app.collegeWithCouseKindList"
               :key="index"
               :label="item.Label"
               :value="index"
@@ -127,9 +127,9 @@ export default {
     // 选中学院后回调选中课程大类
     collegeChange(selVa) {
       this.subjectRowData.Coursekind = ''
-      if (this.common.collegeWithCouseKindList[selVa].Children) {
+      if (this.$store.getters.app.collegeWithCouseKindList[selVa].Children) {
         this.courseKindsOps = [
-          ...this.common.collegeWithCouseKindList[selVa].Children
+          ...this.$store.getters.app.collegeWithCouseKindList[selVa].Children
         ]
         if (this.courseKindsOps.length > 0) {
           this.subjectRowData.Coursekind = this.courseKindsOps[0].Label

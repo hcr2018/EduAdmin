@@ -21,7 +21,7 @@
             @change="collegeChangeGetCourseKind"
           >
             <el-option
-              v-for="(item,index) in common.collegeWithCouseKindList"
+              v-for="(item,index) in $store.getters.app.collegeWithCouseKindList"
               :key="index"
               :label="item.Label"
               :value="index"
@@ -233,14 +233,13 @@ export default {
       this.subjectListOps = []
       this.CourseKindsOps = []
       this.courseRow.TCourseKindID = null
-      this.courseRow.TCollegeID = this.common.collegeWithCouseKindList[
+      this.courseRow.TCollegeID = this.$store.getters.app.collegeWithCouseKindList[
         index
       ].Id
       this.CourseKindsOps = []
       this.CourseKindsOps = [
-        ...this.common.collegeWithCouseKindList[index].Children
-      ]
-      console.log('=====', this.common.collegeWithCouseKindList)
+        ...this.$store.getters.app.collegeWithCouseKindList[index].Children
+      ] 
       if (this.CourseKindsOps.length > 0) {
         this.courseRow.TCourseKindID = this.CourseKindsOps[0].Id
         this.courseKindLabel = this.CourseKindsOps[0].Label

@@ -14,7 +14,7 @@
             @change="$forceUpdate();getTeacherOfPlatform()"
           >
             <el-option
-              v-for="(item) in common.platformList"
+              v-for="(item) in $store.getters.app.platformList"
               v-show="item.Id!=0"
               :key="item.Id"
               :label="item.Label"
@@ -71,7 +71,7 @@ export default {
     getCustomIds(Ids) {
       this.targetPlatform = this.$store.state.userInformation.Platform
       if (this.targetPlatform == 0) {
-        this.targetPlatform = this.common.platformList[0].Id
+        this.targetPlatform = this.$store.getters.app.platformList[0].Id
       }
       this.platformTeacherOptions = []
       this.customIds = []
