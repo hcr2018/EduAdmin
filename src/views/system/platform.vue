@@ -26,7 +26,7 @@
         </el-table>
       </div>
       <div class="between-center m-v-15">
-        <el-button type="primary" @click="openItemDialog( )">新增校区</el-button>
+        <el-button type="primary" @click="openNewItem( )">新增校区</el-button>
       </div>
     </div>
     <!-- 弹出框 -->
@@ -41,7 +41,25 @@
         <div slot="left_content">
           <platformRowDetail v-bind:formItemData="platformRowData" />
         </div>
-        <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
+        <div slot="right_content" class="p_both20 p-b-20">
+          <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+            <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
+              <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
+            </el-tab-pane>
+            <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
+              <custom-buy-record :customData="customFormData" />
+            </el-tab-pane>
+            <el-tab-pane id="htdd" label="合同订单" name="htdd">
+              <custom-contract-list :customData="customFormData" />
+            </el-tab-pane>
+            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
+              <scoreEntry :customData="customFormData" />
+            </el-tab-pane>
+            <el-tab-pane id="dazl" label="档案资料" name="dazl">
+              <scoreEntry :customData="customFormData" />
+            </el-tab-pane>
+          </el-tabs>~
+        </div>
       </my-dialog>
 
       <!-- 新增校区信息弹出框 -->
@@ -50,7 +68,7 @@
         width="500px"
         :title="platformRowData.Id>0?'编辑'+platformRowData.Label:'新增校区'"
       >
-        <platformRowDetail   :editEnable="true" :formItemData="platformRowData" />
+        <platformRowDetail :editEnable="true" :formItemData="platformRowData" />
       </el-dialog>
     </div>
   </div>
@@ -82,11 +100,9 @@ export default {
   },
   methods: {
     // 打开校区的弹出框
-    openNewItem( ) {
-      
-        this.editDialog = true;
-        this.platformRowData = {};
-       
+    openNewItem() {
+      this.editDialog = true;
+      this.platformRowData = {};
     },
 
     // 获取所有平台的信息
@@ -95,7 +111,7 @@ export default {
     },
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
-      this.currentPlatformIndex = index; 
+      this.currentPlatformIndex = index;
       this.platformRowData = row;
       this.moreOperationDialog = true;
     }

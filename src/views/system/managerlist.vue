@@ -112,39 +112,14 @@
     <my-dialog
       :visible.sync="moreOperationDialog"
       :close-show="true"
-      :title="teacherRowData.Realname"
+      :title="currentRowData.Realname"
     >
       <!-- 展示校区的基本信息 -->
       <div slot="left_content">
-        <teacher-row-detail v-bind:formItemData="teacherRowData" />
+        <teacher-row-detail v-bind:formItemData="currentRowData" />
       </div>
-      <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
-    </my-dialog>
-
-    <!-- 新增校区信息弹出框 -->
-    <el-dialog
-      :visible.sync="editDialog"
-      width="500px"
-      :title="teacherRowData.Id>0?'编辑'+teacherRowData.Label:'新增校区'"
-    >
-      <teacher-row-detail :editEnable="true" :formItemData="teacherRowData" />
-    </el-dialog>
-
-    <!-- 
-
-    <my-dialog
-      :visible.sync="moreOperationDialog"
-      :closeShow="true"
-      :this-title="teacherRowData.Realname"
-    >
-      <div slot="left_content" class="p_both20 p-b-20">
-        <teacher-row-detail ref="refTeacherDetail"></teacher-row-detail>
-        <div class="text-center m-t-30">
-          <el-button type="primary" @click="openTeacherDialog(0)">编辑</el-button>
-        </div>
-      </div>
-      <div slot="right_content" class="p_both20 m-t-12 m-b-20">
-        <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+      <div slot="right_content" class="p_both20 p-b-20">
+       <el-tabs v-model="activElTab" @tab-click="changDialogTab">
           <el-tab-pane label="权限设置" name="qxsz" id="qxsz">
             <set-right ref="refsetRight" @subClickEvent="updateTeacherList"></set-right>
           </el-tab-pane>
@@ -153,8 +128,16 @@
           </el-tab-pane>
         </el-tabs>
       </div>
-    </my-dialog> 
-    <teacherRowDialog ref="refTeacherDialog" @subClickEvent="updateTeacherList"></teacherRowDialog>-->
+    </my-dialog>
+
+    <!-- 新增校区信息弹出框 -->
+    <el-dialog
+      :visible.sync="editDialog"
+      width="500px"
+      :title="currentRowData.Id>0?'编辑'+currentRowData.Label:'新增校区'"
+    >
+      <teacher-row-detail :editEnable="true" :formItemData="currentRowData" />
+    </el-dialog> 
   </div>
 </template>
 
@@ -167,10 +150,10 @@ import {
   getManagerPower
 } from "@/api/manager";
 import myDialog from "@/components/myDialog/myDialog";
-import teacherRowDialog from "@/views/manager/component/teacherRowDialog";
-import teacherRowDetail from "@/views/manager/component/teacherRowDetail";
-import setRight from "@/views/manager/component/setRight";
-import teacherBook from "@/views/manager/component/teacherBook";
+import teacherRowDialog from "@/views/system/component/teacherRowDialog";
+import teacherRowDetail from "@/views/system/component/teacherRowDetail";
+import setRight from "@/views/system/component/setRight";
+import teacherBook from "@/views/system/component/teacherBook";
 export default {
   name: "managerList",
   components: {
@@ -212,7 +195,7 @@ export default {
       // 每页获取数据的总条数
       rows: 10,
       // 模态框获得的单条数据
-      teacherRowData: {},
+      currentRowData: {},
       // 当前选中行的数据索引
       currentTeacherIndex: null,
       // 点开弹出默认显示老师信息
@@ -244,6 +227,19 @@ export default {
           this.allRows = res.title;
           this.teacherList = res.data;
         }
+      }
+    },
+  // 切换tabs标签页在调用函数
+    changDialogTab(tab) {
+      if (tab.$attrs.id == "qxsz") {
+        // 权限设置
+        this.getRowDataAddPower(
+          this.currentRowData,
+          this.managerRightsMap
+        );
+      } else if (tab.$attrs.id == "sjkm") {
+        // 给老师设置科目
+        this.$refs.refteacherBook.getTeacherRowData(this.currentRowData);
       }
     },
     // 分页获取数据
@@ -280,7 +276,7 @@ export default {
     // 打开校区的弹出框
     openNewItem() {
       this.editDialog = true;
-      this.teacherRowData = {};
+      this.currentRowData = {};
     },
     // 重置密码
     resetPassword(index, row) {
@@ -305,7 +301,7 @@ export default {
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
       this.currentTeacherIndex = index;
-      this.teacherRowData = row;
+      this.currentRowData = row;
       this.moreOperationDialog = true;
     },
     // // 打开老师的弹出框
@@ -315,18 +311,18 @@ export default {
     //     this.$refs.refTeacherDialog.getTeacherRowData({ id: 0 });
     //   } else {
     //     this.$refs.refTeacherDialog.getTeacherRowData({
-    //       ...this.teacherRowData
+    //       ...this.currentRowData
     //     });
     //   }
     // },
     // 打开模态框时获取所有的权限选择
     async getAllManagerPower(index) {
       this.managerRightsMap = [];
-      let res = await getManagerPower(this.teacherRowData.Id);
+      let res = await getManagerPower(this.currentRowData.Id);
       if (res.code == 200) {
         this.managerRightsMap = res.data ? res.data : [];
         this.$refs.refsetRight.getRowDataAddPower(
-          this.teacherRowData,
+          this.currentRowData,
           this.managerRightsMap
         );
       }
@@ -334,11 +330,11 @@ export default {
     // 打开更多操作的模态框
     moreOperationOfTeacher(index, row) {
       // 打开默认显示老师信息页面
-      this.teacherRowData = {};
+      this.currentRowData = {};
       this.managerRightsMap = {};
       this.activElTab = "qxsz";
       this.currentTeacherIndex = index;
-      this.teacherRowData = row;
+      this.currentRowData = row;
       this.moreOperationDialog = true;
       this.getAllManagerPower();
       this.$refs.refTeacherDetail.getTeacherRowData(row);
@@ -348,12 +344,12 @@ export default {
       if (tab.$attrs.id == "qxsz") {
         // 权限设置
         this.$refs.refsetRight.getRowDataAddPower(
-          this.teacherRowData,
+          this.currentRowData,
           this.managerRightsMap
         );
       } else if (tab.$attrs.id == "sjkm") {
         // 给老师设置科目
-        this.$refs.refteacherBook.getTeacherRowData(this.teacherRowData);
+        this.$refs.refteacherBook.getTeacherRowData(this.currentRowData);
       }
     },
     // 修改或编辑老师个人信息后更新老师数据列表
@@ -362,7 +358,7 @@ export default {
       if (type == 1) {
         this.teacherList.unshift(rowData);
       } else if (type == 0) {
-        this.teacherRowData = { ...rowData };
+        this.currentRowData = { ...rowData };
         this.$set(this.teacherList, this.currentTeacherIndex, rowData);
         this.$refs.refTeacherDetail.getTeacherRowData({ ...rowData });
       }

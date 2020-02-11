@@ -39,7 +39,7 @@ const systemRouter =
     },
     {
       path: 'list',
-      component: () => import('@/views/manager/list'),
+      component: () => import('@/views/system/managerlist'),
       name: 'managerList',
       meta: { title: 'managerList',icon:"user" }
     } 

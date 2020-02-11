@@ -24,6 +24,15 @@ import {
   setManagerPower 
 } from '@/api/manager'
 export default {
+  props: {
+    // 表单数据
+    formItemData: {
+      type: Object,
+      default: function() {
+        return { Id: 0 };
+      }
+    } 
+  },
   name: "setRight",
   data() {
     return {

@@ -143,7 +143,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column width="130" label="最近跟新">
+        <el-table-column width="130" label="最近跟进时间">
           <template slot-scope="scope">
             <el-tooltip
               class="item"
@@ -243,6 +243,7 @@
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">
+         
           <custom-row-detail :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">

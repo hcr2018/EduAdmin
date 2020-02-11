@@ -77,9 +77,9 @@
     <!-- 新增弹出框 -->
     <div>
       <my-dialog
-        :visible.sync="isShowMoreOptationDialog"
+        :visible.sync="moreOperationDialog"
         :close-show="true"
-        :title="subjectFormData.Label"
+        :title="currentRowData.Label"
       >
         <div slot="left_content" class="p_both20 p-b-20">
           <subject-row-detail ref="refSubjectDetail" />
@@ -87,25 +87,47 @@
             <el-button type="primary" @click="openSubjectDialog(0)">编辑</el-button>
           </div>
         </div>
-        <div slot="right_content" class="p_both20 p-b-20">暂无其他操作~</div>
+        <div slot="right_content" class="p_both20 p-b-20">
+          <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+            <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
+              <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
+            </el-tab-pane>
+            <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
+              <custom-buy-record :customData="customFormData" />
+            </el-tab-pane>
+            <el-tab-pane id="htdd" label="合同订单" name="htdd">
+              <custom-contract-list :customData="customFormData" />
+            </el-tab-pane>
+            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
+              <scoreEntry :customData="customFormData" />
+            </el-tab-pane>
+            <el-tab-pane id="dazl" label="档案资料" name="dazl">
+              <scoreEntry :customData="customFormData" />
+            </el-tab-pane>
+          </el-tabs>~
+        </div>
       </my-dialog>
-      <subject-row-dialog ref="refSubjectDialog" @subClickEvent="updateSubjectList" />
+      <el-dialog
+        :visible.sync="editDialog"
+        width="500px"
+        :title="currentRowData.Id>0?'编辑'+currentRowData.Label:'新增校区'"
+      >
+        <bookRowDetail :editEnable="true" :formItemData="currentRowData" />
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 import myDialog from "@/components/myDialog/myDialog";
-import subjectRowDialog from "@/views/course/component/subjectRowDialog";
-import subjectRowDetail from "@/views/course/component/subjectRowDetail";
+import bookRowDetail from "@/views/course/component/bookRowDetail";
 import { queryBookList } from "@/api/book";
 
 export default {
   name: "SubjectList",
   components: {
     myDialog,
-    subjectRowDialog,
-    subjectRowDetail
+    bookRowDetail
   },
   data() {
     return {
@@ -121,12 +143,14 @@ export default {
       searchContent: "",
       // 科目的列表数据
       subjectList: [],
-      // 控制更多操作模态框的显示和隐藏
-      isShowMoreOptationDialog: false,
-      // 单条科目的数据
-      subjectFormData: {},
-      // 当前操作科目的索引
-      currentSubjectIndex: null
+      // 更多操作弹窗
+      moreOperationDialog: false,
+      // 更多操作弹窗
+      editDialog: false,
+      // 模态框获得的单条数据
+      currentRowData: {},
+      // 当前操作平台的索引
+      currentRowIndex: null
     };
   },
   mounted() {
@@ -163,17 +187,14 @@ export default {
     // 打开更多操作弹出框
     openMoreOptationDialog(index, row) {
       this.currentSubjectIndex = index;
-      this.subjectFormData = row;
-      this.isShowMoreOptationDialog = true;
+      this.currentRowData = row;
+      this.moreOperationDialog = true;
       this.$refs.refSubjectDetail.getSubjectRow(row);
     },
     // 打开科目弹出框
     openSubjectDialog(type) {
-      if (type) {
-        this.$refs.refSubjectDialog.getSubjectRow({ Id: 0 });
-      } else {
-        this.$refs.refSubjectDialog.getSubjectRow(this.subjectFormData);
-      }
+      this.editDialog = true;
+      this.currentRowData = {};
     },
     // 添加或编辑之后更新列表数据
     updateSubjectList(type, rowData) {
@@ -182,14 +203,14 @@ export default {
       } else {
         this.$set(this.subjectList, this.currentSubjectIndex, rowData);
         this.$refs.refSubjectDetail.getSubjectRow(rowData);
-        this.subjectFormData = { ...rowData };
+        this.currentRowData = { ...rowData };
       }
     },
     // 关联章节管理
-    addChapter: function(index, row) { 
-      this.$router.replace({ 
-        name:"bookAdpter",  
-        params: { Id:row.Id, Label: row.Label }
+    addChapter: function(index, row) {
+      this.$router.replace({
+        name: "bookAdpter",
+        params: { Id: row.Id, Label: row.Label }
       });
     },
     // 关联试题管理

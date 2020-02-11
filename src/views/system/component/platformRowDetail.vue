@@ -128,9 +128,12 @@ export default {
               });
             }
           }
-        } else {
-          return false;
-        }
+        } else { 
+          this.$message({
+            message: "请完善表单",
+            type: "warning"
+          });
+        } 
       });
     }
   }

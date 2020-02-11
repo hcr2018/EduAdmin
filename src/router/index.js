@@ -9,8 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import customRouter from './modules/custom'
 import courseRouter from './modules/course'
-import webRouter from './modules/web'
-import managerRouter from './modules/manager'
+import webRouter from './modules/web' 
 import systemRouter from './modules/system'  
 /**
  * Note: sub-menu only appear when route children.length >= 1

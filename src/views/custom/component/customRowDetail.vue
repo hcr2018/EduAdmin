@@ -362,7 +362,10 @@ export default {
             }
           }
         } else {
-          return false;
+          this.$message({
+            message: "请完善表单",
+            type: "warning"
+          });
         }
       });
     }

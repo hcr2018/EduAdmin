@@ -84,8 +84,7 @@ const actions = {
   getPlatformList({ commit }) {
     return new Promise((resolve, reject) => {
       getAllTPlatform('', '', '').then(response => { 
-        commit('SET_PLATFORMLIST', response.data)
-        console.log(response.data)
+        commit('SET_PLATFORMLIST', response.data) 
         resolve()
       }).catch(error => {
         reject(error)
@@ -95,7 +94,8 @@ const actions = {
   // getPlatformList
   getCollegeWithCourseKind({ commit }) {
     return new Promise((resolve, reject) => {
-      getCollegeWithCourseKind('', '', '').then(response => {
+
+      getCollegeWithCourseKind('', {"include":1}, '').then(response => {
         commit('SET_COLLEGEWITHCOURSEKIND', response.data)
         resolve()
       }).catch(error => {
