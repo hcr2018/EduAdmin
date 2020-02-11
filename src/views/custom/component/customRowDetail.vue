@@ -333,7 +333,7 @@ export default {
       this.$refs.refCustomInfo.validate(async valid => {
         if (valid) {
           this.currentItemData.MasterID = this.masterID;
-          if (this.currentItemData.Id == null || this.currentItemData.Id == 0) {
+          if (this.currentItemData.id == null || this.currentItemData.id == 0) {
             // 新增
             let res = await addCustomInfo("", "", this.currentItemData);
             if (res.code == 200) {
@@ -347,7 +347,7 @@ export default {
           } else {
             // 修改
             let res = await editCustomInfo(
-              this.currentItemData.Id,
+             "",
               "",
               this.currentItemData
             );

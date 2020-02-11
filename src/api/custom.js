@@ -116,7 +116,7 @@ export function addCustomInfo(url, query, data) {
 // 修改客户信息
 export function editCustomInfo(url, query, data) {
   return request({
-    url: '/student/update' + url,
+    url: '/student/update/' + url,
     method: 'put',
     params: query,
     data
