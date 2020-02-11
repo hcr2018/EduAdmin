@@ -1,10 +1,10 @@
 <template>
   <div>
-    <my-image-viewer class="wid80 hgt80" :preview-src-list="[item]" :src="item" fit="cover" />
+  <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <el-form
       ref="refCustomInfo"
       :disabled="currenteditEnable==false"
-      :model="formItemData"
+      :model="currentItemData"
       :rules="customInfoRules"
       style="padding:10px 0px 0px 0px"
       label-width="80px"
@@ -12,8 +12,8 @@
     >
       <el-form-item label="客户姓名" prop="Realname" class="flex_1">
         <div class="flex_dom">
-          <el-input v-model="formItemData.Realname" placeholder="请输入客户姓名" />
-          <el-select v-model="formItemData.Sex" style="width:100px" placeholder="请选择性别">
+          <el-input v-model="currentItemData.Realname" placeholder="请输入客户姓名" />
+          <el-select v-model="currentItemData.Sex" style="width:100px" placeholder="请选择性别">
             <el-option label="男" value="男" />
             <el-option label="女" value="女" />
           </el-select>
@@ -21,31 +21,36 @@
       </el-form-item>
       <el-form-item label="客户电话" prop="Telephone" class="flex_1">
         <el-input
-          v-model="formItemData.Telephone"
-          :disabled="formItemData.id>0"
+          v-model="currentItemData.Telephone"
+          :disabled="currentItemData.id>0"
           \placeholder="请输入客户电话"
           @blur="checkRepeatPhone"
         />
       </el-form-item>
       <el-form-item label="身份证" prop="Idcard">
-        <el-input v-model="formItemData.Idcard" placeholder="请输入客户身份证" />
+        <el-input v-model="currentItemData.Idcard" placeholder="请输入客户身份证" />
       </el-form-item>
       <el-form-item label="客户微信">
-        <el-input v-model="formItemData.Wechat" placeholder="请输入客户微信号" />
+        <el-input v-model="currentItemData.Wechat" placeholder="请输入客户微信号" />
       </el-form-item>
       <el-form-item label="图片">
         <div class="flex_dom flex_wrap">
           <div v-for="(item,index) in customImgArr" :key="index" class="relative marg15">
             <div
-              v-show="formItemData.id<=0"
+              v-show="currentItemData.id<=0"
               class="deleImgIcon cursor"
               @click="deleCustomImg(index)"
             >
-              <img src="/static/img/slice/deleteIcon.png" alt />
+            <img 
+                class="wid20"
+                src="/static/img/slice/deleteIcon.png"
+                @click="onPreview(item)"
+              />
+ 
             </div>
           </div>
           <el-upload
-            v-show="formItemData.id<=0"
+            v-show="currentItemData.id<=0"
             :auto-upload="false"
             action
             class="avatar-uploader"
@@ -57,10 +62,10 @@
         </div>
       </el-form-item>
       <el-form-item label="客户QQ" prop="Qq">
-        <el-input v-model="formItemData.Qq" placeholder="请输入客户QQ号" />
+        <el-input v-model="currentItemData.Qq" placeholder="请输入客户QQ号" />
       </el-form-item>
       <el-form-item label="当前学历">
-        <el-select v-model="formItemData.Education" placeholder="请选择学历">
+        <el-select v-model="currentItemData.Education" placeholder="请选择学历">
           <el-option
             v-for="(item,index) in educationallevel"
             :key="index"
@@ -70,7 +75,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="意向情况">
-        <el-select v-model="formItemData.Kind" placeholder="请选择意向情况">
+        <el-select v-model="currentItemData.Kind" placeholder="请选择意向情况">
           <el-option
             v-for="(item) in common.IntentionalCustomerType"
             v-show="item.value!=-1"
@@ -81,9 +86,9 @@
         </el-select>
       </el-form-item>
       <el-form-item label="意向课程">
-        <el-select v-model="formItemData.FocusCourse" placeholder="请选择意向课程">
+        <el-select v-model="currentItemData.FocusCourse" placeholder="请选择意向课程">
           <el-option
-            v-for="(item) in common.courseKindList"
+            v-for="(item) in $store.getters.app.courseKindList"
             :key="item.Id"
             :label="item.Label"
             :value="item.Label"
@@ -92,8 +97,8 @@
       </el-form-item>
       <el-form-item label="渠道来源">
         <el-select
-          v-model="formItemData.FromLabel"
-          :disabled="formItemData.id>0"
+          v-model="currentItemData.FromLabel"
+          :disabled="currentItemData.id>0"
           placeholder="请选择渠道来源"
         >
           <el-option
@@ -107,28 +112,28 @@
 
       <el-form-item label="所属校区" prop="Platform">
         <el-select
-          v-model="formItemData.Platform"
-          :disabled="this.$route.query.id?true:false"
+          v-model="currentItemData.Platform"
+          :disabled="$route.query.id?true:false"
           placeholder="请选择所属校区"
           @change="$forceUpdate()"
         >
           <el-option
-            v-for="(item) in common.platformList"
-            v-show="item.Id!=0"
-            :key="item.Id"
-            :label="item.Label"
-            :value="item.Id"
+            v-for="(platform) in $store.getters.app.platformList"
+            v-show="platform.Id!=0"
+            :key="platform.Id"
+            :label="platform.Label"
+            :value="platform.Id"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="管理员">
-        <el-input v-model="formItemData.ManagerLabel" disabled />
+        <el-input v-model="currentItemData.ManagerLabel" disabled />
       </el-form-item>
       <el-form-item label="描述">
-        <el-input v-model="formItemData.Description" type="textarea" :rows="3" placeholder="客户描述~" />
+        <el-input v-model="currentItemData.Description" type="textarea" :rows="3" placeholder="客户描述~" />
       </el-form-item>
       <el-form-item label="备注">
-        <el-input v-model="formItemData.Comments" type="textarea" :rows="3" placeholder="客户备注~" />
+        <el-input v-model="currentItemData.Comments" type="textarea" :rows="3" placeholder="客户备注~" />
       </el-form-item>
     </el-form>
     <div class="around-center hgt60 bge0e3ea">
@@ -151,8 +156,8 @@
         <el-button v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
         <el-button
           type="danger"
-          v-show="formItemData.id>0"
-          @click="resetCustomPassword(formItemData.id)"
+          v-show="currentItemData.id>0"
+          @click="resetCustomPassword(currentItemData.id)"
         >重置密码</el-button>
       </div>
     </div>
@@ -182,6 +187,7 @@ import {
   setStar,
   batchChangeManager
 } from "@/api/custom";
+import myImageViewer from "@/components/myImageViewer/myImageViewer";
 export default {
   name: "PlatformForm",
   props: {
@@ -197,9 +203,17 @@ export default {
       default: false
     }
   },
+  components: {
+    myImageViewer
+  },
   data() {
     return {
       common,
+       // 预览图片的图片地址
+      imageViewerSrc: "",
+       // 显示图片查看器
+      showViewer: false,
+      currentItemData:{},
       currenteditEnable: this.editEnable,
       // 表单验证规则
       customInfoRules: {
@@ -242,8 +256,20 @@ export default {
       platformTeacherOptions: []
     };
   },
-  mounted() {},
+  mounted() {
+    this.currentItemData = this.formItemData;
+
+  },
   methods: {
+     // 图片预览
+    onPreview(src) {
+      this.showViewer = true;
+      this.imageViewerSrc = src;
+    },
+    // 关闭查看器
+    closeViewer() {
+      this.showViewer = false;
+    },
     // 重置客户密码
     resetCustomPassword(studentid) {
       const that = this;
@@ -298,15 +324,15 @@ export default {
 
     // 保存客户信息
     async saveFormItemData() {
-      this.$refs.formUI.validate(async valid => {
+      this.$refs.refCustomInfo.validate(async valid => {
         if (valid) {
-          this.formItemData.MasterID = this.masterID;
-          if (this.formItemData.Id == null || this.formItemData.Id == 0) {
+          this.currentItemData.MasterID = this.masterID;
+          if (this.currentItemData.Id == null || this.currentItemData.Id == 0) {
             // 新增
-            let res = await addCustomInfo("", "", this.formItemData);
+            let res = await addCustomInfo("", "", this.currentItemData);
             if (res.code == 200) {
               this.isShowPlatformDialog = false;
-              this.formItemData = res.data;
+              this.currentItemData = res.data;
               this.$message({
                 message: "添加成功",
                 type: "success"
@@ -315,9 +341,9 @@ export default {
           } else {
             // 修改
             let res = await editCustomInfo(
-              this.formItemData.Id,
+              this.currentItemData.Id,
               "",
-              this.formItemData
+              this.currentItemData
             );
             if (res.code == 200) {
               this.isShowPlatformDialog = false;

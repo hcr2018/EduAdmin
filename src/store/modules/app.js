@@ -83,8 +83,9 @@ const actions = {
   // getPlatformList
   getPlatformList({ commit }) {
     return new Promise((resolve, reject) => {
-      getAllTPlatform('', '', '').then(response => {
+      getAllTPlatform('', '', '').then(response => { 
         commit('SET_PLATFORMLIST', response.data)
+        console.log(response.data)
         resolve()
       }).catch(error => {
         reject(error)
