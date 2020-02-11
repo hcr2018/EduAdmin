@@ -6,9 +6,9 @@ describe('Utils:validate', () => {
     expect(validUsername('xxxx')).toBe(false)
   })
   it('validURL', () => {
-    expect(validURL('https://github.com/PanJiaChen/vue-element-admin')).toBe(true)
-    expect(validURL('http://github.com/PanJiaChen/vue-element-admin')).toBe(true)
-    expect(validURL('github.com/PanJiaChen/vue-element-admin')).toBe(false)
+    expect(validURL('https://gitee.com/luonannet/EduAdmin')).toBe(true)
+    expect(validURL('http://gitee.com/luonannet/EduAdmin')).toBe(true)
+    expect(validURL('gitee.com/luonannet/EduAdmin')).toBe(false)
   })
   it('validLowerCase', () => {
     expect(validLowerCase('abc')).toBe(true)
