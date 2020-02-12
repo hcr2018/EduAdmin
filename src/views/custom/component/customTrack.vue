@@ -128,18 +128,8 @@ import {
   getStudentStatustByStudent
 } from "@/api/custom";
 
-import {
-  UploadImgExercise,
-  UploadImgCourse,
-  UploadImgContract,
-  UploadAddCustom,
-  UploadClassTimeTagImg,
-  UploadImgClass,
-  UploadImgNews,
-  UploadImgCourseTravelBrochure,
-  UploadImgCustomTrack,
-  UploadImgStudentStatus
-} from "@/api/upload";
+
+import $ImgAPI from "@/api/ImgAPI";
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
 import common from "@/utils/common";
 export default {
@@ -204,7 +194,7 @@ export default {
     },
     // 上传跟进记录的图片
     async uploadTrackImg(file) {
-      const res = await UploadImgCustomTrack("", "", file.raw);
+      const res = await $ImgAPI.UploadImgCourse("track",  file.raw);
       if (res.code == 200) {
         this.$message("上传成功！");
         this.trackImgList.push(res.data);

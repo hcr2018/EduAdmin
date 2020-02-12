@@ -44,17 +44,24 @@
     </div>
   </div>
 </template>
-<script> 
-import {
-  setTeachBook 
-} from '@/api/manager'
-import {
-  queryBookList 
-} from '@/api/book'
+<script>
+import { setTeachBook } from "@/api/manager";
+import { queryBookList } from "@/api/book";
 export default {
-  name: "setRight",
+  props: {
+    // 表单数据
+    formItemData: {
+      type: Object,
+      default: function() {
+        return { Id: 0 };
+      }
+    }
+  },
+  name: "teachBook",
   data() {
     return {
+      // 老师的表单数据
+      currentFormData: {},
       // 数据总条数
       allRows: 0,
       // 当前页数
@@ -68,16 +75,27 @@ export default {
       // 条件查询-课程大类Label
       searchBookCourseKindLabel: "",
       //当前编辑的老师的个人表单数据
-      teacherInfoForm: {},
+      currentFormData: {},
       //存储当前选中的老师已经关联的科目id
       allBookidSelected: [],
       // 当前数据页的所有id
       nowPageBookId: []
     };
   },
+    watch: {
+    formItemData(newval) {
+     this.currentFormData = this.formItemData;
+    this.getTeacherRowData();
+    }
+  },
+  mounted() {
+    this.currentFormData = this.formItemData;
+    this.getTeacherRowData();
+  },
   methods: {
     // 父组件触发的方法，获取老师的信息
-    getTeacherRowData(rowData) {
+    getTeacherRowData() {
+      console.log("=========teach book ")
       // 初始化数据
       this.allBookidSelected = [];
       this.allRows = 0;
@@ -85,11 +103,9 @@ export default {
       this.rows = 10;
       this.searchContent = "";
       this.searchBookCourseKindLabel = "";
-      this.teacherInfoForm = {};
-      this.teacherInfoForm = { ...rowData };
       this.subjectList = null;
-      if (this.teacherInfoForm.TeachBooks) {
-        this.allBookidSelected = this.teacherInfoForm.TeachBooks.split(",").map(
+      if (this.currentFormData.TeachBooks) {
+        this.allBookidSelected = this.currentFormData.TeachBooks.split(",").map(
           Number
         );
       }
@@ -109,7 +125,7 @@ export default {
     async getAllBookList() {
       let that = this;
       this.nowPageBookId = [];
-      let res = await  queryBookList({
+      let res = await queryBookList("",{
         limit: that.rows,
         offset: (that.nowPage - 1) * that.rows,
         label: that.searchContent,
@@ -151,14 +167,10 @@ export default {
     async saveTeacherBook() {
       let booksid = [];
       booksid = this.allBookidSelected.map(String);
-      let res = await setTeachBook(
-        this.teacherInfoForm.Id,
-        booksid,
-        false
-      );
+      let res = await setTeachBook(this.currentFormData.Id, booksid, false);
       if (res.code == 200) {
         this.$message("设置成功!");
-        this.teacherInfoForm = res.data;
+        this.currentFormData = res.data;
         this.$emit("subClickEvent", 0, res.data);
       }
     }

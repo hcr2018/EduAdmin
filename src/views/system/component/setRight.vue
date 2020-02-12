@@ -1,6 +1,6 @@
 <template>
   <div class="p_both10 setright">
-    <div v-for="(items,key,index) in managerRightsObj" :key="index" class="p-v-10">
+    <div v-for="(items,key,index) in managerRightsMap" :key="index" class="p-v-10">
       <div class="center m-b-10">
         <span class="splitLine m-r-10"></span>
         <span>{{setRighTitle[key]}}</span>
@@ -20,9 +20,8 @@
   </div>
 </template>
 <script>
-import {
-  setManagerPower 
-} from '@/api/manager'
+import { setManagerRight, getManagerRight } from "@/api/manager";
+
 export default {
   props: {
     // 表单数据
@@ -31,18 +30,18 @@ export default {
       default: function() {
         return { Id: 0 };
       }
-    } 
+    }
   },
   name: "setRight",
   data() {
     return {
       // 老师的表单数据
-      teacherFormData: {},
+      currentFormData: {},
       // 所有的权限数据
       managerRightsObj: {},
       // 权限名称
       setRighTitle: {
-        book: "学科(教材)相关权限",
+        book: "教材相关权限",
         class: "班级相关权限",
         course: "课程相关权限",
         exercise: "考试相关权限",
@@ -52,16 +51,29 @@ export default {
         system: "系统相关权限"
       },
       // 存储已选中的权限
-      currentManagerRights: []
+      currentManagerRights: [],
+      // 当前用户所有的权限数据
+      managerRightsMap: {}
     };
   },
+  watch: {
+    formItemData(newval) {
+      this.currentFormData = this.formItemData;
+      this.getAllManagerPower();
+    }
+  },
+  mounted() {
+    this.currentFormData = this.formItemData;
+    this.getAllManagerPower();
+  },
   methods: {
-    // 获取表单数据和权限
-    getRowDataAddPower(row, power) {
-      this.teacherFormData = {};
-      this.managerRightsObj = {};
-      this.teacherFormData = row;
-      this.managerRightsObj = { ...power };
+    // 打开模态框时获取所有的权限选择
+    async getAllManagerPower(index) {
+      this.managerRightsMap = [];
+      let res = await getManagerRight(this.currentFormData.Id);
+      if (res.code == 200) {
+        this.managerRightsMap = res.data ? res.data : [];
+      }
     },
     changeRight(checked, itemObj) {
       let item = { index: itemObj.Value };
@@ -74,8 +86,9 @@ export default {
     },
     //保存用户的权限设置
     async saveRight() {
-      let res = await  setManagerPower(
-        this.teacherFormData.Id,
+      let res = await setManagerRight(
+        this.currentFormData.Id,
+        "",
         this.currentManagerRights
       );
       if (res.code == 200) {

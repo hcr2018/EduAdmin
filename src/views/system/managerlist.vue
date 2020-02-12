@@ -119,12 +119,12 @@
         <teacher-row-detail v-bind:formItemData="currentRowData" />
       </div>
       <div slot="right_content" class="p_both20 p-b-20">
-       <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+        <el-tabs v-model="activElTab" @tab-click="changDialogTab">
           <el-tab-pane label="权限设置" name="qxsz" id="qxsz">
-            <set-right ref="refsetRight" @subClickEvent="updateTeacherList"></set-right>
+            <set-right  :formItemData="currentRowData"></set-right>
           </el-tab-pane>
           <el-tab-pane label="所教科目" name="sjkm" id="sjkm">
-            <teacherBook ref="refteacherBook" @subClickEvent="updateTeacherList"></teacherBook>
+            <teacherBook  :formItemData="currentRowData"></teacherBook>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -137,7 +137,7 @@
       :title="currentRowData.Id>0?'编辑'+currentRowData.Label:'新增校区'"
     >
       <teacher-row-detail :editEnable="true" :formItemData="currentRowData" />
-    </el-dialog> 
+    </el-dialog>
   </div>
 </template>
 
@@ -229,19 +229,7 @@ export default {
         }
       }
     },
-  // 切换tabs标签页在调用函数
-    changDialogTab(tab) {
-      if (tab.$attrs.id == "qxsz") {
-        // 权限设置
-        this.getRowDataAddPower(
-          this.currentRowData,
-          this.managerRightsMap
-        );
-      } else if (tab.$attrs.id == "sjkm") {
-        // 给老师设置科目
-        this.$refs.refteacherBook.getTeacherRowData(this.currentRowData);
-      }
-    },
+     
     // 分页获取数据
     getDataChangePage(val) {
       this.nowPage = val;
@@ -315,41 +303,29 @@ export default {
     //     });
     //   }
     // },
-    // 打开模态框时获取所有的权限选择
-    async getAllManagerPower(index) {
-      this.managerRightsMap = [];
-      let res = await getManagerPower(this.currentRowData.Id);
-      if (res.code == 200) {
-        this.managerRightsMap = res.data ? res.data : [];
-        this.$refs.refsetRight.getRowDataAddPower(
-          this.currentRowData,
-          this.managerRightsMap
-        );
-      }
-    },
-    // 打开更多操作的模态框
-    moreOperationOfTeacher(index, row) {
-      // 打开默认显示老师信息页面
-      this.currentRowData = {};
-      this.managerRightsMap = {};
-      this.activElTab = "qxsz";
-      this.currentTeacherIndex = index;
-      this.currentRowData = row;
-      this.moreOperationDialog = true;
-      this.getAllManagerPower();
-      this.$refs.refTeacherDetail.getTeacherRowData(row);
-    },
+
+    // // 打开更多操作的模态框
+    // moreOperationOfTeacher(index, row) {
+    //   // 打开默认显示老师信息页面
+    //   this.currentRowData = {};
+    //   this.managerRightsMap = {};
+    //   this.activElTab = "qxsz";
+    //   this.currentTeacherIndex = index;
+    //   this.currentRowData = row;
+    //   this.moreOperationDialog = true;
+    //   // this.$refs.refTeacherDetail.getTeacherRowData(row);
+    // },
     // 切换tabs标签页在调用函数
     changDialogTab(tab) {
       if (tab.$attrs.id == "qxsz") {
         // 权限设置
-        this.$refs.refsetRight.getRowDataAddPower(
-          this.currentRowData,
-          this.managerRightsMap
-        );
+        // this.$refs.refsetRight.getRowDataAddPower(
+        //   this.currentRowData,
+        //   this.managerRightsMap
+        // );
       } else if (tab.$attrs.id == "sjkm") {
         // 给老师设置科目
-        this.$refs.refteacherBook.getTeacherRowData(this.currentRowData);
+        // this.$refs.refteacherBook.getTeacherRowData(this.currentRowData);
       }
     },
     // 修改或编辑老师个人信息后更新老师数据列表

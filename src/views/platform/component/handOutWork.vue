@@ -32,7 +32,7 @@
           label-width="80px"
         >
           <div class="between-center">
-            <el-form-item label="学科" label-width="60px" prop="subjectId" class="flex_1 hgt50">
+            <el-form-item label="教材" label-width="60px" prop="subjectId" class="flex_1 hgt50">
               <el-select
                 v-model="handOutWorkForm.subjectId"
                 @change="changSubject"

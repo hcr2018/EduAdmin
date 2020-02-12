@@ -2,14 +2,15 @@
   <div>
     <el-form
       ref="currentForm"
+      :disabled="currenteditEnable==false"
       :model="formItemData"
       :rules="subjectFormRules"
-      label-width="100px"
+      style="padding:10px 0px 0px 0px"
+      label-width="80px"
       size="small"
-      class="dialog-body-pad"
     >
       <el-form-item label="名称" prop="Label">
-        <el-tooltip class="item" effect="dark" content="学科教材的名字一经填写,不允许再修改" placement="top-start">
+        <el-tooltip class="item" effect="dark" content="教材的名字一经填写,不允许再修改" placement="top-start">
           <el-input v-model="formItemData.Label" :disabled="formItemData.Id>0" />
         </el-tooltip>
       </el-form-item>
@@ -121,9 +122,14 @@ export default {
           let res;
           if (this.currentItemData.Id > 0) {
             // 编辑科目
-            res = await editBook(this.currentItemData.Id, this.currentItemData);
+            res = await editBook(
+              this.currentItemData.Id,
+              "",
+              this.currentItemData
+            );
             this.isShowPlatformDialog = false;
             this.formItemData = res.data;
+            this.$emit("itemModify", 1, res.data);
             this.$message({
               message: "修改成功",
               type: "success"
@@ -133,6 +139,7 @@ export default {
             res = await addBook("", "", this.currentItemData);
             this.isShowPlatformDialog = false;
             this.formItemData = res.data;
+            this.$emit("itemModify", 0, res.data);
             this.$message({
               message: "添加成功",
               type: "success"
@@ -144,6 +151,7 @@ export default {
             type: "warning"
           });
         }
+        this.currenteditEnable = false; 
       });
     },
     // 获取表单数据

@@ -340,19 +340,8 @@ import {
 import {
   GetCourseOfKind
 } from '@/api/course'
-
-import {
-  UploadImgExercise,
-  UploadImgCourse,
-  UploadImgContract,
-  UploadAddCustom,
-  UploadClassTimeTagImg,
-  UploadImgClass,
-  UploadImgNews,
-  UploadImgCourseTravelBrochure,
-  UploadImgCustomTrack,
-  UploadImgStudentStatus
-} from '@/api/upload'
+ 
+import $ImgAPI from "@/api/ImgAPI";
 import myImageViewer from '@/components/myImageViewer/myImageViewer'
 import common from '@/utils/common'
 export default {
@@ -451,7 +440,7 @@ export default {
     },
     // 客户合同图片上传
     async uploadContractImg(file) {
-      const res = await UploadImgContract('', '', file.raw)
+      const res = await $ImgAPI.UploadImgCourse("contract",  file.raw);
       if (res.code == 200) {
         this.$message('上传成功！')
         this.contractImgArr.push(res.data)

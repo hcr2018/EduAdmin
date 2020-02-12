@@ -205,8 +205,7 @@ export default {
     },
     //打开班级信息模态框
     openClassDialog(type) {
-      this.editDialog = true;
-      console.log("----------: this.platformID :", this.platformID )
+      this.editDialog = true; 
     },
     // 添加班级成功之后更新表格数据-班级列表
     updateClassList(rowData, type) {

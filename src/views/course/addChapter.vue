@@ -241,7 +241,7 @@ export default {
         .then(async () => {
           if (that.chaperListOfBook.length > 0) {
             const res = await createBookStructure(
-              that.subjectId,
+              that.subjectId,"",
               that.chaperListOfBook
             );
             if (res.data == 200) {

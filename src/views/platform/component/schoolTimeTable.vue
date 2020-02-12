@@ -47,7 +47,7 @@
 
           <vxe-table-column
             field="book_label"
-            title="教学科目"
+            title="教教材目"
             :edit-render="{type: 'default'}"
             width="220"
             show-overflow

@@ -14,7 +14,7 @@
         class="text-center m-b-20 color-c0c4cc font16"
         v-if="!isEditTimeTag"
       >{{timeTagFormData.TeacherLabel}}：{{common.dateFormat(timeTagFormData.Createtime)}}</p>
-      <el-form-item label="教学科目">
+      <el-form-item label="教教材目">
         <el-input v-model="timeTableRowData.BookLabel" disabled></el-input>
       </el-form-item>
       <el-form-item label="上课时间">
@@ -181,11 +181,8 @@
   getAllClassTaskRecord 
 } from "@/api/class";
 import common from "@/utils/common";
-import {
-
-  UploadClassTimeTagImg
-} from '@/api/upload'
-
+ 
+import $ImgAPI from "@/api/ImgAPI";
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
 export default {
   name: "timeTagForm",
@@ -284,7 +281,7 @@ export default {
     },
     // 考勤表的图片上传
     async uploadTimeTagImg(file) {
-      let res = await UploadClassTimeTagImg(file.raw);
+      let res = await $ImgAPI.UploadImgCourse("courseTime",  file.raw);
       if (res.code == 200) {
         this.$message("上传成功！");
         let ImgItem = { ImgSrc: res.data, Label: file.raw.name };
@@ -293,7 +290,7 @@ export default {
     },
     // 更换考勤表的图片
     async updateTimeTagImg(file, fileList, index) {
-      let res = await UploadClassTimeTagImg(file.raw);
+      let res = await $ImgAPI.UploadImgCourse("courseTime",  file.raw);
       if (res.code == 200) {
         this.$message("上传成功！");
         let ImgItem = { ImgSrc: res.data, Label: file.raw.name };

@@ -21,7 +21,7 @@ export function addcustomTracks(url, query, data) {
 // 上传跟进记录中的照片
 export function uploadImgInTracks(url, query, data) {
   return request({
-    url: '/managecourse/uploadImage/studentTrack' + url,
+    url: '/helper/uploadFile/' + url,
     method: 'post',
     params: query,
     data

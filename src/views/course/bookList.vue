@@ -61,7 +61,7 @@
         </el-table>
       </div>
       <div class="between-center m-v-15">
-        <el-button type="primary" @click="openSubjectDialog(1)">新增学科</el-button>
+        <el-button type="primary" @click="openSubjectDialog(1)">新增教材</el-button>
         <div>
           <el-pagination
             background
@@ -79,30 +79,24 @@
       <my-dialog
         :visible.sync="moreOperationDialog"
         :close-show="true"
-        :title="currentRowData.Label"
+        :title="customFormData.Label"
       >
         <div slot="left_content" class="p_both20 p-b-20">
-          <subject-row-detail ref="refSubjectDetail" />
-          <div class="text-center m-t-30">
-            <el-button type="primary" @click="openSubjectDialog(0)">编辑</el-button>
-          </div>
+        <bookRowDetail  @itemModify="updateListItem"   :formItemData="customFormData" />
+         
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+          <el-tabs    >
             <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
-              <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
+             
             </el-tab-pane>
-            <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
-              <custom-buy-record :customData="customFormData" />
+            <el-tab-pane id="gmjl" label="购买记录" name="gmjl"> 
             </el-tab-pane>
-            <el-tab-pane id="htdd" label="合同订单" name="htdd">
-              <custom-contract-list :customData="customFormData" />
+            <el-tab-pane id="htdd" label="合同订单" name="htdd"> 
             </el-tab-pane>
-            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
-              <scoreEntry :customData="customFormData" />
+            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr"> 
             </el-tab-pane>
-            <el-tab-pane id="dazl" label="档案资料" name="dazl">
-              <scoreEntry :customData="customFormData" />
+            <el-tab-pane id="dazl" label="档案资料" name="dazl"> 
             </el-tab-pane>
           </el-tabs>~
         </div>
@@ -110,9 +104,9 @@
       <el-dialog
         :visible.sync="editDialog"
         width="500px"
-        :title="currentRowData.Id>0?'编辑'+currentRowData.Label:'新增校区'"
+        :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增校区'"
       >
-        <bookRowDetail :editEnable="true" :formItemData="currentRowData" />
+        <bookRowDetail  @itemModify="updateListItem" :editEnable="true" :formItemData="customFormData" />
       </el-dialog>
     </div>
   </div>
@@ -148,7 +142,7 @@ export default {
       // 更多操作弹窗
       editDialog: false,
       // 模态框获得的单条数据
-      currentRowData: {},
+      customFormData: {},
       // 当前操作平台的索引
       currentRowIndex: null
     };
@@ -187,24 +181,23 @@ export default {
     // 打开更多操作弹出框
     openMoreOptationDialog(index, row) {
       this.currentSubjectIndex = index;
-      this.currentRowData = row;
+      this.customFormData = row;
       this.moreOperationDialog = true;
-      this.$refs.refSubjectDetail.getSubjectRow(row);
+      // this.$refs.refSubjectDetail.getSubjectRow(row);
     },
     // 打开科目弹出框
     openSubjectDialog(type) {
       this.editDialog = true;
-      this.currentRowData = {};
+      this.customFormData = {};
     },
     // 添加或编辑之后更新列表数据
-    updateSubjectList(type, rowData) {
-      if (type) {
+    updateListItem(type, rowData) {
+      if (type==0) {
         this.subjectList.push(rowData);
       } else {
-        this.$set(this.subjectList, this.currentSubjectIndex, rowData);
-        this.$refs.refSubjectDetail.getSubjectRow(rowData);
-        this.currentRowData = { ...rowData };
+        this.$set(this.subjectList, this.currentSubjectIndex, rowData); 
       }
+      this.editDialog = false;
     },
     // 关联章节管理
     addChapter: function(index, row) {
