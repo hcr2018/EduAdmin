@@ -3,59 +3,54 @@
     :close-on-click-modal="false"
     :visible.sync="isShowContractDialog"
     :append-to-body="true"
+    :title="'['+currentItemData.StudentLabel+']合同订单'"
     width="740px"
-    :title="'['+formItemData.RealName+'] 合同订单'"
   >
     <div class="contractform">
       <el-form
         ref="refContractForm"
         :rules="contractRules"
-        :model="contractFormData"
+        :model="currentItemData"
         label-width="105px"
         size="small"
         class="dialog-body-pad"
       >
         <el-form-item label="合同名称" prop="Title">
           <el-input
-            v-model="contractFormData.Title"
+            v-model="currentItemData.Title"
             :disabled="operationType==0"
             placeholder="请填写合同名称"
-            @input="$forceUpdate()"
           />
         </el-form-item>
         <el-form-item label="客户姓名">
-          <el-input
-            v-model="contractFormData.StudentLabel"
-            disabled
-            placeholder="真实姓名"
-            @input="$forceUpdate()"
-          />
+          <el-input v-model="currentItemData.StudentLabel" disabled placeholder="真实姓名" />
         </el-form-item>
         <el-form-item label="身份证">
           <el-input
-            v-model="contractFormData.IDCard"
+            v-model="currentItemData.IDCard"
             :disabled="operationType==0"
             placeholder="身份证号码"
-            @input="$forceUpdate()"
           />
         </el-form-item>
         <el-form-item label="性别">
-          <el-radio v-model="contractFormData.Sex" :disabled="operationType==0" label="男">男</el-radio>
-          <el-radio v-model="contractFormData.Sex" :disabled="operationType==0" label="女">女</el-radio>
+          <el-radio v-model="currentItemData.Sex" :disabled="operationType==0" label="男">男</el-radio>
+          <el-radio v-model="currentItemData.Sex" :disabled="operationType==0" label="女">女</el-radio>
         </el-form-item>
         <el-form-item label="所属学院">
           <el-select
-            v-model="contractFormData.CollegeID"
+            v-model="currentItemData.CollegeID"
             class="changInputWidth"
             :disabled="operationType==0"
             placeholder="请选择所属学院"
-            @change="$forceUpdate()"
+              @change="collegeChangeGetCourseKind"
+          
           >
             <el-option
-              v-for="item in common.collegeWithCouseKindList"
+              v-for="item in $store.getters.app.collegeWithCourseKind"
               :key="item.Id"
               :label="item.Label"
               :value="item.Id"
+             
             />
           </el-select>
         </el-form-item>
@@ -69,7 +64,7 @@
               @change="getCourse"
             >
               <el-option
-                v-for="(item) in common.courseKindList"
+                v-for="(item) in CourseKindsOps"
                 :key="item.Id"
                 :label="item.Label"
                 :value="item.Label"
@@ -78,11 +73,10 @@
           </el-form-item>
           <el-form-item label="报名课程" prop="CourseID">
             <el-select
-              v-model="contractFormData.CourseID"
+              v-model="currentItemData.CourseID"
               :disabled="operationType==0"
               class="changInputWidth"
               placeholder="请选择报读课程"
-              @change="$forceUpdate()"
             >
               <el-option
                 v-for="(item,index) in courseList"
@@ -96,7 +90,7 @@
         <div v-show="operationType==0">
           <el-form-item label="报名课程">
             <el-input
-              v-model="contractFormData.CourseLabel"
+              v-model="currentItemData.CourseLabel"
               :disabled="operationType==0"
               placeholder="请输入报名课程"
               @input="$forceUpdate()"
@@ -105,7 +99,7 @@
         </div>
         <el-form-item label="报名时间" prop="AddTime">
           <el-date-picker
-            v-model="contractFormData.AddTime"
+            v-model="currentItemData.AddTime"
             class="changInputWidth"
             type="date"
             :disabled="operationType==0"
@@ -122,69 +116,6 @@
             @input="$forceUpdate()"
           />
         </el-form-item>
-        <div v-show="contractFormData.CollegeID==2">
-          <div class="center m-b-20">
-            <span class="flex_1 hgt1 border-db-dcdfe6" />
-            <p class="color-303133 font16 text-center font-w6">学历学籍信息</p>
-            <span class="flex_1 hgt1 border-db-dcdfe6" />
-          </div>
-          <el-form-item label="报名院校">
-            <el-select
-              v-model="contractFormData.UniversityID"
-              class="changInputWidth"
-              :disabled="operationType==0"
-              placeholder="请选择报名院校"
-              @change="$forceUpdate()"
-            >
-              <el-option
-                v-for="item in common.AllUniversity"
-                :key="item.Id"
-                :label="item.Label"
-                :value="item.Id"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="报名专业">
-            <el-input
-              v-model="contractFormData.UniversityMajor"
-              :disabled="operationType==0"
-              placeholder="请选择报名专业"
-              @input="$forceUpdate()"
-            />
-          </el-form-item>
-          <div class="center">
-            <el-form-item label="报名层次" class="wid_50">
-              <el-select
-                v-model="contractFormData.UniversityLevel"
-                :disabled="operationType==0"
-                placeholder="请选择报名层次"
-                @change="$forceUpdate()"
-              >
-                <el-option
-                  v-for="item in common.costomSignUpLevel"
-                  :key="item.value"
-                  :label="item.Label"
-                  :value="item.Label"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="学历性质" class="wid_50">
-              <el-select
-                v-model="contractFormData.UniversityXingzhi"
-                :disabled="operationType==0"
-                placeholder="请选择学历性质"
-                @change="$forceUpdate()"
-              >
-                <el-option
-                  v-for="item in common.costomAcademicQualification"
-                  :key="item.value"
-                  :label="item.Label"
-                  :value="item.Label"
-                />
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
         <div class="center m-b-20">
           <span class="flex_1 hgt1 border-db-dcdfe6" />
           <p class="color-303133 font16 text-center font-w6">学费信息</p>
@@ -192,7 +123,7 @@
         </div>
         <el-form-item label="课程价格" prop="CoursePrice">
           <el-input
-            v-model="contractFormData.CoursePrice"
+            v-model="currentItemData.CoursePrice"
             :disabled="operationType==0"
             placeholder="请输入课程价格"
             @change="countCourseRealPrice()"
@@ -201,7 +132,7 @@
         </el-form-item>
         <el-form-item label="优惠金额" prop="YouhuiPrice">
           <el-input
-            v-model="contractFormData.YouhuiPrice"
+            v-model="currentItemData.YouhuiPrice"
             :disabled="operationType==0"
             placeholder="请输入优惠金额"
             @change="countCourseRealPrice()"
@@ -210,7 +141,7 @@
         </el-form-item>
         <el-form-item label="优惠类型">
           <el-select
-            v-model="contractFormData.YouhuiLeixing"
+            v-model="currentItemData.YouhuiLeixing"
             class="changInputWidth"
             :disabled="operationType==0"
             placeholder="请选择优惠类型"
@@ -227,7 +158,7 @@
         <div class="between-center">
           <el-form-item label="实收学费" prop="ShijiPrice" class="flex_1">
             <el-input
-              v-model="contractFormData.ShijiPrice"
+              v-model="currentItemData.ShijiPrice"
               disabled
               placeholder="请输入实收学费"
               @input="$forceUpdate()"
@@ -235,7 +166,7 @@
           </el-form-item>
           <el-form-item label="支付方式" prop="PayMethod" class="flex_1">
             <el-select
-              v-model="contractFormData.PayMethod"
+              v-model="currentItemData.PayMethod"
               :disabled="operationType==0"
               placeholder="请选择支付方式"
               @change="$forceUpdate()"
@@ -251,56 +182,57 @@
         </div>
         <el-form-item label="欠款金额" prop="QiankuanPrice">
           <el-input
-            v-model="contractFormData.QiankuanPrice"
+            v-model="currentItemData.QiankuanPrice"
             placeholder="请输入欠款金额"
-            @change="countCourseRealPrice()"
-            @input="$forceUpdate()"
+            @change="countCourseRealPrice()" 
           />
         </el-form-item>
         <el-form-item label="回款时间">
           <el-date-picker
-            v-model="contractFormData.HuikuanTime"
+            v-model="currentItemData.HuikuanTime"
             type="date"
             value-format="timestamp"
             :disabled="operationType==0"
             class="changInputWidth"
-            placeholder="请选择回款时间"
-            @input="$forceUpdate()"
+            placeholder="请选择回款时间" 
           />
         </el-form-item>
         <div class="center">
           <el-form-item label="转介绍人" class="wid_50">
             <el-input
-              v-model="contractFormData.ZhuanPerson"
+              v-model="currentItemData.ZhuanPerson"
               :disabled="operationType==0"
-              placeholder="请输入转介绍人"
-              @input="$forceUpdate()"
+              placeholder="请输入转介绍人" 
             />
           </el-form-item>
 
           <el-form-item label="联系电话" class="wid_50">
             <el-input
-              v-model="contractFormData.ZhuanTel"
+              v-model="currentItemData.ZhuanTel"
               :disabled="operationType==0"
-              placeholder="请输入联系电话"
-              @input="$forceUpdate()"
+              placeholder="请输入联系电话" 
             />
           </el-form-item>
         </div>
         <el-form-item label="图片">
           <div class="flex_dom flex_wrap">
             <div v-for="(item,index) in contractImgArr" :key="index" class="relative marg15">
-              <my-image-viewer class="wid80 hgt80" :preview-src-list="[item]" :src="item" fit="cover" />
+              <my-image-viewer
+                class="wid80 hgt80"
+                :preview-src-list="[item]"
+                :src="item"
+                fit="cover"
+              />
               <div
-                v-show="contractFormData.Id<=0"
+                v-show="currentItemData.Id<=0"
                 class="deleImgIcon cursor"
                 @click="deleCustomImg(index)"
               >
-                <img src="/static/img/slice/deleteIcon.png" alt>
+                <img src="/static/img/slice/deleteIcon.png" alt />
               </div>
             </div>
             <el-upload
-              v-show="contractFormData.Id<=0"
+              v-show="currentItemData.Id<=0"
               :auto-upload="false"
               action
               class="avatar-uploader"
@@ -313,10 +245,9 @@
         </el-form-item>
         <el-form-item label="情况备注">
           <el-input
-            v-model="contractFormData.Comments"
+            v-model="currentItemData.Comments"
             type="textarea"
-            placeholder="情况备注~"
-            @input="$forceUpdate()"
+            placeholder="情况备注~" 
           />
         </el-form-item>
       </el-form>
@@ -336,25 +267,23 @@ import {
   addCustomContract,
   deleCustomContract,
   updateCustomContract
-} from '@/api/contract'
-import {
-  GetCourseOfKind
-} from '@/api/course'
- 
+} from "@/api/contract";
+import { GetCourseOfKind } from "@/api/course";
+
 import $ImgAPI from "@/api/ImgAPI";
-import myImageViewer from '@/components/myImageViewer/myImageViewer'
-import common from '@/utils/common'
+import myImageViewer from "@/components/myImageViewer/myImageViewer";
+import common from "@/utils/common";
 export default {
-   props: {
+  props: {
     // 校区的表单数据
     formItemData: {
       type: Object,
       default: function() {
         return { Id: 0 };
       }
-    } 
+    }
   },
-  name: 'ContractFrom',
+  name: "ContractFrom",
   components: {
     myImageViewer
   },
@@ -364,169 +293,198 @@ export default {
       // 显示合同弹出框
       isShowContractDialog: false,
       // 添加客户合同的默认数据
-      contractFormData: {},
+      currentItemData: {},
       // 存放合同图片的数组
       contractImgArr: [],
       // 课程大类
-      nowcourseKind: '',
+      nowcourseKind: "",
       // 当前用户姓名-添加合同
-      PlatformWorkerLabel: '',
+      PlatformWorkerLabel: "",
+      //选中学院后的课程大类
+      CourseKindsOps:[],
       // 所有获取课程
       courseList: [],
       // 操作类型:1添加，2追加，0编辑
       operationType: null,
       // 表单验证规则
       contractRules: {
-        Title: [{ required: true, message: '请输入合同名称', trigger: 'blur' }],
+        Title: [{ required: true, message: "请输入合同名称", trigger: "blur" }],
         AddTime: [
-          { required: true, message: '请选择报名时间', trigger: 'blur' }
+          { required: true, message: "请选择报名时间", trigger: "blur" }
         ],
         CourseID: [
-          { required: true, message: '请选择报名课程', trigger: 'blur' }
+          { required: true, message: "请选择报名课程", trigger: "blur" }
         ],
         CoursePrice: [
-          { required: true, message: '请输入课程价格', trigger: 'blur' }
+          { required: true, message: "请输入课程价格", trigger: "blur" }
         ],
         YouhuiPrice: [
-          { required: true, message: '请输入优惠金额', trigger: 'blur' }
+          { required: true, message: "请输入优惠金额", trigger: "blur" }
         ],
         PayMethod: [
-          { required: true, message: '请选择支付方式', trigger: 'blur' }
+          { required: true, message: "请选择支付方式", trigger: "blur" }
         ],
         QiankuanPrice: [
-          { required: true, message: '请输入欠款金额', trigger: 'blur' }
+          { required: true, message: "请输入欠款金额", trigger: "blur" }
         ]
       }
-    }
+    };
   },
- mounted() { 
- },
+  mounted() {
+    this.currentItemData = this.formItemData;
+    this.currentItemData.Title =
+      "[" +
+      this.currentItemData.StudentLabel +
+      "]合同订单--" +
+      new Date().toString();
+  },
   methods: {
+    //  选中学院后回调
+    collegeChangeGetCourseKind(index) {
+      this.subjectListOps = [];
+      this.currentItemData.TCourseKindID = null;
+      this.currentItemData.TCollegeID = this.$store.getters.app.collegeWithCourseKind[
+        index
+      ].Id;
+      this.CourseKindsOps = [
+        ...this.$store.getters.app.collegeWithCourseKind[index].Children
+      ];
+      if (this.CourseKindsOps.length > 0) {
+        this.currentItemData.TCourseKindID = this.CourseKindsOps[0].Id;
+        this.courseKindLabel = this.CourseKindsOps[0].Label;
+ 
+      }
+    },
+
+
     // 获取重复组件传递过来的值
     getContractFormData(rowData, type) {
       // 初始化数据
-      this.courseList = []
-      this.operationType = type
-      this.contractImgArr = []
-      this.contractFormData = {}
-      this.contractFormData = { ...rowData }
-      this.PlatformWorkerLabel = this.contractFormData.PlatformWorkerLabel
-      if (this.contractFormData.Id == 0) {
-        this.contractFormData.PlatformWorkerID = this.$store.state.userInformation.Id
-        this.PlatformWorkerLabel = this.$store.state.userInformation.Realname
-      } else if (this.contractFormData.Id > 0) {
-        if (this.contractFormData.Picture) {
-          this.contractImgArr = JSON.parse(this.contractFormData.Picture)
+      this.courseList = [];
+      this.operationType = type;
+      this.contractImgArr = [];
+      this.currentItemData = {};
+      this.currentItemData = { ...rowData };
+      this.PlatformWorkerLabel = this.currentItemData.PlatformWorkerLabel;
+      if (this.currentItemData.Id == 0) {
+        this.currentItemData.PlatformWorkerID = this.$store.getters.manager.Id;
+        this.PlatformWorkerLabel = this.$store.getters.manager.Realname;
+      } else if (this.currentItemData.Id > 0) {
+        if (this.currentItemData.Picture) {
+          this.contractImgArr = JSON.parse(this.currentItemData.Picture);
         }
-        if (this.contractFormData.AddTime) {
-          this.contractFormData.AddTime = this.contractFormData.AddTime * 1000
+        if (this.currentItemData.AddTime) {
+          this.currentItemData.AddTime = this.currentItemData.AddTime * 1000;
         }
-        if (this.contractFormData.HuikuanTime) {
-          this.contractFormData.HuikuanTime =
-            this.contractFormData.HuikuanTime * 1000
+        if (this.currentItemData.HuikuanTime) {
+          this.currentItemData.HuikuanTime =
+            this.currentItemData.HuikuanTime * 1000;
         }
       }
-      this.isShowContractDialog = true
+      this.isShowContractDialog = true;
     },
     // 计算实际价格
     countCourseRealPrice() {
-      this.contractFormData.ShijiPrice =
-        parseFloat(this.contractFormData.CoursePrice) -
-        parseFloat(this.contractFormData.YouhuiPrice) -
-        parseFloat(this.contractFormData.QiankuanPrice)
-      this.contractFormData.ShijiPrice = this.contractFormData.ShijiPrice.toFixed(
+      this.currentItemData.ShijiPrice =
+        parseFloat(this.currentItemData.CoursePrice) -
+        parseFloat(this.currentItemData.YouhuiPrice) -
+        parseFloat(this.currentItemData.QiankuanPrice);
+      this.currentItemData.ShijiPrice = this.currentItemData.ShijiPrice.toFixed(
         2
-      )
+      );
     },
     // 客户合同图片上传
     async uploadContractImg(file) {
-      const res = await $ImgAPI.UploadImgCourse("contract",  file.raw);
+      const res = await $ImgAPI.UploadImgCourse("contract", file.raw);
       if (res.code == 200) {
-        this.$message('上传成功！')
-        this.contractImgArr.push(res.data)
+        this.$message("上传成功！");
+        this.contractImgArr.push(res.data);
       }
     },
     // 删除合同资料的图片
     deleCustomImg(index) {
-      this.contractImgArr.splice(index, 1)
+      this.contractImgArr.splice(index, 1);
     },
     // 保存新增合同
     async saveAddContract() {
-      this.$refs['refContractForm'].validate(async valid => {
+      this.$refs["refContractForm"].validate(async valid => {
         if (valid) {
-          if (this.contractFormData.AddTime) {
-            this.contractFormData.AddTime = parseInt(
-              this.contractFormData.AddTime / 1000
-            )
+          if (this.currentItemData.AddTime) {
+            this.currentItemData.AddTime = parseInt(
+              this.currentItemData.AddTime / 1000
+            );
           }
-          if (this.contractFormData.HuikuanTime) {
-            this.contractFormData.HuikuanTime = parseInt(
-              this.contractFormData.HuikuanTime / 1000
-            )
+          if (this.currentItemData.HuikuanTime) {
+            this.currentItemData.HuikuanTime = parseInt(
+              this.currentItemData.HuikuanTime / 1000
+            );
           }
 
           if (this.contractImgArr.length > 0) {
-            this.contractFormData.Picture = JSON.stringify(this.contractImgArr)
+            this.currentItemData.Picture = JSON.stringify(this.contractImgArr);
           }
-          if (this.contractFormData.ShijiPrice < 0) {
-            this.$message('实际价格不能为负数')
-            return
+          if (this.currentItemData.ShijiPrice < 0) {
+            this.$message("实际价格不能为负数");
+            return;
           }
-          this.contractFormData.CoursePrice = parseFloat(
-            this.contractFormData.CoursePrice
-          )
-          this.contractFormData.ShijiPrice = parseFloat(
-            this.contractFormData.ShijiPrice
-          )
-          this.contractFormData.YouhuiPrice = parseFloat(
-            this.contractFormData.YouhuiPrice
-          )
-          this.contractFormData.QiankuanPrice = parseFloat(
-            this.contractFormData.QiankuanPrice
-          )
-          let res
-          if (this.contractFormData.Id > 0) {
+          this.currentItemData.CoursePrice = parseFloat(
+            this.currentItemData.CoursePrice
+          );
+          this.currentItemData.ShijiPrice = parseFloat(
+            this.currentItemData.ShijiPrice
+          );
+          this.currentItemData.YouhuiPrice = parseFloat(
+            this.currentItemData.YouhuiPrice
+          );
+          this.currentItemData.QiankuanPrice = parseFloat(
+            this.currentItemData.QiankuanPrice
+          );
+          let res;
+          if (this.currentItemData.Id > 0) {
             res = await updateCustomContract(
-              this.contractFormData.Id,
-              this.contractFormData
-            )
+              this.currentItemData.Id,
+              this.currentItemData
+            );
           } else {
-            res = await addCustomContract(this.contractFormData)
+            res = await addCustomContract(this.currentItemData);
           }
 
           if (res.code == 200) {
-            if (this.contractFormData.Id > 0) {
-              this.$emit('updateContractData', 0, res.data)
-              this.$message('修改成功 ！')
+            if (this.currentItemData.Id > 0) {
+              this.$emit("updateContractData", 0, res.data);
+              this.$message("修改成功 ！");
             } else {
               if (this.operationType == 2) {
-                this.$emit('updateContractData', 1, res.data)
+                this.$emit("updateContractData", 1, res.data);
               }
-              this.$message('添加成功 ！')
+              this.$message("添加成功 ！");
             }
-            this.isShowContractDialog = false
+            this.isShowContractDialog = false;
           }
         } else {
-          return false
+          return false;
         }
-      })
+      });
+    },
+    changeCollege(event){
+      console.log("========",event);
     },
     // 获取课程
     async getCourse(value) {
-      let kindId = 1
-      this.common.courseKindList.forEach(item => {
+      let kindId = 1;
+      this.$store.getters.app.courseKind.forEach(item => {
         if (item.Label == value) {
-          kindId = item.Id
+          kindId = item.Id;
         }
-      })
-      const res = await GetCourseOfKind({ kindid: kindId })
-      this.courseList = res.data
+      });
+      const res = await GetCourseOfKind({ kindid: kindId });
+      this.courseList = res.data;
       if (this.courseList != null && this.courseList.length > 0) {
-        this.contractFormData.CourseID = this.courseList[0].Id
+        this.currentItemData.CourseID = this.courseList[0].Id;
       }
     }
   }
-}
+};
 </script>
 <style scoped>
 .contractform /deep/ .changInputWidth {

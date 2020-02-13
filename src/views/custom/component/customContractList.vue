@@ -27,10 +27,15 @@
       <el-table-column prop="QiankuanPrice" width="100" label="欠款(￥)" />
     </el-table>
     <div class="m-v-15">
-      <el-button type="primary" @click="addCustomContract">续报课程</el-button>
+      <el-button type="primary" @click="addCustomContract">签订合同</el-button>
     </div>
     <!-- 合同弹出框 -->
-    <custom-contract-dialog ref="refContractDialog" @updateContractData="updateContractList" />
+ 
+
+
+    <custom-contract-dialog  :visible.sync="editDialog"
+        width="600px" 
+        :title="customRowData.Id>0?'编辑'+customRowData.Label:'新增'" ref="refContractDialog" @updateContractData="updateContractList" />
   </div>
 </template>
 
@@ -43,6 +48,7 @@ import {
   updateCustomContract
 } from "@/api/contract";
 import customContractDialog from "@/views/custom/component/customContractDialog";
+import common from "@/utils/common";
 export default {
   props: {
     // 校区的表单数据
@@ -58,6 +64,11 @@ export default {
   },
   data() {
     return {
+       // 更多操作弹窗
+      moreOperationDialog: false,
+      // 更多操作弹窗
+      editDialog: false,
+      common,
       // 客户合同信息列表
       customContractList: [],
       // 客户的个人信息
@@ -68,7 +79,7 @@ export default {
   },
 
   mounted() { 
-    this.getContractList();
+    // this.getContractList();
   },
 
   methods: {

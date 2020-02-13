@@ -60,7 +60,7 @@
           <el-form-item label="学院">
             <el-select v-model="selectCollegeIndex" placeholder="请选择学院" @change="collegeChange">
               <el-option
-                v-for="(item,index) in common.collegeWithCouseKindList"
+                v-for="(item,index) in $store.getters.app.collegeWithCourseKind"
                 :key="index"
                 :label="item.Label"
                 :value="index"
@@ -221,9 +221,9 @@ export default {
       this.selectCourseKindIndex = null
       this.addBuyCourseFormData.selectedCourseId = null
       this.courseOptions = []
-      const courseKindArr = this.common.collegeWithCouseKindList[selVa].Children
+      const courseKindArr = this.$store.getters.app.collegeWithCourseKind[selVa].Children
       this.courseKindsOps = courseKindArr || []
-      this.selectCollegeid = this.common.collegeWithCouseKindList[selVa].Id
+      this.selectCollegeid = this.$store.getters.app.collegeWithCourseKind[selVa].Id
       if (this.courseKindsOps.length > 0) {
         this.selectCourseKindIndex = 0
         this.changeSelectCourseKind(0)

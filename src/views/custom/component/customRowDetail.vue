@@ -265,7 +265,7 @@ export default {
           this.customImgArr = info.attach_image.split(",");
         }
       }
-      console.log("this.customImgArr:", this.customImgArr);
+      
     }
   },
 

@@ -62,7 +62,7 @@ export default {
       this.subjectListOps = []
       this.courseRow = row
       if (this.courseRow.Id > 0) {
-        this.common.collegeWithCouseKindList.forEach((item, index) => {
+        this.$store.getters.app.collegeWithCourseKind.forEach((item, index) => {
           if (this.courseRow.TCollegeID == item.Id) {
             this.collegeIndex = index
           }
