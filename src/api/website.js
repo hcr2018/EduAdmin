@@ -10,3 +10,15 @@ export function GetIndexItem(url, query, data) {
   })
 }
 
+
+// 轮播图 ，url填banner，优秀教师url填teacher
+export function SetIndexItem(url, query, data) {
+  return request({
+    url: '/website/setIndexItem/' + url,
+    method: 'post',
+    params: query,
+    data
+  })
+}
+
+ 
