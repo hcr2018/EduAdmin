@@ -2,9 +2,9 @@
   <div>
     <el-form
       :model="formItemData"
-        :disabled="currenteditEnable==false"
+      :disabled="currenteditEnable==false"
       :rules="teacherFormRules"
-      ref="refTeacherForm"
+      ref="formUI"
       style="padding:50px 0px 0px 0px"
       label-width="80px"
       size="small"
@@ -33,11 +33,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="归属校区" prop="platformSelect">
-        <el-select
-          multiple
-          v-model="formItemData.platformSelect" 
-          placeholder="请选择归属校区"
-        >
+        <el-select multiple v-model="formItemData.platformSelect" placeholder="请选择归属校区">
           <el-option :value="0" label="全部"></el-option>
           <el-option
             :label="item.Label"
@@ -67,7 +63,7 @@
       </el-form-item>
     </el-form>
     <div>
-       <el-button
+      <el-button
         type="warning"
         :disabled="false"
         v-show="!currenteditEnable"
@@ -81,11 +77,11 @@
         class="m-l-40"
         @click="saveFormItemData"
       >确 认</el-button>
-      <el-button    v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
-<!-- 
+      <el-button v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
+      <!-- 
 
       <el-button @click="isShowTeacherDialog=false">取 消</el-button>
-      <el-button type="primary m-l-40" @click="saveFormItemData">保 存</el-button> -->
+      <el-button type="primary m-l-40" @click="saveFormItemData">保 存</el-button>-->
     </div>
   </div>
 </template>
@@ -110,9 +106,9 @@ export default {
   data() {
     return {
       common,
-       currenteditEnable: this.editEnable,
+      currenteditEnable: this.editEnable,
       // 是否显示模态框
-      isShowTeacherDialog: false, 
+      isShowTeacherDialog: false,
       // 表单验证
       teacherFormRules: {
         Realname: [

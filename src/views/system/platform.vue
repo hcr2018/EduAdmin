@@ -42,7 +42,7 @@
           <platformRowDetail v-bind:formItemData="platformRowData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+          <!-- <el-tabs v-model="activElTab" @tab-click="changDialogTab">
             <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
               <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
             </el-tab-pane>
@@ -58,7 +58,7 @@
             <el-tab-pane id="dazl" label="档案资料" name="dazl">
               <scoreEntry :customData="customFormData" />
             </el-tab-pane>
-          </el-tabs>~
+          </el-tabs> -->   
         </div>
       </my-dialog>
 

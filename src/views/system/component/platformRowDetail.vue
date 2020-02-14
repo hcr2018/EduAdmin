@@ -10,7 +10,7 @@
       size="small"
     >
       <el-form-item label="名称" prop="Label">
-        <el-input v-model="formItemData.Label" :disabled="formItemData.Id>0" />
+        <el-input v-model="formItemData.Label" />
       </el-form-item>
       <el-form-item label="联系电话" prop="Telephone">
         <el-input v-model="formItemData.Telephone" />

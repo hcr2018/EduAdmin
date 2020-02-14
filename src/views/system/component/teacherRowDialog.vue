@@ -31,30 +31,7 @@ export default {
       isShowTeacherDialog: false,
       // 老师的表单数据
       teacherFormData: {},
-      // 表单验证
-      teacherFormRules: {
-        Realname: [
-          { required: true, message: "姓名不能为空", trigger: "blur" },
-          { min: 2, message: "姓名至少两个字符", trigger: "blur" }
-        ],
-        Username: [
-          { required: true, message: "昵称不能为空", trigger: "blur" }
-        ],
-        tel: [
-          { required: true, message: "请输入电话号码", trigger: "blur" },
-          {
-            pattern: /^1[3456789]\d{9}$/,
-            message: "请输入正确的手机号",
-            trigger: "blur"
-          }
-        ],
-        role: [
-          { required: true, message: "必须选择身份角色", trigger: "blur" }
-        ],
-        platformSelect: [
-          { required: true, message: "至少选择一个校区", trigger: "blur" }
-        ]
-      }
+      
     };
   },
   methods: {

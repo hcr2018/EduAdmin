@@ -15,7 +15,7 @@ export default {
     docDownload: '资料下载',
     managerList: '用户列表',
     managerLogs: '用户日志',
-    news: '新闻',
+    news: '新闻管理',
     race: '竞赛活动',
     teacher: '优秀老师',
     classList: '班级列表',

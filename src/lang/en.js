@@ -15,7 +15,7 @@ export default {
     docDownload: 'doc download',
     managerList: 'manager　ｌist',
     managerLogs: 'manager　log',
-    news: 'news',
+    news: 'news manager',
     race: 'race',
     teacher: 'hot teacher',
     classList: 'class List',
