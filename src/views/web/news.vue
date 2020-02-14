@@ -166,9 +166,9 @@ export default {
     // 编辑或者添加之后更新表格数据-新闻列表
     updateNewsList(rowData, isType) {
       // isType编辑还是添加
-      if (isType == 0) {
+      if (isType == 1) {
         this.$set(this.newsListTable, this.currentNewsIndex, rowData);
-      } else if (isType == 1) {
+      } else if (isType == 0) {
         this.newsListTable.unshift(rowData);
       }
       this.newsFormDialog = false;

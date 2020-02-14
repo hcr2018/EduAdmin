@@ -67,7 +67,7 @@
 import Tinymce from "@/components/Tinymce";
 import { editNewsRow, addNewsRow } from "@/api/news";
 import common from "@/utils/common";
-import $ImgAPI from "@/api/ImgAPI";  
+import $ImgAPI from "@/api/ImgAPI";
 export default {
   name: "newsForm",
   props: {
@@ -115,7 +115,7 @@ export default {
   methods: {
     // 上传新闻的图片
     async newsImgUpload(file) {
-      let res = await  $ImgAPI.UploadImg("news",  file.raw);
+      let res = await $ImgAPI.UploadImg("news", file.raw);
       if (res.code == 200) {
         this.formItemData.icon = res.data;
       }
@@ -180,7 +180,7 @@ export default {
       // 上传附件之前的验证
       let RightType = this.beforeUploadEnclosure(file.raw.type);
       if (RightType) {
-        let res = await  $ImgAPI.UploadImg("news",  file.raw);
+        let res = await $ImgAPI.UploadImg("news", file.raw);
         if (res.code == 200) {
           this.formItemData.Downfile = res.data;
         }
@@ -205,6 +205,7 @@ export default {
                 message: "修改成功",
                 type: "success"
               });
+              this.$emit("updateRowData", res.data, 1);
             }
           } else if (this.formItemData.Id == 0) {
             // 添加数据
@@ -216,6 +217,7 @@ export default {
                 message: "添加成功",
                 type: "success"
               });
+              this.$emit("updateRowData", res.data, 0);
             }
           }
         } else {
