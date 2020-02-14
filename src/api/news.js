@@ -21,7 +21,7 @@ export function deleNewsRow(url, param, data) {
 export function editNewsRow(url, param, data) {
   return request({
     url: '/news/updateNews/'+url,
-    method: 'post',
+    method: 'put',
     params: param,
     data
   })
