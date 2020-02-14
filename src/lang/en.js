@@ -11,7 +11,7 @@ export default {
     documentation: 'Documentation',
     web: 'web site',
     platform: 'site list',
-    webIndex: 'web site',
+    banner: 'banner',
     docDownload: 'doc download',
     managerList: 'manager　ｌist',
     managerLogs: 'manager　log',

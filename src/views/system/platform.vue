@@ -42,23 +42,17 @@
           <platformRowDetail v-bind:formItemData="platformRowData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <!-- <el-tabs v-model="activElTab" @tab-click="changDialogTab">
-            <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
+          <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+            <el-tab-pane id="gjjl" label="校区官网" name="gjjl">
               <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
             </el-tab-pane>
-            <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
+            <el-tab-pane id="gmjl" label="校区权限" name="gmjl">
               <custom-buy-record :customData="customFormData" />
             </el-tab-pane>
-            <el-tab-pane id="htdd" label="合同订单" name="htdd">
+            <el-tab-pane id="htdd" label="校区员工" name="htdd">
               <custom-contract-list :customData="customFormData" />
-            </el-tab-pane>
-            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
-              <scoreEntry :customData="customFormData" />
-            </el-tab-pane>
-            <el-tab-pane id="dazl" label="档案资料" name="dazl">
-              <scoreEntry :customData="customFormData" />
-            </el-tab-pane>
-          </el-tabs> -->   
+            </el-tab-pane> 
+          </el-tabs>   
         </div>
       </my-dialog>
 

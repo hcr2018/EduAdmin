@@ -25,7 +25,33 @@
 3.  然后运行npm run dev 打开进入测试页面
 4.  使用 npm run build:prod 编译出生产文件。部署在web服务器后即可。 
 
+#### 预览图
+![登录页](http://edu.todear.net:8990/upload/other/0.png "登录页") 
 
+## 登录页面。支持多语言选择
+
+![登录页](http://edu.todear.net:8990/upload/other/1.png "登录页") 
+
+数据仪表页面。可以直观的看到员工的工作内容和占比
+
+
+![登录页](http://edu.todear.net:8990/upload/other/11.png "登录页") 
+
+老师和管理员的权限分配页面。打了蓝色勾勾的代表用户拥有此权限。
+
+![登录页](http://edu.todear.net:8990/upload/other/2.png "登录页") 
+学员列表页面。可以给每个学员在线拨打电话。发送短信。办理各种业务
+
+![登录页](http://edu.todear.net:8990/upload/other/5.png "登录页") 
+点击学员姓名后可以进入 学员的详情页面。可以给学员开通在线课程让学员拥有权限在线做题，视频学习，成绩录入等等。类似crm系统
+![登录页](http://edu.todear.net:8990/upload/other/4.png "登录页") 
+添加跟进记录。记录下每个学员的 重要交谈历史。以便日后查证
+![登录页](http://edu.todear.net:8990/upload/other/3.png "登录页") 
+
+![登录页](http://edu.todear.net:8990/upload/other/6.png "登录页") 
+
+![登录页](http://edu.todear.net:8990/upload/other/7.png "登录页") 
+ 给每个学员签订合同订单，一个学员可以拥有多个合同。合同的金额会自动汇总到财务部门
 
 #### 参与贡献
 

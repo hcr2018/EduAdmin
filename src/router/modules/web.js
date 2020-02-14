@@ -13,15 +13,15 @@ const webRouter = {
   },
   children: [
     {
-      path: 'webIndex',
-      component: () => import('@/views/web/index'), // Parent router-view
-      name: 'webIndex',
-      meta: { title: 'webIndex',icon:"website" }
+      path: 'banner',
+      component: () => import('@/views/web/banner'), // Parent router-view
+      name: 'banner',
+      meta: { title: 'banner',icon:"website" }
     },
     {
       path: 'docDownload',
       name: 'docDownload',
-      component: () => import('@/views/web/news'),
+      component: () => import('@/views/web/docDownload'),
       meta: { title: 'docDownload' ,icon:"guide"}
     },
     {
@@ -39,7 +39,7 @@ const webRouter = {
     {
       path: 'teacher',
       name: 'teacher',
-      component: () => import('@/views/web/news'),
+      component: () => import('@/views/web/teacher'),
       meta: { title: 'teacher' ,icon:"guide"}
     }
   ]

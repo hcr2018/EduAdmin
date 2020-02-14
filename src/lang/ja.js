@@ -11,7 +11,7 @@ export default {
     documentation: 'ドキュメント',
     web: '官网',
     platform: '分校区',
-    webIndex: '官网首页',
+    banner: '轮播图',
     docDownload: '资料下载',
     managerList: '用户列表',
     managerLogs: '用户日志',
