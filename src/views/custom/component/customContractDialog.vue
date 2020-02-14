@@ -395,7 +395,7 @@ export default {
     },
     // 客户合同图片上传
     async uploadContractImg(file) {
-      const res = await $ImgAPI.UploadImgCourse("contract", file.raw);
+      const res = await $ImgAPI.UploadImg("contract", file.raw);
       if (res.code == 200) {
         this.$message("上传成功！");
         this.contractImgArr.push(res.data);

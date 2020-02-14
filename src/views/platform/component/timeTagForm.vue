@@ -281,7 +281,7 @@ export default {
     },
     // 考勤表的图片上传
     async uploadTimeTagImg(file) {
-      let res = await $ImgAPI.UploadImgCourse("courseTime",  file.raw);
+      let res = await $ImgAPI.UploadImg("courseTime",  file.raw);
       if (res.code == 200) {
         this.$message("上传成功！");
         let ImgItem = { ImgSrc: res.data, Label: file.raw.name };
@@ -290,7 +290,7 @@ export default {
     },
     // 更换考勤表的图片
     async updateTimeTagImg(file, fileList, index) {
-      let res = await $ImgAPI.UploadImgCourse("courseTime",  file.raw);
+      let res = await $ImgAPI.UploadImg("courseTime",  file.raw);
       if (res.code == 200) {
         this.$message("上传成功！");
         let ImgItem = { ImgSrc: res.data, Label: file.raw.name };

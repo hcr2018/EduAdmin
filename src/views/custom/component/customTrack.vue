@@ -194,7 +194,7 @@ export default {
     },
     // 上传跟进记录的图片
     async uploadTrackImg(file) {
-      const res = await $ImgAPI.UploadImgCourse("track",  file.raw);
+      const res = await $ImgAPI.UploadImg("track",  file.raw);
       if (res.code == 200) {
         this.$message("上传成功！");
         this.trackImgList.push(res.data);

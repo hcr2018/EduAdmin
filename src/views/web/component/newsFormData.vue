@@ -115,7 +115,7 @@ export default {
   methods: {
     // 上传新闻的图片
     async newsImgUpload(file) {
-      let res = await  $ImgAPI.UploadImgCourse("news",  file.raw);
+      let res = await  $ImgAPI.UploadImg("news",  file.raw);
       if (res.code == 200) {
         this.formItemData.icon = res.data;
       }
@@ -180,7 +180,7 @@ export default {
       // 上传附件之前的验证
       let RightType = this.beforeUploadEnclosure(file.raw.type);
       if (RightType) {
-        let res = await  $ImgAPI.UploadImgCourse("news",  file.raw);
+        let res = await  $ImgAPI.UploadImg("news",  file.raw);
         if (res.code == 200) {
           this.formItemData.Downfile = res.data;
         }

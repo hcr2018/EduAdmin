@@ -238,7 +238,7 @@ export default {
       } else if (type == 3) {
         this.isbusy3 = true;
       } 
-      const res = await $ImgAPI.UploadImgCourse("course",  file.raw);
+      const res = await $ImgAPI.UploadImg("course",  file.raw);
  
       if (res.code == 200) {
         if (type == 1) {

@@ -207,7 +207,7 @@ export default {
     },
     // 上传图片
     async uploadPicture(file, fileList, type) {
-      const res = await $ImgAPI.UploadImgCourse("course",  file.raw); 
+      const res = await $ImgAPI.UploadImg("course",  file.raw); 
       if (res.code == 200) {
         if (!this.travelBrochureData.ImageList) {
           this.travelBrochureData.ImageList = []
@@ -242,7 +242,7 @@ export default {
     },
     // 更换图片
     async updatePicture(file, fileList, index, type) {
-      const res = await $ImgAPI.UploadImgCourse("course",  file.raw);
+      const res = await $ImgAPI.UploadImg("course",  file.raw);
       if (res.code == 200) {
         if (type == 1) {
           // 修改展示图片
