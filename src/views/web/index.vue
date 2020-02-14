@@ -1,22 +1,14 @@
 <template>
   <div class="app-container">
-    <aside>
-      {{ $t('guide.description') }}
-      <a href="https://github.com/kamranahmedse/driver.js" target="_blank">driver.js.</a>
-    </aside>
-    <el-button icon="el-icon-question" type="primary" @click.prevent.stop="guide">
-      {{ $t('guide.button') }}
-    </el-button>
+    
+ 
   </div>
 </template>
 
-<script>
-import Driver from 'driver.js' // import driver.js
-import 'driver.js/dist/driver.min.css' // import driver.js css
- 
+<script> 
 
 export default {
-  name: 'Guide',
+  name: 'WebIndex',
   data() {
     return {
       driver: null
@@ -26,9 +18,7 @@ export default {
     this.driver = new Driver()
   },
   methods: {
-    guide() { 
-      this.driver.start()
-    }
+    
   }
 }
 </script>
