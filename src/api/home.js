@@ -17,5 +17,4 @@ export function GetStudentDataTrackAnalysis(url, query, data) {
     params: query,
     data
   })
-}
-
+} 
