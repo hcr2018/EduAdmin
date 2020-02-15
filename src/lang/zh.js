@@ -21,7 +21,7 @@ export default {
     classList: '班级列表',
     business: '教务管理',
     contractList: '合同列表', 
-    countTo: 'Count To',
+    bookAdpter: '教材章节',
     componentMixin: '小组件',
     backToTop: '返回顶部',
     dragDialog: '拖拽 Dialog',

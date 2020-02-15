@@ -202,8 +202,10 @@ export default {
     // 关联章节管理
     addChapter: function(index, row) {
       this.$router.replace({
+        path:"adapter/"+index,
         name: "bookAdpter",
-        params: { Id: row.Id, Label: row.Label }
+        params: { Id: row.Id, Label: row.Label },
+        meta: { title: "本e校官网", icon: "platform" }
       });
     },
     // 关联试题管理
