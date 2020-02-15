@@ -65,7 +65,7 @@
         </div>
       </el-form-item>
       <el-form-item v-show="searchResultStuList.length>0&&isShowSearchStuDIv" label="查找结果">
-        <div class="center flex_wrap">
+        <div class="flex_mid flex_wrap">
           <p
             v-for="(item,index) in searchResultStuList"
             :key="index"

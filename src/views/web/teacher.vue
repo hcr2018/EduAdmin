@@ -2,33 +2,39 @@
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <div class="flex_1 m-t-20 overflow_auto p-r-30 border-dfe6ec p-l-20 p-v-15">
-          <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
-        <div style="float:left">
-            <el-image style="width: 100px; height: 100px" fit="cover" :src="item.image"></el-image>
-            <el-form :inline="true" :model="item" class="demo-form-inline m-t-20">
-              <el-form-item label="姓名">
-                <el-input v-model="item.label" placeholder="老师姓名"></el-input>
-              </el-form-item>
-              <el-form-item label="简介">
-                <el-input type="textarea" v-model="item.title" placeholder="老师姓名"></el-input>
-              </el-form-item>
-              <el-form-item label="跳转地址：">
-                <el-input v-model="item.href" placeholder="请输入连接地址"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-upload
-                  :auto-upload="false"
-                  action
-                  :show-file-list="false"
-                  :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
-                >
-                  <el-button type="success">上传图片</el-button>
-                </el-upload>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="danger" @click="deleBannerItem(index)">删 除</el-button>
-              </el-form-item>
-            </el-form>
+        <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
+          <div class="flex_mid">
+            <el-image style="width: 160px; height: 160px" fit="cover" :src="item.image"></el-image>
+            <div>
+              <el-form label-width="90px" :model="item">
+                <div class="flex_mid">
+                  <el-form-item label="姓名">
+                    <el-input v-model="item.label" placeholder="老师姓名"></el-input>
+                  </el-form-item>
+                  <el-form-item label="跳转地址：" class="m-l-20">
+                    <el-input v-model="item.href" placeholder="请输入连接地址"></el-input>
+                  </el-form-item>
+                </div>
+                <el-form-item label="简介">
+                  <el-input type="textarea" v-model="item.title" placeholder="老师姓名"></el-input>
+                </el-form-item>
+                <div class="flex_mid">
+                  <el-form-item>
+                    <el-upload
+                      :auto-upload="false"
+                      action
+                      :show-file-list="false"
+                      :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
+                    >
+                      <el-button type="success">上传图片</el-button>
+                    </el-upload>
+                  </el-form-item>
+                  <el-form-item label-width="30px">
+                    <el-button type="danger" @click="deleBannerItem(index)">删 除</el-button>
+                  </el-form-item>
+                </div>
+              </el-form>
+            </div>
           </div>
         </div>
       </div>

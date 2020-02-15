@@ -21,7 +21,7 @@
       <p class="font16 color-1890ff border-b-e0 p-v-10 font-w6">专业科目</p>
 
       <div v-for="(item,itemIndex) in allSubjectList" :key="itemIndex">
-        <div class="center p-v-20 border-b-e0">
+        <div class="flex_mid p-v-20 border-b-e0">
           <div class="center">
             <span
               class="p_both15 m-r-10 color-fff font12 bg-1890ff inline_div hgt20 l-h-20 radius2"

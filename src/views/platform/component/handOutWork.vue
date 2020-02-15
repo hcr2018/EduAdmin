@@ -9,7 +9,7 @@
           v-model="stucheckAll"
           @change="stuCheckAllChange"
         >全选</el-checkbox>-->
-        <div class="m-t-10 center" :key="index" v-for="(item,index) in classAllStuOptions">
+        <div class="m-t-10 flex_mid" :key="index" v-for="(item,index) in classAllStuOptions">
           <!-- <el-checkbox
             v-model="checkedStus"
             @change="checkStuChange"

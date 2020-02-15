@@ -18,7 +18,7 @@
           height="100%"
           :edit-config="{trigger: 'dblclick', mode: 'row',showIcon:true}"
         >
-          <vxe-table-column type="index" width="120" title="序号" tree-node />
+          <vxe-table-column type="seq" width="120" title="序号" tree-node />
           <vxe-table-column field="Label" title="名称" :edit-render="{name: 'input'}" />
           <vxe-table-column field="Video" title="视频地址" :edit-render="{name: 'input'}" />
           <vxe-table-column
