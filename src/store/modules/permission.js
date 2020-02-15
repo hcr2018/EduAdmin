@@ -1,6 +1,6 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 import Layout from '@/layout'
-import store from '@/store' 
+import store from '@/store'
 /**
  * Use meta.role to determine if the current user has permission
  * @param role
@@ -43,16 +43,16 @@ const state = {
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes) 
+    state.routes = constantRoutes.concat(routes)
   }
 }
 
 const actions = {
   generateRoutes({ commit }) {
-    return new Promise(async resolve => {  
-      if (!store.getters.manager.tel){
-        await store.dispatch('manager/getInfo') 
-      } 
+    return new Promise(async resolve => {
+      if (!store.getters.manager.tel) {
+        await store.dispatch('manager/getInfo')
+      }
       let accessedRoutes
       if (store.getters.manager.role == 1) {
         // 分校工作员
@@ -60,7 +60,7 @@ const actions = {
       } else {
         // 管理员
         accessedRoutes = filterAsyncRoutes(asyncRoutes, store.getters.manager.role)
-      } 
+      }
       const topPlatformRoute = {
         path: '/platform',
         component: Layout,
@@ -71,23 +71,44 @@ const actions = {
           title: 'platform',
           icon: 'nested'
         },
-        children: []
+        children: [
+        ]
       }
-      let myPlatformList =store.getters.manager.myPlatformList;  
+      let myPlatformList = store.getters.manager.myPlatformList;
       if (myPlatformList) {
-        let index=0;
+        let index = 0;
         myPlatformList.forEach(platform => {
           index++;
           const platformRoute = {
-            path: 'list/' +index,// platform.Id,
+            path: 'list/' + index,// platform.Id,
             component: () => import('@/views/platform/classList'), // Parent router-view
             name: platform.Id,
-            meta: { title: platform.Label,icon:"platform" }
-
+            meta: { title: platform.Label, icon: "platform" },
+            children: [
+              {
+                path: 'website',// platform.Id,
+                component: () => import('@/views/platform/classList'), // Parent router-view
+                name: platform.Id,
+                meta: { title: "本校官网", icon: "platform" }
+              },
+              {
+                path: 'teacher',// platform.Id,
+                component: () => import('@/views/platform/classList'), // Parent router-view
+                name: platform.Id,
+                meta: { title: "本校员工", icon: "platform" }
+              }
+              ,
+              {
+                path: 'student',// platform.Id,
+                component: () => import('@/views/platform/classList'), // Parent router-view
+                name: platform.Id,
+                meta: { title: "本校学员", icon: "platform" }
+              }
+            ]
           }
           topPlatformRoute.children.push(platformRoute)
         })
-      } 
+      }
       accessedRoutes.push(topPlatformRoute)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)

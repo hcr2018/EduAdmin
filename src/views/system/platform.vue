@@ -42,15 +42,9 @@
           <platformRowDetail v-bind:formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs >
-            <el-tab-pane id="gjjl" label="校区官网" name="gjjl">
-             
-            </el-tab-pane>
+          <el-tabs > 
             <el-tab-pane id="gmjl" label="校区权限" name="gmjl">
            
-            </el-tab-pane>
-            <el-tab-pane id="htdd" label="校区员工" name="htdd">
-            
             </el-tab-pane> 
           </el-tabs>   
         </div>
