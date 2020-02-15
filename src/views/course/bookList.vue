@@ -82,22 +82,15 @@
         :title="customFormData.Label"
       >
         <div slot="left_content" class="p_both20 p-b-20">
-        <bookRowDetail  @itemModify="updateListItem"   :formItemData="customFormData" />
-         
+          <bookRowDetail @itemModify="updateListItem" :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs    >
-            <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
-             
-            </el-tab-pane>
-            <el-tab-pane id="gmjl" label="购买记录" name="gmjl"> 
-            </el-tab-pane>
-            <el-tab-pane id="htdd" label="合同订单" name="htdd"> 
-            </el-tab-pane>
-            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr"> 
-            </el-tab-pane>
-            <el-tab-pane id="dazl" label="档案资料" name="dazl"> 
-            </el-tab-pane>
+          <el-tabs>
+            <el-tab-pane id="gjjl" label="跟进记录" name="gjjl"></el-tab-pane>
+            <el-tab-pane id="gmjl" label="购买记录" name="gmjl"></el-tab-pane>
+            <el-tab-pane id="htdd" label="合同订单" name="htdd"></el-tab-pane>
+            <el-tab-pane id="cjlr" label="成绩录入" name="cjlr"></el-tab-pane>
+            <el-tab-pane id="dazl" label="档案资料" name="dazl"></el-tab-pane>
           </el-tabs>~
         </div>
       </my-dialog>
@@ -106,13 +99,18 @@
         width="500px"
         :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增校区'"
       >
-        <bookRowDetail  @itemModify="updateListItem" :editEnable="true" :formItemData="customFormData" />
+        <bookRowDetail
+          @itemModify="updateListItem"
+          :editEnable="true"
+          :formItemData="customFormData"
+        />
       </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
+import Layout from "@/layout";
 import myDialog from "@/components/myDialog/myDialog";
 import bookRowDetail from "@/views/course/component/bookRowDetail";
 import { queryBookList } from "@/api/book";
@@ -192,20 +190,18 @@ export default {
     },
     // 添加或编辑之后更新列表数据
     updateListItem(type, rowData) {
-      if (type==0) {
+      if (type == 0) {
         this.subjectList.push(rowData);
       } else {
-        this.$set(this.subjectList, this.currentSubjectIndex, rowData); 
+        this.$set(this.subjectList, this.currentSubjectIndex, rowData);
       }
       this.editDialog = false;
     },
     // 关联章节管理
     addChapter: function(index, row) {
-      this.$router.replace({
-        path:"adapter/"+index,
-        name: "bookAdpter",
-        params: { Id: row.Id, Label: row.Label },
-        meta: { title: "本e校官网", icon: "platform" }
+      this.$router.push({
+        name: "bookAdpter", 
+        query:{Id:row.Id}
       });
     },
     // 关联试题管理

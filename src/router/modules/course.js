@@ -25,7 +25,7 @@ const courseRouter = {
       meta: { title: 'bookList',icon:"book" }
     },
     {
-      path: 'book',
+      path: 'bookAdpter',
       component: () => import('@/views/course/addChapter'),
       name: 'bookAdpter',
       hidden: true,

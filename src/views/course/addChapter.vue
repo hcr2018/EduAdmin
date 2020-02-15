@@ -85,8 +85,7 @@ export default {
     };
   },
   mounted() {
-    this.subjectId = this.$router.currentRoute.params.Id;
-    this.subjectLabel = this.$router.currentRoute.params.Label; 
+    this.subjectId = this.$router.currentRoute.query.Id; 
     this.getBookChapter();
   },
   methods: {
@@ -225,9 +224,10 @@ export default {
         limit: 100000,
         offset: 0
       });
-      if (res.code == 200 && res.data.Content) {
+      if (res.data.Content) {
         this.chaperListOfBook = JSON.parse(res.data.Content);
       }
+      this.subjectLabel = res.title;
     },
     // 生成科目章节
     createSubjectChapter: function() {
@@ -241,7 +241,8 @@ export default {
         .then(async () => {
           if (that.chaperListOfBook.length > 0) {
             const res = await createBookStructure(
-              that.subjectId,"",
+              that.subjectId,
+              "",
               that.chaperListOfBook
             );
             if (res.data == 200) {

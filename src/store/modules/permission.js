@@ -86,20 +86,20 @@ const actions = {
             meta: { title: platform.Label, icon: "platform" },
             children: [
               {
-                path: 'website',// platform.Id,
+                path: 'website' ,// platform.Id,
                 component: () => import('@/views/platform/classList'), // Parent router-view
                 name: platform.Id,
                 meta: { title: "本校官网", icon: "platform" }
               },
               {
-                path: 'teacher',// platform.Id,
+                path: 'teacher' ,// platform.Id,
                 component: () => import('@/views/platform/classList'), // Parent router-view
                 name: platform.Id,
                 meta: { title: "本校员工", icon: "platform" }
               }
               ,
               {
-                path: 'student',// platform.Id,
+                path: 'student' ,// platform.Id,
                 component: () => import('@/views/platform/classList'), // Parent router-view
                 name: platform.Id,
                 meta: { title: "本校学员", icon: "platform" }
