@@ -1,11 +1,11 @@
 <template>
   <div class="p_both10 setright">
     <div v-for="(items,key,index) in managerRightsMap" :key="index" class="p-v-10">
-      <div class="center m-b-10">
+      <div class="flex_mid m-b-10">
         <span class="splitLine m-r-10"></span>
         <span>{{setRighTitle[key]}}</span>
       </div>
-      <div class="flex_wrap center p-b-5 border-b-e0">
+      <div class="flex_wrap flex_mid p-b-5 border-b-e0">
         <div v-for="item in items" :key="item.Value" class="quan_xian_item m-b-10">
           <el-checkbox
             @change="checked=>changeRight(checked,item)"

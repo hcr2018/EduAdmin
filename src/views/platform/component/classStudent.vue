@@ -49,7 +49,7 @@
       </el-form>
       <div class="m-t-20" v-show="showSrarchStuResult">
         <p>查找结果：</p>
-        <div class="m-t-20 center flex_wrap m-l-15">
+        <div class="m-t-20 flex_mid flex_wrap m-l-15">
           <el-checkbox-group v-model="checkBoxAddStu">
             <el-checkbox
               :label="item.id"

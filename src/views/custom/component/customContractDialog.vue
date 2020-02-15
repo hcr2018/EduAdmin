@@ -116,7 +116,7 @@
             @input="$forceUpdate()"
           />
         </el-form-item>
-        <div class="center m-b-20">
+        <div class="flex_mid m-b-20">
           <span class="flex_1 hgt1 border-db-dcdfe6" />
           <p class="color-303133 font16 text-center font-w6">学费信息</p>
           <span class="flex_1 hgt1 border-db-dcdfe6" />

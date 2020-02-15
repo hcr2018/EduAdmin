@@ -40,7 +40,7 @@
         :key="index"
         class="m-v-10 radius3 border-e5ecf7"
       >
-        <div class="center p_both20 m-t-10">
+        <div class="flex_mid p_both20 m-t-10">
           <!-- <my-image
             v-show="item.ManagerFace"
             class="hgt50 wid50"
@@ -67,7 +67,7 @@
         <p v-else class="m-v-15 font14 color-666 p_both20">{{ item.Content }}</p>
         <div v-show="item.ImageList.length>0" class="p_both20">
           <div class="flex_dom flex_wrap">
-            <div v-for="(img,index) in item.ImageList" :key="index" class="marg10 center flex_wrap">
+            <div v-for="(img,index) in item.ImageList" :key="index" class="marg10 flex_mid flex_wrap">
               <!-- <my-image-viewer class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" /> -->
               <img
                 v-if="img"

@@ -8,7 +8,7 @@
       size="small"
       label-width="80px"
     >
-      <div class="center m-b-20">
+      <div class="flex_mid m-b-20">
         <el-tooltip class="item" effect="dark" content="显示在新闻列表前面的图片,点击可修改" placement="top-start">
           <el-upload
             :multiple="false"

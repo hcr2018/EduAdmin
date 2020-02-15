@@ -14,7 +14,7 @@
               :key="index"
               class="m-v-10 radius3 border-e5ecf7"
             >
-              <div class="center p_both20 m-t-10">
+              <div class="flex_mid p_both20 m-t-10">
 
                 <div class="m-l-15">
                   <p class="font14 color-666">
@@ -36,7 +36,7 @@
                   <div
                     v-for="(img,index) in item.ImageList"
                     :key="index"
-                    class="marg10 center flex_wrap"
+                    class="marg10 flex_mid flex_wrap"
                   >
                     <img
                       v-if="img"
