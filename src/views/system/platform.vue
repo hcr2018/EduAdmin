@@ -35,22 +35,22 @@
       <my-dialog
         :visible.sync="moreOperationDialog"
         :close-show="true"
-        :title="platformRowData.Label"
+        :title="customFormData.Label"
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">
-          <platformRowDetail v-bind:formItemData="platformRowData" />
+          <platformRowDetail v-bind:formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+          <el-tabs >
             <el-tab-pane id="gjjl" label="校区官网" name="gjjl">
-              <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
+             
             </el-tab-pane>
             <el-tab-pane id="gmjl" label="校区权限" name="gmjl">
-              <custom-buy-record :customData="customFormData" />
+           
             </el-tab-pane>
             <el-tab-pane id="htdd" label="校区员工" name="htdd">
-              <custom-contract-list :customData="customFormData" />
+            
             </el-tab-pane> 
           </el-tabs>   
         </div>
@@ -60,9 +60,9 @@
       <el-dialog
         :visible.sync="editDialog"
         width="500px"
-        :title="platformRowData.Id>0?'编辑'+platformRowData.Label:'新增校区'"
+        :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增校区'"
       >
-        <platformRowDetail :editEnable="true" :formItemData="platformRowData" />
+        <platformRowDetail :editEnable="true" :formItemData="customFormData" />
       </el-dialog>
     </div>
   </div>
@@ -84,7 +84,7 @@ export default {
       // 更多操作弹窗
       editDialog: false,
       // 模态框获得的单条数据
-      platformRowData: {},
+      customFormData: {},
       // 当前操作平台的索引
       currentPlatformIndex: null
     };
@@ -96,7 +96,7 @@ export default {
     // 打开校区的弹出框
     openNewItem() {
       this.editDialog = true;
-      this.platformRowData = {};
+      this.customFormData = {};
     },
 
     // 获取所有平台的信息
@@ -106,7 +106,7 @@ export default {
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
       this.currentPlatformIndex = index;
-      this.platformRowData = row;
+      this.customFormData = row;
       this.moreOperationDialog = true;
     }
   }
