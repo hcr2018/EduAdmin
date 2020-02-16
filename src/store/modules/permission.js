@@ -85,16 +85,17 @@ const actions = {
             component: Layout,
             name: platform.Id,
             meta: { title: platform.Label, icon: "platform" },
-            children: [
+            children: [ 
               {
                 path: 'web',
-                redirect: 'noRedirect',
+                redirect: 'noRedirect', 
+                component: () => import('@/views/web/index'), // Parent router-view
                 name: 'web' + platform.Id.toString(10),
                 meta: { title: 'web', icon: "website" },
                 children: [
                   {
                     path: 'banner',
-                    component: () => import('@/views/web/banner'), // Parent router-view
+                    component: () => import('@/views/web/banner'),  
                     name: 'banner' + platform.Id.toString(10),
                     meta: { title: 'banner', icon: "website" }
                   },
@@ -125,11 +126,11 @@ const actions = {
                 ]
               },
               {
-                path: 'managers/'+platform.Id,
+                path: 'managers/' + platform.Id,
                 component: () => import('@/views/system/managerlist'),
-                name: 'managerList' + platform.Id.toString(10), 
+                name: 'managerList' + platform.Id.toString(10),
                 meta: { title: 'managerList', icon: "user" },
-             
+
               }
               ,
               {

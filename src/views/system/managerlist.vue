@@ -207,7 +207,7 @@ export default {
       // 当前用户所有的权限数据
       managerRightsMap: {},
       //当前所在校区
-      currentPlatform: 0
+      currentPlatform:0
     };
   },
   methods: {
@@ -216,7 +216,7 @@ export default {
       let offsetRow = (this.nowPage - 1) * this.rows;
       let searchCondition = this.searchConditionVal;
       let searchVal = this.searchVal;
-      let res = await getAllManagerOfPlatform(this.currentPlatform, {
+      let res = await getAllManagerOfPlatform( this.currentPlatform, {
         limit: this.rows,
         offset: offsetRow,
         role: this.searchRoleVal,
@@ -345,8 +345,7 @@ export default {
   },
   mounted() {
     let paths = this.$router.currentRoute.path.split("/");
-    console.log(this.currentPlatform);
-
+ this.currentPlatform= paths[paths.length - 1] 
     this.getAllManagerOfPlatform();
     // setTimeout(() => {
     //   this.$refs.refElTabel.doLayout();

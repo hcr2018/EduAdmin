@@ -95,7 +95,7 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted() { 
     this.GetIndexBanner();
   }
 };
