@@ -316,16 +316,12 @@ export default {
     },
     {
       value: 0,
-      Label: '老师'
-    },
-    {
-      value: 1,
       Label: '管理员'
     },
     {
-      value: 2,
-      Label: '加盟商'
-    }
+      value: 1,
+      Label: '加盟机构'
+    } 
   ],
   // 授课形式
   teachingForm: [

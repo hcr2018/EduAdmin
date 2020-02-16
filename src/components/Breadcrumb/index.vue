@@ -47,10 +47,14 @@ export default {
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     },
     isDashboard(route) {
-      const name = route && route.name
+      let name = route && route.name
+      
       if (!name) {
         return false
       }
+      if (isNaN(name)==false){
+        name = name.toString(); 
+      } 
       return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
     },
     pathCompile(path) {

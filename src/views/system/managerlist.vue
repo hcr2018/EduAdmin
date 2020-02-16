@@ -342,9 +342,9 @@ export default {
   },
   mounted() {
     this.getManagerInfoList();
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
+    // setTimeout(() => {
+    //   this.$refs.refElTabel.doLayout();
+    // }, 2000);
   },
   created() {
     this.searchConditionVal = this.searchConditionOptions[0].value;

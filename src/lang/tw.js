@@ -16,7 +16,7 @@ export default {
     managerList: '用户列表',
     managerLogs: '用户日志',
     news: '新闻管理',
-    race: '竞赛活动',
+    jingsai: '竞赛活动',
     teacher: '优秀老师',
     classList: '班级列表',
     business: '教务管理',

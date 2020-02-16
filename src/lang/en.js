@@ -16,7 +16,7 @@ export default {
     managerList: 'manager　ｌist',
     managerLogs: 'manager　log',
     news: 'news manager',
-    race: 'race',
+    jingsai: 'race',
     teacher: 'hot teacher',
     classList: 'class List',
     business: 'business',

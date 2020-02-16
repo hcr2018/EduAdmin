@@ -9,7 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import customRouter from './modules/custom'
 import courseRouter from './modules/course'
-import webRouter from './modules/web' 
+// import webRouter from './modules/web' 
 import systemRouter from './modules/system'  
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -77,8 +77,8 @@ export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   systemRouter, 
   customRouter,
-  courseRouter,
-  webRouter,  
+  courseRouter, 
+  // webRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

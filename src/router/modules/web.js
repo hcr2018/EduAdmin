@@ -31,10 +31,10 @@ const webRouter = {
       meta: { title: 'news' ,icon:"guide"}
     },
     {
-      path: 'race',
-      name: 'race',
-      component: () => import('@/views/web/news'),
-      meta: { title: 'race',icon:"guide" }
+      path: 'jingsai',
+      name: 'jingsai',
+      component: () => import('@/views/web/jingsai'),
+      meta: { title: 'jingsai',icon:"guide" }
     },
     {
       path: 'teacher',
