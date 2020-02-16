@@ -18,7 +18,7 @@
             <el-input
               placeholder="请输入搜索内容"
               v-model="searchVal"
-              @keyup.enter.native="getManagerInfoList"
+              @keyup.enter.native="getAllManagerOfPlatform"
               class="input-with-select"
             >
               <el-select
@@ -37,7 +37,7 @@
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="getManagerInfoList">查询</el-button>
+            <el-button type="primary" @click="getAllManagerOfPlatform">查询</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -121,10 +121,10 @@
       <div slot="right_content" class="p_both20 p-b-20">
         <el-tabs v-model="activElTab" @tab-click="changDialogTab">
           <el-tab-pane label="权限设置" name="qxsz" id="qxsz">
-            <set-right  :formItemData="currentRowData"></set-right>
+            <set-right :formItemData="currentRowData"></set-right>
           </el-tab-pane>
           <el-tab-pane label="所教科目" name="sjkm" id="sjkm">
-            <teacherBook  :formItemData="currentRowData"></teacherBook>
+            <teacherBook :formItemData="currentRowData"></teacherBook>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -149,6 +149,7 @@ import {
   resetPasswordManager,
   getManagerPower
 } from "@/api/manager";
+import { getAllManagerOfPlatform } from "@/api/platform";
 import myDialog from "@/components/myDialog/myDialog";
 import teacherRowDialog from "@/views/system/component/teacherRowDialog";
 import teacherRowDetail from "@/views/system/component/teacherRowDetail";
@@ -204,16 +205,18 @@ export default {
       // 更多操作弹框展示
       moreOperationDialog: false,
       // 当前用户所有的权限数据
-      managerRightsMap: {}
+      managerRightsMap: {},
+      //当前所在校区
+      currentPlatform: 0
     };
   },
   methods: {
     // 获取用户信息的列表
-    async getManagerInfoList() {
+    async getAllManagerOfPlatform() {
       let offsetRow = (this.nowPage - 1) * this.rows;
       let searchCondition = this.searchConditionVal;
       let searchVal = this.searchVal;
-      let res = await getManagerList("", {
+      let res = await getAllManagerOfPlatform(this.currentPlatform, {
         limit: this.rows,
         offset: offsetRow,
         role: this.searchRoleVal,
@@ -229,11 +232,11 @@ export default {
         }
       }
     },
-     
+
     // 分页获取数据
     getDataChangePage(val) {
       this.nowPage = val;
-      this.getManagerInfoList();
+      this.getAllManagerOfPlatform();
     },
     // 禁用或启用账户
     setTeacherStatus(index, row, status) {
@@ -341,7 +344,10 @@ export default {
     }
   },
   mounted() {
-    this.getManagerInfoList();
+    let paths = this.$router.currentRoute.path.split("/");
+    console.log(this.currentPlatform);
+
+    this.getAllManagerOfPlatform();
     // setTimeout(() => {
     //   this.$refs.refElTabel.doLayout();
     // }, 2000);

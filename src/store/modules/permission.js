@@ -80,7 +80,7 @@ const actions = {
         myPlatformList.forEach(platform => {
           index++;
           const platformRoute = {
-            path: '/platform' + index.toString(10),// platform.Id,
+            path: '/platform/' + index.toString(10),// platform.Id,
             redirect: 'noRedirect',
             component: Layout,
             name: platform.Id,
@@ -89,64 +89,65 @@ const actions = {
               {
                 path: 'web',
                 redirect: 'noRedirect',
-                name: 'web'+index.toString(10),
+                name: 'web' + platform.Id.toString(10),
                 meta: { title: 'web', icon: "website" },
                 children: [
                   {
                     path: 'banner',
                     component: () => import('@/views/web/banner'), // Parent router-view
-                    name: 'banner' + index.toString(10),
+                    name: 'banner' + platform.Id.toString(10),
                     meta: { title: 'banner', icon: "website" }
                   },
                   {
                     path: 'docDownload',
-                    name: 'docDownload' + index.toString(10),
+                    name: 'docDownload' + platform.Id.toString(10),
                     component: () => import('@/views/web/docDownload'),
                     meta: { title: 'docDownload', icon: "guide" }
                   },
                   {
                     path: 'news',
-                    name: 'newsList' + index.toString(10),
+                    name: 'newsList' + platform.Id.toString(10),
                     component: () => import('@/views/web/news'),
                     meta: { title: 'news', icon: "guide" }
                   },
                   {
                     path: 'jingsai',
-                    name: 'jingsai' + index.toString(10),
+                    name: 'jingsai' + platform.Id.toString(10),
                     component: () => import('@/views/web/jingsai'),
                     meta: { title: 'jingsai', icon: "guide" }
                   },
                   {
                     path: 'teacher',
-                    name: 'teacher' + index.toString(10),
+                    name: 'teacher' + platform.Id.toString(10),
                     component: () => import('@/views/web/teacher'),
                     meta: { title: 'teacher', icon: "guide" }
                   }
                 ]
               },
               {
-                path: 'managers',
+                path: 'managers/'+platform.Id,
                 component: () => import('@/views/system/managerlist'),
-                name: 'managerList' + index.toString(10),
-                meta: { title: 'managerList', icon: "user" }
+                name: 'managerList' + platform.Id.toString(10), 
+                meta: { title: 'managerList', icon: "user" },
+             
               }
               ,
               {
                 path: 'list',
                 component: () => import('@/views/custom/customList'),
-                name: 'customList' + index.toString(10),
+                name: 'customList' + platform.Id.toString(10),
                 meta: { title: 'customList', icon: 'student' }
               },
               {
                 path: 'classList',// platform.Id,
                 component: () => import('@/views/platform/classList'), // Parent router-view
-                name: "classList" + index.toString(10),
+                name: "classList" + platform.Id.toString(10),
                 meta: { title: "classList", icon: "platform" }
               },
               {
                 path: 'contractList',
                 component: () => import('@/views/custom/contractList'),
-                name: 'contractList' + index.toString(10),
+                name: 'contractList' + platform.Id.toString(10),
                 meta: { title: 'contractList', icon: 'contract' }
               }
             ]

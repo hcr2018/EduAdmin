@@ -68,6 +68,17 @@ export function getPlatformWorkers(url, query, data) {
   })
 }
 
+// 获取的某个校区的所有工作人员
+export function getAllManagerOfPlatform(url, query, data) {
+  return request({
+    url: '/platform/getAllManagerOfPlatform/' + url,
+    method: 'get',
+    params: query,
+    data
+  })
+}
+
+
 // 设置的管理员
 export function setPlatformMaster(url, query, data) {
   return request({
