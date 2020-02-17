@@ -134,19 +134,19 @@ const actions = {
               }
               ,
               {
-                path: 'list',
+                path: 'list/' + platform.Id,
                 component: () => import('@/views/custom/customList'),
                 name: 'customList' + index.toString(10),
                 meta: { title: 'platformCustom', icon: 'student' }
               },
               {
-                path: 'classList',// platform.Id,
+                path: 'classList/' + platform.Id,
                 component: () => import('@/views/platform/classList'), // Parent router-view
                 name: "classList" + index.toString(10),
                 meta: { title: "classList", icon: "platform" }
               },
               {
-                path: 'contractList',
+                path: 'contractList/' + platform.Id,
                 component: () => import('@/views/custom/contractList'),
                 name: 'contractList' + index.toString(10),
                 meta: { title: 'contractList', icon: 'contract' }

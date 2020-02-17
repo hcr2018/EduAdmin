@@ -5,7 +5,7 @@
       <div class="p-t-20">
         <el-form :inline="true">
           <!-- 我的校区的时候使用，用来展示本校区所属的工作人员 -->
-          <div v-show="this.$route.query.id">
+          <div v-show="this.currentPlatform>0">
             <el-form-item label>
               <el-switch
                 v-model="queryFromLabel"
@@ -27,7 +27,7 @@
                 >{{ item.Realname }}</el-radio-button>
               </el-radio-group>
             </el-form-item>
-          </div> 
+          </div>
           <div class="between-center flex_wrap">
             <div class="flex_1">
               <el-form-item label="客户类型">
@@ -100,7 +100,7 @@
         height="100%"
         @selection-change="selectionCustomChange"
       >
-      <el-table-column width="120" fixed label="姓名">
+        <el-table-column width="120" fixed label="姓名">
           <template slot-scope="scope">
             <span
               class="color-1890ff font-w6 cursor"
@@ -130,7 +130,7 @@
           <template
             slot-scope="scope"
           >{{ common.FormatSelect($store.getters.app.platformList,scope.row.Platform) }}</template>
-        </el-table-column> 
+        </el-table-column>
         <el-table-column width="50" label="图片">
           <template slot-scope="scope">
             <div>
@@ -243,36 +243,24 @@
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">
-         
           <custom-row-detail :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
           <el-tabs v-model="activElTab" @tab-click="changDialogTab">
-            <el-tab-pane   id="gjjl" label="跟进记录" name="gjjl">
-             
-              
-              <custom-track   :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
-            
+            <el-tab-pane id="gjjl" label="跟进记录" name="gjjl">
+              <custom-track :custom-data="customFormData" @subClickEvent="updateCustomRecentTrack" />
             </el-tab-pane>
-            <el-tab-pane   id="gmjl" label="购买记录" name="gmjl">
-              
-              <custom-buy-record  :customData="customFormData"  />
-             
+            <el-tab-pane id="gmjl" label="购买记录" name="gmjl">
+              <custom-buy-record :customData="customFormData" />
             </el-tab-pane>
-            <el-tab-pane   id="htdd" label="合同订单" name="htdd">
-              
-              <custom-contract-list  :customData="customFormData" />
-             
+            <el-tab-pane id="htdd" label="合同订单" name="htdd">
+              <custom-contract-list :customData="customFormData" />
             </el-tab-pane>
             <el-tab-pane id="cjlr" label="成绩录入" name="cjlr">
-              
-              <scoreEntry  :customData="customFormData"  />
-             
+              <scoreEntry :customData="customFormData" />
             </el-tab-pane>
             <el-tab-pane id="dazl" label="档案资料" name="dazl">
-              
-              <scoreEntry  :customData="customFormData"  />
-             
+              <scoreEntry :customData="customFormData" />
             </el-tab-pane>
           </el-tabs>~
         </div>
@@ -281,17 +269,21 @@
       <!-- 新增信息弹出框 -->
       <el-dialog
         :visible.sync="editDialog"
-        width="600px" 
+        width="600px"
         :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增'"
       >
-        <custom-row-detail style="padding:20px 20px 20px 20px" :editEnable="true" :formItemData="customFormData" />
+        <custom-row-detail
+          style="padding:20px 20px 20px 20px"
+          :editEnable="true"
+          :formItemData="customFormData"
+        />
       </el-dialog>
- 
+
       <!--  发送短信弹出框 -->
       <custom-send-sms-dialog ref="refsendSMSDialog" @sendSMS="sendSMS" />
-       
+
       <!-- 合同信息弹出框 -->
-      <custom-contract-dialog   ref="refContractDialog" />
+      <custom-contract-dialog ref="refContractDialog" />
       <!-- 添加提醒弹出框 -->
       <add-alarm-dialog ref="refAlarmForm" />
       <!-- 添加提醒弹出框 -->
@@ -337,7 +329,7 @@ import {
   editWorkersCustom
 } from "@/api/platform";
 import customRowDetail from "@/views/custom/component/customRowDetail";
-import customSendSmsDialog from "@/views/custom/component/customSendSmsDialog"; 
+import customSendSmsDialog from "@/views/custom/component/customSendSmsDialog";
 import customTrack from "@/views/custom/component/customTrack";
 import customBuyRecord from "@/views/custom/component/customBuyRecord";
 import customContractDialog from "@/views/custom/component/customContractDialog";
@@ -357,7 +349,7 @@ export default {
   components: {
     myDialog,
     myImageViewer,
-    Tinymce, 
+    Tinymce,
     customSendSmsDialog,
     customRowDetail,
     customContractDialog,
@@ -381,6 +373,8 @@ export default {
       // 显示图片查看器
       showViewer: false,
       // 我的校区-当前工作人员可管理的其他工作人员的列表
+      //当前校区.0代表所有
+      currentPlatform: 0,
       myWorkerList: [],
       // 我的校区-当前所选中销售人员的ID-条件查询
       searchWorkerId: null,
@@ -458,7 +452,6 @@ export default {
       websocketURL: "ws://127.0.0.1:8555/api"
     };
   },
- 
 
   created() {
     this.seaechConditionVal = this.searchCustomOptions[0].value;
@@ -466,22 +459,22 @@ export default {
   },
   mounted() {
     this.qxRole = sessionStorage.ROLE;
+    let paths = this.$router.currentRoute.path.split("/");
+    this.currentPlatform = paths[paths.length - 1];
     // 因为客户管理和我的校区应用的是同一个页面所有让当路由有参数是就代表但是我的校区
-    if (this.$route.query.id) {
+    if (this.currentPlatform > 0) {
       // 获取该校区下所属我的所有销售成员
-
-      this.getPlatformWorkers(this.$route.query.id);
+      this.getPlatformWorkers(this.currentPlatform);
     } else {
       // 客户管理-直接获取客户列表
       this.getCustomList();
     }
- 
   },
 
   methods: {
     // 图片预览
     onPreview(src) {
-      this.showViewer = true; 
+      this.showViewer = true;
       this.imageViewerSrc = src;
     },
     // 关闭查看器
@@ -493,9 +486,8 @@ export default {
       const res = await getPlatformWorkers(platformId);
       if (res.code == 200) {
         // 默认查看自己的客户
-        this.searchWorkerId = this.$store.state.userInformation.Id;
+        this.searchWorkerId = this.$store.getters.manager.Id;
         this.myWorkerList = res.data ? res.data : [];
-
         this.isPlatformMaster = res.title;
       }
       this.getCustomList();
@@ -523,14 +515,14 @@ export default {
         startDate = parseInt(this.queryEndDate[0] / 1000);
         endDate = parseInt(this.queryEndDate[1] / 1000 + 3600 * 24 - 1);
       }
-      if (this.$route.query.id) {
+      if (this.currentPlatform) {
         // 校区-客户数据
         res = await getCustomInfoList("", {
           platformManager: this.searchWorkerId,
           limit: this.rows,
           offset: offsetRow,
           kind: this.searchTypeVal,
-          platform: this.$route.query.id,
+          platform: this.currentPlatform,
           notInKind: notInKind,
           startDate: startDate,
           endDate: endDate,
@@ -643,7 +635,7 @@ export default {
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
       this.currentPlatformIndex = index;
-      this.customFormData = row; 
+      this.customFormData = row;
       this.moreOperationDialog = true;
     },
 

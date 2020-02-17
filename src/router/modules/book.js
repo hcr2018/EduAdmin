@@ -32,8 +32,8 @@ const bookRouter = {
         //     component: () => import('@/views/course/question/questionsList'),
         // },
         {
-            
-            path: 'chapterExercise', 
+
+            path: 'chapterExercise',
             name: 'chapterExercise',
             meta: {
                 title: 'chapterExercise', icon: "exam1"
@@ -45,7 +45,7 @@ const bookRouter = {
             path: 'mockExam',
             name: 'mockExam',
             meta: {
-                title: 'mockExam',icon: "exam2"
+                title: 'mockExam', icon: "exam2"
             },
             component: () => import('@/views/course/question/mockExam'),
         },
@@ -54,7 +54,7 @@ const bookRouter = {
             path: 'highFrequency',
             name: 'highFrequency',
             meta: {
-                title: 'highFrequency',icon: "exam3"
+                title: 'highFrequency', icon: "exam3"
             },
             component: () => import('@/views/course/question/highFrequencyExam'),
         },
@@ -62,7 +62,7 @@ const bookRouter = {
             path: 'svipExam',
             name: 'svipExam',
             meta: {
-                title: 'svipExam',icon: "exam4"
+                title: 'svipExam', icon: "exam4"
             },
             component: () => import('@/views/course/question/svipExam'),
         },
@@ -80,7 +80,7 @@ const bookRouter = {
             path: 'achievementAnalysis',
             name: 'achievementAnalysis',
             meta: {
-                title: 'achievementAnalysis',icon: "exam6"
+                title: 'achievementAnalysis', icon: "exam6"
             },
             component: () => import('@/views/course/question/achievementAnalysis'),
         }
