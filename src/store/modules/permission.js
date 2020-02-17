@@ -85,50 +85,50 @@ const actions = {
             component: Layout,
             name: platform.Id,
             meta: { title: platform.Label, icon: "platform" },
-            children: [ 
+            children: [
               {
                 path: 'web',
-                redirect: 'noRedirect', 
-                component: () => import('@/views/web/index'), // Parent router-view
+                redirect: 'noRedirect',
+                component: () => import('@/views/web/container'), // Parent router-view
                 name: 'web' + platform.Id.toString(10),
                 meta: { title: 'web', icon: "website" },
                 children: [
                   {
-                    path: 'banner',
-                    component: () => import('@/views/web/banner'),  
-                    name: 'banner' + platform.Id.toString(10),
-                    meta: { title: 'banner', icon: "website" }
+                    path: 'banner/' + platform.Id.toString(10),
+                    component: () => import('@/views/web/banner'),
+                    name: 'banner' + index.toString(10),
+                    meta: { title: 'banner', icon: "banner" }
                   },
                   {
-                    path: 'docDownload',
-                    name: 'docDownload' + platform.Id.toString(10),
+                    path: 'docDownload/' + platform.Id.toString(10),
+                    name: 'docDownload' + index.toString(10),
                     component: () => import('@/views/web/docDownload'),
-                    meta: { title: 'docDownload', icon: "guide" }
+                    meta: { title: 'docDownload', icon: "download" }
                   },
                   {
-                    path: 'news',
-                    name: 'newsList' + platform.Id.toString(10),
+                    path: 'news/' + platform.Id.toString(10),
+                    name: 'newsList' + index.toString(10),
                     component: () => import('@/views/web/news'),
-                    meta: { title: 'news', icon: "guide" }
+                    meta: { title: 'news', icon: "news" }
                   },
                   {
-                    path: 'jingsai',
-                    name: 'jingsai' + platform.Id.toString(10),
+                    path: 'jingsai/' + platform.Id.toString(10),
+                    name: 'jingsai' + index.toString(10),
                     component: () => import('@/views/web/jingsai'),
-                    meta: { title: 'jingsai', icon: "guide" }
+                    meta: { title: 'jingsai', icon: "jingsai" }
                   },
                   {
-                    path: 'teacher',
-                    name: 'teacher' + platform.Id.toString(10),
+                    path: 'teacher/' + platform.Id.toString(10),
+                    name: 'teacher' + index.toString(10),
                     component: () => import('@/views/web/teacher'),
-                    meta: { title: 'teacher', icon: "guide" }
+                    meta: { title: 'teacher', icon: "hotteacher" }
                   }
                 ]
               },
               {
                 path: 'managers/' + platform.Id,
                 component: () => import('@/views/system/managerlist'),
-                name: 'managerList' + platform.Id.toString(10),
+                name: 'managerList' + index.toString(10),
                 meta: { title: 'managerList', icon: "user" },
 
               }
@@ -136,19 +136,19 @@ const actions = {
               {
                 path: 'list',
                 component: () => import('@/views/custom/customList'),
-                name: 'customList' + platform.Id.toString(10),
-                meta: { title: 'customList', icon: 'student' }
+                name: 'customList' + index.toString(10),
+                meta: { title: 'platformCustom', icon: 'student' }
               },
               {
                 path: 'classList',// platform.Id,
                 component: () => import('@/views/platform/classList'), // Parent router-view
-                name: "classList" + platform.Id.toString(10),
+                name: "classList" + index.toString(10),
                 meta: { title: "classList", icon: "platform" }
               },
               {
                 path: 'contractList',
                 component: () => import('@/views/custom/contractList'),
-                name: 'contractList' + platform.Id.toString(10),
+                name: 'contractList' + index.toString(10),
                 meta: { title: 'contractList', icon: 'contract' }
               }
             ]

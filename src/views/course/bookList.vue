@@ -1,5 +1,6 @@
 <template>
   <div v-cloak class="font16 hgt_full">
+       <router-view />
     <div class="flex_column hgt_full">
       <!-- 查询表单 -->
       <div class="m-t-20">

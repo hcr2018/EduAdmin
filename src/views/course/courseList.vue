@@ -177,8 +177,7 @@ import {
   getExamList,
   addExam,
   editExam,
-  getZhangOfSubject,
-  getQuestionsOfSubject,
+  getZhangOfSubject, 
   saveExamQuestions,
   getDoWrongQuseStuList,
   getTopWrongQuseList

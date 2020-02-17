@@ -184,9 +184,7 @@ export default {
   },
 
   mounted() {
-    setTimeout(() => {
-      this.$refs.refElTabel.doLayout();
-    }, 2000);
+   
     this.getNewsList();
   }
 };

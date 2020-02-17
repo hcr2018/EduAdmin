@@ -2,36 +2,19 @@
 
 import Layout from '@/layout'
 
-const courseRouter = {
+const courseRouter = 
+{
   path: '/course',
-  component: Layout,
-  redirect: 'noRedirect',
-  name: 'course',
-  meta: {
-    title: 'courseList',
-    icon: 'education'
-  },
-  children: [
-    {
-      path: 'list',
-      component: () => import('@/views/course/courseList'),
-      name: 'courseList',
-      meta: { title: 'courseList',icon: 'documentation' }
-    },
-    {
-      path: 'bookList',
-      component: () => import('@/views/course/bookList'),
-      name: 'bookList',
-      meta: { title: 'bookList',icon:"book" }
-    },
-    {
-      path: 'bookAdpter',
-      component: () => import('@/views/course/addChapter'),
-      name: 'bookAdpter',
-      hidden: true,
-      meta: { title: 'bookAdpter',icon:"book" }
-    }
-
-  ]
+    component: Layout, 
+    redirect: '/courseList',
+    children: [
+      {
+        path: 'courseList',
+       
+    component: () => import('@/views/course/courseList'),  
+        name: 'course',
+        meta: { title: 'courseList',  icon: 'education'  }
+      }
+    ] 
 }
 export default courseRouter
