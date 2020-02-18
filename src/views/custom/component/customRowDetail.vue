@@ -136,7 +136,7 @@
         <el-input v-model="currentItemData.Comments" type="textarea" :rows="3" placeholder="客户备注~" />
       </el-form-item>
     </el-form>
-    <div class="around-center hgt60 bge0e3ea">
+    <div class="around-center hgt60  ">
       <div>
         <el-button
           type="warning"

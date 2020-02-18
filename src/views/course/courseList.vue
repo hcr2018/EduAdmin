@@ -127,12 +127,12 @@
           <course-row-detail @itemModify="updateListItem" :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs v-model="activeName" @tab-click="changDialogTab">
-            <el-tab-pane id="travelBrochure" label="宣传资料" name="travelBrochure">
+          <el-tabs  v-model="activeName"  >
+            <!-- <el-tab-pane id="travelBrochure" label="宣传资料" name="travelBrochure">
               <courseTravelBrochure :travel-brochure-data="customFormData" />
-            </el-tab-pane>
+            </el-tab-pane> -->
             <el-tab-pane id="priceSetting" label="价格设定" name="priceSetting">
-              <course-price-tab :course-row-data="customFormData" />
+              <course-price-tab :formItemData="customFormData" />
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -219,7 +219,7 @@ export default {
       // 课程大类的选项数据
       courseKindsOps: [],
       // 当前所在面板的名称
-      activeName: "travelBrochure",
+      activeName: "priceSetting",
       // 控制更多操作的模态框
       moreOperationDialog: false,
       // 当前操作课程的索引
@@ -327,8 +327,7 @@ export default {
     },
     // 打开更多操作的模态框
     openMoreOptationDialog(index, row) {
-      this.moreOperationDialog = true;
-      this.activeName = "travelBrochure";
+      this.moreOperationDialog = true; 
       this.currentCourseIndex = index;
       this.customFormData = row;
       // this.$refs.travelBrochure.getTravelBrochure(this.customFormData.Id);

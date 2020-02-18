@@ -2,72 +2,61 @@
   <div>
     <el-form
       ref="refCourseForm"
+      :disabled="currenteditEnable==false"
       :model="currentItemData"
       :rules="courseFormRules"
       style="padding:10px 0px 0px 0px"
-      label-width="100px"
+      label-width="80px"
       size="small"
     >
-      <div class="between-center">
-        <el-form-item label="所属学院" class="flex_1">
-          <el-select
-            v-model="collegeIndex"
-            placeholder="请选择学院"
-            @change="collegeChangeGetCourseKind"
-          >
-            <el-option
-              v-for="(item,index) in $store.getters.app.collegeWithCourseKind"
-              :key="index"
-              :label="item.Label"
-              :value="index"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="课程类别" class="flex_1">
-          <el-select
-            v-model="currentItemData.TCourseKindID"
-            placeholder="请选择课程类别"
-            @change="getBookList"
-          >
-            <el-option
-              v-for="(item,index) in CourseKindsOps"
-              :key="index"
-              :label="item.Label"
-              :value="item.Id"
-            />
-          </el-select>
-        </el-form-item>
-      </div>
-      <div class="between-center">
-        <el-form-item label="宣传售价" prop="Price" class="flex_1">
-          <el-input v-model="currentItemData.Price" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="课时量" prop="CourseNum" class="flex_1">
-          <el-input v-model.number="currentItemData.CourseNum" autocomplete="off" />
-        </el-form-item>
-      </div>
+      <el-form-item label="所属学院" class="flex_1">
+        <el-select v-model="collegeIndex" placeholder="请选择学院" @change="collegeChangeGetCourseKind">
+          <el-option
+            v-for="(item,index) in $store.getters.app.collegeWithCourseKind"
+            :key="index"
+            :label="item.Label"
+            :value="index"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="课程类别" class="flex_1">
+        <el-select v-model="currentItemData.TCourseKindID" placeholder="请选择课程类别">
+          <el-option
+            v-for="(item,index) in CourseKindsOps"
+            :key="index"
+            :label="item.Label"
+            :value="item.Id"
+          />
+        </el-select>
+      </el-form-item>
 
-      <div class="between-center">
-        <el-form-item label="热门课程" class="flex_1">
-          <el-radio v-model="currentItemData.IsCollegeHot" :label="1">是</el-radio>
-          <el-radio v-model="currentItemData.IsCollegeHot" :label="0">否</el-radio>
-        </el-form-item>
-        <el-form-item label="全科购买" class="flex_1">
-          <el-radio v-model="currentItemData.MustAllBook" label="1">是</el-radio>
-          <el-radio v-model="currentItemData.MustAllBook" label="0">否</el-radio>
-        </el-form-item>
-      </div>
+      <el-form-item label="宣传售价" prop="Price" class="flex_1">
+        <el-input v-model="currentItemData.Price" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="课时量" prop="CourseNum" class="flex_1">
+        <el-input v-model.number="currentItemData.CourseNum" autocomplete="off" />
+      </el-form-item>
+
+      <el-form-item label="热门课程" class="flex_1">
+        <el-radio v-model="currentItemData.IsCollegeHot" :label="1">是</el-radio>
+        <el-radio v-model="currentItemData.IsCollegeHot" :label="0">否</el-radio>
+      </el-form-item>
+      <el-form-item label="全科购买" class="flex_1">
+        <el-radio v-model="currentItemData.MustAllBook" label="1">是</el-radio>
+        <el-radio v-model="currentItemData.MustAllBook" label="0">否</el-radio>
+      </el-form-item>
+
       <el-form-item label="产品名称" prop="Label">
         <el-input v-model="currentItemData.Label" required autocomplete="off" />
       </el-form-item>
-      <div class="between-center">
-        <el-form-item label="产品特征" class="flex_1">
-          <el-input v-model="currentItemData.Comments" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="展示排序" prop="Sort" class="flex_1">
-          <el-input v-model.number="currentItemData.Sort" autocomplete="off" />
-        </el-form-item>
-      </div>
+
+      <el-form-item label="产品特征" class="flex_1">
+        <el-input v-model="currentItemData.Comments" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="展示排序" prop="Sort" class="flex_1">
+        <el-input v-model.number="currentItemData.Sort" autocomplete="off" />
+      </el-form-item>
+
       <el-form-item label="产品描述">
         <el-input
           v-model="currentItemData.Description"
@@ -76,46 +65,39 @@
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item label="产品缩略图">
-        <div class="center">
-          <el-input v-model="currentItemData.Background" disabled class="m-r-12 flex_1" />
-          <div>
-            <el-upload
-              v-loading="isbusy1"
-              :auto-upload="false"
-              action
-              :show-file-list="false"
-              :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,1)}"
-            >
-              <el-button>上传</el-button>
-            </el-upload>
-          </div>
-          <span
-            class="m-l-15 wid60 cursor color-1890ff"
-            @click="onPreview(currentItemData.Background)"
-          >预览</span>
+      <el-form-item label="缩略图">
+        <div style="display: flex">
+          <el-upload
+            v-loading="isbusy1"
+            :auto-upload="false"
+            action
+            :show-file-list="false"
+            :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,1)}"
+          >
+            <el-input v-model="currentItemData.Background" disabled style="width:100px;" />
+            <span
+              class="m-l-15 wid60 cursor color-1890ff"
+              @click="onPreview(currentItemData.Background)"
+            >预览</span>
+          </el-upload>
         </div>
       </el-form-item>
-      <el-form-item label="教学体系图">
-        <div class="center">
-          <el-input v-model="currentItemData.Jxtx" disabled class="m-r-12 flex_1" />
-          <div>
-            <el-upload
-              v-loading="isbusy2"
-              :auto-upload="false"
-              action
-              :show-file-list="false"
-              :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,2)}"
-            >
-              <el-button>上传</el-button>
-            </el-upload>
-          </div>
+      <el-form-item label="体系图">
+        <div style="display: flex">
+          <el-upload
+            v-loading="isbusy2"
+            :auto-upload="false"
+            action
+            :show-file-list="false"
+            :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,2)}"
+          >
+            <el-input v-model="currentItemData.Jxtx" disabled style="width:100px; " />
+          </el-upload>
           <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(currentItemData.Jxtx)">预览</span>
         </div>
       </el-form-item>
-      <el-form-item label="产品详情图">
-        <div class="center">
-          <el-input v-model="currentItemData.Kcxq" disabled class="m-r-12 flex_1" />
+      <el-form-item label="详情图">
+        <div style="display: flex">
           <div class="color-1890ff">
             <el-upload
               v-loading="isbusy3"
@@ -124,13 +106,14 @@
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,3)}"
             >
-              <el-button>上传</el-button>
+              <el-input v-model="currentItemData.Kcxq" disabled style="width:100px; " />
             </el-upload>
           </div>
           <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(currentItemData.Kcxq)">预览</span>
         </div>
       </el-form-item>
-      <el-form-item label="查找教材">
+
+      <!-- <el-form-item label="查找教材">
         <div class="center">
           <el-input
             v-model="searchSubjectContent"
@@ -154,18 +137,38 @@
           </p>
         </div>
       </el-form-item>
- <el-form-item >
-       <el-button @click="$emit('subClickEvent', 2, '') ">取 消</el-button>
+      <el-form-item>
+        <el-button @click="$emit('subClickEvent', 2, '') ">取 消</el-button>
         <el-button type="primary" class="m-l-40" @click="saveCourse">保 存</el-button>
-         </el-form-item>
+      </el-form-item>-->
     </el-form>
+    <div class="around-center hgt60  ">
+      <div>
+        <el-button
+          type="warning"
+          :disabled="false"
+          v-show="!currenteditEnable"
+          class="m-l-40"
+          @click="currenteditEnable=true"
+        >编辑</el-button>
+        <el-button
+          type="primary"
+          :disabled="false"
+          v-show="currenteditEnable"
+          class="m-l-40"
+          @click="saveCourse"
+        >确 认</el-button>
+
+        <el-button v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import common from "@/utils/common";
- import { addCourse,editCourse} from "@/api/course";
-import { queryBookList } from "@/api/book";
+import { addCourse, editCourse } from "@/api/course";
+
 import $ImgAPI from "@/api/ImgAPI";
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
 export default {
@@ -185,8 +188,9 @@ export default {
   data() {
     return {
       common,
+      currenteditEnable: this.editEnable,
       // 课程的表单数据
-      currentItemData: {}, 
+      currentItemData: {},
       // 预览图片的图片地址
       imageViewerSrc: "",
       // 显示图片查看器
@@ -208,10 +212,7 @@ export default {
       courseKindLabel: "",
       // 课程的选项数据
       CourseKindsOps: [],
-      // 存储课程大类下查找的科目
-      subjectListOps: [],
-      // 查找教材搜索内容
-      searchSubjectContent: "",
+
       // 图片加载
       isbusy1: false,
       isbusy2: false,
@@ -221,11 +222,23 @@ export default {
   watch: {
     formItemData(newvar) {
       this.currentItemData = this.formItemData;
+      this.collegeChangeGetCourseKind(0);
     }
   },
   mounted() {
-    this.currentItemData = this.formItemData; 
+    this.currentItemData = this.formItemData;
     if (this.currentItemData.Id > 0) {
+      if (this.$store.getters.app.collegeWithCourseKind) {
+        this.$store.getters.app.collegeWithCourseKind.forEach(item => {
+          if (item.Children) {
+            item.Children.forEach(courseKind => {
+              if (courseKind.Id == this.currentItemData.TCourseKindID) {
+                this.CourseKindsOps = item.Children;
+              }
+            });
+          }
+        });
+      }
     } else {
       this.collegeChangeGetCourseKind(0);
     }
@@ -239,9 +252,9 @@ export default {
         this.isbusy2 = true;
       } else if (type == 3) {
         this.isbusy3 = true;
-      } 
-      const res = await $ImgAPI.UploadImg("course",  file.raw);
- 
+      }
+      const res = await $ImgAPI.UploadImg("course", file.raw);
+
       if (res.code == 200) {
         if (type == 1) {
           this.currentItemData.Background = res.data;
@@ -277,43 +290,38 @@ export default {
       if (this.CourseKindsOps.length > 0) {
         this.currentItemData.TCourseKindID = this.CourseKindsOps[0].Id;
         this.courseKindLabel = this.CourseKindsOps[0].Label;
-        this.getBookList();
+        // this.getBookList();
       }
     },
-    // 查找课程大类下的教材
-    async getBookList() {
-      this.subjectListOps = [];
-      let params = { coursekind: this.courseKindLabel };
-      if (this.searchSubjectContent) {
-        params = { label: this.searchSubjectContent };
-      }
-      const res = await queryBookList("", params);
-      if (res.code == 200) {
-        this.subjectListOps = res.data ? res.data : [];
-      }
-    },
+
     // 保存课程数据
     saveCourse: function() {
       this.$refs.refCourseForm.validate(async valid => {
         if (valid) {
-          this.currentItemData.CourseNum = parseInt(this.currentItemData.CourseNum)
+          this.currentItemData.CourseNum = parseInt(
+            this.currentItemData.CourseNum
+          );
           if (this.currentItemData.Id > 0) {
-            const res = await editCourse(this.currentItemData.Id,"", this.currentItemData)
+            const res = await editCourse(
+              this.currentItemData.Id,
+              "",
+              this.currentItemData
+            );
             if (res.code == 200) {
-              this.$message('修改成功 !')
-              this.$emit('subClickEvent', 1, res.data) 
+              this.$message("修改成功 !");
+              this.$emit("subClickEvent", 1, res.data);
             }
           } else {
-            const res = await addCourse("","",this.currentItemData)
+            const res = await addCourse("", "", this.currentItemData);
             if (res.code == 200) {
-              this.$message('添加成功 !')
-              this.$emit('subClickEvent',0, res.data) 
+              this.$message("添加成功 !");
+              this.$emit("subClickEvent", 0, res.data);
             }
           }
         } else {
-          return false
+          return false;
         }
-      })
+      });
     },
     // 给课程关联教材
     addSubjectToSourse(subjectItem, index) {
@@ -336,7 +344,7 @@ export default {
         this.currentItemData.Children.push(courseBookitem);
       }
       this.$forceUpdate();
-            console.log(this.currentItemData.Children,"============",has)
+      console.log(this.currentItemData.Children, "============", has);
     }
   }
 };
