@@ -18,7 +18,7 @@
     <!-- 科目列表 -->
     <div>
       <el-table
-        :data="subjectList"
+        :data="bookList"
         border
         style="width: 100%"
         @selection-change="bookSelectedChange"
@@ -47,6 +47,7 @@
 <script>
 import { setTeachBook } from "@/api/manager";
 import { queryBookList } from "@/api/book";
+import { string } from "jszip/lib/support";
 export default {
   props: {
     // 表单数据
@@ -69,33 +70,31 @@ export default {
       // 每页数据的总条
       rows: 10,
       // 科目的表格数据
-      subjectList: [],
+      bookList: [],
       // 条件查询-科目名称
       searchContent: "",
       // 条件查询-课程大类Label
       searchBookCourseKindLabel: "",
-      //当前编辑的老师的个人表单数据
-      currentFormData: {},
+
       //存储当前选中的老师已经关联的科目id
       allBookidSelected: [],
       // 当前数据页的所有id
       nowPageBookId: []
     };
   },
-    watch: {
-    formItemData(newval) {
-     this.currentFormData = this.formItemData;
-    this.getTeacherRowData();
+  watch: {
+    formItemData(newval) { 
+      this.currentFormData = this.formItemData;
+      this.getTeacherRowData();
     }
   },
-  mounted() {
+  created() { 
     this.currentFormData = this.formItemData;
     this.getTeacherRowData();
   },
   methods: {
     // 父组件触发的方法，获取老师的信息
     getTeacherRowData() {
-      console.log("=========teach book ")
       // 初始化数据
       this.allBookidSelected = [];
       this.allRows = 0;
@@ -103,7 +102,8 @@ export default {
       this.rows = 10;
       this.searchContent = "";
       this.searchBookCourseKindLabel = "";
-      this.subjectList = null;
+      this.bookList = null;
+      // console.log("this.currentFormData.TeachBooks:",this.currentFormData.TeachBooks);
       if (this.currentFormData.TeachBooks) {
         this.allBookidSelected = this.currentFormData.TeachBooks.split(",").map(
           Number
@@ -125,7 +125,7 @@ export default {
     async getAllBookList() {
       let that = this;
       this.nowPageBookId = [];
-      let res = await queryBookList("",{
+      let res = await queryBookList("", {
         limit: that.rows,
         offset: (that.nowPage - 1) * that.rows,
         label: that.searchContent,
@@ -133,10 +133,10 @@ export default {
       });
       if (res.code == 200) {
         that.allRows = res.title;
-        that.subjectList = res.data ? res.data : [];
+        that.bookList = res.data ? res.data : [];
         // 遍历老师已经选择过的科目，默认选中状态
-        that.subjectList.forEach(bookItem => {
-          that.nowPageBookId.push(bookItem.Id);
+        that.bookList.forEach(bookItem => {
+          that.nowPageBookId.push(bookItem.Id); 
           that.allBookidSelected.forEach(bookid => {
             if (bookItem.Id == bookid) {
               that.$nextTick(() => {
@@ -167,11 +167,11 @@ export default {
     async saveTeacherBook() {
       let booksid = [];
       booksid = this.allBookidSelected.map(String);
-      let res = await setTeachBook(this.currentFormData.Id, booksid, false);
+      let res = await setTeachBook(this.currentFormData.Id, "", booksid);
       if (res.code == 200) {
         this.$message("设置成功!");
         this.currentFormData = res.data;
-        this.$emit("subClickEvent", 0, res.data);
+        this.$emit("subClickEvent", 1, res.data);
       }
     }
   },

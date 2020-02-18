@@ -124,7 +124,7 @@
             <set-right :formItemData="currentRowData"></set-right>
           </el-tab-pane>
           <el-tab-pane label="所教科目" name="sjkm" id="sjkm">
-            <teacherBook :formItemData="currentRowData"></teacherBook>
+            <teacherBook :formItemData="currentRowData" @subClickEvent="updateTeacherList"></teacherBook>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -150,16 +150,14 @@ import {
   getManagerPower
 } from "@/api/manager";
 import { getAllManagerOfPlatform } from "@/api/platform";
-import myDialog from "@/components/myDialog/myDialog";
-import teacherRowDialog from "@/views/system/component/teacherRowDialog";
+import myDialog from "@/components/myDialog/myDialog"; 
 import teacherRowDetail from "@/views/system/component/teacherRowDetail";
 import setRight from "@/views/system/component/setRight";
 import teacherBook from "@/views/system/component/teacherBook";
 export default {
   name: "managerList",
   components: {
-    myDialog,
-    teacherRowDialog,
+    myDialog, 
     teacherRowDetail,
     setRight,
     teacherBook
@@ -200,7 +198,7 @@ export default {
       // 当前选中行的数据索引
       currentTeacherIndex: null,
       // 点开弹出默认显示老师信息
-      activElTab: "qxsz",
+      activElTab: "sjkm",
       editDialog: false,
       // 更多操作弹框展示
       moreOperationDialog: false,
@@ -303,60 +301,22 @@ export default {
       this.currentTeacherIndex = index;
       this.currentRowData = row;
 
-
-
-
       if (this.currentRowData.Platform) {
         this.currentRowData.platformSelect = [];
         this.currentRowData.platformSelect = this.currentRowData.Platform.split(
           ","
         ).map(Number);
-      } 
+      }
 
       this.moreOperationDialog = true;
     },
-    // // 打开老师的弹出框
-    // openTeacherDialog(type) {
-    //   // type=1新增，type=0编辑
-    //   if (type) {
-    //     this.$refs.refTeacherDialog.getTeacherRowData({ id: 0 });
-    //   } else {
-    //     this.$refs.refTeacherDialog.getTeacherRowData({
-    //       ...this.currentRowData
-    //     });
-    //   }
-    // },
-
-    // // 打开更多操作的模态框
-    // moreOperationOfTeacher(index, row) {
-    //   // 打开默认显示老师信息页面
-    //   this.currentRowData = {};
-    //   this.managerRightsMap = {};
-    //   this.activElTab = "qxsz";
-    //   this.currentTeacherIndex = index;
-    //   this.currentRowData = row;
-    //   this.moreOperationDialog = true;
-    //   // this.$refs.refTeacherDetail.getTeacherRowData(row);
-    // },
-    // 切换tabs标签页在调用函数
-    changDialogTab(tab) {
-      if (tab.$attrs.id == "qxsz") {
-        // 权限设置
-        // this.$refs.refsetRight.getRowDataAddPower(
-        //   this.currentRowData,
-        //   this.managerRightsMap
-        // );
-      } else if (tab.$attrs.id == "sjkm") {
-        // 给老师设置科目
-        // this.$refs.refteacherBook.getTeacherRowData(this.currentRowData);
-      }
-    },
+    
     // 修改或编辑老师个人信息后更新老师数据列表
     updateTeacherList(type, rowData) {
-      // type=1添加，type=0修改，
-      if (type == 1) {
+      // type=0添加，type=1修改，
+      if (type == 0) {
         this.teacherList.unshift(rowData);
-      } else if (type == 0) {
+      } else if (type == 1) {
         this.currentRowData = { ...rowData };
         this.$set(this.teacherList, this.currentTeacherIndex, rowData);
         this.$refs.refTeacherDetail.getTeacherRowData({ ...rowData });
@@ -369,10 +329,7 @@ export default {
     if (isNaN(this.currentPlatform)) {
       this.currentPlatform = 0;
     }
-    this.getAllManagerOfPlatform();
-    // setTimeout(() => {
-    //   this.$refs.refElTabel.doLayout();
-    // }, 2000);
+    this.getAllManagerOfPlatform(); 
   },
   created() {
     this.searchConditionVal = this.searchConditionOptions[0].value;
