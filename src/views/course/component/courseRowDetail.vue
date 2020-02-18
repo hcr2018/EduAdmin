@@ -154,13 +154,17 @@
           </p>
         </div>
       </el-form-item>
+ <el-form-item >
+       <el-button @click="$emit('subClickEvent', 2, '') ">取 消</el-button>
+        <el-button type="primary" class="m-l-40" @click="saveCourse">保 存</el-button>
+         </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
 import common from "@/utils/common";
- 
+ import { addCourse,editCourse} from "@/api/course";
 import { queryBookList } from "@/api/book";
 import $ImgAPI from "@/api/ImgAPI";
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
@@ -182,9 +186,7 @@ export default {
     return {
       common,
       // 课程的表单数据
-      currentItemData: {},
-      // 是否显示模态框
-      isShowCourseDialog: false,
+      currentItemData: {}, 
       // 预览图片的图片地址
       imageViewerSrc: "",
       // 显示图片查看器
@@ -290,7 +292,29 @@ export default {
         this.subjectListOps = res.data ? res.data : [];
       }
     },
-
+    // 保存课程数据
+    saveCourse: function() {
+      this.$refs.refCourseForm.validate(async valid => {
+        if (valid) {
+          this.currentItemData.CourseNum = parseInt(this.currentItemData.CourseNum)
+          if (this.currentItemData.Id > 0) {
+            const res = await editCourse(this.currentItemData.Id,"", this.currentItemData)
+            if (res.code == 200) {
+              this.$message('修改成功 !')
+              this.$emit('subClickEvent', 1, res.data) 
+            }
+          } else {
+            const res = await addCourse("","",this.currentItemData)
+            if (res.code == 200) {
+              this.$message('添加成功 !')
+              this.$emit('subClickEvent',0, res.data) 
+            }
+          }
+        } else {
+          return false
+        }
+      })
+    },
     // 给课程关联教材
     addSubjectToSourse(subjectItem, index) {
       let has = false;

@@ -144,10 +144,13 @@
         :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增课程'"
       >
         <course-row-detail
-          @itemModify="updateListItem"
+          @subClickEvent="updateListItem"
           :editEnable="true"
           :formItemData="customFormData"
         />
+        <div>
+       
+      </div>
       </el-dialog>
       <!-- <course-row-dialog :travel-brochure-data="customFormData" :visible.sync="editDialog" @subClickEvent="updataCourseList" /> -->
     </div>
@@ -316,10 +319,10 @@ export default {
      // 添加或编辑之后更新列表数据
     updateListItem(type, rowData) {
       if (type==0) {
-        this.subjectList.push(rowData);
-      } else {
-        this.$set(this.subjectList, this.currentSubjectIndex, rowData); 
-      }
+        this.courseList.push(rowData);
+      } else if (type==1) {
+        this.$set(this.courseList, this.currentCourseIndex, rowData); 
+       }  
       this.editDialog = false;
     },
     // 打开更多操作的模态框

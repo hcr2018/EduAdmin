@@ -31,11 +31,7 @@
             :disabled="operationType==0"
             placeholder="身份证号码"
           />
-        </el-form-item>
-        <el-form-item label="性别">
-          <el-radio v-model="currentItemData.Sex" :disabled="operationType==0" label="男">男</el-radio>
-          <el-radio v-model="currentItemData.Sex" :disabled="operationType==0" label="女">女</el-radio>
-        </el-form-item>
+        </el-form-item> 
         <el-form-item label="所属学院">
           <el-select
             v-model="currentItemData.CollegeID"
@@ -477,7 +473,7 @@ export default {
           kindId = item.Id;
         }
       });
-      const res = await GetCourseOfKind({ kindid: kindId });
+      const res = await GetCourseOfKind("",{ kindid: kindId });
       this.courseList = res.data;
       if (this.courseList != null && this.courseList.length > 0) {
         this.currentItemData.CourseID = this.courseList[0].Id;
