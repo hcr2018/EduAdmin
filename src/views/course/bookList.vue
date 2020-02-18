@@ -36,7 +36,7 @@
         >
           >
           <el-table-column prop="Id" label="ID" width="50" />
-          <el-table-column prop="Label" label="名称" width="200" :show-overflow-tooltip="true">
+          <el-table-column prop="Label" label="名称" width="250" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span
                 class="color-1890ff font-w6 cursor"
@@ -48,15 +48,15 @@
           <el-table-column
             prop="Coursekind"
             label="所属课程类别"
-            width="120"
+            width="250"
             :show-overflow-tooltip="true"
           />
           <el-table-column prop="Description" :show-overflow-tooltip="true" label="描述" />
-          <el-table-column label="操作" width="300" fixed="right">
+          <el-table-column label="操作" width="200" fixed="right">
             <template slot-scope="scope">
               <el-button type="success" @click="addChapter(scope.$index, scope.row)">内容管理</el-button>
               <el-button type="warning" @click="questionManager(scope.$index, scope.row)">试题管理</el-button>
-              <el-button type="info" @click="gotoBookExercisePage(scope.$index, scope.row)">学员作业</el-button>
+              <!-- <el-button type="info" @click="gotoBookExercisePage(scope.$index, scope.row)">学员作业</el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -117,7 +117,7 @@ import bookRowDetail from "@/views/course/component/bookRowDetail";
 import { queryBookList } from "@/api/book";
 
 export default {
-  name: "SubjectList",
+  name: "bookList",
   components: {
     myDialog,
     bookRowDetail
@@ -208,17 +208,17 @@ export default {
     // 关联试题管理
     questionManager: function(index, row) {
       this.$router.push({
-        name: "questionsList",
-        query: { Label: row.Label, Id: row.Id }
+        name: "chapterExercise",
+        query: {  Id: row.Id }
       });
     },
     // 学生作业
-    gotoBookExercisePage(index, row) {
-      this.$router.push({
-        name: "chapterExercise",
-        query: { Id: row.Id }
-      });
-    }
+    // gotoBookExercisePage(index, row) {
+    //   this.$router.push({
+    //     name: "chapterExercise",
+    //     query: { Id: row.Id }
+    //   });
+    // }
   }
 };
 </script>

@@ -45,8 +45,7 @@ export default {
         children: "Children"
       }
     };
-  },
-  created() {},
+  }, 
   methods: {
     // 获取章节列表
     async getChapters() {

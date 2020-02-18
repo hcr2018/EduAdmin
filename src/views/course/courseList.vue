@@ -173,8 +173,7 @@ import {
   updateCourseTravelBrochure,
   getCoursePriceList,
   saveCoursePriceList,
-  getSubjectChapter,
-  getExamList,
+  getSubjectChapter, 
   addExam,
   editExam,
   getZhangOfSubject, 
@@ -184,6 +183,7 @@ import {
 } from "@/api/course";
 
 import { getCollegeWithCourseKind } from "@/api/app";
+import {   getExamList } from "@/api/question";
 
 export default {
   name: "courseList",

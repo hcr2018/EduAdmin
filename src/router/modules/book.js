@@ -17,7 +17,7 @@ const bookRouter = {
         },
         {
             path: 'bookAdpter',
-            component: () => import('@/views/course/addChapter'),
+            component: () => import('@/views/course/bookChapter'),
             name: 'bookAdpter',
             hidden: true,
             meta: { title: 'bookAdpter', icon: "book" }
@@ -32,16 +32,14 @@ const bookRouter = {
         //     component: () => import('@/views/course/question/questionsList'),
         // },
         {
-
+            hidden: true,
             path: 'chapterExercise',
             name: 'chapterExercise',
-            meta: {
-                title: 'chapterExercise', icon: "exam1"
-            },
+            meta: {  title: 'chapterExercise', icon: "exam1"   },
             component: () => import('@/views/course/question/chapterExercises'),
         },
         {
-
+            hidden: true,
             path: 'mockExam',
             name: 'mockExam',
             meta: {
@@ -50,7 +48,7 @@ const bookRouter = {
             component: () => import('@/views/course/question/mockExam'),
         },
         {
-
+            hidden: true,
             path: 'highFrequency',
             name: 'highFrequency',
             meta: {
@@ -59,11 +57,10 @@ const bookRouter = {
             component: () => import('@/views/course/question/highFrequencyExam'),
         },
         {
+            hidden: true,
             path: 'svipExam',
             name: 'svipExam',
-            meta: {
-                title: 'svipExam', icon: "exam4"
-            },
+            meta: { title: 'svipExam', icon: "exam4"   },
             component: () => import('@/views/course/question/svipExam'),
         },
         // {
@@ -76,12 +73,10 @@ const bookRouter = {
         //     component: () => import('@/views/course/question/taskExam'),
         // },
         {
-
+            hidden: true,
             path: 'achievementAnalysis',
             name: 'achievementAnalysis',
-            meta: {
-                title: 'achievementAnalysis', icon: "exam6"
-            },
+            meta: { title: 'achievementAnalysis', icon: "exam6"  },
             component: () => import('@/views/course/question/achievementAnalysis'),
         }
     ]

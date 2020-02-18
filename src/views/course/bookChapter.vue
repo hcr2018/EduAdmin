@@ -69,7 +69,7 @@ import {
   createBookStructure
 } from "@/api/book";
 export default {
-  name: "AddChapter",
+  name: "bookChapter",
   data() {
     return {
       // 书名称

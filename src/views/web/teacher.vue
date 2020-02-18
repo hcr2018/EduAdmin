@@ -1,7 +1,7 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <div class="flex_1 m-t-20 overflow_auto p-r-30 border-dfe6ec p-l-20 p-v-15">
+      <div class="flex_1 m-t-20 overflow_auto p-r-10 border-dfe6ec p-l-20 p-v-15">
         <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
           <div class="flex_mid">
             <el-image style="width: 160px; height: 160px" fit="cover" :src="item.image"></el-image>
