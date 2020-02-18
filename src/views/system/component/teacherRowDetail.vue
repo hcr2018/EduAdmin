@@ -159,6 +159,7 @@ export default {
                 message: "添加成功",
                 type: "success"
               });
+               this.$emit("subClickEvent", 0, res.data);
             }
           } else {
             // 修改
@@ -173,6 +174,7 @@ export default {
                 message: "修改成功",
                 type: "success"
               });
+               this.$emit("subClickEvent", 1, res.data);
             }
           }
         } else {

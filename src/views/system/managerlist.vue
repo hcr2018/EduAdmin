@@ -119,7 +119,7 @@
         <teacher-row-detail v-bind:formItemData="currentRowData" />
       </div>
       <div slot="right_content" class="p_both20 p-b-20">
-        <el-tabs v-model="activElTab" @tab-click="changDialogTab">
+        <el-tabs v-model="activElTab" >
           <el-tab-pane label="权限设置" name="qxsz" id="qxsz">
             <set-right :formItemData="currentRowData"></set-right>
           </el-tab-pane>
@@ -134,9 +134,13 @@
     <el-dialog
       :visible.sync="editDialog"
       width="500px"
-      :title="currentRowData.Id>0?'编辑'+currentRowData.Label:'新增校区'"
+      :title="currentRowData.Id>0?'编辑'+currentRowData.Label:'新增'"
     >
-      <teacher-row-detail :editEnable="true" :formItemData="currentRowData" />
+      <teacher-row-detail
+        :editEnable="true"
+        :formItemData="currentRowData"
+        @subClickEvent="updateTeacherList"
+      />
     </el-dialog>
   </div>
 </template>
@@ -150,14 +154,14 @@ import {
   getManagerPower
 } from "@/api/manager";
 import { getAllManagerOfPlatform } from "@/api/platform";
-import myDialog from "@/components/myDialog/myDialog"; 
+import myDialog from "@/components/myDialog/myDialog";
 import teacherRowDetail from "@/views/system/component/teacherRowDetail";
 import setRight from "@/views/system/component/setRight";
 import teacherBook from "@/views/system/component/teacherBook";
 export default {
   name: "managerList",
   components: {
-    myDialog, 
+    myDialog,
     teacherRowDetail,
     setRight,
     teacherBook
@@ -198,7 +202,7 @@ export default {
       // 当前选中行的数据索引
       currentTeacherIndex: null,
       // 点开弹出默认显示老师信息
-      activElTab: "sjkm",
+      activElTab: "qxsz",
       editDialog: false,
       // 更多操作弹框展示
       moreOperationDialog: false,
@@ -310,7 +314,7 @@ export default {
 
       this.moreOperationDialog = true;
     },
-    
+
     // 修改或编辑老师个人信息后更新老师数据列表
     updateTeacherList(type, rowData) {
       // type=0添加，type=1修改，
@@ -321,6 +325,7 @@ export default {
         this.$set(this.teacherList, this.currentTeacherIndex, rowData);
         this.$refs.refTeacherDetail.getTeacherRowData({ ...rowData });
       }
+      this.editDialog = false;
     }
   },
   mounted() {
@@ -329,7 +334,7 @@ export default {
     if (isNaN(this.currentPlatform)) {
       this.currentPlatform = 0;
     }
-    this.getAllManagerOfPlatform(); 
+    this.getAllManagerOfPlatform();
   },
   created() {
     this.searchConditionVal = this.searchConditionOptions[0].value;

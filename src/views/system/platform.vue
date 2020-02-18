@@ -42,11 +42,9 @@
           <platformRowDetail :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs > 
-            <el-tab-pane id="gmjl" label="校区权限" name="gmjl">
-           
-            </el-tab-pane> 
-          </el-tabs>   
+          <el-tabs>
+            <el-tab-pane id="gmjl" label="校区权限" name="gmjl"></el-tab-pane>
+          </el-tabs>
         </div>
       </my-dialog>
 
@@ -56,7 +54,11 @@
         width="500px"
         :title="customFormData.Id>0?'编辑'+customFormData.Label:'新增校区'"
       >
-        <platformRowDetail :editEnable="true" :formItemData="customFormData" />
+        <platformRowDetail
+          :editEnable="true"
+          :formItemData="customFormData"
+          @subClickEvent="updateListItem"
+        />
       </el-dialog>
     </div>
   </div>
@@ -87,6 +89,10 @@ export default {
     this.getAllPlatform();
   },
   methods: {
+    updateListItem(type, rowData) {
+     
+      this.editDialog = false;
+    },
     // 打开校区的弹出框
     openNewItem() {
       this.editDialog = true;

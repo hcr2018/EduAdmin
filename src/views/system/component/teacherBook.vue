@@ -174,12 +174,8 @@ export default {
         this.$emit("subClickEvent", 1, res.data);
       }
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.$refs.refSubjectTable.doLayout();
-    }, 2000);
   }
+  
 };
 </script>  
 <style scoped>
