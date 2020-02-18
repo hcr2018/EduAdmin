@@ -145,6 +145,9 @@ export default {
       this.$refs.formUI.validate(async valid => {
         if (valid) {
           this.formItemData.MasterID = this.masterID;
+           this.formItemData.Platform = this.formItemData.platformSelect.join(
+            ","
+          );
           if (this.formItemData.Id == null || this.formItemData.Id == 0) {
             // 新增
             let res = await addManager("", "", this.formItemData);

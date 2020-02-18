@@ -39,7 +39,7 @@
       >
         <!-- 展示校区的基本信息 -->
         <div slot="left_content">
-          <platformRowDetail v-bind:formItemData="customFormData" />
+          <platformRowDetail :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
           <el-tabs > 

@@ -216,12 +216,21 @@ export default {
       let offsetRow = (this.nowPage - 1) * this.rows;
       let searchCondition = this.searchConditionVal;
       let searchVal = this.searchVal;
-      let res = await getAllManagerOfPlatform(this.currentPlatform, {
-        limit: this.rows,
-        offset: offsetRow,
-        role: this.searchRoleVal,
-        [searchCondition]: searchVal
-      });
+      let res;
+      if (this.currentPlatform > 0) {
+        res = await getAllManagerOfPlatform(this.currentPlatform, {
+          limit: this.rows,
+          offset: offsetRow
+        });
+      } else {
+        res = await getManagerList("", {
+          limit: this.rows,
+          offset: offsetRow,
+          role: this.searchRoleVal,
+          [searchCondition]: searchVal
+        });
+      }
+
       // 获取数据的总条数
       if (res.code == 200) {
         this.allRows = 0;
@@ -293,6 +302,17 @@ export default {
     openMoreOperationDialog(index, row) {
       this.currentTeacherIndex = index;
       this.currentRowData = row;
+
+
+
+
+      if (this.currentRowData.Platform) {
+        this.currentRowData.platformSelect = [];
+        this.currentRowData.platformSelect = this.currentRowData.Platform.split(
+          ","
+        ).map(Number);
+      } 
+
       this.moreOperationDialog = true;
     },
     // // 打开老师的弹出框
@@ -346,6 +366,9 @@ export default {
   mounted() {
     let paths = this.$router.currentRoute.path.split("/");
     this.currentPlatform = paths[paths.length - 1];
+    if (isNaN(this.currentPlatform)) {
+      this.currentPlatform = 0;
+    }
     this.getAllManagerOfPlatform();
     // setTimeout(() => {
     //   this.$refs.refElTabel.doLayout();

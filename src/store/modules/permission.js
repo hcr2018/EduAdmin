@@ -61,6 +61,7 @@ const actions = {
         // 管理员
         accessedRoutes = filterAsyncRoutes(asyncRoutes, store.getters.manager.role)
       }
+
       // const topPlatformRoute = {
       //   path: '/platform',
       //   component: Layout,
@@ -74,7 +75,7 @@ const actions = {
       //   children: [
       //   ]
       // }
-      let myPlatformList = store.getters.manager.myPlatformList;
+      let myPlatformList = store.getters.manager.myPlatformList; 
       if (myPlatformList) {
         let index = 0;
         myPlatformList.forEach(platform => {
@@ -153,7 +154,7 @@ const actions = {
               }
             ]
           }
-          accessedRoutes.push(platformRoute)
+          accessedRoutes.push(platformRoute) 
         })
       }
       // accessedRoutes.push(topPlatformRoute)

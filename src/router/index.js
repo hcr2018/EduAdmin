@@ -10,7 +10,6 @@ import Layout from '@/layout'
 import customRouter from './modules/custom'
 import courseRouter from './modules/course'
 import bookRouter from './modules/book' 
-import systemRouter from './modules/system'  
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -37,12 +36,12 @@ import systemRouter from './modules/system'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [ 
+export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
-  }, 
+  },
   {
     path: '/404',
     component: () => import('@/views/error-page/404'),
@@ -65,7 +64,7 @@ export const constantRoutes = [
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  } 
+  }
 ]
 
 /**
@@ -73,10 +72,54 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  
+
   /** when your routing map is too long, you can split it into small modules **/
-  systemRouter, 
-  courseRouter, 
+  {
+    path: '/system',
+    component: Layout,
+    redirect: 'setting', 
+    name: 'system',
+    meta: { title: 'system', icon: 'skill' },
+    children: [
+      {
+        path: 'setting',
+        component: () => import('@/views/system/setting'),
+        name: 'setting',
+        meta: {  title: 'system',  icon: 'edit'  }
+      }
+    ]
+  },
+  {
+    path: '/platform',
+    component: Layout,
+    redirect: 'platforList', 
+    name: 'platform',
+    meta: { title: 'system', icon: 'skill' },
+    children: [
+      {
+        path: 'platforList',
+        component: () => import('@/views/system/platform'),
+        name: 'platforList',
+        meta: {   title: 'platform',   icon: 'tree-table'   }
+      }
+    ]
+  },
+  {
+    path: '/manager',
+    component: Layout,
+    redirect: 'managerList', 
+    name: 'manager',
+    meta: { title: 'system', icon: 'skill' },
+    children: [
+      {
+        path: 'managerList',
+        component: () => import('@/views/system/managerlist'),
+        name: 'managerList',
+        meta: { title: 'managerList', icon: "user" }
+      }
+    ]
+  },
+  courseRouter,
   bookRouter,
   customRouter,
   // 404 page must be placed at the end !!!

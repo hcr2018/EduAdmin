@@ -8,7 +8,7 @@ const customRouter = {
   redirect: 'noRedirect',
   name: 'custom',
   meta: {
-    title: 'customList',
+    title: 'customManage',
     icon: 'peoples'
     
   },

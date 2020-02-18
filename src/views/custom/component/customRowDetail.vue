@@ -109,8 +109,7 @@
         <el-select
           v-model="currentItemData.Platform"
           :disabled="$route.query.id?true:false"
-          placeholder="请选择所属校区"
-          @change="$forceUpdate()"
+          placeholder="请选择所属校区" 
         >
           <el-option
             v-for="(platform) in $store.getters.app.platformList"
@@ -270,8 +269,12 @@ export default {
 
   mounted() {
     this.currentItemData = this.formItemData;
+
   },
   methods: {
+    testPlatform(){
+      console.log(this.currentItemData)
+    },
     // 图片预览
     onPreview(src) {
       this.showViewer = true;
