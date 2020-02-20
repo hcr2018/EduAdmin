@@ -30,7 +30,8 @@ export default {
     highFrequency: '高频考题',
     svipExam: 'vip考卷',
     taskExam: '任务模考',
-    achievementAnalysis: '成绩分析'
+    achievementAnalysis: '成绩分析',
+    personalData:"个人设置"
   },
   navbar: {
     dashboard: '首页',

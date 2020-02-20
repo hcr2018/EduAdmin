@@ -112,7 +112,7 @@ export default {
     return {
       loginForm: {
         tel: "13551322482",
-        password: "luonancom"
+        password: ""
       },
       loginRules: {
         tel: [{ required: true, trigger: "blur", validator: validateUsername }],

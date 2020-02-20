@@ -29,7 +29,7 @@
           </div>
 
           <div class="deleImgIcon cursor" @click="deleImg(index,1)">
-            <img src="/static/img/slice/deleteIcon.png" alt>
+            <img src="/static/img/slice/deleteIcon.png" alt />
           </div>
         </div>
         <el-upload
@@ -44,11 +44,7 @@
       </div>
     </div>
     <!-- 任课老师 -->
-    <my-image-viewer
-      v-if="showViewer"
-      :on-close="closeViewer"
-      :url-list="[imageViewerSrc]"
-    />
+    <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="m-t-20">
       <p class="font16 color-1890ff border-b-e0 p-b-10 font-w6">任课老师</p>
       <div class="flex_dom flex_wrap p-v-20">
@@ -62,13 +58,13 @@
             :preview-src-list="[item.List]"
             :src="item.List"
             fit="cover"
-          ></my-image> -->
+          ></my-image>-->
           <img
             v-if="item.List"
             class="wid20"
             src="/static/img/slice/uploadedIcon.png"
             @click="onPreview(item.List)"
-          >
+          />
           <div class="between-center m-v-5 wid80">
             <span class="text-center color-1890ff font14 m-r-5">{{ item.Label }}</span>
             <el-upload
@@ -81,7 +77,7 @@
             </el-upload>
           </div>
           <div class="deleImgIcon cursor" @click="deleImg(index,2)">
-            <img src="/static/img/slice/deleteIcon.png" alt>
+            <img src="/static/img/slice/deleteIcon.png" alt />
           </div>
         </div>
         <el-upload
@@ -145,16 +141,17 @@
 </template>
 
 <script>
+import myImageViewer from "@/components/myImageViewer/myImageViewer";
 
-import myImageViewer from '@/components/myImageViewer/myImageViewer'
+import {
+  getCourseTravelBrochure,
+  updateCourseTravelBrochure
+} from "@/api/course";
 
-import { getCourseTravelBrochure, updateCourseTravelBrochure } from '@/api/course'
-
-import $ImgAPI from "@/api/ImgAPI"; 
+import $ImgAPI from "@/api/ImgAPI";
 
 export default {
-
-  name: 'CourseTravelBrochure',
+  name: "CourseTravelBrochure",
   components: {
     myImageViewer
   },
@@ -164,9 +161,8 @@ export default {
   },
   data() {
     return {
-
       // 预览图片的图片地址
-      imageViewerSrc: '',
+      imageViewerSrc: "",
       // 显示图片查看器
       showViewer: false,
 
@@ -180,53 +176,55 @@ export default {
       isEditVideo: false,
       // 表单验证
       videoFormRules: {
-        Label: [{ required: true, message: '请输入视频名称', trigger: 'blur' }],
-        List: [{ required: true, message: '请输入视频地址', trigger: 'blur' }]
+        Label: [{ required: true, message: "请输入视频名称", trigger: "blur" }],
+        List: [{ required: true, message: "请输入视频地址", trigger: "blur" }]
       }
-    }
+    };
   },
   mounted() {
     setTimeout(() => {
-      this.$refs.refElTabel.doLayout()
-    }, 2000)
+      this.$refs.refElTabel.doLayout();
+    }, 2000);
   },
   methods: {
     // 图片预览
     onPreview(src) {
-      this.showViewer = true
-      this.imageViewerSrc = src
+      this.showViewer = true;
+      this.imageViewerSrc = src;
     },
     // 获取课程宣传资料
     async getTravelBrochure() {
-      const res = await getCourseTravelBrochure(this.travelBrochureData.courseId)
+      const res = await getCourseTravelBrochure(
+        this.travelBrochureData.courseId
+      );
       if (res.code == 200) {
         if (res.data) {
-          this.travelBrochureData = res.data
+          this.travelBrochureData = res.data;
         }
       }
     },
     // 上传图片
     async uploadPicture(file, fileList, type) {
-      const res = await $ImgAPI.UploadImg("course",  file.raw); 
+      const res = await $ImgAPI.UploadImg("course", file.raw);
       if (res.code == 200) {
         if (!this.travelBrochureData.ImageList) {
-          this.travelBrochureData.ImageList = []
+          this.travelBrochureData.ImageList = [];
         }
         if (!this.travelBrochureData.TeacherList) {
-          this.travelBrochureData.TeacherList = []
+          this.travelBrochureData.TeacherList = [];
         }
         if (type == 1) {
           // 上传展示图片
           this.travelBrochureData.ImageList.push({
             Label: res.title,
             List: res.data
-          })
+          });
         } else if (type == 2) {
           // 上传老师图片
           this.travelBrochureData.TeacherList.push({
             Label: res.title,
             List: res.data
-          })
+          });
         }
       }
     },
@@ -234,28 +232,28 @@ export default {
     deleImg(index, type) {
       if (type == 1) {
         // 删除展示图片
-        this.travelBrochureData.ImageList.splice(index, 1)
+        this.travelBrochureData.ImageList.splice(index, 1);
       } else if (type == 2) {
         // 删除老师图片
-        this.travelBrochureData.TeacherList.splice(index, 1)
+        this.travelBrochureData.TeacherList.splice(index, 1);
       }
     },
     // 更换图片
     async updatePicture(file, fileList, index, type) {
-      const res = await $ImgAPI.UploadImg("course",  file.raw);
+      const res = await $ImgAPI.UploadImg("course", file.raw);
       if (res.code == 200) {
         if (type == 1) {
           // 修改展示图片
           this.$set(this.travelBrochureData.ImageList, index, {
             Label: res.title,
             List: res.data
-          })
+          });
         } else if (type == 2) {
           // 修改老师图片
           this.$set(this.travelBrochureData.TeacherList, index, {
             Label: res.title,
             List: res.data
-          })
+          });
         }
       }
     },
@@ -265,48 +263,48 @@ export default {
         if (valid) {
           if (type) {
             if (!this.travelBrochureData.VideoList) {
-              this.travelBrochureData.VideoList = []
+              this.travelBrochureData.VideoList = [];
             }
-            this.travelBrochureData.VideoList.push(this.videoRowData)
+            this.travelBrochureData.VideoList.push(this.videoRowData);
           } else {
             this.$set(
               this.travelBrochureData.VideoList,
               this.videoRowIndex,
               this.videoRowData
-            )
-            this.isEditVideo = false
+            );
+            this.isEditVideo = false;
           }
-          this.videoRowData = {}
+          this.videoRowData = {};
         } else {
-          return false
+          return false;
         }
-      })
+      });
     },
     // 点击编辑视频地址按钮
     clickEditVideoUrl(index, row) {
-      this.videoRowData = row
-      this.videoRowIndex = index
-      this.isEditVideo = true
+      this.videoRowData = row;
+      this.videoRowIndex = index;
+      this.isEditVideo = true;
     },
     // 删除视频
     clickDeletVideoUrl(index, row) {
-      this.travelBrochureData.VideoList.splice(index, 1)
+      this.travelBrochureData.VideoList.splice(index, 1);
     },
     // 保存所有的宣传资料
     async saveTravelBrochureData() {
       const res = await updateCourseTravelBrochure(
         this.travelBrochureData.courseId,
         this.travelBrochureData
-      )
+      );
       if (res.code == 200) {
         if (res.data) {
-          this.travelBrochureData = res.data
-          this.$message('保存成功！')
+          this.travelBrochureData = res.data;
+          this.$message("保存成功！");
         }
       }
     }
   }
-}
+};
 </script>
 <style scoped>
 .avatar-uploader-icon {

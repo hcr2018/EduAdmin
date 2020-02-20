@@ -1,5 +1,6 @@
 <template  >
   <div v-cloak class="font16 hgt_full">
+         <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="flex_column hgt_full">
       <!-- 条件查询表单 -->
       <div class="p-t-20">
@@ -88,9 +89,7 @@
           </div>
         </el-form>
       </div>
-      <!-- 客户显示列表 -->
-      <!-- 图片预览 -->
-      <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+      <!-- 客户显示列表 --> 
       <el-table
         ref="refCustomListTable"
         :data="customTableDataList"

@@ -33,7 +33,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="归属校区" prop="platformSelect">
-        <el-select multiple v-model="formItemData.platformSelect" placeholder="请选择归属校区">
+        <el-select multiple v-model="formItemData.platformSelect" @change="$forceUpdate()" placeholder="请选择归属校区">
           <el-option :value="0" label="全部"></el-option>
           <el-option
             :label="item.Label"

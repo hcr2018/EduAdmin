@@ -1,5 +1,6 @@
 <template>
   <div v-cloak class="font16 hgt_full">
+     <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="flex_column hgt_full">
       <!-- 搜索内容-->
       <div class="p-t-20">
@@ -199,7 +200,7 @@ export default {
     courseRowDetail
   },
   data() {
-    return {
+    return { 
       editDialog: false,
       common,
       // 预览图片的图片地址
@@ -236,6 +237,7 @@ export default {
     onPreview(src) {
       this.showViewer = true;
       this.imageViewerSrc = src;
+      console.log( this.imageViewerSrc ,"----------",src);
     },
     // 关闭图片查看器
     closeViewer() {

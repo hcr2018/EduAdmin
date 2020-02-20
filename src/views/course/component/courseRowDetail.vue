@@ -1,5 +1,6 @@
 <template>
   <div>
+     <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <el-form
       ref="refCourseForm"
       :disabled="currenteditEnable==false"
@@ -185,8 +186,14 @@ export default {
       default: false
     }
   },
+  components: {
+     
+    myImageViewer
+  },
+
   data() {
     return {
+      myImageViewer,
       common,
       currenteditEnable: this.editEnable,
       // 课程的表单数据
@@ -343,8 +350,7 @@ export default {
         courseBookitem.TopicNum = subjectItem.Topic;
         this.currentItemData.Children.push(courseBookitem);
       }
-      this.$forceUpdate();
-      console.log(this.currentItemData.Children, "============", has);
+      this.$forceUpdate(); 
     }
   }
 };

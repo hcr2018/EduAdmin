@@ -13,7 +13,7 @@
       </div>
     </div>
     <!-- 图片预览 -->
-    <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+  <myImageViewer   v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
   </el-dialog>
 </template>
 <script>

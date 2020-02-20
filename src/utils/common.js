@@ -2,19 +2,19 @@ import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 import $ from 'jquery'
 export default {
-  go_alert: function(msg) {
+  go_alert: function (msg) {
     $('body').append(`
     <div class='alert_box' style='position:fixed;z-index:8889;width:100%;height:100%;left:0;top:0px;background: rgba(255, 255, 255, 0)'>
       <div class='content' style='max-width: 70%;text-align:center;position:absolute;font-size:14px;left:50%;top:50%; transform:translateY(-50%) translateX(-50%);-webkit-transform:translateY(-50%) translateX(-50%);background-color:rgba(0,0,0,.5);border-radius:4px'>
         <p style='padding:10px 15px; line-height:1.6; color:#fff;font-size:14px'>${msg}</p>
       <div>
     <div>`)
-    setTimeout(function() {
+    setTimeout(function () {
       $('.alert_box').css({ 'opacity': '0', 'width': '0%', 'height': '0' })
-      setTimeout(function() { $('.alert_box').remove() }, 2000)
+      setTimeout(function () { $('.alert_box').remove() }, 2000)
     }, 2000)
   },
-  enlargeImg: function(ImgUrl) {
+  enlargeImg: function (ImgUrl) {
     const imgurl = ImgUrl ? `<img style="max-width:100%;" src="${ImgUrl}"/>` : ''
     const template = `<div class="enlargeImg"
 		style="position: fixed;z-index: 1000;
@@ -27,29 +27,29 @@ export default {
 	  </div>
    </div>`
     $('body').append(template)
-    $('.enlargeImg').click(function() {
+    $('.enlargeImg').click(function () {
       var that = $(this)
-      setTimeout(function() {
+      setTimeout(function () {
         // 隐藏弹框
         that.css({ 'opacity': '0', 'width': '0%', 'height': '0' })
-        setTimeout(function() { that.remove() }, 0)
+        setTimeout(function () { that.remove() }, 0)
       }, 0)
     })
   },
-  loading: function() {
+  loading: function () {
     $('body').append(`<div class='loading_box' style='position:fixed;z-index:1500;width:100%;opacity:1;height:100%;left:0;top:0px;background-color:transparent;'>
     <div class='content' style='max-width: 70%;text-align:center;position:absolute;font-size:14px;left:50%;top:50%; transform:translateY(-50%) translateX(-50%);-webkit-transform:translateY(-50%) translateX(-50%);border-radius:4px'>
     <img style='width: 40px' src='../static/img/slice/loading.gif' />
     <div>
     <div>`)
   },
-  loadingHide: function() {
+  loadingHide: function () {
     if ($('.loading_box').length) {
       $('.loading_box').remove()
     }
   },
   // 格式化时间 ,displaytime 是否显示具体时间，1为显示，2为显示不显示秒，0为不显示
-  dateFormat: function(item, displaytime) {
+  dateFormat: function (item, displaytime) {
     if (item) {
       const date = new Date(item * 1000)
       const year = date.getFullYear()
@@ -70,7 +70,7 @@ export default {
   },
   // 获取当前日期
   // displaytime 是否显示具体时间，1为显示，2为显示不显示秒，0为不显示
-  dateFormatStr: function(date, displaytime, lianjiefu) {
+  dateFormatStr: function (date, displaytime, lianjiefu) {
     const strDate = new Date(date)
     const year = strDate.getFullYear()
     const month = strDate.getMonth() + 1
@@ -90,10 +90,10 @@ export default {
     return str
   },
   // 截取字符串指定长度
-  spliceLabel: function(val, leng) {
+  spliceLabel: function (val, leng) {
     return val.length > leng ? val.slice(0, leng) + '...' : val
   },
-  storageObj: function(obj) {
+  storageObj: function (obj) {
     var Str = JSON.stringify(obj)
     sessionStorage.setItem('userInfo', Str)
   },
@@ -208,7 +208,7 @@ export default {
       }
     ]
   },
- 
+
   // 客户推广渠道
   channelList: [
 
@@ -217,13 +217,13 @@ export default {
     },
     {
       Label: '网上开发'
-    }, 
+    },
     {
       Label: '转介绍'
     },
     {
       Label: '地推客户'
-    }, 
+    },
     {
       Label: '网销分配'
     },
@@ -273,7 +273,7 @@ export default {
       value: 3,
       Label: '本升硕(研究生)'
     }
-  ], 
+  ],
   // 客户签订合同- 优惠类型
   costomPreferentialType: [
     {
@@ -321,7 +321,7 @@ export default {
     {
       value: 1,
       Label: '加盟机构'
-    } 
+    }
   ],
   // 授课形式
   teachingForm: [
@@ -354,26 +354,28 @@ export default {
       Label: '其他类型'
     }
   ],
- 
+
   AllQuestionTypes: [], // 所有题的类型
   // 根据类型变化返回一些数据的Label
   FormatSelect(options, typeId) {
     let title = '未知'
-    options.forEach(item => {
-      if (item.Id == typeId) {
-        title = item.Label
-        return
-      } else if (item.value == typeId) {
-        title = item.Label
-        return
-      } else if (item.ID == typeId) {
-        title = item.Label
-        return
-      }
-    })
+    if (options) {
+      options.forEach(item => {
+        if (item.Id == typeId) {
+          title = item.Label
+          return
+        } else if (item.value == typeId) {
+          title = item.Label
+          return
+        } else if (item.ID == typeId) {
+          title = item.Label
+          return
+        }
+      }) 
+    }
     return title
   },
-  FormatUnixTime(input){
-    return input*1000;
+  FormatUnixTime(input) {
+    return input * 1000;
   }
 }

@@ -27,6 +27,33 @@ export function logout(url, param, data) {
   })
 }
 
+export function updateMyInfo(url, param, data) {
+  return request({
+    url: '/manager/updateMyInfo/mine' + url,
+    method: 'put',
+    params: param,
+    data
+  })
+}
+
+export function updatePSWD(url, param, data) {
+  return request({
+    url: '/manager/updatePSWD/mine' + url,
+    method: 'put',
+    params: param,
+    data
+  })
+} 
+export function uploadFace(url, param, data) {
+  return request({
+    url: '/manager/uploadFace' + url,
+    method: 'post',
+    params: param,
+    data
+  })
+} 
+
+
 // -----------------------------
 export function getManagerList(url, param, data) {
   return request({

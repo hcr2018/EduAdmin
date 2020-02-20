@@ -1,7 +1,7 @@
 <template>
   <!-- 考勤记录表单 -->
   <div>
-  <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+    <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <el-form
       :model="timeTagFormData"
       :rules="timetagRules"

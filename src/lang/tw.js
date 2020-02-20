@@ -25,6 +25,7 @@ export default {
     business: '教务管理',
     bookAdpter: '教材章节',
     componentMixin: '小組件',
+    personalData:"个人设置",
     backToTop: '返回頂部',
     dragDialog: '拖拽 Dialog',
     dragSelect: '拖拽 Select',

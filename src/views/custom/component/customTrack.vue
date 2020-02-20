@@ -1,6 +1,8 @@
 <template>
   <!-- --------------------客户的跟进记录模块----------------------- -->
+  
   <div class="p_both10 p-t-5">
+       <myImageViewer   v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="border-e5ecf7 radius3">
       <div class="m-b-10 bg-f5f9ff p_both20 p-v-15">
         <span>跟进方式：</span>
@@ -32,8 +34,8 @@
       </div>
     </div>
     <!-- 跟进记录 -->
-    <!-- <my-image-viewer class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" /> -->
-    <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+    <!--  class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" /> -->
+
     <div class="m-v-30">
       <div
         v-for="(item,index) in customTrackList"
@@ -68,7 +70,7 @@
         <div v-show="item.ImageList.length>0" class="p_both20">
           <div class="flex_dom flex_wrap">
             <div v-for="(img,index) in item.ImageList" :key="index" class="marg10 flex_mid flex_wrap">
-              <!-- <my-image-viewer class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" /> -->
+              <!--  class="wid80 hgt80" :preview-src-list="[img]" :src="img" fit="cover" /> -->
               <img
                 v-if="img"
                 class="wid20"

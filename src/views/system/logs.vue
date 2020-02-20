@@ -1,21 +1,12 @@
 <template>
   <div v-cloak class="font16 hgt_full">
+          <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="flex_column hgt_full">
       <div class="flex_1 overflow_hide border-e0 m-t-20">
         <div class="hgt_100 overflow_auto">
-          <my-image-viewer
-            v-if="showViewer"
-            :on-close="closeViewer"
-            :url-list="[imageViewerSrc]"
-          />
           <div class="p_both20 p-v-10">
-            <div
-              v-for="(item,index) in logList"
-              :key="index"
-              class="m-v-10 radius3 border-e5ecf7"
-            >
+            <div v-for="(item,index) in logList" :key="index" class="m-v-10 radius3 border-e5ecf7">
               <div class="flex_mid p_both20 m-t-10">
-
                 <div class="m-l-15">
                   <p class="font14 color-666">
                     <span class="color-1890ff">客户：{{ item.StudentLabel }}</span>
@@ -23,7 +14,9 @@
                   </p>
                   <p class="m-t-10 font14 color-666">
                     <span>{{ item.ManagerLabel }}：{{ item.track_method }}</span>
-                    <span class="font12 m-l-10 color-666">{{ common.dateFormat(item.Createtime, 2) }}</span>
+                    <span
+                      class="font12 m-l-10 color-666"
+                    >{{ common.dateFormat(item.Createtime, 2) }}</span>
                   </p>
                 </div>
               </div>
@@ -43,7 +36,7 @@
                       class="wid20"
                       src="/static/img/slice/uploadedIcon.png"
                       @click="onPreview(img)"
-                    >
+                    />
                   </div>
                 </div>
               </div>
@@ -56,7 +49,7 @@
                   <span class="color-1890ff">{{ replyItem.ManagerLabel }}：</span>
                   <span>{{ replyItem.Content }}</span>
                 </p>
-              </div>　
+              </div>
             </div>
           </div>
         </div>
@@ -77,13 +70,11 @@
   </div>
 </template>
 <script>
-import {
-  getManagerLogs, 
-} from '@/api/manager'
-import common from '@/utils/common'
-import myImageViewer from '@/components/myImageViewer/myImageViewer'
+import { getManagerLogs } from "@/api/manager";
+import common from "@/utils/common";
+import myImageViewer from "@/components/myImageViewer/myImageViewer";
 export default {
-  name: 'CustomBasicInfo',
+  name: "CustomBasicInfo",
   components: {
     myImageViewer
   },
@@ -91,10 +82,10 @@ export default {
     return {
       common,
       // 预览图片的图片地址
-      imageViewerSrc: '',
+      imageViewerSrc: "",
       // 显示图片查看器
       showViewer: false,
-      // 数据总条数
+      // 数据总条数  
       allRows: 0,
       // 当前页数
       nowPage: 1,
@@ -106,43 +97,41 @@ export default {
       logList: [],
       // 当前回复跟进数据的索引
       currentReplyIndex: null
-    }
+    };
   },
-  mounted() {
-   
-  },
+  mounted() {},
 
   methods: {
     // 图片预览
     onPreview(src) {
-      this.showViewer = true
-      this.imageViewerSrc = src
+      this.showViewer = true;
+      this.imageViewerSrc = src;
     },
     // 获取客户的跟进记录
     getLogs() {
-      const offsetRow = (this.nowPage - 1) * this.rows
+      const offsetRow = (this.nowPage - 1) * this.rows;
       getManagerLogs(0, {
         limit: this.rows,
         offset: offsetRow
       })
         .then(res => {
-          this.allRows = res.title
-          this.logList = res.data ? res.data : []
+          this.allRows = res.title;
+          this.logList = res.data ? res.data : [];
           this.logList.forEach(item => {
             if (item.Reply) {
-              item.Reply = JSON.parse(item.Reply)
+              item.Reply = JSON.parse(item.Reply);
             }
-          })
+          });
         })
-        .catch(err => {})
+        .catch(err => {});
     },
     // 分页获取数据
     getChangePage(val) {
-      this.nowPage = val
-      this.getLogs()
+      this.nowPage = val;
+      this.getLogs();
     }
   }
-}
+};
 </script>
 <style scoped>
 </style>

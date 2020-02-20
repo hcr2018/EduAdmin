@@ -6,6 +6,7 @@
     :title="'['+currentItemData.StudentLabel+']合同订单'"
     width="740px"
   >
+  <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="contractform">
       <el-form
         ref="refContractForm"
@@ -213,7 +214,7 @@
         <el-form-item label="图片">
           <div class="flex_dom flex_wrap">
             <div v-for="(item,index) in contractImgArr" :key="index" class="relative marg15">
-              <my-image-viewer
+              
                 class="wid80 hgt80"
                 :preview-src-list="[item]"
                 :src="item"

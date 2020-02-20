@@ -1,6 +1,6 @@
 <template>
   <div class="font16 hgt_full" v-cloak>
-    <div class="flex_column hgt_full">
+    <div class="flex_column  ">
       <!-- 查询表单 -->
       <div class="p-t-20">
         <el-form :inline="true">
@@ -196,7 +196,7 @@ export default {
       // 当前页数
       nowPage: 1,
       // 每页获取数据的总条数
-      rows: 10,
+      rows: 30,
       // 模态框获得的单条数据
       currentRowData: {},
       // 当前选中行的数据索引
@@ -233,15 +233,13 @@ export default {
         });
       }
 
-      // 获取数据的总条数
-      if (res.code == 200) {
+      // 获取数据的总条数 
         this.allRows = 0;
         this.teacherList = [];
         if (res.data) {
           this.allRows = res.title;
           this.teacherList = res.data;
-        }
-      }
+        } 
     },
 
     // 分页获取数据

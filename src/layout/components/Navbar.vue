@@ -22,11 +22,11 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="manager.Face" class="user-avatar">
+          <img :src="manager.face" class="user-avatar">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/profile/index">
+          <router-link to="/profile/personalData">
             <el-dropdown-item>
               {{ $t('navbar.profile') }}
             </el-dropdown-item>
