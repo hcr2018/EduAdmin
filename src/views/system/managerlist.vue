@@ -1,6 +1,6 @@
 <template>
   <div class="font16 hgt_full" v-cloak>
-    <div class="flex_column  ">
+    <div class="flex_column hgt_full ">
       <!-- 查询表单 -->
       <div class="p-t-20">
         <el-form :inline="true">
@@ -42,7 +42,7 @@
         </el-form>
       </div>
       <!-- 用户列表 -->
-      <div class="flex_1">
+      
         <el-table
           height="100%"
           :data="teacherList"
@@ -88,8 +88,7 @@
               >启用</el-button>
             </template>
           </el-table-column>
-        </el-table>
-      </div>
+        </el-table> 
       <!-- 用户操作 -->
       <div class="between-center m-v-15">
         <el-button type="primary" @click="openNewItem()">新增用户</el-button>
