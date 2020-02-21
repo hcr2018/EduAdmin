@@ -1,5 +1,5 @@
 <template>
-  <!-- --------------------新闻数据编辑或者添加表单组件----------------------- -->
+  <!-- --------------------数据编辑或者添加表单组件----------------------- -->
   <div class="pad20">
     <el-form
       :model="formItemData"
@@ -9,7 +9,7 @@
       label-width="80px"
     >
       <div class="flex_mid m-b-20">
-        <el-tooltip class="item" effect="dark" content="显示在新闻列表前面的图片,点击可修改" placement="top-start">
+        <el-tooltip class="item" effect="dark" content="显示在列表前面的图片,点击可修改" placement="top-start">
           <el-upload
             :multiple="false"
             :on-change="newsImgUpload"
@@ -21,7 +21,7 @@
           </el-upload>
         </el-tooltip>
         <div class="flex_1 m-l-30">
-          <div class="center">
+          <div class="flex_dom">
             <el-form-item label="类别">
               <el-select v-model="formItemData.KindId" placeholder="请选择类别">
                 <el-option
@@ -44,7 +44,7 @@
               </el-upload>
             </el-form-item>
           </div>
-          <el-form-item label="新闻标题" prop="Title">
+          <el-form-item label="标题" prop="Title">
             <el-input placeholder="请输入内容" v-model="formItemData.Title"></el-input>
           </el-form-item>
         </div>
@@ -52,7 +52,7 @@
       <el-form-item label="副标题">
         <el-input placeholder="请输入内容" v-model="formItemData.Description"></el-input>
       </el-form-item>
-      <el-form-item label="新闻内容">
+      <el-form-item label="内容">
         <Tinymce ref :height="400" v-model="formItemData.Content"></Tinymce>
       </el-form-item>
     </el-form>
@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       common,
-      // 新闻类型的选项
+      // 类型的选项
       newsKindOptions: [
         {
           value: 1,
@@ -107,13 +107,13 @@ export default {
       // 表单验证
       newsFormRules: {
         Title: [
-          { required: true, message: "新闻标题不能为空", trigger: "blur" }
+          { required: true, message: "标题不能为空", trigger: "blur" }
         ]
       }
     };
   },
   methods: {
-    // 上传新闻的图片
+    // 上传的图片
     async newsImgUpload(file) {
       let res = await $ImgAPI.UploadImg("news", file.raw);
       if (res.code == 200) {

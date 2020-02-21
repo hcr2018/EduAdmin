@@ -102,6 +102,12 @@ export const asyncRoutes = [
         component: () => import('@/views/system/setting'),
         name: 'setting',
         meta: {  title: 'system',  icon: 'edit'  }
+      },
+      {
+        path: 'college',
+        component: () => import('@/views/course/college'),
+        name: 'college',
+        meta: {  title: 'college',  icon: 'edit'  }
       }
     ]
   },

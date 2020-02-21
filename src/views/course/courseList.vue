@@ -185,7 +185,7 @@ import {
   getTopWrongQuseList
 } from "@/api/course";
 
-import { getCollegeWithCourseKind } from "@/api/app";
+import { getCollegeWithCourseKind } from "@/api/college";
 import {   getExamList } from "@/api/question";
 
 export default {

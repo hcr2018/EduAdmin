@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie'
 import { getLanguage } from '@/lang/index'
-import { getAllTPlatform, getCollegeWithCourseKind, getAllCourseKind } from '@/api/app'
+import { getAllCourseKind } from '@/api/course'
+import { getCollegeWithCourseKind } from '@/api/college'
+import { getAllTPlatform } from '@/api/platform'
 const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
@@ -10,8 +12,8 @@ const state = {
   language: getLanguage(),
   size: Cookies.get('size') || 'medium',
   platformList: [],
-  collegeWithCourseKind: [],
-  courseKind: []
+  collegeWithCourseKind: []
+  // courseKind: []
 }
 
 const mutations = {
@@ -46,19 +48,17 @@ const mutations = {
   SET_COLLEGEWITHCOURSEKIND: (state, data) => {
     state.collegeWithCourseKind = data
   },
-  SET_COURSEKIND: (state, data) => {
-    state.courseKind = data
-  },
-  PUSH_PLATFORM:(state,newItem)=>{
+   
+  PUSH_PLATFORM: (state, newItem) => {
     let hasIn = false;
-    state.platformList.forEach(item=>{
-      if (item.Id ===newItem.Id ){
-        item = newItem; 
+    state.platformList.forEach(item => {
+      if (item.Id === newItem.Id) {
+        item = newItem;
         hasIn = true;
         return
       }
     })
-    if (hasIn == false){
+    if (hasIn == false) {
       state.platformList.push(newItem);
     }
   }
@@ -83,8 +83,8 @@ const actions = {
   // getPlatformList
   getPlatformList({ commit }) {
     return new Promise((resolve, reject) => {
-      getAllTPlatform('', '', '').then(response => { 
-        commit('SET_PLATFORMLIST', response.data) 
+      getAllTPlatform('', '', '').then(response => {
+        commit('SET_PLATFORMLIST', response.data)
         resolve()
       }).catch(error => {
         reject(error)
@@ -93,32 +93,18 @@ const actions = {
   },
   // getPlatformList
   getCollegeWithCourseKind({ commit }) {
-    return new Promise((resolve, reject) => {
-
-      getCollegeWithCourseKind('', {"include":1}, '').then(response => {
+    return new Promise((resolve, reject) => { 
+      getCollegeWithCourseKind('', { "include": 1 }, '').then(response => {
         commit('SET_COLLEGEWITHCOURSEKIND', response.data)
         resolve()
-      }).catch(error => {
-        rr
+      }).catch(error => { 
         reject(error)
       })
     })
   },
-  // getPlatformList
-  getAllCourseKind({ commit }) {
-    return new Promise((resolve, reject) => {
-      getAllCourseKind('', '', '').then(response => {
-        commit('SET_COURSEKIND', response.data)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-   // setPlatformList
-   pushPlatform({ commit },newItem) { 
-    commit('PUSH_PLATFORM', newItem)
-  }
+ 
+
+
 }
 
 export default {

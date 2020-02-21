@@ -6,6 +6,7 @@ export default {
     sendSMS: 'send SMS',
     trackList: 'track list',
     customList: 'all custom',
+    college:"college",
     customManage: 'custom manage',
     courseList: 'course list', 
     bookResearch:"teaching research",

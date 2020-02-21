@@ -48,6 +48,7 @@ export function editCourse(url, param, data) {
     data
   })
 }
+
 // 根据课程获取科目
 export function GetSubjectByCourse(url, param, data) {
   return request({
@@ -89,6 +90,45 @@ export function saveCoursePriceList(url, param, data) {
   return request({
     url: '/coursebook/addCoursePrice' + url,
     method: 'post',
+    params: param,
+    data
+  })
+}
+
+// 添加课程
+
+export function addCourseKind(url, param, data) {
+  return request({
+    url: '/course_kind/' + url,
+    method: 'post',
+    params: param,
+    data
+  })
+}
+// 编辑课程
+export function editCourseKind(url, param, data) {
+  return request({
+    url: '/course_kind/' + url,
+    method: 'put',
+    params: param,
+    data
+  })
+}
+// 绕开学院，直接获取所有课程大类列表
+export function getAllCourseKind(url, param, data) {
+  return request({
+    url: '/course_kind/getAllCourseKind' + url,
+    method: 'get',
+    params: param,
+    data
+  })
+}
+
+// 删除课程大类
+export function deleteCourseKind(url, param, data) {
+  return request({
+    url: '/course_kind/' + url,
+    method: 'delete',
     params: param,
     data
   })

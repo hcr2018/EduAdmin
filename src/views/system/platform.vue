@@ -28,8 +28,7 @@
         <el-button type="primary" @click="openNewItem( )">新增校区</el-button>
       </div>
     </div>
-    <!-- 弹出框 -->
-    <div>
+    <!-- 弹出框 --> 
       <!-- 更多操作弹窗 -->
       <my-dialog
         :visible.sync="moreOperationDialog"
@@ -59,8 +58,7 @@
           @subClickEvent="updateListItem"
         />
       </el-dialog>
-    </div>
-  </div>
+    </div> 
 </template>
 
 <script>

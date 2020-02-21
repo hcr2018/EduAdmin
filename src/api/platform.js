@@ -118,3 +118,13 @@ export function editWorkersCustom(url, query, data) {
     data
   })
 }
+
+// 获取所有平台的信息
+export function getAllTPlatform(url, param, data) {
+  return request({
+    url: '/platform/getAllTPlatform' + url,
+    method: 'get',
+    params: param,
+    data
+  })
+}

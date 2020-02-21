@@ -7,6 +7,7 @@ export default {
     trackList: '跟进记录',
     customManage: '学员管理',
     customList: '全部学员',
+    college:"院系方向",
     courseList: '课程产品',
     bookResearch:"教学研发",
     bookList: '教材列表',
