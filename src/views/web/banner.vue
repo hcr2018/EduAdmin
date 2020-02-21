@@ -2,8 +2,8 @@
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <div class="flex_1 m-t-20 overflow_auto p-r-30 border-dfe6ec p-l-20 p-v-15">
-        <div class>
           <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
+        <div class="cardBorder">
              <el-upload
               :auto-upload="false"
               action
@@ -11,7 +11,7 @@
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
               <img v-if="item.image" :src="item.image" style="width: 100%; height: 160px" />
-              <i v-else slot="default" class="el-icon-plus">&nbsp;点击上传</i>
+              <i v-else slot="default" class="el-icon-plus" style="width: 100%; height: 160px" >&nbsp;点击上传</i>
             </el-upload> 
             <el-form :inline="true" :model="item" class="demo-form-inline m-t-20">
               <el-form-item label="标题">
@@ -116,6 +116,11 @@ export default {
 };
 </script>
 <style scoped>
+.cardBorder{
+  border:1px solid; 
+	border-color:#efefef;
+  padding: 5px;
+}
 .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

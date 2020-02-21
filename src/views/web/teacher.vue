@@ -11,7 +11,7 @@
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
               <img v-if="item.image" :src="item.image" style="width: 160px; height: 160px" />
-              <i v-else slot="default" class="el-icon-plus">&nbsp;点击上传</i>
+              <i v-else slot="default" class="el-icon-plus" style="width: 160px; height: 160px">&nbsp;点击上传</i>
             </el-upload>
 
             <div>
@@ -33,7 +33,7 @@
                     <el-button type="danger" @click="deleBannerItem(index)">删 除</el-button>
                   </el-form-item>
                 </div>
-              </el-form>
+              </el-form> 
             </div>
           </div>
         </div>
@@ -127,6 +127,7 @@ export default {
 .cardBorder{
   border:1px solid; 
 	border-color:#efefef;
+  padding: 5px;
 }
 .el-upload {
     border: 1px dashed #d9d9d9;
