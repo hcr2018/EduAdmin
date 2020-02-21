@@ -25,7 +25,7 @@
         </el-form>
       </div>
       <!-- 科目列表 -->
-      <div class="flex_1">
+    
         <el-table
           ref="refSubjectListElTabel"
           :data="subjectList"
@@ -59,8 +59,7 @@
               <!-- <el-button type="info" @click="gotoBookExercisePage(scope.$index, scope.row)">学员作业</el-button> -->
             </template>
           </el-table-column>
-        </el-table>
-      </div>
+        </el-table> 
       <div class="between-center m-v-15">
         <el-button type="primary" @click="openSubjectDialog(1)">新增教材</el-button>
         <div>

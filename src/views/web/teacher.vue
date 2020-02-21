@@ -3,8 +3,17 @@
     <div class="flex_column hgt_full">
       <div class="flex_1 m-t-20 overflow_auto p-r-10 border-dfe6ec p-l-20 p-v-15">
         <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
-          <div class="flex_mid">
-            <el-image style="width: 160px; height: 160px" fit="cover" :src="item.image"></el-image>
+          <div class="flex_mid cardBorder">
+            <el-upload
+              :auto-upload="false"
+              action
+              :show-file-list="false"
+              :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
+            >
+              <img v-if="item.image" :src="item.image" style="width: 160px; height: 160px" />
+              <i v-else slot="default" class="el-icon-plus">&nbsp;点击上传</i>
+            </el-upload>
+
             <div>
               <el-form label-width="90px" :model="item">
                 <div class="flex_mid">
@@ -19,16 +28,7 @@
                   <el-input type="textarea" v-model="item.title" placeholder="老师姓名"></el-input>
                 </el-form-item>
                 <div class="flex_mid">
-                  <el-form-item>
-                    <el-upload
-                      :auto-upload="false"
-                      action
-                      :show-file-list="false"
-                      :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
-                    >
-                      <el-button type="success">上传图片</el-button>
-                    </el-upload>
-                  </el-form-item>
+                  <el-form-item></el-form-item>
                   <el-form-item label-width="30px">
                     <el-button type="danger" @click="deleBannerItem(index)">删 除</el-button>
                   </el-form-item>
@@ -54,13 +54,14 @@ export default {
   data() {
     return {
       // banner列表
-      bannerList: []
+      bannerList: [],
+      currentPlatform: 0
     };
   },
 
   methods: {
     async GetIndexBanner() {
-      let res = await GetIndexItem("banner", "");
+      let res = await GetIndexItem(this.currentPlatform + "/teacher", "");
       if (res.code == 200) {
         this.bannerList = res.data ? res.data : [];
       }
@@ -74,11 +75,15 @@ export default {
           message: "上传成功",
           type: "success"
         });
+        this.$forceUpdate(); 
       }
     },
     // 保存banner列表
     async saveBannerList() {
-      let res = await SetIndexItem("teacher", "", this.bannerList);
+      let res = await SetIndexItem(
+        this.currentPlatform + "/teacher", "",
+        this.bannerList
+      );
       if (res.code == 200) {
         this.$message({
           message: "保存成功",
@@ -94,7 +99,11 @@ export default {
     async deleBannerItem(index) {
       let newBannerList = [...this.bannerList];
       newBannerList.splice(index, 1);
-      let res = await SetIndexItem("teacher", "", newBannerList);
+      let res = await SetIndexItem(
+       this.currentPlatform + "/teacher",
+      "",
+        newBannerList
+      );
       if (res.code == 200) {
         this.$message({
           message: "删除成功",
@@ -105,9 +114,25 @@ export default {
     }
   },
   mounted() {
+    let paths = this.$router.currentRoute.path.split("/");
+    this.currentPlatform = paths[paths.length - 1];
+    if (isNaN(this.currentPlatform)) {
+      this.currentPlatform = 0;
+    }
     this.GetIndexBanner();
   }
 };
 </script>
 <style scoped>
+.cardBorder{
+  border:1px solid; 
+	border-color:#efefef;
+}
+.el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <div class="flex_1">
+     
         <el-table
           ref="refElTabel"
           height="100%"
@@ -23,8 +23,7 @@
           <el-table-column prop="Telephone" label="联系电话" width="100" />
           <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="200" />
           <el-table-column prop="Description" label="备注" :show-overflow-tooltip="true" />
-        </el-table>
-      </div>
+        </el-table> 
       <div class="between-center m-v-15">
         <el-button type="primary" @click="openNewItem( )">新增校区</el-button>
       </div>

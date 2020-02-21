@@ -62,8 +62,7 @@
         </el-form>
       </div>
 
-      <!-- 列表 -->
-      <div class="flex_1">
+      <!-- 列表 --> 
         <el-table
           id="contract_table"
           ref="refElTabel"
@@ -105,8 +104,7 @@
               <el-button type="primary" @click="deleteContractRecord(scope.row.Id,scope.$index)">删除</el-button>
             </template>
           </el-table-column>
-        </el-table>
-      </div>
+        </el-table> 
       <div class="between-center m-v-10">
         <div>
           <el-pagination

@@ -50,7 +50,7 @@
       <!-- 列表 -->
       <!-- 图片预览 -->
       <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
-      <div class="flex_1">
+     
         <el-table
           ref="refElTabel"
           :data="courseList"
@@ -110,8 +110,7 @@
               >{{ scope.row.Open==1?"已经上架":"没有上架" }}</el-button>
             </template>
           </el-table-column>
-        </el-table>
-      </div>
+        </el-table> 
       <div class="m-v-15">
         <el-button type="primary" @click="openCourseDialog(0)">新增课程</el-button>
       </div>
@@ -236,8 +235,7 @@ export default {
     // 图片预览
     onPreview(src) {
       this.showViewer = true;
-      this.imageViewerSrc = src;
-      console.log( this.imageViewerSrc ,"----------",src);
+      this.imageViewerSrc = src; 
     },
     // 关闭图片查看器
     closeViewer() {

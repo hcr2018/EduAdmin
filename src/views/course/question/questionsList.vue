@@ -23,7 +23,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="flex_1">
+     
         <el-table
           :data="questionsListOfBook"
           border
@@ -61,8 +61,7 @@
               <el-button type="primary" @click="openEditQuestionDialog(scope.$index, scope.row)">编辑</el-button>
             </template>
           </el-table-column>
-        </el-table>
-      </div>
+        </el-table> 
       <div class="between-center m-v-15">
         <el-button type="primary" @click="openAddQuestionDialog">新增试题</el-button>
         <div>

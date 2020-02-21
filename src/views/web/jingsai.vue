@@ -184,6 +184,14 @@ export default {
 };
 </script>
 <style scope >
+
+.el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
 .selectStyle {
   border: none;
   appearance: none;

@@ -25,8 +25,7 @@
           </el-form-item>
         </el-form>
       </div>
-
-      <div class="flex_1">
+ 
         <el-table
           tooltip-effect="light"
           :data="classList"
@@ -58,8 +57,7 @@
           <el-table-column prop="CreaterLabel" label="创建人员" width="100"></el-table-column>
           <el-table-column prop="Createtime" label="创建时间" width="90" :formatter="TimeFormatter"></el-table-column>
           <el-table-column prop="Description" label="情况备注" :show-overflow-tooltip="true"></el-table-column>
-        </el-table>
-      </div>
+        </el-table> 
       <div class="between-center m-v-10">
         <el-button type="primary" @click="openClassDialog()">创建班级</el-button>
         <div>
