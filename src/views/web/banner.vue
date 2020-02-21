@@ -1,18 +1,24 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <div class="flex_1 m-t-20 overflow_auto p-r-30 border-dfe6ec p-l-20 p-v-15">
-          <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
-        <div class="cardBorder">
-             <el-upload
+      <div class="flex_1 m-t-20 overflow_auto my_scrollbar p-r-30 p-l-20 p-v-15">
+        <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
+          <div class="cardBorder">
+            <el-upload
               :auto-upload="false"
               action
+              class="wid_100 flex_dom"
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
-              <img v-if="item.image" :src="item.image" style="width: 100%; height: 160px" />
-              <i v-else slot="default" class="el-icon-plus" style="width: 100%; height: 160px" >&nbsp;点击上传</i>
-            </el-upload> 
+              <img v-if="item.image" :src="item.image" style="width:100%; height: 160px" />
+              <i
+                v-else
+                slot="default"
+                class="el-icon-plus flex_1"
+                style="width: 100%; height: 160px"
+              >&nbsp;点击上传</i>
+            </el-upload>
             <el-form :inline="true" :model="item" class="demo-form-inline m-t-20">
               <el-form-item label="标题">
                 <el-input v-model="item.label" placeholder="请输入标题"></el-input>
@@ -20,20 +26,10 @@
               <el-form-item label="跳转地址：">
                 <el-input v-model="item.href" placeholder="请输入连接地址"></el-input>
               </el-form-item>
-              <!-- <el-form-item>
-                <el-upload
-                  :auto-upload="false"
-                  action
-                  :show-file-list="false"
-                  :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
-                >
-                  <el-button type="success">上传图片</el-button>
-                </el-upload>
-              </el-form-item> -->
-              <el-form-item>
-                <el-button type="danger" @click="deleBannerItem(index)">删 除</el-button>
-              </el-form-item>
             </el-form>
+            <div class="dele_banner" @click="deleBannerItem(index)">
+              <i class="el-icon-error font24 color-999"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -54,7 +50,7 @@ export default {
     return {
       // banner列表
       bannerList: [],
-       currentPlatform: 0
+      currentPlatform: 0
     };
   },
 
@@ -74,12 +70,16 @@ export default {
           message: "上传成功",
           type: "success"
         });
-          this.$forceUpdate(); 
+        this.$forceUpdate();
       }
     },
     // 保存banner列表
     async saveBannerList() {
-      let res = await SetIndexItem(this.currentPlatform + "/banner","", this.bannerList);
+      let res = await SetIndexItem(
+        this.currentPlatform + "/banner",
+        "",
+        this.bannerList
+      );
       if (res.code == 200) {
         this.$message({
           message: "保存成功",
@@ -95,7 +95,11 @@ export default {
     async deleBannerItem(index) {
       let newBannerList = [...this.bannerList];
       newBannerList.splice(index, 1);
-      let res = await SetIndexItem(this.currentPlatform + "/banner", "", newBannerList);
+      let res = await SetIndexItem(
+        this.currentPlatform + "/banner",
+        "",
+        newBannerList
+      );
       if (res.code == 200) {
         this.$message({
           message: "删除成功",
@@ -106,7 +110,7 @@ export default {
     }
   },
   mounted() {
-     let paths = this.$router.currentRoute.path.split("/");
+    let paths = this.$router.currentRoute.path.split("/");
     this.currentPlatform = paths[paths.length - 1];
     if (isNaN(this.currentPlatform)) {
       this.currentPlatform = 0;
@@ -116,16 +120,28 @@ export default {
 };
 </script>
 <style scoped>
-.cardBorder{
-  border:1px solid; 
-	border-color:#efefef;
-  padding: 5px;
+.dele_banner {
+  position: absolute;
+  right: 15px;
+  top: 5px;
 }
-.el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
+.cardBorder {
+  -webkit-box-shadow: 0 1px 5px 0 #dedede;
+  box-shadow: 0 1px 5px 0 #dedede;
+  padding: 20px 70px 20px 20px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+.cardBorder /deep/ .el-upload {
+  width: 100%;
+}
+.el-icon-plus {
+  border: 1px dashed #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+
+  overflow: hidden;
+}
 </style>

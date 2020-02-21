@@ -1,7 +1,7 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <div class="flex_1 m-t-20 overflow_auto p-r-10 border-dfe6ec p-l-20 p-v-15">
+      <div class="flex_1 m-t-20 overflow_auto my_scrollbar p-r-10 p-l-20 p-v-15">
         <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
           <div class="flex_mid cardBorder">
             <el-upload
@@ -11,29 +11,30 @@
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
               <img v-if="item.image" :src="item.image" style="width: 160px; height: 160px" />
-              <i v-else slot="default" class="el-icon-plus" style="width: 160px; height: 160px">&nbsp;点击上传</i>
+              <i
+                v-else
+                slot="default"
+                class="el-icon-plus"
+                style="width: 160px; height: 160px"
+              >&nbsp;点击上传</i>
             </el-upload>
 
-            <div>
-              <el-form label-width="90px" :model="item">
-                <div class="flex_mid">
-                  <el-form-item label="姓名">
-                    <el-input v-model="item.label" placeholder="老师姓名"></el-input>
-                  </el-form-item>
-                  <el-form-item label="跳转地址：" class="m-l-20">
-                    <el-input v-model="item.href" placeholder="请输入连接地址"></el-input>
-                  </el-form-item>
-                </div>
-                <el-form-item label="简介">
-                  <el-input type="textarea" v-model="item.title" placeholder="老师姓名"></el-input>
+            <el-form label-width="90px" :model="item">
+              <div class="flex_mid">
+                <el-form-item label="姓名">
+                  <el-input v-model="item.label" placeholder="老师姓名"></el-input>
                 </el-form-item>
-                <div class="flex_mid">
-                  <el-form-item></el-form-item>
-                  <el-form-item label-width="30px">
-                    <el-button type="danger" @click="deleBannerItem(index)">删 除</el-button>
-                  </el-form-item>
-                </div>
-              </el-form> 
+                <el-form-item label="跳转地址：" class="m-l-20">
+                  <el-input v-model="item.href" placeholder="请输入连接地址"></el-input>
+                </el-form-item>
+              </div>
+              <el-form-item label="简介">
+                <el-input type="textarea" v-model="item.title" placeholder="老师姓名"></el-input>
+              </el-form-item>
+            </el-form>
+
+            <div class="dele_banner" @click="deleBannerItem(index)">
+              <i class="el-icon-error font24 color-999"></i>
             </div>
           </div>
         </div>
@@ -75,13 +76,14 @@ export default {
           message: "上传成功",
           type: "success"
         });
-        this.$forceUpdate(); 
+        this.$forceUpdate();
       }
     },
     // 保存banner列表
     async saveBannerList() {
       let res = await SetIndexItem(
-        this.currentPlatform + "/teacher", "",
+        this.currentPlatform + "/teacher",
+        "",
         this.bannerList
       );
       if (res.code == 200) {
@@ -100,8 +102,8 @@ export default {
       let newBannerList = [...this.bannerList];
       newBannerList.splice(index, 1);
       let res = await SetIndexItem(
-       this.currentPlatform + "/teacher",
-      "",
+        this.currentPlatform + "/teacher",
+        "",
         newBannerList
       );
       if (res.code == 200) {
@@ -124,16 +126,24 @@ export default {
 };
 </script>
 <style scoped>
-.cardBorder{
-  border:1px solid; 
-	border-color:#efefef;
-  padding: 5px;
+.dele_banner {
+  position: absolute;
+  right: 15px;
+  top: 5px;
+}
+.cardBorder {
+  -webkit-box-shadow: 0 1px 5px 0 #dedede;
+  box-shadow: 0 1px 5px 0 #dedede;
+  padding: 20px 70px 20px 20px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 10px;
 }
 .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
+  border: 1px dashed #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
 </style>
