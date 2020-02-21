@@ -10,8 +10,8 @@
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
-              <img v-if="item.image" :src="item.image" style="width: 160px; height: 160px" />
-              <i v-else slot="default" class="el-icon-plus" style="width: 160px; height: 160px">&nbsp;点击上传</i>
+              <img v-if="item.image" :src="item.image" style="width: auto; height: 160px" />
+              <i v-else slot="default" class="el-icon-plus" style="width: auto; height: 160px">&nbsp;点击上传</i>
             </el-upload>
 
             <div>
