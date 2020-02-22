@@ -29,7 +29,7 @@
           </div>
 
           <div class="deleImgIcon cursor" @click="deleImg(index,1)">
-            <img src="/static/img/slice/deleteIcon.png" alt />
+            <img src="/assets/slice/deleteIcon.png" alt />
           </div>
         </div>
         <el-upload
@@ -62,7 +62,7 @@
           <img
             v-if="item.List"
             class="wid20"
-            src="/static/img/slice/uploadedIcon.png"
+            src="/assets/slice/uploadedIcon.png"
             @click="onPreview(item.List)"
           />
           <div class="between-center m-v-5 wid80">
@@ -77,7 +77,7 @@
             </el-upload>
           </div>
           <div class="deleImgIcon cursor" @click="deleImg(index,2)">
-            <img src="/static/img/slice/deleteIcon.png" alt />
+            <img src="/assets/slice/deleteIcon.png" alt />
           </div>
         </div>
         <el-upload

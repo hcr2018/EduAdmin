@@ -39,7 +39,7 @@ export default {
   loading: function () {
     $('body').append(`<div class='loading_box' style='position:fixed;z-index:1500;width:100%;opacity:1;height:100%;left:0;top:0px;background-color:transparent;'>
     <div class='content' style='max-width: 70%;text-align:center;position:absolute;font-size:14px;left:50%;top:50%; transform:translateY(-50%) translateX(-50%);-webkit-transform:translateY(-50%) translateX(-50%);border-radius:4px'>
-    <img style='width: 40px' src='../static/img/slice/loading.gif' />
+    <img style='width: 40px' src='../assets/slice/loading.gif' />
     <div>
     <div>`)
   },

@@ -21,7 +21,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="课程类别" class="flex_1">
-        <el-select v-model="currentItemData.TCourseKindID" placeholder="请选择课程类别">
+        <el-select v-model="currentItemData.TCourseKindID" @change="$forceUpdate()" placeholder="请选择课程类别">
           <el-option
             v-for="(item,index) in CourseKindsOps"
             :key="index"

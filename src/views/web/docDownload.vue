@@ -144,6 +144,10 @@ export default {
           let res = await deleNewsRow(row.Id);
           if (res.code == 200) {
             this.getNewsList();
+            this.$message({
+              message: "删除成功 ",
+              type: "success"
+            });
           }
         })
         .catch(() => {});
@@ -184,7 +188,6 @@ export default {
   },
 
   mounted() {
-   
     this.getNewsList();
   }
 };

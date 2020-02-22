@@ -38,7 +38,7 @@
                     <img
                       v-if="img"
                       class="wid20"
-                      src="/static/img/slice/uploadedIcon.png"
+                      src="/assets/slice/uploadedIcon.png"
                       @click="onPreview(img)"
                     />
                   </div>

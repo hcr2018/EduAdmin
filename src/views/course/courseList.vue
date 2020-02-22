@@ -65,7 +65,7 @@
               <img
                 v-if="scope.row.Background"
                 class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
+                src="/assets/slice/uploadedIcon.png"
                 @click="onPreview(scope.row.Background)"
               />
             </template>
@@ -75,7 +75,7 @@
               <img
                 v-if="scope.row.Jxtx"
                 class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
+                src="/assets/slice/uploadedIcon.png"
                 @click="onPreview(scope.row.Jxtx)"
               />
             </template>
@@ -85,7 +85,7 @@
               <img
                 v-if="scope.row.Kcxq"
                 class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
+                src="/assets/slice/uploadedIcon.png"
                 @click="onPreview(scope.row.Kcxq)"
               />
             </template>

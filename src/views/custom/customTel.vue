@@ -511,7 +511,7 @@ export default {
       const message = `${this.callForm.phoneNum} 正在呼入，请及时接听`
       this.notify = new Notification('呼入提醒', {
         lang: 'zh-CN',
-        icon: '/static/img/slice/logo_title.png',
+        icon: '/assets/slice/logo_title.png',
         body: message
       })
 

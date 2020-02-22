@@ -137,7 +137,7 @@
                 v-if="scope.row.firstAttachImage"
                 @click="onPreview(scope.row.firstAttachImage)"
                 class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
+                src="/assets/slice/uploadedIcon.png"
               />
             </div>
           </template>

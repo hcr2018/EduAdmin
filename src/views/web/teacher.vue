@@ -10,7 +10,7 @@
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
-              <img v-if="item.image" :src="item.image" style="width: 160px; height: 160px" />
+              <img v-if="item.image" :src="item.image" style="width: auto; height: 160px" />
               <i
                 v-else
                 slot="default"
@@ -99,20 +99,32 @@ export default {
     },
     // 删除banner
     async deleBannerItem(index) {
-      let newBannerList = [...this.bannerList];
-      newBannerList.splice(index, 1);
-      let res = await SetIndexItem(
-        this.currentPlatform + "/teacher",
-        "",
-        newBannerList
-      );
-      if (res.code == 200) {
+      this.$confirm("这里删除后还需要点击保存按钮，确定删除吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(async () => {
+        this.bannerList.splice(index, 1);
         this.$message({
-          message: "删除成功",
+          message: "删除成功,请最后点击保存按钮",
           type: "success"
         });
-        this.bannerList.splice(index, 1);
-      }
+      });
+
+      // let newBannerList = [...this.bannerList];
+      // newBannerList.splice(index, 1);
+      // let res = await SetIndexItem(
+      //   this.currentPlatform + "/teacher",
+      //   "",
+      //   newBannerList
+      // );
+      // if (res.code == 200) {
+      //   this.$message({
+      //     message: "删除成功",
+      //     type: "success"
+      //   });
+      //   this.bannerList.splice(index, 1);
+      // }
     }
   },
   mounted() {

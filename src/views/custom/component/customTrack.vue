@@ -52,7 +52,7 @@
           <img
             v-if="item.ManagerFace"
             class="wid20"
-            src="/static/img/slice/uploadedIcon.png"
+            src="/assets/slice/uploadedIcon.png"
             @click="onPreview(item.ManagerFace)"
           />
           <div class="m-l-15">
@@ -74,7 +74,7 @@
               <img
                 v-if="img"
                 class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
+                src="/assets/slice/uploadedIcon.png"
                 @click="onPreview(img)"
               />
             </div>

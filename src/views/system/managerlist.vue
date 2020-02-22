@@ -220,17 +220,17 @@ export default {
       let res;
       if (this.currentPlatform > 0) {
         res = await getAllManagerOfPlatform(this.currentPlatform, {
-          limit: this.rows,
-          offset: offsetRow
+          simple: false 
         });
       } else {
         res = await getManagerList("", {
+         
           limit: this.rows,
           offset: offsetRow,
           role: this.searchRoleVal,
           [searchCondition]: searchVal
         });
-      }
+     }
 
       // 获取数据的总条数 
         this.allRows = 0;

@@ -41,7 +41,7 @@
               class="deleImgIcon cursor"
               @click="deleCustomImg(index)"
             >
-              <img class="wid20" src="/static/img/slice/deleteIcon.png" @click="onPreview(item)" />
+              <img class="wid20" src="/assets/slice/deleteIcon.png" @click="onPreview(item)" />
             </div>
           </div>
           <el-upload

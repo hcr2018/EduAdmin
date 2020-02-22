@@ -225,7 +225,7 @@
                 class="deleImgIcon cursor"
                 @click="deleCustomImg(index)"
               >
-                <img src="/static/img/slice/deleteIcon.png" alt />
+                <img src="/assets/slice/deleteIcon.png" alt />
               </div>
             </div>
             <el-upload

@@ -93,7 +93,7 @@
              <img
                 v-if="item.ImgSrc"
                 class="wid20"
-                src="/static/img/slice/uploadedIcon.png"
+                src="/assets/slice/uploadedIcon.png"
                 @click="onPreview(item.ImgSrc)"
               />
 
@@ -111,7 +111,7 @@
               </el-upload>
             </div>
             <div v-if="isEditTimeTag" class="deleImgIcon cursor" @click="deleTimeTagImg(index)">
-              <img src="/static/img/slice/deleteIcon.png" alt />
+              <img src="/assets/slice/deleteIcon.png" alt />
             </div>
           </div>
           <el-upload
