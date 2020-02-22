@@ -23,7 +23,7 @@
         <el-input
           v-model="currentItemData.Telephone"
           :disabled="currentItemData.id>0"
-          \placeholder="请输入客户电话"
+          placeholder="请输入客户电话"
           @blur="checkRepeatPhone"
         />
       </el-form-item>
@@ -308,8 +308,8 @@ export default {
     },
     // 检查电话号码是否重复
     async checkRepeatPhone() {
-      if (this.customInfo.Telephone.length == 11) {
-        const res = await checkTelephone(this.customInfo.Telephone);
+      if (this.currentItemData.Telephone.length == 11) {
+        const res = await checkTelephone(this.currentItemData.Telephone);
         if (res.code == 200) {
           if (res.data && res.title != "ok") {
             const mes = `<span class='color-1890ff'>${res.title}${res.data.ManagerLabel}</span>的客户<span class='color-1890ff'>${res.data.Realname}</span>已使用过该号码哦！`;

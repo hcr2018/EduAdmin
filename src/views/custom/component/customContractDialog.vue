@@ -291,6 +291,10 @@ export default {
       isShowContractDialog: false,
       // 添加客户合同的默认数据
       currentItemData: {},
+        // 预览图片的图片地址
+      imageViewerSrc: "",
+      // 显示图片查看器
+      showViewer: false,
       // 存放合同图片的数组
       contractImgArr: [],
       // 课程大类
