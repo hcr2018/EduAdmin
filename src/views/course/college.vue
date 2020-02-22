@@ -25,13 +25,12 @@
             >{{scope.row.Label}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="info" label="备注" :show-overflow-tooltip="true"></el-table-column>
-        
+        <el-table-column prop="Descritpion" label="备注" :show-overflow-tooltip="true"></el-table-column>
       </el-table>
       <!-- 用户操作 -->
       <div class="between-center m-v-15">
-        <el-button type="primary" @click="openNewItem()">新增学院</el-button>
-        <div>
+        <el-button type="primary" @click="addCollege()">新增学院</el-button>
+        <!-- <div>
           <el-pagination
             background
             @current-change=" getDataChangePage"
@@ -40,7 +39,7 @@
             layout="total,prev, pager, next, jumper"
             :total="allRows"
           ></el-pagination>
-        </div>
+        </div>-->
       </div>
     </div>
 
@@ -50,7 +49,7 @@
     <my-dialog :visible.sync="moreOperationDialog" :close-show="true" :title="currentRowData.Label">
       <!-- 展示校区的基本信息 -->
       <div slot="left_content">
-        <collegeRowDetail  :formItemData="currentRowData" />
+        <collegeRowDetail :formItemData="currentRowData" />
       </div>
       <div slot="right_content" class="p_both20 p-b-20">
         <el-tabs v-model="activElTab">
@@ -67,24 +66,14 @@
       width="500px"
       :title="currentRowData.Id>0?'编辑'+currentRowData.Label:'新增学院'"
     >
-      <collegeRowDetail
-        :editEnable="true"
-        :formItemData="currentRowData"
-        @subClickEvent="updateTeacherList"
-      />
+      <collegeRowDetail :editEnable="true" :formItemData="currentRowData" />
     </el-dialog>
   </div>
 </template>
 
 <script>
 import common from "@/utils/common";
-import {
-  getManagerList,
-  setStateManager,
-  resetPasswordManager,
-  getManagerPower
-} from "@/api/manager";
-import { getAllManagerOfPlatform } from "@/api/platform";
+
 import myDialog from "@/components/myDialog/myDialog";
 import collegeRowDetail from "@/views/course/component/collegeRowDetail";
 import courseKind from "@/views/course/component/courseKind";
@@ -142,64 +131,9 @@ export default {
     };
   },
   methods: {
-    // 获取用户信息的列表
-    async getAllManagerOfPlatform() {
-      let offsetRow = (this.nowPage - 1) * this.rows;
-      let searchCondition = this.searchConditionVal;
-      let searchVal = this.searchVal;
-      let res;
-      if (this.currentPlatform > 0) {
-        res = await getAllManagerOfPlatform(this.currentPlatform, {
-          limit: this.rows,
-          offset: offsetRow
-        });
-      } else {
-        res = await getManagerList("", {
-          limit: this.rows,
-          offset: offsetRow,
-          role: this.searchRoleVal,
-          [searchCondition]: searchVal
-        });
-      }
-
-      // 获取数据的总条数
-      this.allRows = 0;
-      this.teacherList = [];
-      if (res.data) {
-        this.allRows = res.title;
-        this.teacherList = res.data;
-      }
-    },
-
-    // 分页获取数据
-    getDataChangePage(val) {
-      this.nowPage = val;
-      this.getAllManagerOfPlatform();
-    },
-
     addCollege() {
       this.editDialog = true;
       this.currentRowData = {};
-    },
-    // 重置密码
-    resetPassword(index, row) {
-      this.$confirm("确认重置该账户密码?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(async () => {
-          let res = await resetPasswordManager(row.Id);
-          if (res.code == 200) {
-            this.$alert("当前密码是:" + res.title, "密码", {
-              confirmButtonText: "确定",
-              callback: action => {
-                this.$set(this.teacherList, index, res.data);
-              }
-            });
-          }
-        })
-        .catch(() => {});
     },
     // 打开更多操作的弹出框
     openMoreOperationDialog(index, row) {
@@ -214,19 +148,6 @@ export default {
       }
 
       this.moreOperationDialog = true;
-    },
-
-    // 修改或编辑老师个人信息后更新老师数据列表
-    updateTeacherList(type, rowData) {
-      // type=0添加，type=1修改，
-      if (type == 0) {
-        this.teacherList.unshift(rowData);
-      } else if (type == 1) {
-        this.currentRowData = { ...rowData };
-        this.$set(this.teacherList, this.currentTeacherIndex, rowData);
-        this.$refs.refTeacherDetail.getTeacherRowData({ ...rowData });
-      }
-      this.editDialog = false;
     }
   },
   mounted() {
@@ -235,10 +156,6 @@ export default {
     if (isNaN(this.currentPlatform)) {
       this.currentPlatform = 0;
     }
-    this.getAllManagerOfPlatform();
-  },
-  created() {
- 
   }
 };
 </script>

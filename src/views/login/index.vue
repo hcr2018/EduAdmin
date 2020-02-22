@@ -187,7 +187,7 @@ export default {
                 .dispatch("app/getCollegeWithCourseKind")
                 .then(() => {});
 
-              this.$store.dispatch("app/getAllCourseKind").then(() => {});
+              // this.$store.dispatch("app/getAllCourseKind").then(() => {});
 
               this.$router.push({
                 path: this.redirect || "/",

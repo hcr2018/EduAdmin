@@ -11,7 +11,7 @@
           style="width: 100%"
         >
           <el-table-column prop="Id" label="ID" width="50" />
-          <el-table-column prop="Label" label="校区名称" width="110">
+          <el-table-column prop="Label" label="校区名称" width="310">
             <template slot-scope="scope">
               <span
                 class="color-1890ff font-w6 cursor"
@@ -21,7 +21,7 @@
           </el-table-column>
           <el-table-column prop="MasterLabel" label="负责人" width="120" />
           <el-table-column prop="Telephone" label="联系电话" width="100" />
-          <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="200" />
+          <el-table-column prop="Address" label="地址" :show-overflow-tooltip="true" width="300" />
           <el-table-column prop="Description" label="备注" :show-overflow-tooltip="true" />
         </el-table> 
       <div class="between-center m-v-15">

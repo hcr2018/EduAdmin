@@ -13,7 +13,7 @@
         <el-input v-model="currentFormData.Label" />
       </el-form-item>
       <el-form-item label="备注">
-        <el-input v-model="currentFormData.Description" />
+        <el-input v-model="currentFormData.Descritpion" />
       </el-form-item>
     </el-form>
     <div>
