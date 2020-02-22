@@ -223,8 +223,7 @@ export default {
           simple: false 
         });
       } else {
-        res = await getManagerList("", {
-         
+        res = await getManagerList("", { 
           limit: this.rows,
           offset: offsetRow,
           role: this.searchRoleVal,

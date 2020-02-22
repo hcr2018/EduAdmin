@@ -100,13 +100,11 @@
       </el-dialog>
     </div>
   </div>
-</template>
-
-<script>
+</template> 
+<script> 
 import classRowDetail from "@/views/platform/component/classRowDetail";
 import ClassStudent from "@/views/platform/component/classStudent";
-import SchoolTimeTable from "@/views/platform/component/schoolTimeTable";
-import handOutWork from "@/views/platform/component/handOutWork";
+import SchoolTimeTable from "@/views/platform/component/schoolTimeTable"; 
 import myDialog from "@/components/myDialog/myDialog";
 import common from "@/utils/common";
 import {
@@ -132,8 +130,7 @@ export default {
     myDialog,
     classRowDetail,
     ClassStudent,
-    SchoolTimeTable,
-    handOutWork
+    SchoolTimeTable
   },
   data() {
     return {

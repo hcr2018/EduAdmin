@@ -40,8 +40,11 @@
           <platformRowDetail :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs>
+          <el-tabs v-model="activeName">
             <el-tab-pane id="gmjl" label="校区权限" name="gmjl"></el-tab-pane>
+             <el-tab-pane id="gly" label="设置负责人" name="gly">
+               <setPlatformMaster :formItemData="customFormData"  />
+             </el-tab-pane>
           </el-tabs>
         </div>
       </my-dialog>
@@ -63,12 +66,14 @@
 
 <script>
 import platformRowDetail from "@/views/system/component/platformRowDetail";
+import setPlatformMaster from "@/views/system/component/setPlatformMaster";
 import myDialog from "@/components/myDialog/myDialog";
 export default {
   name: "setPlatform",
   components: {
     myDialog,
-    platformRowDetail
+    platformRowDetail,
+    setPlatformMaster
   },
   data() {
     return {
@@ -79,7 +84,7 @@ export default {
       // 模态框获得的单条数据
       customFormData: {},
       // 当前操作平台的索引
-      currentPlatformIndex: null
+       activeName: 'gly'
     };
   },
   mounted() {

@@ -93,8 +93,7 @@ export default {
   },
   watch: {
     formItemData(newval) {
-      this.currentFormData = this.formItemData;
-      this.getTeacherRowData();
+      this.currentFormData = this.formItemData; 
     }
   },
   created() {
