@@ -20,13 +20,8 @@
       </el-form-item>
       <!-- 校区负责人 -->
       <el-form-item label="负责人">
-        <el-radio-group v-model="currentFormData.MasterID">
-          <el-radio-button
-            v-for="item in PlatformWorkers"
-            :key="item.Id"
-            :label="item.Id"
-          >{{ item.Realname }}</el-radio-button>
-        </el-radio-group>
+        
+       {{currentFormData.MasterLabel}}
       </el-form-item>
       <el-form-item label="备注">
         <el-input v-model="currentFormData.Description" />
