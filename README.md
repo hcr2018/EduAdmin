@@ -15,8 +15,8 @@
 如果你只需要开发前端程序。那么不需要下载后端程序即可直接使用公用的社区版api接口调试。待将要部署的时候再下载下面的后端程序。
 后端程序采用的是go语言编写的。提供windows和linux版本供下载
 1.  首先请确保安装最新版的稳定mysql 和redis 版本。
-2.  在[后台程序下载（Linux版本）均是64位](http://edu.todear.net:8990/download/community.zip)
-3.  在[后台程序下载（Windows版本）均是64位](http://edu.todear.net:8990/download/community.zip)
+2.  在[后台程序下载（Linux版本）64位](http://edu.todear.net:8990/download/community.zip)
+3.  在[后台程序下载（Windows版本）64位](http://edu.todear.net:8990/download/community.zip)
 4.  在mysql数据库中先建立一个 edu的数据库。
 5.  解压上面下载的后台程序压缩包。将sql导入
 6.  修改conf目录下app.conf配置文件。其中的数据库账号和密码，以及redis账号和db编号。默认为0 第一个
