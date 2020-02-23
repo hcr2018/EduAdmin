@@ -52,12 +52,12 @@
           </el-select>
         </el-form-item>
         <div v-show="operationType!=0">
-          <el-form-item label="课程大类">
+          <el-form-item label="课程类别">
             <el-select
               v-model="nowcourseKind"
               class="changInputWidth"
               :disabled="operationType==0"
-              placeholder="请选择课程大类"
+              placeholder="请选择课程类别"
               @change="getCourse"
             >
               <el-option
@@ -297,11 +297,11 @@ export default {
       showViewer: false,
       // 存放合同图片的数组
       contractImgArr: [],
-      // 课程大类
+      // 课程类别
       nowcourseKind: "",
       // 当前用户姓名-添加合同
       PlatformWorkerLabel: "",
-      //选中学院后的课程大类
+      //选中学院后的课程类别
       CourseKindsOps:[],
       // 所有获取课程
       courseList: [],

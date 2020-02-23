@@ -15,7 +15,7 @@
           <el-form-item>
             <el-input
               v-model="searchBookCourseKind"
-              placeholder="课程大类"
+              placeholder="课程类别"
               @keyup.native.enter="searchSubmit"
             />
           </el-form-item>
@@ -129,7 +129,7 @@ export default {
       nowPage: 1,
       // 每页数据的总条
       rows: 20,
-      // 搜索查询-课程大类
+      // 搜索查询-课程类别
       searchBookCourseKind: "",
       // 查询内容
       searchContent: "",

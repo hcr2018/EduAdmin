@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item label="可选科目">
         <div class="addSubject flex_dom flex_wrap">
-          <p v-for="(item,index) in subjectListOps" :key="item.Id">
+          <p v-for="(item,index) in allBookList" :key="item.Id">
             {{ item.Label }}
             <i class="el-icon-circle-plus" @click="addSubjectToSourse(item,index)" />
           </p>
@@ -19,7 +19,7 @@
     <vxe-grid
       border
       resizable
-      :data.sync="coursePriceList"
+      :data.sync="currentItemData.Children"
       :edit-config="{trigger: 'click', mode: 'row'}"
       :columns="coursePriceColumnTitle"
     />
@@ -50,17 +50,15 @@ export default {
     return {
       // 学院默认选中第一项
       collegeIndex: 0,
-      currentItemData: {},
-      // 课程的价格列表数据
-      coursePriceList: [],
+      currentItemData: {}, 
       // 设置价格表格列字段
       coursePriceColumnTitle: [],
       // 存储价格的列名称
       priceColumnTitle: [],
 
       tableColumnValue: [],
-      // 存储课程大类下查找的科目
-      subjectListOps: [],
+      // 存储课程类别下查找的科目
+      allBookList: [],
       CourseKindsOps: [],
       // 查找教材搜索内容
       searchSubjectContent: ""
@@ -69,15 +67,19 @@ export default {
   watch: {
     formItemData(newvar) {
       this.currentItemData = this.formItemData;
+     
+        
+        this.getCoursePrice(); 
     }
   },
   mounted() {
     this.currentItemData = this.formItemData;
+     this.getCoursePrice();
   },
   methods: {
     //  选中学院后回调
     collegeChangeGetCourseKind(index) {
-      this.subjectListOps = [];
+      this.allBookList = [];
       this.currentItemData.TCourseKindID = null;
       this.currentItemData.TCollegeID = this.$store.getters.app.collegeWithCourseKind[
         index
@@ -108,16 +110,16 @@ export default {
         }
       });
     },
-    // 查找课程大类下的教材
+    // 查找课程类别下的教材
     async getBookList() {
-      this.subjectListOps = [];
+      this.allBookList = [];
       let params = { coursekind: this.courseKindLabel };
       if (this.searchSubjectContent) {
         params = { label: this.searchSubjectContent };
       }
       const res = await queryBookList("", params);
       if (res.code == 200) {
-        this.subjectListOps = res.data ? res.data : [];
+        this.allBookList = res.data ? res.data : [];
       }
     },
     // 获取科目价格
@@ -128,8 +130,11 @@ export default {
         { title: "科目名称", field: "Label" }
       ];
       this.priceColumnTitle = [];
-      this.coursePriceList = [];
-      const res = await getCoursePriceList(this.formItemData.Id);
+      this.currentItemData.Children = [];
+      if (!this.currentItemData.Id){
+        return
+        }
+        const res = await getCoursePriceList(this.currentItemData.Id);
       if (res.code == 200) {
         for (const items of res.data.Children) {
           for (const item in items) {
@@ -153,8 +158,28 @@ export default {
             this.tableColumnValue.push(name);
           });
         }
-        this.coursePriceList = res.data.Children;
+        this.currentItemData.Children = res.data.Children;
       }
+    },
+     // 给课程关联学科
+    addSubjectToSourse(subjectItem, index) {
+      let has = false;
+      this.currentItemData.Children = this.currentItemData.Children
+        ? this.currentItemData.Children
+        : []; 
+      this.currentItemData.Children.forEach(item => {
+        if (item.TBookId == subjectItem.Id) {
+          has = true;
+        }
+      }); 
+      if (!has) {
+        let courseBookitem = {};
+        courseBookitem.Label = subjectItem.Label;
+        courseBookitem.Id = subjectItem.Id+"";
+        courseBookitem.TCourseId = this.currentItemData.Id+"";
+        courseBookitem.TopicNum = subjectItem.Topic+"";
+        this.currentItemData.Children.push(courseBookitem);
+      } 
     },
     // 新增课程有效期列
     insertColumns() {
@@ -171,7 +196,7 @@ export default {
           });
           this.tableColumnValue.push(value);
           // 添加列后,将字段添加到数据表中
-          for (const items of this.coursePriceList) {
+          for (const items of this.currentItemData.Children) {
             items[value] = null;
           }
         })
@@ -179,9 +204,10 @@ export default {
     },
     // 保存价格
     saveCoursePrice() {
-      for (const items of this.coursePriceList) {
+      for (const items of this.currentItemData.Children) {
         for (const item in items) {
           if (items[item] == null || items[item] == "") {
+            console.log(",,,,,,,",items[item])
             this.$alert("价格不能为空哦！", "提示", {
               confirmButtonText: "确定",
               type: "warning",
@@ -197,10 +223,10 @@ export default {
         type: "warning"
       })
         .then(async () => {
-          const urlParams = "?id=" + this.formItemData.Id;
+          const urlParams = "?id=" + this.currentItemData.Id;
           const res = await saveCoursePriceList(
-            urlParams,
-            this.coursePriceList
+            urlParams,"",
+            this.currentItemData.Children
           );
           if (res.code == 200) {
             this.$message("设置成功");

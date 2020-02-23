@@ -1,6 +1,6 @@
 <template>
   <div v-cloak class="font16 hgt_full">
-     <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+    <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <div class="flex_column hgt_full">
       <!-- 搜索内容-->
       <div class="p-t-20">
@@ -39,78 +39,78 @@
             <el-input
               v-model="searchCourseLabel"
               placeholder="请输入课程名称"
-              @keyup.native.enter="searchSubmit"
+              @keyup.native.enter="getCourseListOfKind"
             />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="searchSubmit">查询</el-button>
+            <el-button type="primary" @click="getCourseListOfKind">查询</el-button>
           </el-form-item>
         </el-form>
       </div>
       <!-- 列表 -->
       <!-- 图片预览 -->
       <my-image-viewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
-     
-        <el-table
-          ref="refElTabel"
-          :data="courseList"
-          border
-          tooltip-effect="light"
-          style="width: 100%"
-          height="100%"
-        >
-          <el-table-column label="ID" width="50" prop="Id" />
-          <el-table-column label="封面图" width="60" prop="Background">
-            <template slot-scope="scope">
-              <img
-                v-if="scope.row.Background"
-                class="wid20"
-                src="/assets/slice/uploadedIcon.png"
-                @click="onPreview(scope.row.Background)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="教学图" width="60" prop="Jxtx">
-            <template slot-scope="scope">
-              <img
-                v-if="scope.row.Jxtx"
-                class="wid20"
-                src="/assets/slice/uploadedIcon.png"
-                @click="onPreview(scope.row.Jxtx)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="详情图" width="60" prop="Kcxq">
-            <template slot-scope="scope">
-              <img
-                v-if="scope.row.Kcxq"
-                class="wid20"
-                src="/assets/slice/uploadedIcon.png"
-                @click="onPreview(scope.row.Kcxq)"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column label="产品名称" width="260" :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              <span
-                class="color-1890ff font-w6 cursor"
-                @click="openMoreOptationDialog(scope.$index, scope.row)"
-              >{{ scope.row.Label }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="创建时间" width="130" prop="Createtime" :formatter="dateFormat" />
-          <el-table-column label="宣传售价" width="70" prop="Price" />
-          <el-table-column label="课时量" width="60" prop="CourseNum" />
-          <el-table-column label="产品描述" :show-overflow-tooltip="true" prop="Description" />
-          <el-table-column label="是否上架" width="180" fixed="right">
-            <template slot-scope="scope">
-              <el-button
-                :type="scope.row.Open==1?'success':'warning'"
-                @click="setIsUpperShelf(scope.$index, scope.row)"
-              >{{ scope.row.Open==1?"已经上架":"没有上架" }}</el-button>
-            </template>
-          </el-table-column>
-        </el-table> 
+
+      <el-table
+        ref="refElTabel"
+        :data="courseList"
+        border
+        tooltip-effect="light"
+        style="width: 100%"
+        height="100%"
+      >
+        <el-table-column label="ID" width="50" prop="Id" />
+        <el-table-column label="封面图" width="60" prop="Background">
+          <template slot-scope="scope">
+            <img
+              v-if="scope.row.Background"
+              class="wid20"
+              src="/assets/slice/uploadedIcon.png"
+              @click="onPreview(scope.row.Background)"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column label="教学图" width="60" prop="Jxtx">
+          <template slot-scope="scope">
+            <img
+              v-if="scope.row.Jxtx"
+              class="wid20"
+              src="/assets/slice/uploadedIcon.png"
+              @click="onPreview(scope.row.Jxtx)"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column label="详情图" width="60" prop="Kcxq">
+          <template slot-scope="scope">
+            <img
+              v-if="scope.row.Kcxq"
+              class="wid20"
+              src="/assets/slice/uploadedIcon.png"
+              @click="onPreview(scope.row.Kcxq)"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column label="产品名称" width="260" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span
+              class="color-1890ff font-w6 cursor"
+              @click="openMoreOptationDialog(scope.$index, scope.row)"
+            >{{ scope.row.Label }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="创建时间" width="130" prop="Createtime" :formatter="dateFormat" />
+        <el-table-column label="宣传售价" width="70" prop="Price" />
+        <el-table-column label="课时量" width="60" prop="CourseNum" />
+        <el-table-column label="产品描述" :show-overflow-tooltip="true" prop="Description" />
+        <el-table-column label="是否上架" width="180" fixed="right">
+          <template slot-scope="scope">
+            <el-button
+              :type="scope.row.Open==1?'success':'warning'"
+              @click="setIsUpperShelf(scope.$index, scope.row)"
+            >{{ scope.row.Open==1?"已经上架":"没有上架" }}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <div class="m-v-15">
         <el-button type="primary" @click="openCourseDialog(0)">新增课程</el-button>
       </div>
@@ -127,10 +127,10 @@
           <course-row-detail @itemModify="updateListItem" :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs  v-model="activeName"  >
+          <el-tabs v-model="activeName">
             <!-- <el-tab-pane id="travelBrochure" label="宣传资料" name="travelBrochure">
               <courseTravelBrochure :travel-brochure-data="customFormData" />
-            </el-tab-pane> -->
+            </el-tab-pane>-->
             <el-tab-pane id="priceSetting" label="价格设定" name="priceSetting">
               <course-price-tab :formItemData="customFormData" />
             </el-tab-pane>
@@ -145,12 +145,11 @@
       >
         <course-row-detail
           @subClickEvent="updateListItem"
+          :courseKindIdProp="searchCourseKindId"
           :editEnable="true"
           :formItemData="customFormData"
         />
-        <div>
-       
-      </div>
+        <div></div>
       </el-dialog>
       <!-- <course-row-dialog :travel-brochure-data="customFormData" :visible.sync="editDialog" @subClickEvent="updataCourseList" /> -->
     </div>
@@ -174,19 +173,18 @@ import {
   GetSubjectByCourse,
   getCourseTravelBrochure,
   updateCourseTravelBrochure,
-  getCoursePriceList,
   saveCoursePriceList,
-  getSubjectChapter, 
+  getSubjectChapter,
   addExam,
   editExam,
-  getZhangOfSubject, 
+  getZhangOfSubject,
   saveExamQuestions,
   getDoWrongQuseStuList,
   getTopWrongQuseList
 } from "@/api/course";
 
 import { getCollegeWithCourseKind } from "@/api/college";
-import {   getExamList } from "@/api/question";
+import { getExamList } from "@/api/question";
 
 export default {
   name: "courseList",
@@ -199,7 +197,7 @@ export default {
     courseRowDetail
   },
   data() {
-    return { 
+    return {
       editDialog: false,
       common,
       // 预览图片的图片地址
@@ -212,11 +210,12 @@ export default {
       collegeIndex: 0,
       // 搜索内容-课程名称
       searchCourseLabel: "",
-      // 搜索内容-课程大类的Id
+      // 搜索内容-课程类别的Id
       searchCourseKindId: null,
+      CourseKindLabel: "",
       // 学院的选项数据
       collegeList: [],
-      // 课程大类的选项数据
+      // 课程类别的选项数据
       courseKindsOps: [],
       // 当前所在面板的名称
       activeName: "priceSetting",
@@ -235,26 +234,30 @@ export default {
     // 图片预览
     onPreview(src) {
       this.showViewer = true;
-      this.imageViewerSrc = src; 
+      this.imageViewerSrc = src;
     },
     // 关闭图片查看器
     closeViewer() {
       this.showViewer = false;
     },
-    
+
     // 通过搜索具体内容查询获取列表
     async searchSubmit() {
       const that = this;
-      const res = await getCourseList("",{ label: this.searchCourseLabel });
+      const res = await getCourseList("", {
+        label: this.searchCourseLabel,
+        kindid: this.searchCourseKindId
+      });
       if (res.code == 200) {
         this.courseList = res.data ? res.data : [];
       }
     },
-    // 根据课程大类获取课程列表
+    // 根据课程类别获取课程列表
     async getCourseListOfKind() {
       const res = await GetCourseOfKind(
         "",
         {
+          label: this.searchCourseLabel,
           all: 1,
           kindid: this.searchCourseKindId
         },
@@ -264,7 +267,7 @@ export default {
         this.courseList = res.data ? res.data : [];
       }
     },
-    // 获取所有学院以及所属的课程大类
+    // 获取所有学院以及所属的课程类别
     async getAllCollegeWithCourseKind() {
       const res = await getCollegeWithCourseKind("", { include: 1 });
       if (res.code == 200) {
@@ -281,6 +284,7 @@ export default {
       if (this.collegeList[selVa].Children) {
         this.courseKindsOps = this.collegeList[selVa].Children;
         this.searchCourseKindId = this.courseKindsOps[0].Id;
+        this.CourseKindLabel = this.courseKindsOps[0].Label;
         this.getCourseListOfKind();
       }
     },
@@ -316,18 +320,18 @@ export default {
         // this.$refs.refCoursePriceTab.getCourseRow(this.customFormData);
       }
     },
-     // 添加或编辑之后更新列表数据
+    // 添加或编辑之后更新列表数据
     updateListItem(type, rowData) {
-      if (type==0) {
+      if (type == 0) {
         this.courseList.push(rowData);
-      } else if (type==1) {
-        this.$set(this.courseList, this.currentCourseIndex, rowData); 
-       }  
+      } else if (type == 1) {
+        this.$set(this.courseList, this.currentCourseIndex, rowData);
+      }
       this.editDialog = false;
     },
     // 打开更多操作的模态框
     openMoreOptationDialog(index, row) {
-      this.moreOperationDialog = true; 
+      this.moreOperationDialog = true;
       this.currentCourseIndex = index;
       this.customFormData = row;
       // this.$refs.travelBrochure.getTravelBrochure(this.customFormData.Id);
@@ -335,18 +339,12 @@ export default {
     },
     // 打开课程的模态框
     openCourseDialog(type) {
+      if (!this.searchCourseKindId || this.searchCourseKindId == 0) {
+        this.$message("没有选择课程类别");
+        return;
+      }
       this.editDialog = true;
       this.customFormData = {};
-      // if (type) {
-      //   this.$refs.resCourseDialog.getCourseRowData({
-      //     Id: 0,
-      //     Children: [],
-      //     IsCollegeHot: 0,
-      //     Open: 1
-      //   });
-      // } else {
-      //   this.$refs.resCourseDialog.getCourseRowData(this.customFormData);
-      // }
     },
     // 更新课程列表
     updataCourseList(type, row) {

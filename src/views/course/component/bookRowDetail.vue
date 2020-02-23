@@ -3,7 +3,7 @@
     <el-form
       ref="currentForm"
       :disabled="currenteditEnable==false"
-      :model="formItemData"
+      :model="currentItemData"
       :rules="subjectFormRules"
       style="padding:10px 0px 0px 0px"
       label-width="80px"
@@ -11,14 +11,14 @@
     >
       <el-form-item label="名称" prop="Label">
         <el-tooltip class="item" effect="dark" content="教材的名字一经填写,不允许再修改" placement="top-start">
-          <el-input v-model="formItemData.Label" :disabled="formItemData.Id>0" />
+          <el-input v-model="currentItemData.Label" :disabled="currentItemData.Id>0" />
         </el-tooltip>
       </el-form-item>
       <el-form-item label="章节数" prop="Topic">
-        <el-input v-model.number="formItemData.Topic" />
+        <el-input v-model.number="currentItemData.Topic" />
       </el-form-item>
       <el-form-item label="描述">
-        <el-input v-model="formItemData.Description" />
+        <el-input v-model="currentItemData.Description" />
       </el-form-item>
 
       <el-form-item label="学院">
@@ -31,8 +31,8 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="课程大类">
-        <el-select v-model="formItemData.Coursekind" placeholder="请选择课程分类">
+      <el-form-item label="课程类别">
+        <el-select v-model="currentItemData.Coursekind" placeholder="请选择课程分类">
           <el-option
             v-for="(item,index) in courseKindsOps"
             :key="index"
@@ -94,6 +94,7 @@ export default {
   watch: {
     formItemData(newvar) {
       this.currentItemData = this.formItemData;
+        this.collegeChange(0);
     }
   },
 
@@ -102,7 +103,7 @@ export default {
     this.collegeChange(0);
   },
   methods: {
-    // 选中学院后回调选中课程大类
+    // 选中学院后回调选中课程类别
     collegeChange(selVa) {
       this.currentItemData.Coursekind = "";
       if (this.$store.getters.app.collegeWithCourseKind[selVa].Children) {

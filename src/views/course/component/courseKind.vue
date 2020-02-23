@@ -8,7 +8,7 @@
       height="100%"
     >
       <el-table-column prop="Id" label="ID" width="50" />
-      <el-table-column prop="Label" label="课程大类名称" width="250" />
+      <el-table-column prop="Label" label="课程类别名称" width="250" />
       <el-table-column prop="Descritpion" :show-overflow-tooltip="true" label="描述" />
       <el-table-column label="操作" width="200" fixed="right">
         <template slot-scope="scope">
@@ -27,7 +27,7 @@
     >
       <div class="flex_dom">
         <el-button type="warning" @click="currenteditEnable=true;courseKindItem = {};">新增</el-button>
-        <el-form-item label="课程大类名：" style="width:500px">
+        <el-form-item label="课程类别名：" style="width:500px">
           <el-input v-model="courseKindItem.Label" :disabled="currenteditEnable==false" />
         </el-form-item>
         <el-form-item label="备注说明：" style="width:100%">
@@ -78,10 +78,10 @@ export default {
       // 表单验证
       courseFormRules: {
         Label: [
-          { required: true, message: "课程大类名称不能为空", trigger: "blur" }
+          { required: true, message: "课程类别名称不能为空", trigger: "blur" }
         ]
       },
-      // 搜索科目时通过课程大类的名称查找
+      // 搜索科目时通过课程类别的名称查找
       courseKindLabel: "",
       // 课程的选项数据
       courseKindItem: {},

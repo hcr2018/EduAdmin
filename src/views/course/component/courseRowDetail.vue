@@ -1,6 +1,6 @@
 <template>
   <div>
-     <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+    <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <el-form
       ref="refCourseForm"
       :disabled="currenteditEnable==false"
@@ -10,27 +10,13 @@
       label-width="80px"
       size="small"
     >
-      <el-form-item label="所属学院" class="flex_1">
-        <el-select v-model="collegeIndex" placeholder="请选择学院" @change="collegeChangeGetCourseKind">
-          <el-option
-            v-for="(item,index) in $store.getters.app.collegeWithCourseKind"
-            :key="index"
-            :label="item.Label"
-            :value="index"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="课程类别" class="flex_1">
-        <el-select v-model="currentItemData.TCourseKindID" @change="$forceUpdate()" placeholder="请选择课程类别">
-          <el-option
-            v-for="(item,index) in CourseKindsOps"
-            :key="index"
-            :label="item.Label"
-            :value="item.Id"
-          />
-        </el-select>
+      <el-form-item label="产品名称" prop="Label">
+        <el-input v-model="currentItemData.Label" required autocomplete="off" />
       </el-form-item>
 
+      <el-form-item label="产品特征" class="flex_1">
+        <el-input v-model="currentItemData.Comments" autocomplete="off" />
+      </el-form-item>
       <el-form-item label="宣传售价" prop="Price" class="flex_1">
         <el-input v-model="currentItemData.Price" autocomplete="off" />
       </el-form-item>
@@ -47,13 +33,6 @@
         <el-radio v-model="currentItemData.MustAllBook" label="0">否</el-radio>
       </el-form-item>
 
-      <el-form-item label="产品名称" prop="Label">
-        <el-input v-model="currentItemData.Label" required autocomplete="off" />
-      </el-form-item>
-
-      <el-form-item label="产品特征" class="flex_1">
-        <el-input v-model="currentItemData.Comments" autocomplete="off" />
-      </el-form-item>
       <el-form-item label="展示排序" prop="Sort" class="flex_1">
         <el-input v-model.number="currentItemData.Sort" autocomplete="off" />
       </el-form-item>
@@ -75,7 +54,7 @@
             :show-file-list="false"
             :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,1)}"
           >
-            <el-input v-model="currentItemData.Background" disabled style="width:100px;" />
+            <el-input v-model="currentItemData.Background" disabled style="width:auto;" />
             <span
               class="m-l-15 wid60 cursor color-1890ff"
               @click="onPreview(currentItemData.Background)"
@@ -92,7 +71,7 @@
             :show-file-list="false"
             :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,2)}"
           >
-            <el-input v-model="currentItemData.Jxtx" disabled style="width:100px; " />
+            <el-input v-model="currentItemData.Jxtx" disabled style="width:auto; " />
           </el-upload>
           <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(currentItemData.Jxtx)">预览</span>
         </div>
@@ -107,7 +86,7 @@
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadCourseImgFunc(file, fileList,3)}"
             >
-              <el-input v-model="currentItemData.Kcxq" disabled style="width:100px; " />
+              <el-input v-model="currentItemData.Kcxq" disabled style="width:auto; " />
             </el-upload>
           </div>
           <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(currentItemData.Kcxq)">预览</span>
@@ -143,7 +122,7 @@
         <el-button type="primary" class="m-l-40" @click="saveCourse">保 存</el-button>
       </el-form-item>-->
     </el-form>
-    <div class="around-center hgt60  ">
+    <div class="around-center hgt60">
       <div>
         <el-button
           type="warning"
@@ -172,6 +151,7 @@ import { addCourse, editCourse } from "@/api/course";
 
 import $ImgAPI from "@/api/ImgAPI";
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
+import { number } from "echarts/lib/export";
 export default {
   props: {
     // 校区的表单数据
@@ -184,10 +164,13 @@ export default {
     editEnable: {
       typ: Boolean,
       default: false
+    },
+    courseKindIdProp: {
+      type: Number,
+      default: 0
     }
   },
   components: {
-     
     myImageViewer
   },
 
@@ -215,10 +198,11 @@ export default {
           { required: true, message: "产品名称不能为空", trigger: "blur" }
         ]
       },
-      // 搜索科目时通过课程大类的名称查找
+      // 搜索科目时通过课程类别的名称查找
       courseKindLabel: "",
+      courseKindId: 0,
       // 课程的选项数据
-      CourseKindsOps: [],
+      courseKindList: [],
 
       // 图片加载
       isbusy1: false,
@@ -229,18 +213,28 @@ export default {
   watch: {
     formItemData(newvar) {
       this.currentItemData = this.formItemData;
+      if (this.courseKindIdProp > 0) {
+        this.courseKindId = this.courseKindIdProp;
+      }
+      this.currentItemData.TCourseKindID = this.courseKindId;
       this.collegeChangeGetCourseKind(0);
     }
   },
   mounted() {
     this.currentItemData = this.formItemData;
+    if (this.currentItemData.TCourseKindID > 0) {
+      this.courseKindId = this.currentItemData.TCourseKindID;
+    } else {
+      this.courseKindId = this.courseKindIdProp;
+    }
+    this.currentItemData.TCourseKindID = this.courseKindId;
     if (this.currentItemData.Id > 0) {
       if (this.$store.getters.app.collegeWithCourseKind) {
         this.$store.getters.app.collegeWithCourseKind.forEach(item => {
           if (item.Children) {
             item.Children.forEach(courseKind => {
               if (courseKind.Id == this.currentItemData.TCourseKindID) {
-                this.CourseKindsOps = item.Children;
+                this.courseKindList = item.Children;
               }
             });
           }
@@ -286,17 +280,15 @@ export default {
     },
     //  选中学院后回调
     collegeChangeGetCourseKind(index) {
-      this.subjectListOps = [];
-      this.currentItemData.TCourseKindID = null;
       this.currentItemData.TCollegeID = this.$store.getters.app.collegeWithCourseKind[
         index
       ].Id;
-      this.CourseKindsOps = [
-        ...this.$store.getters.app.collegeWithCourseKind[index].Children
-      ];
-      if (this.CourseKindsOps.length > 0) {
-        this.currentItemData.TCourseKindID = this.CourseKindsOps[0].Id;
-        this.courseKindLabel = this.CourseKindsOps[0].Label;
+      this.courseKindList = this.$store.getters.app.collegeWithCourseKind[
+        index
+      ].Children;
+      if (this.courseKindList && this.courseKindList.length > 0) {
+        this.currentItemData.TCourseKindID = this.courseKindList[0].Id;
+        this.courseKindLabel = this.courseKindList[0].Label;
         // this.getBookList();
       }
     },
@@ -308,6 +300,11 @@ export default {
           this.currentItemData.CourseNum = parseInt(
             this.currentItemData.CourseNum
           );
+          if (this.currentItemData.Children) {
+            this.currentItemData.Children.forEach(item => {
+              item.Id = parseInt(item.Id);
+            });
+          }
           if (this.currentItemData.Id > 0) {
             const res = await editCourse(
               this.currentItemData.Id,
@@ -350,7 +347,7 @@ export default {
         courseBookitem.TopicNum = subjectItem.Topic;
         this.currentItemData.Children.push(courseBookitem);
       }
-      this.$forceUpdate(); 
+      this.$forceUpdate();
     }
   }
 };

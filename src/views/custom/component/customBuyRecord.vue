@@ -67,7 +67,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="课程大类">
+          <el-form-item label="课程类别">
             <el-select
               v-model="selectCourseKindIndex"
               placeholder="请选择课程分类"
@@ -182,15 +182,15 @@ export default {
       addBuyCourseFormData: {},
       // 学习的时长-天
       courseStudyDay: 0,
-      // 选中的课程大类ID的值
+      // 选中的课程类别ID的值
       selectCourseKindId: null,
-      // 选中的课程大类Index的值
+      // 选中的课程类别Index的值
       selectCourseKindIndex: null,
       // 选中学院的Id
       selectCollegeid: null,
       // 选中学院的Index
       selectCollegeIndex: null,
-      // 课程大类的选项列表
+      // 课程类别的选项列表
       courseKindsOps: [],
       // 课程的选项列表
       courseOptions: [],
@@ -215,7 +215,7 @@ export default {
   },
 
   methods: {
-    // 根据选中的学院获取课程大类
+    // 根据选中的学院获取课程类别
     collegeChange(selVa) {
       this.selectCourseKindId = null
       this.selectCourseKindIndex = null
@@ -229,7 +229,7 @@ export default {
         this.changeSelectCourseKind(0)
       }
     },
-    // 根据选中的课程大类获取课程
+    // 根据选中的课程类别获取课程
     async changeSelectCourseKind(selVa) {
       this.addBuyCourseFormData.selectedCourseId = null
       this.selectCourseKindId = this.courseKindsOps[selVa].Id

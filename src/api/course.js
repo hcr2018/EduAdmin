@@ -10,7 +10,7 @@ export function getCourseList(url, param, data) {
   })
 }
 
-// 获取课程大类
+// 获取课程类别
 export function GetCourseOfKind(url, param, data) {
   return request({
     url: '/course/getCourseOfKind' + url,
@@ -114,7 +114,7 @@ export function editCourseKind(url, param, data) {
     data
   })
 }
-// 绕开学院，直接获取所有课程大类列表
+// 绕开学院，直接获取所有课程类别列表
 export function getAllCourseKind(url, param, data) {
   return request({
     url: '/course_kind/getAllCourseKind' + url,
@@ -124,7 +124,7 @@ export function getAllCourseKind(url, param, data) {
   })
 }
 
-// 删除课程大类
+// 删除课程类别
 export function deleteCourseKind(url, param, data) {
   return request({
     url: '/course_kind/' + url,

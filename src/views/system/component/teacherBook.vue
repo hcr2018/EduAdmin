@@ -1,11 +1,11 @@
 <template>
   <div class="p_both10 p-t-5">
     <el-form :inline="true" class="demo-form-inline m-b-5">
-      <el-form-item label="课程大类">
+      <el-form-item label="课程类别">
         <el-input
           v-model="searchBookCourseKindLabel"
           @keyup.enter.native="searchSubmit"
-          placeholder="请输入课程大类"
+          placeholder="请输入课程类别"
         ></el-input>
       </el-form-item>
       <el-form-item label="科目名称">
@@ -73,7 +73,7 @@ export default {
       bookList: [],
       // 条件查询-科目名称
       searchContent: "",
-      // 条件查询-课程大类Label
+      // 条件查询-课程类别Label
       searchBookCourseKindLabel: "",
 
       //存储当前选中的老师已经关联的科目id

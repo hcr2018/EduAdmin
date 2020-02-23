@@ -53,7 +53,7 @@
       </div>
       <div slot="right_content" class="p_both20 p-b-20">
         <el-tabs v-model="activElTab">
-          <el-tab-pane label="所含课程大类" name="qxsz" id="qxsz">
+          <el-tab-pane label="所含课程类别" name="qxsz" id="qxsz">
             <courseKind :collegePropItem="currentRowData" />
           </el-tab-pane>
         </el-tabs>
