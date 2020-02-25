@@ -1,6 +1,6 @@
 <template>
   <div>
-     <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
+    <myImageViewer v-if="showViewer" :on-close="closeViewer" :url-list="[imageViewerSrc]" />
     <el-form
       ref="refCustomInfo"
       :disabled="currenteditEnable==false"
@@ -26,6 +26,12 @@
           placeholder="请输入客户电话"
           @blur="checkRepeatPhone"
         />
+      </el-form-item>
+      <el-form-item label="初始密码" prop="fistPswd">
+        <el-input v-model="customPassword" placeholder="请输入密码" />
+      </el-form-item>
+      <el-form-item label="重复密码" prop="rePassword">
+        <el-input v-model="rePassword" placeholder="请再次输入密码" />
       </el-form-item>
       <el-form-item label="身份证" prop="Idcard">
         <el-input v-model="currentItemData.Idcard" placeholder="请输入客户身份证" />
@@ -109,7 +115,7 @@
         <el-select
           v-model="currentItemData.Platform"
           :disabled="$route.query.id?true:false"
-          placeholder="请选择所属校区" 
+          placeholder="请选择所属校区"
         >
           <el-option
             v-for="(platform) in $store.getters.app.platformList"
@@ -153,11 +159,11 @@
         >确 认</el-button>
 
         <el-button v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
-        <el-button
+        <!-- <el-button
           type="danger"
           v-show="currentItemData.id>0"
           @click="resetCustomPassword(currentItemData.id)"
-        >重置密码</el-button>
+        >重置密码</el-button> -->
       </div>
     </div>
   </div>
@@ -187,6 +193,7 @@ import {
   batchChangeManager
 } from "@/api/custom";
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
+import crypto from "crypto";
 export default {
   name: "PlatformForm",
   props: {
@@ -218,6 +225,22 @@ export default {
       customInfoRules: {
         Realname: [
           { required: true, message: "请输入客户姓名", trigger: "blur" }
+        ],
+ 
+        rePassword: [
+          {
+            required: true,
+            validator: (rule, value, callback) => {
+              if (this.rePassword === "") {
+                callback(new Error("请再次输入密码"));
+              } else if (this.rePassword !== this.customPassword) {
+                callback(new Error("两次输入密码不一致"));
+              } else {
+                callback();
+              }
+            },
+            trigger: "blur"
+          }
         ],
         Qq: [
           {
@@ -252,7 +275,11 @@ export default {
       // 存放客户图片的数组
       customImgArr: [],
       // 存放平台老师的的数组
-      platformTeacherOptions: []
+      platformTeacherOptions: [],
+      // 输入的 密码
+      customPassword: "",
+      //重复输入的验证密码
+      rePassword: ""
     };
   },
   watch: {
@@ -269,12 +296,8 @@ export default {
 
   mounted() {
     this.currentItemData = this.formItemData;
-
   },
   methods: {
-    testPlatform(){
-      console.log(this.currentItemData)
-    },
     // 图片预览
     onPreview(src) {
       this.showViewer = true;
@@ -297,10 +320,7 @@ export default {
           const res = await resetCustomPassword(studentid);
           if (res.code == 200) {
             that.$alert("当前密码是:" + res.title, "密码", {
-              confirmButtonText: "确定",
-              callback: action => {
-                that.$set(that.customTableDataList, index, res.data);
-              }
+              confirmButtonText: "确定"
             });
           }
         })
@@ -341,16 +361,23 @@ export default {
       this.$refs.refCustomInfo.validate(async valid => {
         if (valid) {
           this.currentItemData.MasterID = this.masterID;
+          const md5 = crypto.createHash("md5");
+          md5.update(this.customPassword);
+          this.currentItemData.Password = md5.digest("hex");
+
           if (this.currentItemData.id == null || this.currentItemData.id == 0) {
             // 新增
             let res = await addCustomInfo("", "", this.currentItemData);
             if (res.code == 200) {
               this.isShowPlatformDialog = false;
               this.currentItemData = res.data;
-              this.$message({
-                message: "添加成功",
-                type: "success"
+              this.$alert("添加成功.密码是:" + res.title, "密码", {
+                confirmButtonText: "确定"
               });
+              // this.$message({
+              //   message: "添加成功",
+              //   type: "success"
+              // });
             }
           } else {
             // 修改

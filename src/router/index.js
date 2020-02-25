@@ -95,7 +95,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'setting', 
     name: 'system',
-    meta: { title: 'system', icon: 'skill' },
+    meta: { title: 'system', icon: 'skill' ,  roles: [0]  },
     children: [
       {
         path: 'setting',
@@ -116,7 +116,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'platforList', 
     name: 'platform',
-    meta: { title: 'system', icon: 'skill' },
+    meta: { title: 'system', icon: 'skill' ,  roles: [0] },
     children: [
       {
         path: 'platforList',
@@ -131,7 +131,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: 'managerList', 
     name: 'manager',
-    meta: { title: 'system', icon: 'skill' },
+    meta: { title: 'system', icon: 'skill',  roles: [0]  },
     children: [
       {
         path: 'managerList',

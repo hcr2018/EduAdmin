@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import { getLanguage } from '@/lang/index'
-import { getAllCourseKind } from '@/api/course'
+import manager from './manager'
 import { getCollegeWithCourseKind } from '@/api/college'
 import { getAllTPlatform } from '@/api/platform'
 const state = {
@@ -11,9 +11,9 @@ const state = {
   device: 'desktop',
   language: getLanguage(),
   size: Cookies.get('size') || 'medium',
-  platformList: [],
-  collegeWithCourseKind: []
-  // courseKind: []
+  platformList: [],//所有的平台列表
+  collegeWithCourseKind: [],//
+  myPlatformList: []// 当前登录用户能操作的平台列表
 }
 
 const mutations = {
@@ -48,7 +48,9 @@ const mutations = {
   SET_COLLEGEWITHCOURSEKIND: (state, data) => {
     state.collegeWithCourseKind = data
   },
-   
+  SET_MYPLATFORMLIST: (state, data) => {
+    state.myPlatformList = data
+  },
   PUSH_PLATFORM: (state, newItem) => {
     let hasIn = false;
     state.platformList.forEach(item => {
@@ -84,7 +86,22 @@ const actions = {
   getPlatformList({ commit }) {
     return new Promise((resolve, reject) => {
       getAllTPlatform('', '', '').then(response => {
-        commit('SET_PLATFORMLIST', response.data)
+        commit('SET_PLATFORMLIST', response.data); 
+        //下面计算出 只有自己负责的校区列表。
+        let IHasPlatforms = manager.state.manager.Platform.split(",");
+        let platfromlistTemp = [];
+        IHasPlatforms.forEach(IHasPlatfrom => {
+          if (IHasPlatfrom == "0") {
+            platfromlistTemp = state.platformList;
+          } else {
+            state.platformList.forEach(PlatformItem => {
+              if (PlatformItem.Id == IHasPlatfrom) {
+                platfromlistTemp.push(PlatformItem);
+              }
+            });
+          }
+          commit('SET_MYPLATFORMLIST', platfromlistTemp)
+        });
         resolve()
       }).catch(error => {
         reject(error)
@@ -93,16 +110,16 @@ const actions = {
   },
   // getPlatformList
   getCollegeWithCourseKind({ commit }) {
-    return new Promise((resolve, reject) => { 
+    return new Promise((resolve, reject) => {
       getCollegeWithCourseKind('', { "include": 1 }, '').then(response => {
         commit('SET_COLLEGEWITHCOURSEKIND', response.data)
         resolve()
-      }).catch(error => { 
+      }).catch(error => {
         reject(error)
       })
     })
   },
- 
+   
 
 
 }

@@ -6,7 +6,7 @@ import store from '@/store'
  * @param role
  * @param route
  */
-function hasPermission(role, route) {
+function hasPermission(role, route) { 
   if (route.meta && route.meta.roles) {
     return route.meta.roles.includes(role)
   } else {
@@ -54,13 +54,13 @@ const actions = {
         await store.dispatch('manager/getInfo')
       }
       let accessedRoutes
-      if (store.getters.manager.role == 1) {
-        // 分校工作员
-        accessedRoutes = asyncRoutes || []
-      } else {
+      // if (store.getters.manager.role == 1) {
+      //   // 分校工作员
+      //   accessedRoutes = asyncRoutes || []
+      // } else {
         // 管理员
         accessedRoutes = filterAsyncRoutes(asyncRoutes, store.getters.manager.role)
-      }
+      // }
 
       // const topPlatformRoute = {
       //   path: '/platform',

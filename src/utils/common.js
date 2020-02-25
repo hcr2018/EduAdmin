@@ -162,7 +162,7 @@ export default {
         }
       },
       {
-        text: '最近一周',
+        text: '过去一周',
         onClick(picker) {
           const end = new Date()
           const start = new Date()
@@ -177,7 +177,7 @@ export default {
         }
       },
       {
-        text: '最近一个月',
+        text: '过去一个月',
         onClick(picker) {
           const end = new Date()
           const start = new Date()
@@ -192,7 +192,7 @@ export default {
         }
       },
       {
-        text: '最近三个月',
+        text: '过去三个月',
         onClick(picker) {
           const end = new Date()
           const start = new Date()
@@ -208,6 +208,89 @@ export default {
       }
     ]
   },
+  // 配置日期选择的快捷键
+  dateFuturePickerOptions: {
+    shortcuts: [
+      {
+        text: '今天',
+        onClick(picker) {
+          const end = new Date()
+          const start = new Date()
+          start.setHours(0)
+          start.setMinutes(0)
+          start.setSeconds(0)
+          end.setHours(0)
+          end.setMinutes(0)
+          end.setSeconds(0)
+          start.setTime(start.getTime())
+          picker.$emit('pick', [start, end])
+        }
+      },
+      {
+        text: '昨天',
+        onClick(picker) {
+          const end = new Date()
+          const start = new Date()
+          start.setDate(start.getDate() - 1)
+          start.setHours(0)
+          start.setMinutes(0)
+          start.setSeconds(0)
+          end.setDate(end.getDate() + 1)
+          end.setHours(0)
+          end.setMinutes(0)
+          end.setSeconds(0)
+          start.setTime(start.getTime())
+          picker.$emit('pick', [start, end])
+        }
+      },
+      {
+        text: '未来一周',
+        onClick(picker) {
+          const end = new Date()
+          const start = new Date()
+          start.setHours(0)
+          start.setMinutes(0)
+          start.setSeconds(0)
+          end.setHours(0)
+          end.setMinutes(0)
+          end.setSeconds(0)
+          start.setTime(start.getTime() + 3600 * 1000 * 24 * 7)
+          picker.$emit('pick', [start, end])
+        }
+      },
+      {
+        text: '未来一个月',
+        onClick(picker) {
+          const end = new Date()
+          const start = new Date()
+          start.setHours(0)
+          start.setMinutes(0)
+          start.setSeconds(0)
+          end.setHours(0)
+          end.setMinutes(0)
+          end.setSeconds(0)
+          start.setTime(start.getTime() + 3600 * 1000 * 24 * 30)
+          picker.$emit('pick', [start, end])
+        }
+      },
+      {
+        text: '未来三个月',
+        onClick(picker) {
+          const end = new Date()
+          const start = new Date()
+          start.setHours(0)
+          start.setMinutes(0)
+          start.setSeconds(0)
+          end.setHours(0)
+          end.setMinutes(0)
+          end.setSeconds(0)
+          start.setTime(start.getTime() + 3600 * 1000 * 24 * 90)
+          picker.$emit('pick', [start, end])
+        }
+      }
+    ]
+  },
+
 
   // 客户推广渠道
   channelList: [
@@ -311,17 +394,14 @@ export default {
   // 管理人员的身份列表
   managerRoleList: [
     {
-      value: -1,
-      Label: '全部'
+      value: 1,
+      Label: '加盟机构'
     },
     {
       value: 0,
       Label: '管理员'
     },
-    {
-      value: 1,
-      Label: '加盟机构'
-    }
+   
   ],
   // 授课形式
   teachingForm: [

@@ -12,7 +12,7 @@ const courseRouter =
       path: 'courseList',
       component: () => import('@/views/course/courseList'),
       name: 'course',
-      meta: { title: 'courseList', icon: 'education' }
+      meta: { title: 'courseList', icon: 'education',  roles: [0]  } 
     }
   ]
 }

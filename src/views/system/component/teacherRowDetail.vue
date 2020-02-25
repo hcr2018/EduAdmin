@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form
-      :model="formItemData"
+      :model="currentFormData"
       :disabled="currenteditEnable==false"
       :rules="teacherFormRules"
       ref="formUI"
@@ -10,20 +10,20 @@
       size="small"
     >
       <el-form-item label="姓名" prop="Realname">
-        <el-input v-model="formItemData.Realname" placeholder="请输入用户真实姓名"></el-input>
+        <el-input v-model="currentFormData.Realname" placeholder="请输入用户真实姓名"></el-input>
       </el-form-item>
       <el-form-item label="昵称" prop="Username">
-        <el-input v-model="formItemData.Username" placeholder="请输入用户昵称"></el-input>
+        <el-input v-model="currentFormData.Username" placeholder="请输入用户昵称"></el-input>
       </el-form-item>
       <el-form-item label="英文名">
-        <el-input v-model="formItemData.EnRealname" placeholder="请输入英文名"></el-input>
+        <el-input v-model="currentFormData.EnRealname" placeholder="请输入英文名"></el-input>
       </el-form-item>
       <el-form-item label="电话号码" prop="tel">
-        <el-input v-model="formItemData.tel" placeholder="请输入电话号码"></el-input>
+        <el-input v-model="currentFormData.tel" placeholder="请输入电话号码"></el-input>
       </el-form-item>
 
       <el-form-item label="角色" prop="role">
-        <el-select v-model="formItemData.role" placeholder="请选择角色">
+        <el-select v-model="currentFormData.role" placeholder="请选择角色">
           <el-option
             :label="item.Label"
             :key="index"
@@ -33,33 +33,38 @@
         </el-select>
       </el-form-item>
       <el-form-item label="归属校区" prop="platformSelect">
-        <el-select multiple v-model="formItemData.platformSelect" @change="$forceUpdate()" placeholder="请选择归属校区">
+        <el-select
+          multiple
+          v-model="currentFormData.platformSelect"
+          @change="$forceUpdate()"
+          placeholder="请选择归属校区"
+        >
           <el-option :value="0" label="全部"></el-option>
           <el-option
             :label="item.Label"
             :key="index"
             :value="item.Id"
-            v-for="(item,index) in $store.getters.app.platformList"
+            v-for="(item,index) in $store.getters.app.myPlatformList"
           ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="性别">
-        <el-radio v-model="formItemData.Sex" :disabled="formItemData.Id>0" label="男">男</el-radio>
-        <el-radio v-model="formItemData.Sex" :disabled="formItemData.Id>0" label="女">女</el-radio>
+        <el-radio v-model="currentFormData.Sex" :disabled="currentFormData.Id>0" label="男">男</el-radio>
+        <el-radio v-model="currentFormData.Sex" :disabled="currentFormData.Id>0" label="女">女</el-radio>
       </el-form-item>
       <el-form-item label="主页显示">
-        <el-radio v-model="formItemData.IsHot" :label="1">显示</el-radio>
-        <el-radio v-model="formItemData.IsHot" :label="0">不显示</el-radio>
+        <el-radio v-model="currentFormData.IsHot" :label="1">显示</el-radio>
+        <el-radio v-model="currentFormData.IsHot" :label="0">不显示</el-radio>
       </el-form-item>
 
-      <el-form-item label="照片地址">
-        <el-input v-model="formItemData.pictrue" placeholder="请填写照片地址"></el-input>
+      <el-form-item label="宣传照片">
+        <el-input v-model="currentFormData.pictrue" placeholder="请填写照片地址"></el-input>
       </el-form-item>
-      <el-form-item label="视频地址">
-        <el-input v-model="formItemData.video" placeholder="请填写视频地址"></el-input>
+      <el-form-item label="宣传视频">
+        <el-input v-model="currentFormData.video" placeholder="请填写视频地址"></el-input>
       </el-form-item>
-      <el-form-item label="个人信息">
-        <el-input type="textarea" :rows="3" v-model="formItemData.info" placeholder="个人信息~"></el-input>
+      <el-form-item label="个人介绍">
+        <el-input type="textarea" :rows="3" v-model="currentFormData.info" placeholder="个人信息~"></el-input>
       </el-form-item>
     </el-form>
     <div>
@@ -75,13 +80,9 @@
         :disabled="false"
         v-show="currenteditEnable"
         class="m-l-40"
-        @click="saveFormItemData"
+        @click="savecurrentFormData"
       >确 认</el-button>
       <el-button v-show="currenteditEnable" @click="currenteditEnable=false">取 消</el-button>
-      <!-- 
-
-      <el-button @click="isShowTeacherDialog=false">取 消</el-button>
-      <el-button type="primary m-l-40" @click="saveFormItemData">保 存</el-button>-->
     </div>
   </div>
 </template>
@@ -106,7 +107,10 @@ export default {
   data() {
     return {
       common,
+      currentFormData: {},
       currenteditEnable: this.editEnable,
+      //当前操作者所属的校区。
+      OperatorPlatformList: [],
       // 是否显示模态框
       isShowTeacherDialog: false,
       // 表单验证
@@ -135,38 +139,42 @@ export default {
       }
     };
   },
+  watch: {
+    formItemData(newval) {
+      this.currentFormData = this.formItemData;
+    }
+  },
+  mounted() {
+    this.currentFormData = this.formItemData;
+     
+  },
   methods: {
-    // 获取表单数据
-    getTeacherRowData(row) {
-      this.teacherRow = {};
-      this.teacherRow = row;
-    },
-    async saveFormItemData() {
+    async savecurrentFormData() {
       this.$refs.formUI.validate(async valid => {
         if (valid) {
-          this.formItemData.MasterID = this.masterID;
-           this.formItemData.Platform = this.formItemData.platformSelect.join(
+          this.currentFormData.MasterID = this.masterID;
+          this.currentFormData.Platform = this.currentFormData.platformSelect.join(
             ","
           );
-          if (this.formItemData.Id == null || this.formItemData.Id == 0) {
+          if (this.currentFormData.Id == null || this.currentFormData.Id == 0) {
             // 新增
-            let res = await addManager("", "", this.formItemData);
+            let res = await addManager("", "", this.currentFormData);
             if (res.code == 200) {
               // 添加成功之后要触发父组件信息列表修改
               this.isShowPlatformDialog = false;
-              this.formItemData = res.data;
+              this.currentFormData = res.data;
               this.$message({
                 message: "添加成功",
                 type: "success"
               });
-               this.$emit("subClickEvent", 0, res.data);
+              this.$emit("subClickEvent", 0, res.data);
             }
           } else {
             // 修改
             let res = await editManager(
-              this.formItemData.Id,
+              this.currentFormData.Id,
               "",
-              this.formItemData
+              this.currentFormData
             );
             if (res.code == 200) {
               this.isShowPlatformDialog = false;
@@ -174,7 +182,7 @@ export default {
                 message: "修改成功",
                 type: "success"
               });
-               this.$emit("subClickEvent", 1, res.data);
+              this.$emit("subClickEvent", 1, res.data);
             }
           }
         } else {
@@ -182,7 +190,6 @@ export default {
         }
       });
     }
-  },
-  mounted() {}
+  }
 };
 </script>  

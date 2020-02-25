@@ -137,6 +137,7 @@ export default {
               this.collegeItem.Children.push(res.data);
               this.$message("添加成功 !");
             }
+            this.courseKindItem = {};
 
             this.$store.dispatch("app/getCollegeWithCourseKind");
           });
@@ -154,6 +155,7 @@ export default {
         }).then(async () => {
           let res = await deleteCourseKind(updateCourseKind.Id, "", "");
           this.collegeItem.Children.splice(index, 1);
+           this.courseKindItem = {};
           this.$store.dispatch("app/getCollegeWithCourseKind");
         });
       }

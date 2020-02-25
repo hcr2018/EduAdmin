@@ -69,7 +69,7 @@ export function getCustomBuyCouseRecord(url, query, data) {
 // 手动添加客户购买课程的记录
 export function addCustomBuyCourseRecord(url, query, data) {
   return request({
-    url: '/managecourse/giveBuyCourse/' + url,
+    url: '/manager/giveBuyCourse/' + url,
     method: 'put',
     params: query,
     data

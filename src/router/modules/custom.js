@@ -10,7 +10,7 @@ const customRouter = {
   meta: {
     title: 'customManage',
     icon: 'peoples'
-    
+    , roles: [ 0]
   },
   children: [
     {
@@ -19,8 +19,8 @@ const customRouter = {
       name: 'customList',
       meta: {
         title: 'customList',
-        icon: 'student' 
-        
+        icon: 'student'
+
       }
     },
     {
@@ -29,8 +29,8 @@ const customRouter = {
       name: 'trackList',
       meta: {
         title: 'trackList',
-        icon: 'zuji' 
-        
+        icon: 'zuji'
+
       }
     },
     {
@@ -39,8 +39,8 @@ const customRouter = {
       name: 'contractList',
       meta: {
         title: 'contractList',
-        icon: 'contract' 
-        
+        icon: 'contract'
+
       }
     },
     {
@@ -49,7 +49,7 @@ const customRouter = {
       name: 'sendSMS',
       meta: {
         title: 'sendSMS',
-        icon: 'email' 
+        icon: 'email'
       }
     }
 
