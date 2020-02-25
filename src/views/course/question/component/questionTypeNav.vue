@@ -1,6 +1,6 @@
 <template>
   <!-- 子菜单 -->
-  <div class="my_tabs">
+  <div class="my_tabs p-t-20">
     <div class="flex_mid font14 hgt40 my_tab_bars relative">
       <router-link
         exact
