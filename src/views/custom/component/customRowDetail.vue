@@ -28,10 +28,10 @@
         />
       </el-form-item>
       <el-form-item label="初始密码" prop="fistPswd">
-        <el-input v-model="customPassword" placeholder="请输入密码" />
+        <el-input v-model="customPassword" type="password" placeholder="请输入密码" />
       </el-form-item>
       <el-form-item label="重复密码" prop="rePassword">
-        <el-input v-model="rePassword" placeholder="请再次输入密码" />
+        <el-input v-model="rePassword" type="password" placeholder="请再次输入密码" />
       </el-form-item>
       <el-form-item label="身份证" prop="Idcard">
         <el-input v-model="currentItemData.Idcard" placeholder="请输入客户身份证" />
