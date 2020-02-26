@@ -207,7 +207,7 @@ export default {
     // 关联试题管理
     questionManager: function(index, row) {
       this.$router.push({
-        name: "chapterExercise",
+        name: "questionsList",
         query: {  Id: row.Id }
       });
     },

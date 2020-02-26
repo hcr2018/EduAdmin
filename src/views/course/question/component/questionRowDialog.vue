@@ -1,27 +1,27 @@
 <template>
   <div class="pad20" v-cloak>
     <el-form
-      :model="questionRowData"
+      :model="currentItemData"
       label-width="80px"
       ref="refQuestionForm"
       :rules="questionFormRules"
     >
       <div class="between-center">
         <el-form-item label="章" class="flex_1" prop="ZhangId">
-          <el-input v-model.number="questionRowData.ZhangId" :disabled="questionRowData.Id>0"></el-input>
+          <el-input v-model.number="currentItemData.ZhangId" :disabled="currentItemData.Id>0"></el-input>
         </el-form-item>
         <el-form-item label="节" class="flex_1" prop="JieId">
-          <el-input v-model.number="questionRowData.JieId" :disabled="questionRowData.Id>0"></el-input>
+          <el-input v-model.number="currentItemData.JieId" :disabled="currentItemData.Id>0"></el-input>
         </el-form-item>
         <el-form-item label="知识点" class="flex_1" prop="TopicId">
-          <el-input v-model.number="questionRowData.TopicId" :disabled="questionRowData.Id>0"></el-input>
+          <el-input v-model.number="currentItemData.TopicId" :disabled="currentItemData.Id>0"></el-input>
         </el-form-item>
       </div>
       <div class="between-center">
         <el-form-item label="题型" class="flex_1">
           <el-select
-            v-model="questionRowData.QuestionType"
-            :disabled="questionRowData.Id>0"
+            v-model="currentItemData.QuestionType"
+            :disabled="currentItemData.Id>0"
             placeholder="请选择题型"
           >
             <el-option
@@ -33,11 +33,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="分值" prop="QuestionScore" class="flex_1">
-          <el-input v-model.number="questionRowData.QuestionScore"></el-input>
+          <el-input v-model.number="currentItemData.QuestionScore"></el-input>
         </el-form-item>
         <el-form-item class="flex_1 center">
-          <el-radio v-model="questionRowData.State" :label="1">上架</el-radio>
-          <el-radio v-model="questionRowData.State" :label="0">下架</el-radio>
+          <el-radio v-model="currentItemData.State" :label="1">上架</el-radio>
+          <el-radio v-model="currentItemData.State" :label="0">下架</el-radio>
         </el-form-item>
       </div>
       <el-form-item label="题干" prop="QuestionContent">
@@ -45,7 +45,7 @@
           type="textarea"
           :rows="3"
           placeholder="请输入内容"
-          v-model="questionRowData.QuestionContent"
+          v-model="currentItemData.QuestionContent"
         ></el-input>
       </el-form-item>
       <el-form-item label="解析" prop="QuestionAnalyse">
@@ -53,20 +53,20 @@
           type="textarea"
           :rows="3"
           placeholder="请输入解析内容"
-          v-model="questionRowData.QuestionAnalyse"
+          v-model="currentItemData.QuestionAnalyse"
         ></el-input>
       </el-form-item>
       <!-- 单选题,判断题 -->
       <el-form-item label="选项">
-        <div v-show="questionRowData.QuestionType==1||questionRowData.QuestionType==3">
-          <div class="center flex_wrap">
+        <div v-show="currentItemData.QuestionType==1||currentItemData.QuestionType==3">
+          <div class="center flex_wrap" style="width:100%">
             <div
               :key="index"
               v-for="(option,index) in quesAnswerOptions"
               class="center m-l-20 m-v-5 optionAnswer"
             >
               <el-radio
-                v-model="questionRowData.QuestionAnswer"
+                v-model="currentItemData.QuestionAnswer"
                 :label="option.tag"
                 :value="option.tag"
               ></el-radio>
@@ -75,7 +75,7 @@
           </div>
         </div>
         <!-- 多选题-编辑-->
-        <div v-show="questionRowData.QuestionType==2">
+        <div v-show="currentItemData.QuestionType==2">
           <div class="flex_dom flex_wrap">
             <div
               :key="index"
@@ -88,12 +88,17 @@
           </div>
         </div>
       </el-form-item>
-      <el-form-item label="其他操作">
+      <el-form-item label="选项操作">
         <!-- 添加选项 -->
-        <div class="center">
+        <div class="center flex_dom">
           <el-button @click="addQuestionOption">添加选项</el-button>
-          <el-button @click="deleteQuestionOption">删除最后项</el-button>
-          <el-upload
+          <el-button @click="deleteQuestionOption">删除最后项</el-button> 
+        </div>
+  </el-form-item>
+      <el-form-item label="附加图片">
+
+        <div class="center flex_dom">
+            <el-upload
             :auto-upload="false"
             action
             class="m-l-10"
@@ -102,21 +107,18 @@
             :on-change="function(file, fileList){return ImgUploadQuestion(file, fileList)}"
           >
             <el-button>上传图片</el-button>
-          </el-upload>
-          <div class="center m-l-20">
-            <span class="wid80">图片地址:</span>
+          </el-upload> 
             <el-tooltip class="item cursor" effect="dark" content="点击文本复制" placement="top">
               <span class="tag-read" :data-clipboard-text="ImgAddr" @click="copyText">{{ImgAddr}}</span>
             </el-tooltip>
           </div>
-        </div>
       </el-form-item>
       <div class="between-center">
         <el-form-item label="答题次数" class="flex_1">
-          <el-input v-model.number="questionRowData.AnswerNum"></el-input>
+          <el-input v-model.number="currentItemData.AnswerNum"></el-input>
         </el-form-item>
         <el-form-item label="答错次数" class="flex_1">
-          <el-input v-model.number="questionRowData.WrongNum"></el-input>
+          <el-input v-model.number="currentItemData.WrongNum"></el-input>
         </el-form-item>
       </div>
     </el-form>
@@ -129,10 +131,21 @@
 
 <script>
 import $ImgHttp from "@/api/ImgAPI";
-import {editQuestion,addQuestion} from "@/api/question";
+import { editQuestion, addQuestion } from "@/api/question";
+import common from "@/utils/common";
 export default {
+  props: {
+    // 表单数据
+    formItemData: {
+      type: Object,
+      default: function() {
+        return { Id: 0 };
+      }
+    }
+  },
   data() {
     return {
+      common,
       // 上传图片加载中的状态
       isbusy: false,
       // 图片地址
@@ -140,7 +153,7 @@ export default {
       // 选项字母
       words: ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
       // 题型信息
-      questionRowData: {},
+      currentItemData: {},
       // 多选题答案
       quesCheckboxAnswer: [],
       // 存放题的选项
@@ -164,28 +177,38 @@ export default {
       }
     };
   },
+  watch: {
+    formItemData(newval) {
+      this.currentItemData = this.formItemData;
+      this.getQuestionRow();
+    }
+  },
+  mounted() {
+    this.currentItemData = this.formItemData;
+    this.getQuestionRow();
+  },
   methods: {
     // 从父组件获取的值
-    getQuestionRow(row) {
+    getQuestionRow() { 
       // 初始化值
       this.isbusy = false;
       this.ImgAddr = "";
       this.quesCheckboxAnswer = [];
-      this.questionRowData = { ...row };
-      this.questionRowData.Options = [];
-      if (this.questionRowData.Id > 0) {
-        if (this.questionRowData.QuestionType == 2) {
-          this.quesCheckboxAnswer = this.questionRowData.QuestionAnswer.split(
+      // this.currentItemData = { ...row };
+      // this.currentItemData.Options = [];
+      if (this.currentItemData.Id > 0) {
+        if (this.currentItemData.QuestionType == 2) {
+          this.quesCheckboxAnswer = this.currentItemData.QuestionAnswer.split(
             ""
           );
         }
         // 遍历选项
         let Options = [];
         this.words.forEach(word => {
-          for (let keyName in this.questionRowData) {
-            if (keyName == word && this.questionRowData[keyName].length > 0) {
+          for (let keyName in this.currentItemData) {
+            if (keyName == word && this.currentItemData[keyName].length > 0) {
               Options.push({
-                content: this.questionRowData[keyName],
+                content: this.currentItemData[keyName],
                 tag: keyName
               });
             }
@@ -215,12 +238,13 @@ export default {
     // 题库上传图片
     async ImgUploadQuestion(file, fileList) {
       this.isbusy = true;
-      let res = await $ImgHttp.UploadImgExercise(
-        this.questionRowData.BookId,
-        file.raw
-      );
+       let res = await $ImgHttp.UploadImg("exercise", file.raw);
+      // let res = await $ImgHttp.UploadImgExercise(
+      //   this.currentItemData.BookId,
+      //   file.raw
+      // );
       if (res.code == 200) {
-        this.common.go_alert("上传成功");
+        this.$message("上传成功");
         this.ImgAddr = `<img src="${res.data}" />`;
         this.isbusy = false;
       }
@@ -228,38 +252,42 @@ export default {
     // 修改数据
     saveQuestion() {
       this.$refs.refQuestionForm.validate(async valid => {
-        if (valid) {
-          let that = this;
+        if (valid) { 
+          if (!this.currentItemData.Options){
+            this.currentItemData.Options = [];
+          } 
           // 处理选项
           this.quesAnswerOptions.forEach(item => {
             if (item.content) {
-              this.questionRowData.Options.push(item.content);
+              this.currentItemData.Options.push(item.content);
             }
-          });
+          }); 
           // 处理多选题答案
-          if (this.questionRowData.QuestionType == 2) {
-            this.questionRowData.QuestionAnswer = this.quesCheckboxAnswer.join(
+          if (this.currentItemData.QuestionType == 2) {
+            this.currentItemData.QuestionAnswer = this.quesCheckboxAnswer.join(
               ""
             );
-          }
+          } 
           // 修改数据
-          if (this.questionRowData.Id > 0) {
+          if (this.currentItemData.Id > 0) {
             let res = await editQuestion(
-              this.questionRowData.Id,
-              this.questionRowData
+              this.currentItemData.Id,"",
+              this.currentItemData
             );
             if (res.code == 200) {
-              that.common.go_alert("修改成功 !");
-              this.$emit("subClickEvent", 0, res.data);
-            }
-          } else if (that.questionRowData.Id == 0) {
-            let res = await  addQuestion(that.questionRowData);
-            if (res.code == 200) {
-              that.common.go_alert("添加成功 !");
+              this.$message("修改成功 !");
               this.$emit("subClickEvent", 1, res.data);
+            }
+          } else if (!this.currentItemData.Id||this.currentItemData.Id == 0) {
+     
+            let res = await addQuestion("","",this.currentItemData);
+            if (res.code == 200) {
+              this.$emit("subClickEvent", 0, res.data);
+              this.$message("添加成功 !");
             }
           }
         } else {
+          console.log("没通过")
           return false;
         }
       });
@@ -276,28 +304,27 @@ export default {
     deleteQuestionOption() {
       if (this.quesAnswerOptions.length > 0) {
         let obj = this.quesAnswerOptions[this.quesAnswerOptions.length - 1];
-        if (this.questionRowData.QuestionType == 2) {
+        if (this.currentItemData.QuestionType == 2) {
           let index = this.quesCheckboxAnswer.indexOf(obj.tag);
           if (index != -1) {
             this.quesCheckboxAnswer.splice(index, 1);
           }
         } else {
-          if (this.questionRowData.QuestionAnswer == obj.tag) {
-            this.questionRowData.QuestionAnswer = "";
+          if (this.currentItemData.QuestionAnswer == obj.tag) {
+            this.currentItemData.QuestionAnswer = "";
           }
         }
         this.quesAnswerOptions.pop();
       }
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 <style scope>
-.optionAnswer /deep/ .el-checkbox:last-of-type {
+.optionAnswer >>> .el-checkbox:last-of-type {
   margin-right: 5px;
 }
-.optionAnswer /deep/ .el-radio {
+.optionAnswer >>> .el-radio {
   margin-right: 5px;
 }
 </style>

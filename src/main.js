@@ -12,7 +12,7 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-
+import clipboard from 'clipboard';
 import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control
@@ -28,6 +28,7 @@ import 'vxe-table-plugin-element/dist/style.css'
 import echarts from 'echarts'
 import * as filters from './filters' // global filters
 Vue.prototype.$echarts = echarts
+Vue.prototype.clipboard = clipboard;
 Vue.use(VXETable)  
 VXETable.use(VXETablePluginElement)
 /**

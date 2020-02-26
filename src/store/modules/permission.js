@@ -123,6 +123,12 @@ const actions = {
                     name: 'teacher' + index.toString(10),
                     component: () => import('@/views/web/teacher'),
                     meta: { title: 'teacher', icon: "hotteacher" }
+                  },
+                  {
+                    path: 'linker/' + platform.Id.toString(10),
+                    name: 'linker' + index.toString(10),
+                    component: () => import('@/views/web/linker'),
+                    meta: { title: 'linker', icon: "linker" }
                   }
                 ]
               },

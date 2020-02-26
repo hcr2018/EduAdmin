@@ -488,7 +488,7 @@ export default {
 };
 </script>
 <style scoped>
-.contractform /deep/ .changInputWidth {
+.contractform >>> .changInputWidth {
   width: 100%;
 }
 .avatar-uploader-icon {

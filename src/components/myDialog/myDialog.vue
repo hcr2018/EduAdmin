@@ -17,7 +17,7 @@
             <slot name="left_content">展示基本信息区域</slot>
           </div>
         </div>
-        <div style="width:5px;height:100%;  background:#e0e3ea; "></div>
+        <div v-if="showLeft" style="width:5px;height:100%;  background:#e0e3ea; "></div>
 
         <div class="right_content" :class="{'no_left':!showLeft}">
           <div class="is-scroll-left hgt_100 right_body_div">
@@ -107,23 +107,23 @@ export default {
   width: 100%;
   overflow-y: scroll;
 }
-.myDrawer /deep/ .el-drawer__header {
+.myDrawer >>> .el-drawer__header {
   padding: 15px;
   background: rgb(48, 65, 86);
   margin-bottom: 1px;
   color: #ffffff;
 }
-.myDrawer /deep/ .el-drawer__header>span{
+.myDrawer >>> .el-drawer__header>span{
    outline: none;
 }
-.myDrawer /deep/ .el-dialog__close {
+.myDrawer >>> .el-dialog__close {
   color: #ffffff;
 }
-.myDrawer /deep/ .el-drawer__body {
+.myDrawer >>> .el-drawer__body {
   height: 100%;
   overflow: hidden;
 }
-.myDrawer /deep/ .el-drawer__close-btn {
+.myDrawer >>> .el-drawer__close-btn {
   outline: none;
 }
 </style>

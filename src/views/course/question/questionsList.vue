@@ -23,45 +23,45 @@
           </el-form-item>
         </el-form>
       </div>
-     
-        <el-table
-          :data="questionsListOfBook"
-          border
-          tooltip-effect="light"
-          style="width: 100%"
-          height="100%"
-          ref="refElTabel"
-        >
-          <el-table-column prop="Id" label="ID" width="60"></el-table-column>
-          <el-table-column prop="QuestionContent" label="题干" :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              <div v-html="scope.row.QuestionContent" class="QuestionContentImg"></div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="QuestionType" label="类型" width="95">
-            <template slot-scope="scope">
-              <span>{{common.FormatSelect(common.AllQuestionTypes,scope.row.QuestionType)}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="ManagerLabel" label="发布人" width="100"></el-table-column>
-          <el-table-column prop="QuestionScore" width="50" label="得分"></el-table-column>
-          <el-table-column prop="State" label="状态" width="60">
-            <template slot-scope="scope">
-              <el-tag v-show="scope.row.State==1">上架</el-tag>
-              <el-tag v-show="scope.row.State==0" type="info">下架</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="State" label="错误/全部" width="90">
-            <template slot-scope="scope">
-              <span>{{scope.row.WrongNum}}/{{scope.row.AnswerNum}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" width="120">
-            <template slot-scope="scope">
-              <el-button type="primary" @click="openEditQuestionDialog(scope.$index, scope.row)">编辑</el-button>
-            </template>
-          </el-table-column>
-        </el-table> 
+
+      <el-table
+        :data="questionsListOfBook"
+        border
+        tooltip-effect="light"
+        style="width: 100%"
+        height="100%"
+        ref="refElTabel"
+      >
+        <el-table-column prop="Id" label="ID" width="60"></el-table-column>
+        <el-table-column prop="QuestionContent" label="题干" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <div v-html="scope.row.QuestionContent" class="QuestionContentImg"></div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="QuestionType" label="类型" width="95">
+          <template slot-scope="scope">
+            <span>{{common.FormatSelect(common.AllQuestionTypes,scope.row.QuestionType)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="ManagerLabel" label="发布人" width="100"></el-table-column>
+        <el-table-column prop="QuestionScore" width="50" label="得分"></el-table-column>
+        <el-table-column prop="State" label="状态" width="60">
+          <template slot-scope="scope">
+            <el-tag v-show="scope.row.State==1">上架</el-tag>
+            <el-tag v-show="scope.row.State==0" type="info">下架</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="State" label="错误/全部" width="90">
+          <template slot-scope="scope">
+            <span>{{scope.row.WrongNum}}/{{scope.row.AnswerNum}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="120">
+          <template slot-scope="scope">
+            <el-button type="primary" @click="openEditQuestionDialog(scope.$index, scope.row)">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <div class="between-center m-v-15">
         <el-button type="primary" @click="openAddQuestionDialog">新增试题</el-button>
         <div>
@@ -78,13 +78,18 @@
     </div>
     <!-- 弹出框 -->
     <my-dialog
-      :visible.sync="isShowMoreOptationDialog"
+      :visible.sync="moreOperationDialog"
       :closeShow="true"
       :closeLeft="false"
+      :showLeft="false"
       title="题目详情编辑"
     >
       <div slot="right_content">
-        <question-row-dialog ref="refQusetionDialog" @subClickEvent="updateQuestionList"></question-row-dialog>
+        <question-row-dialog
+          ref="refQusetionDialog"
+          :formItemData="currentItemData"
+          @subClickEvent="updateQuestionList"
+        ></question-row-dialog>
       </div>
     </my-dialog>
   </div>
@@ -93,8 +98,8 @@
 <script>
 import myDialog from "@/components/myDialog/myDialog";
 import questionRowDialog from "@/views/course/question/component/questionRowDialog";
-import $ImgHttp from "@/api/ImgAPI"; 
-import { getQuestionOfBook,getQuestionTypes} from "@/api/question";
+import $ImgHttp from "@/api/ImgAPI";
+import { getQuestionOfBook, getQuestionTypes } from "@/api/question";
 import common from "@/utils/common";
 export default {
   name: "questionsList",
@@ -122,16 +127,17 @@ export default {
       searchQuestionContent: "",
       // 科目名称
       subjectLabel: "",
-      // 存放数的Id
-      bookID: null,
-      // 控制更多操作的模态框
-      isShowMoreOptationDialog: false,
+      // 更多操作弹窗
+      moreOperationDialog: false,
       // 当前索引操作的
       currentQuestionIndex: null,
       // 科目的试题列表
       questionsListOfBook: [],
       // 图片地址
       ImgAddr: "",
+      currentPlatform: {},
+      // 模态框获得的单条数据
+      currentItemData: {},
       // 表单验证
       questionFormRules: {
         ZhangId: [{ required: true, message: "请填写章编号", trigger: "blur" }],
@@ -161,7 +167,10 @@ export default {
     // 题库上传图片
     async ImgUploadQuestion(file, fileList) {
       this.isbusy = true;
-      let res = await $ImgHttp.UploadImgExercise(this.bookID, file.raw);
+      let res = await $ImgHttp.UploadImgExercise(
+        this.currentItemData.BookId,
+        file.raw
+      );
       if (res.code == 200) {
         this.common.go_alert("上传成功");
         this.ImgAddr = `<img src="${res.data}" />`;
@@ -171,8 +180,8 @@ export default {
     // 获取科目相关的试题列表
     async getQuesListOfBookZhangJie() {
       let offsetRow = (this.nowPage - 1) * this.rows;
-      let res = await getQuestionOfBook("",{
-        bookid: this.bookID,
+      let res = await getQuestionOfBook("", {
+        bookid: this.currentItemData.BookId,
         question_content: this.searchQuestionContent,
         zhang: this.searchQuestionZhang,
         jie: this.searchQuestionJie,
@@ -186,37 +195,42 @@ export default {
     },
     // 打开试题的模态框-新增
     openAddQuestionDialog() {
-      this.$refs.refQusetionDialog.getQuestionRow({
-        Id: 0,
-        QuestionType: 1,
-        State: 1,
-        QuestionAnswer: "A",
-        BookId: this.bookID,
-        Options: []
-      });
-      this.isShowMoreOptationDialog = true;
+      this.currentQuestionIndex = -1;
+      this.currentItemData = {};
+      this.moreOperationDialog = true;
+      this.currentItemData.BookId = parseInt(this.$route.query.Id);
+
+      // this.$refs.refQusetionDialog.getQuestionRow({
+      //   Id: 0,
+      //   QuestionType: 1,
+      //   State: 1,
+      //   QuestionAnswer: "A",
+      //   BookId: this.bookID,
+      //   Options: []
+      // });
     },
     //  打开试题的模态框-编辑
     openEditQuestionDialog(index, row) {
       this.currentQuestionIndex = index;
-      this.isShowMoreOptationDialog = true;
-      this.$refs.refQusetionDialog.getQuestionRow(row);
+      this.moreOperationDialog = true;
+      this.currentItemData = row;
+      // this.$refs.refQusetionDialog.getQuestionRow(row);
     },
     // 更新数据列表
     updateQuestionList(type, row) {
-      if (type == 1) {
+      if (type == 0) {
         this.questionsListOfBook.push(row);
-        this.isShowMoreOptationDialog = false;
-      } else if (type == 0) {
+        this.moreOperationDialog = false;
+      } else if (type == 1) {
         this.questionsListOfBook.splice(this.currentQuestionIndex, 1, row);
-        this.isShowMoreOptationDialog = false;
+        this.moreOperationDialog = false;
       } else if (type == -1) {
-        this.isShowMoreOptationDialog = false;
+        this.moreOperationDialog = false;
       }
     },
     // 获取试题类型
     async questionTypes() {
-      let res = await  getQuestionTypes("");
+      let res = await getQuestionTypes("");
       if (res.code == 200) {
         this.common.AllQuestionTypes = res.data ? res.data : [];
       }
@@ -228,10 +242,9 @@ export default {
     }
   },
   mounted() {
-    this.bookID = parseInt(this.$route.query.Id); 
+    this.currentItemData.BookId = parseInt(this.$route.query.Id);
     this.questionTypes();
     this.getQuesListOfBookZhangJie();
-     
   }
 };
 </script>

@@ -145,7 +145,7 @@ export default {
   box-sizing: border-box;
   border-radius: 10px;
 }
-.cardBorder /deep/ .el-upload {
+.cardBorder >>> .el-upload {
   width: 100%;
 }
 .el-icon-plus {

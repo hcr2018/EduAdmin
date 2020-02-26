@@ -22,15 +22,16 @@ const bookRouter = {
             hidden: true,
             meta: { title: 'bookAdpter', icon: "book" }
         },
-        // {
+        {
 
-        //     path: 'questionsList',
-        //     name: 'questionsList',
-        //     meta: {
-        //         title: 'questionsList',
-        //     },
-        //     component: () => import('@/views/course/question/questionsList'),
-        // },
+            path: 'questionsList',
+            name: 'questionsList',
+            hidden: true,
+            meta: {
+                title: 'questionsList',
+            },
+            component: () => import('@/views/course/question/questionsList'),
+        },
         {
             hidden: true,
             path: 'chapterExercise',
