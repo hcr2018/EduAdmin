@@ -26,7 +26,7 @@
 2.  进入Edumin目录，执行npm install
 3.  然后运行npm run dev 打开进入测试页面
 4.  使用 npm run build:prod 编译出生产文件。部署在web服务器后即可。 
-5.  演示版本的地址 [后台地址](http://eduadmin.todear.net:8990)。 用户名和密码都是17760478454 。没有任何权限，只能点点看看。以免演示数据搞混乱了。
+5.  演示版本的地址 [后台地址 http://eduadmin.todear.net:8990](http://eduadmin.todear.net:8990)。 用户名和密码都是17760478454 。没有任何权限，只能点点看看。以免演示数据搞混乱了。
 
 #### 预览图
 ![登录页](https://images.gitee.com/uploads/images/2020/0223/214411_af0efc0b_870483.png "登录页") 
