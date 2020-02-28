@@ -182,7 +182,6 @@ export default {
             .dispatch("manager/login", submitData)
             .then(() => {
               this.$store.dispatch("app/getPlatformList").then(() => {});
-
               this.$store
                 .dispatch("app/getCollegeWithCourseKind")
                 .then(() => {});

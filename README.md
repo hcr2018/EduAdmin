@@ -15,8 +15,8 @@
 如果你只需要开发前端程序。那么不需要下载后端程序即可直接使用公用的社区版api接口调试。待将要部署的时候再下载下面的后端程序。
 后端程序采用的是go语言编写的。提供windows和linux版本供下载
 1.  首先请确保安装最新版的稳定mysql 和redis 版本。
-2.  在[后台程序下载（Linux版本）64位](http://edu.todear.net:8990/download/community.zip)
-3.  在[后台程序下载（Windows版本）64位](http://edu.todear.net:8990/download/community.zip)
+2.  在[后台后端程序下载（Linux版本）64位](http://edu.todear.net:8990/download/community.zip)
+3.  在[后台后端程序下载（Windows版本）64位](http://edu.todear.net:8990/download/community.zip)
 4.  在mysql数据库中先建立一个 edu的数据库。
 5.  解压上面下载的后台程序压缩包。将sql导入
 6.  修改conf目录下app.conf配置文件。其中的数据库账号和密码，以及redis账号和db编号。默认为0 第一个
@@ -26,7 +26,7 @@
 2.  进入Edumin目录，执行npm install
 3.  然后运行npm run dev 打开进入测试页面
 4.  使用 npm run build:prod 编译出生产文件。部署在web服务器后即可。 
-5. 后台管理的登录密码是13551322482
+5.  演示版本的地址 [后台地址](http://eduadmin.todear.net:8990)。 用户名和密码都是17760478454 。没有任何权限，只能点点看看。以免演示数据搞混乱了。
 
 #### 预览图
 ![登录页](https://images.gitee.com/uploads/images/2020/0223/214411_af0efc0b_870483.png "登录页") 
