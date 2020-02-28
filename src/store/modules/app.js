@@ -119,7 +119,9 @@ const actions = {
       })
     })
   },
-   
+  pushPlatform({ commit }, data) {
+    commit('PUSH_PLATFORM', data)
+  },
 
 
 }

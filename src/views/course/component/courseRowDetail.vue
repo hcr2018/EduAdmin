@@ -173,7 +173,25 @@ export default {
   components: {
     myImageViewer
   },
-
+  watch: {
+    formItemData(newvar) {
+      this.currentItemData = this.formItemData; 
+      if (this.courseKindIdProp > 0) {
+        this.courseKindId = this.courseKindIdProp;
+      }
+      this.currentItemData.TCourseKindID = this.courseKindId;
+      // this.collegeChangeGetCourseKind(0);
+    },
+    courseKindIdProp(newval) {
+      console.log(this.courseKindId,"=====2====",this.courseKindIdProp)
+ 
+      if (this.courseKindIdProp > 0) {
+        this.courseKindId = this.courseKindIdProp;
+      }
+      this.currentItemData.TCourseKindID = this.courseKindId;
+      // this.collegeChangeGetCourseKind(0);
+    }
+  },
   data() {
     return {
       myImageViewer,
@@ -210,18 +228,9 @@ export default {
       isbusy3: false
     };
   },
-  watch: {
-    formItemData(newvar) {
-      this.currentItemData = this.formItemData;
-      if (this.courseKindIdProp > 0) {
-        this.courseKindId = this.courseKindIdProp;
-      }
-      this.currentItemData.TCourseKindID = this.courseKindId;
-      this.collegeChangeGetCourseKind(0);
-    }
-  },
+
   mounted() {
-    this.currentItemData = this.formItemData;
+    this.currentItemData = this.formItemData; 
     if (this.currentItemData.TCourseKindID > 0) {
       this.courseKindId = this.currentItemData.TCourseKindID;
     } else {
@@ -240,9 +249,10 @@ export default {
           }
         });
       }
-    } else {
-      this.collegeChangeGetCourseKind(0);
     }
+    //  else {
+    //   this.collegeChangeGetCourseKind(0);
+    // }
   },
   methods: {
     // 上传课程图片
@@ -278,20 +288,7 @@ export default {
     closeViewer() {
       this.showViewer = false;
     },
-    //  选中学院后回调
-    collegeChangeGetCourseKind(index) {
-      this.currentItemData.TCollegeID = this.$store.getters.app.collegeWithCourseKind[
-        index
-      ].Id;
-      this.courseKindList = this.$store.getters.app.collegeWithCourseKind[
-        index
-      ].Children;
-      if (this.courseKindList && this.courseKindList.length > 0) {
-        this.currentItemData.TCourseKindID = this.courseKindList[0].Id;
-        this.courseKindLabel = this.courseKindList[0].Label;
-        // this.getBookList();
-      }
-    },
+   
 
     // 保存课程数据
     saveCourse: function() {

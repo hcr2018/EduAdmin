@@ -105,7 +105,7 @@ export default {
             let res = await addPlatform("", "", this.currentFormData);
             this.$emit("subClickEvent", 0, res.data);
             // 添加成功之后要触发父组件信息列表修改
-            this.$store.dispatch("app/pushPlatform", res.data).then(() => {
+            this.$store.dispatch("app/pushPlatform", res.data).then((response) => {
               this.isShowPlatformDialog = false;
               this.currentFormData = res.data;
               this.$message({
@@ -121,7 +121,7 @@ export default {
               this.currentFormData
             );
             this.$emit("subClickEvent", 1, res.data);
-            this.$store.dispatch("app/pushPlatform", res.data).then(() => {
+            this.$store.dispatch("app/pushPlatform", res.data).then((response) => {
               this.isShowPlatformDialog = false;
               this.$message({
                 message: "修改成功",

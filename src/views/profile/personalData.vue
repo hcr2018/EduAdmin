@@ -141,7 +141,7 @@ import crypto from "crypto";
 import $ from "jquery";
 import common from "@/utils/common";
 import $ImgAPI from "@/api/ImgAPI";
-import { updateMyInfo, getInfo, uploadFace } from "@/api/manager";
+import { updateMyInfo, getInfo, uploadFace, updatePSWD } from "@/api/manager";
 export default {
   name: "",
   data() {
@@ -219,10 +219,7 @@ export default {
       let nmd5 = crypto.createHash("md5");
       nmd5.update(that.newPsw);
       let newPsw1 = nmd5.digest("hex");
-      var formData = new FormData();
-      formData.append("oldpswd", oldPsw1);
-      formData.append("newpswd", newPsw1);
-      let res = await updatePSWD("", formData);
+      let res = await updatePSWD("", { oldpswd: oldPsw1, newpswd: newPsw1 });
       this.$message("修改成功 ！");
     }
   },

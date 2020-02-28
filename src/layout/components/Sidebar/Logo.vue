@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '后台管理系统',
+      title: '教育管理系统',
       logo: '/assets/logo.png'
     }
   }
