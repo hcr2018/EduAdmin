@@ -41,7 +41,7 @@
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
           <el-tabs v-model="activeName">
-            <el-tab-pane id="gmjl" label="资料下载权限" name="gmjl">
+            <el-tab-pane id="zlxzqx" label="资料下载权限" name="zlxzqx">
                <platformRight :formItemData="customFormData"  />
             </el-tab-pane>
              <el-tab-pane id="gly" label="设置负责人" name="gly">
@@ -88,7 +88,7 @@ export default {
       // 模态框获得的单条数据
       customFormData: {},
       // 当前操作平台的索引
-       activeName: 'gly'
+       activeName: 'zlxzqx'
     };
   },
   mounted() {

@@ -5,12 +5,13 @@
       <br />
 
       <div v-for="(item,index) in $store.getters.app.collegeWithCourseKind" :key="item.Id">
-        <el-form :disabled="currenteditEnable==false">
+        <el-form  >
           <el-form-item label-width="100px" :label="'('+(index+1)+')'+item.Label+'：'">
             <el-slider
               style="width:100%;"
               class="m-l-40"
               v-model="platformRights[item.Id]"
+              :format-tooltip="formatTooltipFunc"
               :marks="marks"
               :min="0"
               :max="5"
@@ -44,7 +45,7 @@ import common from "@/utils/common";
 import { addPlatform, updatePlatform } from "@/api/platform";
 export default {
   props: {
-    // 校区的表单数据 
+    // 校区的表单数据
     formItemData: {
       type: Object,
       default: function() {
@@ -94,35 +95,52 @@ export default {
   },
   watch: {
     formItemData(newvar) {
-      this.currentPlatform = this.formItemData; 
+      this.setData();
     }
   },
   mounted() {
-    this.currentPlatform = this.formItemData;
-    let index = 0;
-    if (this.currentPlatform.Right == "") {
-      this.currentPlatform.Right = "[]";
-    }
-    let thisPlatformRights = JSON.parse(this.currentPlatform.Right);
-    this.platformRights = thisPlatformRights;
-
-    thisPlatformRights.forEach(right => {
-      let key = Object.keys(right)[0];
-      this.platformRights[key] = right[key];
-    });
+    this.setData();
   },
   methods: {
-    async getAllManagerOfThisPlatform() {
-      let res = await getAllManagerOfPlatform(this.currentPlatform.Id, "");
-      this.managerList = res.data;
+    setData() {
+      this.currentPlatform = this.formItemData;
+      let index = 0;
+      if (this.currentPlatform.Right == "") {
+        this.currentPlatform.Right = "[]";
+      }
+      let thisPlatformRights = JSON.parse(this.currentPlatform.Right);
+
+      this.platformRights = [];
+      thisPlatformRights.forEach(right => {
+        if (right.constructor == Object) {
+          let key = Object.keys(right)[0];
+          this.platformRights[key] = right[key];
+        }
+      });
+    },
+    formatTooltipFunc(value) {
+      if (this.marks[value]) {
+        return "允许下载" + this.marks[value].label + "的资料";
+      }
+      return "";
     },
     // 添加或编辑数据
     async saveFormItemData() {
-      console.log(this.formItemData, this.currentPlatform);
-      let res = await setPlatformMaster(
+      // this.currentPlatform.Right = JSON.stringify(this.platformRights);
+      let temp = [];
+      for (let i = 0; i < this.platformRights.length; i++) {
+        if (this.platformRights[i]) { 
+          let obj = {};
+          obj[i] = this.platformRights[i];
+          temp.push(obj);
+        }
+      }
+      this.currentPlatform.Right = JSON.stringify(temp);
+      console.log(this.currentPlatform);
+      let res = await updatePlatform(
         this.formItemData.Id,
-        { masterid: this.currentPlatform.MasterID, add: 1 },
-        ""
+        "",
+        this.currentPlatform
       );
       this.currentPlatform = res.data;
       this.$message({
