@@ -85,13 +85,13 @@
           <bookRowDetail @itemModify="updateListItem" :formItemData="customFormData" />
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
-          <el-tabs>
+          <!-- <el-tabs>
             <el-tab-pane id="gjjl" label="跟进记录" name="gjjl"></el-tab-pane>
             <el-tab-pane id="gmjl" label="购买记录" name="gmjl"></el-tab-pane>
             <el-tab-pane id="htdd" label="合同订单" name="htdd"></el-tab-pane>
             <el-tab-pane id="cjlr" label="成绩录入" name="cjlr"></el-tab-pane>
             <el-tab-pane id="dazl" label="档案资料" name="dazl"></el-tab-pane>
-          </el-tabs>~
+          </el-tabs>~ -->
         </div>
       </my-dialog>
       <el-dialog

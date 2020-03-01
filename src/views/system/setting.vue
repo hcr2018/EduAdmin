@@ -1,11 +1,14 @@
 <template>
   <div v-cloak class="font16 hgt_full" style="height:100%">
     <div class="flex_column hgt_full">
-      <el-form label-width="80px" class="demo-ruleForm" size="small">
+      <el-form label-width="180px" class="demo-ruleForm" size="small">
         <el-form-item label="后台登陆页标题">
           <el-input v-model="systemForm.name" placeholder="可以输入多个号码，用英文逗号,隔开" />
         </el-form-item>
         <el-form-item label="后台登陆页背景">
+          <el-input v-model="systemForm.loginBg" type="textarea" :row="3" placeholder="短信内容，不宜太长。" />
+        </el-form-item>
+        <el-form-item label="系统logo">
           <el-input v-model="systemForm.loginBg" type="textarea" :row="3" placeholder="短信内容，不宜太长。" />
         </el-form-item>
       </el-form>

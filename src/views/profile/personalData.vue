@@ -182,11 +182,11 @@ export default {
     },
     async saveEdit() {
       let res = await updateMyInfo("", "", this.mineData);
-
-      this.$message("修改成功！");
       this.showMineInfo = !this.showMineInfo;
       this.mineData = res.data;
       this.common.storageObj(res.data);
+
+      this.$message("修改成功！");
     },
     // 图片上传
     async imgUpload(file) {

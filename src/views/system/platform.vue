@@ -41,7 +41,9 @@
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
           <el-tabs v-model="activeName">
-            <el-tab-pane id="gmjl" label="校区权限" name="gmjl"></el-tab-pane>
+            <el-tab-pane id="gmjl" label="资料下载权限" name="gmjl">
+               <platformRight :formItemData="customFormData"  />
+            </el-tab-pane>
              <el-tab-pane id="gly" label="设置负责人" name="gly">
                <setPlatformMaster :formItemData="customFormData"  />
              </el-tab-pane>
@@ -65,6 +67,7 @@
 </template>
 
 <script>
+import platformRight from "@/views/system/component/platformRight";
 import platformRowDetail from "@/views/system/component/platformRowDetail";
 import setPlatformMaster from "@/views/system/component/setPlatformMaster";
 import myDialog from "@/components/myDialog/myDialog";
@@ -73,7 +76,8 @@ export default {
   components: {
     myDialog,
     platformRowDetail,
-    setPlatformMaster
+    setPlatformMaster,
+    platformRight
   },
   data() {
     return {
