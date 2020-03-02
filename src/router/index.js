@@ -9,7 +9,7 @@ import Layout from '@/layout'
 /* Router Modules */
 import customRouter from './modules/custom'
 import courseRouter from './modules/course'
-import bookRouter from './modules/book' 
+import bookRouter from './modules/book'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -54,13 +54,13 @@ export const constantRoutes = [
   },
   {
     path: '/',
-    
+
     component: Layout,
     redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
-       
+
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
@@ -93,45 +93,51 @@ export const asyncRoutes = [
   {
     path: '/system',
     component: Layout,
-    redirect: 'setting', 
+    redirect: 'setting',
     name: 'system',
-    meta: { title: 'system', icon: 'skill' ,  roles: [0]  },
+    meta: { title: 'system', icon: 'skill', roles: [0] },
     children: [
       {
         path: 'setting',
         component: () => import('@/views/system/setting'),
         name: 'setting',
-        meta: {  title: 'system',  icon: 'edit'  }
+        meta: { title: 'system', icon: 'edit' }
       },
       {
         path: 'college',
         component: () => import('@/views/course/college'),
         name: 'college',
-        meta: {  title: 'college',  icon: 'edit'  }
+        meta: { title: 'college', icon: 'college' }
+      }
+      , {
+        path: 'docUpload',
+        name: 'docUpload',
+        component: () => import('@/views/web/docDownload'),
+        meta: { title: 'docUpload', icon: "docUpload" }
       }
     ]
   },
   {
     path: '/platform',
     component: Layout,
-    redirect: 'platforList', 
+    redirect: 'platforList',
     name: 'platform',
-    meta: { title: 'system', icon: 'skill' ,  roles: [0] },
+    meta: { title: 'system', icon: 'skill', roles: [0] },
     children: [
       {
         path: 'platforList',
         component: () => import('@/views/system/platform'),
         name: 'platforList',
-        meta: {   title: 'platform',   icon: 'tree-table'   }
+        meta: { title: 'platform', icon: 'tree-table' }
       }
     ]
   },
   {
     path: '/manager',
     component: Layout,
-    redirect: 'managerList', 
+    redirect: 'managerList',
     name: 'manager',
-    meta: { title: 'system', icon: 'skill',  roles: [0]  },
+    meta: { title: 'system', icon: 'skill', roles: [0] },
     children: [
       {
         path: 'managerList',

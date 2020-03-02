@@ -206,8 +206,7 @@ export default {
     saveCoursePrice() {
       for (const items of this.currentItemData.Children) {
         for (const item in items) {
-          if (items[item] == null || items[item] == "") {
-            console.log(",,,,,,,",items[item])
+          if (items[item] == null || items[item] == "") { 
             this.$alert("价格不能为空哦！", "提示", {
               confirmButtonText: "确定",
               type: "warning",

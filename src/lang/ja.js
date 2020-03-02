@@ -18,6 +18,7 @@ export default {
     platformCustom:'本校学员',
     banner: '轮播图',
     docDownload: '资料下载',
+    docUpload:"资料发布",
     managerList: '用户列表',
     managerLogs: '用户日志',
     news: '新闻管理',

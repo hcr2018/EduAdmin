@@ -22,7 +22,7 @@ const webRouter = {
       path: 'docDownload',
       name: 'docDownload',
       component: () => import('@/views/web/docDownload'),
-      meta: { title: 'docDownload' ,icon:"guide"}
+      meta: { title: 'docDownload' ,icon:"download"}
     },
     {
       path: 'news',

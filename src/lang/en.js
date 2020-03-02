@@ -18,6 +18,7 @@ export default {
     platformCustom:'custom list',
     banner: 'banner',
     docDownload: 'doc download',
+    docUpload:"doc publish",
     managerList: 'manager　ｌist',
     managerLogs: 'manager　log',
     news: 'news manager',

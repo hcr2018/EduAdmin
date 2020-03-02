@@ -3,17 +3,7 @@
     <div class="flex_column hgt_full ">
       <!-- 查询表单 -->
       <div class="p-t-20">
-        <el-form :inline="true">
-          <!-- <el-form-item label="身份类型">
-            <el-select v-model="searchRoleVal" class="wid140" placeholder="请选择身份类型">
-              <el-option
-                :label="item.Label"
-                :key="index"
-                :value="item.value"
-                v-for="(item,index) in common.managerRoleList"
-              ></el-option>
-            </el-select>
-          </el-form-item> -->
+        <el-form :inline="true"> 
           <el-form-item>
             <el-input
               placeholder="请输入搜索内容"

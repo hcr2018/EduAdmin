@@ -184,7 +184,7 @@ export default {
       let res = await updateMyInfo("", "", this.mineData);
       this.showMineInfo = !this.showMineInfo;
       this.mineData = res.data;
-      this.common.storageObj(res.data);
+      // this.common.storageObj(res.data);
 
       this.$message("修改成功！");
     },

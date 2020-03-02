@@ -12,7 +12,7 @@
               class="m-l-40"
               v-model="platformRights[item.Id]"
               :format-tooltip="formatTooltipFunc"
-              :marks="marks"
+              :marks="common.docRightmarks"
               :min="0"
               :max="5"
             ></el-slider>
@@ -56,38 +56,7 @@ export default {
   data() {
     return {
       value: 1,
-      marks: {
-        0: {
-          style: {
-            color: "#27C91E"
-          },
-          label: "公开资料"
-        },
-        1: {
-          style: {
-            color: "#A6B750"
-          },
-          label: "隐秘资料"
-        },
-        2: {
-          style: {
-            color: "#D7CB45"
-          },
-          label: "内部资料"
-        },
-        3: {
-          style: {
-            color: "#E88E4D"
-          },
-          label: "保密资料"
-        },
-        4: {
-          style: {
-            color: "#ff0000"
-          },
-          label: "绝密资料"
-        }
-      },
+     
       currentPlatform: {},
       currenteditEnable: false,
       platformRights: []
@@ -119,8 +88,8 @@ export default {
       });
     },
     formatTooltipFunc(value) {
-      if (this.marks[value]) {
-        return "允许下载" + this.marks[value].label + "的资料";
+      if (this.common.docRightmarks[value]) {
+        return "允许下载" + this.common.docRightmarks[value].label + "的资料";
       }
       return "";
     },

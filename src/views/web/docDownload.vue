@@ -1,32 +1,38 @@
 <template>
   <div class="font16 hgt_full" v-cloak>
     <div class="flex_column hgt_full">
-      <div class="flex_1">
-        <el-table
-          ref="refElTabel"
-          tooltip-effect="light"
-          :data="newsListTable"
-          border
-          style="width: 100%"
-          height="100%"
-        >
-          <el-table-column prop="Id" label="ID" width="50"></el-table-column>
-          <el-table-column prop="Title" label="资料名称" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column label="资料类型" width="100">
-            <template slot-scope="scope">
-              <span>{{common.FormatSelect(newsKindOptions,scope.row.KindId)}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="Creattime" :formatter="TimeFormatter" label="发布时间" width="130"></el-table-column>
-          <el-table-column prop="AuthorLabel" label="发布人" width="100"></el-table-column>
-          <el-table-column label="操作" width="150" fixed="right">
-            <template slot-scope="scope">
-              <el-button type="primary" @click="editNewsRow(scope.$index, scope.row)">编辑</el-button>
-              <el-button type="danger" @click="deleteNewsRow(scope.$index, scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
+      <el-tabs @tab-click="handleClick">
+        <el-tab-pane
+          v-for="item in $store.getters.app.collegeWithCourseKind"
+          :label="item.Label"
+          :key="item.Id"
+        ></el-tab-pane>
+      </el-tabs>
+      <el-table
+        ref="refElTabel"
+        tooltip-effect="light"
+        :data="newsListTable"
+        border
+        style="width: 100%"
+        height="100%"
+      >
+        <el-table-column prop="Id" label="ID" width="50"></el-table-column>
+        <el-table-column prop="Title" label="资料名称" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="保密级别" width="100">
+          <template slot-scope="scope">
+            <span>{{common.FormatSelect(newsKindOptions,scope.row.KindId)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="Creattime" :formatter="TimeFormatter" label="发布时间" width="130"></el-table-column>
+        <el-table-column prop="AuthorLabel" label="发布人" width="100"></el-table-column>
+        <el-table-column label="操作" width="150" fixed="right">
+          <template slot-scope="scope">
+            <el-button type="primary" @click="editNewsRow(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="danger" @click="deleteNewsRow(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
       <div class="between-center m-v-15">
         <el-button type="primary" @click="newsAdd">添加资料</el-button>
         <el-pagination
@@ -49,7 +55,7 @@
         :closeLeft="false"
       >
         <div slot="right_content">
-          <newsFormData ref="newsForm" :formItemData="newsFormData" @updateRowData="updateNewsList"></newsFormData>
+          <docFormData ref="newsForm" :platform="currentPlatform" :formItemData="newsFormData" @updateRowData="updateNewsList"></docFormData>
         </div>
       </my-dialog>
     </div>
@@ -59,38 +65,39 @@
 <script>
 import myDialog from "@/components/myDialog/myDialog";
 import common from "@/utils/common";
-import newsFormData from "@/views/web/component/newsFormData";
+import docFormData from "@/views/web/component/docFormData";
 import { getNewsList, deleNewsRow } from "@/api/news";
 export default {
   name: "newsList",
   components: {
     myDialog,
-    newsFormData
+    docFormData
   },
   data() {
     return {
       common,
+      currentCollege: 0,
       // 资料类型的选项
       newsKindOptions: [
         {
-          value: 100,
-          Label: "软件下载"
+          value: 0,
+          Label: "公开资料"
         },
         {
-          value: 101,
-          Label: "培训资料"
+          value: 1,
+          Label: "内部资料"
         },
         {
-          value: 102,
-          Label: "运营资料"
+          value: 2,
+          Label: "隐秘资料"
         },
         {
-          value: 103,
-          Label: "教学资料"
+          value: 3,
+          Label: "保密资料"
         },
         {
-          value: 104,
-          Label: "课件下载"
+          value: 4,
+          Label: "绝密资料"
         }
       ],
       // 资料的数据列表
@@ -105,15 +112,36 @@ export default {
       newsFormDialog: false,
       // 模态框获得的单条数据
       newsFormData: null,
+      currentPlatform: 0,
+    
       // 当前索引
       currentNewsIndex: null
     };
   },
+
   methods: {
+   
+    handleClick(item) {
+      this.currentCollege = 0;
+      let selectIndex = 0;
+      if (item != null) {
+        selectIndex = item.index;
+      }
+      let collegeItem = this.$store.getters.app.collegeWithCourseKind[
+        selectIndex
+      ];
+      if (collegeItem) {
+        this.currentCollege = collegeItem.Id;
+      }
+      this.getNewsList();
+    },
     // 获取资料的数据列表
     async getNewsList() {
       let offsetRow = (this.nowPage - 1) * this.rows;
       let newParams = {
+        college: this.currentCollege,
+        platform: this.currentPlatform,
+        needPublic: true,
         simple: 1,
         limit: this.rows,
         offset: offsetRow
@@ -188,7 +216,14 @@ export default {
   },
 
   mounted() {
-    this.getNewsList();
+    let paths = this.$router.currentRoute.path.split("/");
+    this.currentPlatform = paths[paths.length - 1];
+    if (isNaN(this.currentPlatform)) {
+      this.currentPlatform = 0;
+    }
+    setTimeout(this.handleClick, 1000);
+
+    // this.getNewsList();
   }
 };
 </script>

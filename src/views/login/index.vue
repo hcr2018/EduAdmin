@@ -191,15 +191,15 @@ export default {
               this.$router.push({
                 path: this.redirect || "/",
                 query: this.otherQuery
-              });
-              this.loading = false;
+              }); 
             })
             .catch(err => {
-              this.loading = false;
+             return false;
             });
         } else {
           return false;
         }
+        this.loading = false;
       });
     },
     getOtherQuery(query) {

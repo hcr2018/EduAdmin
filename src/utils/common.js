@@ -93,10 +93,7 @@ export default {
   spliceLabel: function (val, leng) {
     return val.length > leng ? val.slice(0, leng) + '...' : val
   },
-  storageObj: function (obj) {
-    var Str = JSON.stringify(obj)
-    sessionStorage.setItem('userInfo', Str)
-  },
+ 
   // 导出表格-全部导出
   exportExcel(className, title) {
     const xlsxParam = { raw: true }
@@ -227,11 +224,11 @@ export default {
         }
       },
       {
-        text: '昨天',
+        text: '明天',
         onClick(picker) {
           const end = new Date()
           const start = new Date()
-          start.setDate(start.getDate() - 1)
+          start.setDate(start.getDate() + 1)
           start.setHours(0)
           start.setMinutes(0)
           start.setSeconds(0)
@@ -254,7 +251,7 @@ export default {
           end.setHours(0)
           end.setMinutes(0)
           end.setSeconds(0)
-          start.setTime(start.getTime() + 3600 * 1000 * 24 * 7)
+          end.setTime(start.getTime() + 3600 * 1000 * 24 * 7)
           picker.$emit('pick', [start, end])
         }
       },
@@ -269,7 +266,7 @@ export default {
           end.setHours(0)
           end.setMinutes(0)
           end.setSeconds(0)
-          start.setTime(start.getTime() + 3600 * 1000 * 24 * 30)
+          end.setTime(start.getTime() + 3600 * 1000 * 24 * 30)
           picker.$emit('pick', [start, end])
         }
       },
@@ -284,7 +281,7 @@ export default {
           end.setHours(0)
           end.setMinutes(0)
           end.setSeconds(0)
-          start.setTime(start.getTime() + 3600 * 1000 * 24 * 90)
+          end.setTime(start.getTime() + 3600 * 1000 * 24 * 90)
           picker.$emit('pick', [start, end])
         }
       }
@@ -306,9 +303,6 @@ export default {
     },
     {
       Label: '地推客户'
-    },
-    {
-      Label: '网销分配'
     },
     {
       Label: '其他渠道'
@@ -337,26 +331,7 @@ export default {
       value: 3,
       Label: '彻底抛弃'
     }
-  ],
-  // 客户签订合同-层次类别
-  costomSignUpLevel: [
-    {
-      value: 0,
-      Label: '高起专'
-    },
-    {
-      value: 1,
-      Label: '专升本'
-    },
-    {
-      value: 2,
-      Label: '全日制专升本'
-    },
-    {
-      value: 3,
-      Label: '本升硕(研究生)'
-    }
-  ],
+  ], 
   // 客户签订合同- 优惠类型
   costomPreferentialType: [
     {
@@ -434,6 +409,61 @@ export default {
       Label: '其他类型'
     }
   ],
+  // 授课形式
+  docRights: [
+    {
+      value: 0,
+      Label: '公开资料'
+    },
+    {
+      value: 1,
+      Label: '内部资料'
+    },
+    {
+      value: 2,
+      Label: '隐秘资料'
+    },
+    {
+      value: 3,
+      Label: '保密资料'
+    },
+    {
+      value: 4,
+      Label: '绝密资料'
+    } 
+  ],
+  docRightmarks: {
+    0: {
+      style: {
+        color: "#27C91E"
+      },
+      label: "公开资料"
+    },
+    1: {
+      style: {
+        color: "#A6B750"
+      },
+      label: "内部资料"
+    },
+    2: {
+      style: {
+        color: "#D7CB45"
+      },
+      label: "隐秘资料"
+    },
+    3: {
+      style: {
+        color: "#E88E4D"
+      },
+      label: "保密资料"
+    },
+    4: {
+      style: {
+        color: "#ff0000"
+      },
+      label: "绝密资料"
+    }
+  },
 
   AllQuestionTypes: [], // 所有题的类型
   // 根据类型变化返回一些数据的Label
