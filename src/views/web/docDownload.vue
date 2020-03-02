@@ -55,7 +55,7 @@
         :closeLeft="false"
       >
         <div slot="right_content">
-          <docFormData ref="newsForm" :platform="currentPlatform" :formItemData="newsFormData" @updateRowData="updateNewsList"></docFormData>
+          <docFormData ref="newsForm" :college="currentCollege" :platform="currentPlatform" :formItemData="newsFormData" @updateRowData="updateNewsList"></docFormData>
         </div>
       </my-dialog>
     </div>

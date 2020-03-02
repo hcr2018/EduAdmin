@@ -34,21 +34,20 @@
             </el-form-item>
             <el-form-item label="附件地址" style="width:50%;">
               <el-upload
-              style="width:100%;"
+                style="width:100%;"
                 :multiple="false"
                 :on-change="uploadEnclosure"
                 :show-file-list="false"
                 :auto-upload="false"
                 action
               >
-                <el-input   placeholder="点击上传" v-model="currentItemData.Downfile"></el-input>
+                <el-input placeholder="点击上传" v-model="currentItemData.Downfile"></el-input>
               </el-upload>
             </el-form-item>
-          </div> 
-            <el-form-item label="标题" prop="Title" class="m-t-20">
-              <el-input placeholder="请输入内容" v-model="currentItemData.Title"></el-input>
-            </el-form-item>
-            
+          </div>
+          <el-form-item label="标题" prop="Title" class="m-t-20">
+            <el-input placeholder="请输入内容" v-model="currentItemData.Title"></el-input>
+          </el-form-item>
         </div>
       </div>
       <el-form-item label="副标题">
@@ -81,6 +80,10 @@ export default {
       }
     },
     platform: {
+      typ: Number,
+      default: 0
+    },
+    college: {
       typ: Number,
       default: 0
     }
@@ -123,6 +126,9 @@ export default {
     },
     platform(newvar) {
       this.setData();
+    },
+    college(newvar) {
+      this.setData();
     }
   },
   mounted() {
@@ -130,8 +136,7 @@ export default {
   },
   methods: {
     setData() {
-      this.currentItemData = this.formItemData;
-      this.currentItemData.Platform = this.platform;
+      this.currentItemData = this.formItemData; 
     },
 
     formatTooltipFunc(value) {
@@ -216,6 +221,8 @@ export default {
     // 添加或编辑数据
     saveNewsFormData() {
       // 验证表单数据
+       this.currentItemData.Platform = this.platform;
+       this.currentItemData.CollegeID = this.college;
       this.$refs.newsForm.validate(async valid => {
         if (valid) {
           if (this.currentItemData.Id > 0) {
