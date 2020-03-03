@@ -25,39 +25,39 @@
           </el-form-item>
         </el-form>
       </div>
- 
-        <el-table
-          tooltip-effect="light"
-          :data="classList"
-          border
-          style="width: 100%"
-          height="100%"
-          ref="refElTabel"
+
+      <el-table
+        tooltip-effect="light"
+        :data="classList"
+        border
+        style="width: 100%"
+        height="100%"
+        ref="refElTabel"
+      >
+        <el-table-column prop="Id" label="ID" width="50"></el-table-column>
+        <el-table-column
+          label="班级名称"
+          :formatter="TimeFormatter"
+          :show-overflow-tooltip="true"
+          width="260"
         >
-          <el-table-column prop="Id" label="ID" width="50"></el-table-column>
-          <el-table-column
-            label="班级名称"
-            :formatter="TimeFormatter"
-            :show-overflow-tooltip="true"
-            width="260"
-          >
-            <template slot-scope="scope">
-              <span
-                class="color-2e77f8 font-w6 cursor"
-                @click="openMoreOptationDialog(scope.$index, scope.row)"
-              >{{scope.row.Label}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="授课方式" width="120">
-            <template slot-scope="scope">
-              <span>{{common.FormatSelect(common.teachingForm,scope.row.TeachMethod)}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="StudentNum" label="学员人数" width="70"></el-table-column>
-          <el-table-column prop="CreaterLabel" label="创建人员" width="100"></el-table-column>
-          <el-table-column prop="Createtime" label="创建时间" width="90" :formatter="TimeFormatter"></el-table-column>
-          <el-table-column prop="Description" label="情况备注" :show-overflow-tooltip="true"></el-table-column>
-        </el-table> 
+          <template slot-scope="scope">
+            <span
+              class="color-2e77f8 font-w6 cursor"
+              @click="openMoreOptationDialog(scope.$index, scope.row)"
+            >{{scope.row.Label}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="授课方式" width="120">
+          <template slot-scope="scope">
+            <span>{{common.FormatSelect(common.teachingForm,scope.row.TeachMethod)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="StudentNum" label="学员人数" width="70"></el-table-column>
+        <el-table-column prop="CreaterLabel" label="创建人员" width="100"></el-table-column>
+        <el-table-column prop="Createtime" label="创建时间" width="90" :formatter="TimeFormatter"></el-table-column>
+        <el-table-column prop="Description" label="情况备注" :show-overflow-tooltip="true"></el-table-column>
+      </el-table>
       <div class="between-center m-v-10">
         <el-button type="primary" @click="openClassDialog()">创建班级</el-button>
         <div>
@@ -77,12 +77,15 @@
       <!-- 班级相关操作的模态框 -->
       <my-dialog :visible.sync="moreOperationDialog" :closeShow="true" :title="classFormData.Label">
         <div slot="left_content" class="p_both20 p-b-20">
-          <class-row-detail :formItemData="classFormData"></class-row-detail>
+          <class-row-detail :formItemData="classFormData" :platform="currentPlatform"></class-row-detail>
         </div>
         <div slot="right_content" class="p_both20 p-b-20">
           <el-tabs v-model="activeClassTabs" @tab-click="changDialogClassTabs">
             <el-tab-pane label="班级学员" name="bjxy" id="bjxy">
               <ClassStudent :formItemData="classFormData"></ClassStudent>
+            </el-tab-pane>
+            <el-tab-pane label="任课老师" name="rkls" id="rkls">
+              <classTeacher :formItemData="classFormData"></classTeacher>
             </el-tab-pane>
             <el-tab-pane label="课程表" name="kcb" id="kcb">
               <SchoolTimeTable ref="refClassTimeTable"></SchoolTimeTable>
@@ -94,17 +97,23 @@
       <el-dialog
         :visible.sync="editDialog"
         width="500px"
-        :title="classFormData.Id>0?'编辑'+classFormData.Label:'新增校区'"
+        :title="classFormData.Id>0?'编辑'+classFormData.Label:'新增班级'"
       >
-        <class-row-detail :editEnable="true" :formItemData="classFormData" />
+        <class-row-detail
+          :editEnable="true"
+          :formItemData="classFormData"
+          :platform="currentPlatform"
+          @subClickEvent="updateListItem"
+        />
       </el-dialog>
     </div>
   </div>
 </template> 
-<script> 
+<script>
 import classRowDetail from "@/views/platform/component/classRowDetail";
+import classTeacher from "@/views/platform/component/classTeacher";
 import ClassStudent from "@/views/platform/component/classStudent";
-import SchoolTimeTable from "@/views/platform/component/schoolTimeTable"; 
+import SchoolTimeTable from "@/views/platform/component/schoolTimeTable";
 import myDialog from "@/components/myDialog/myDialog";
 import common from "@/utils/common";
 import {
@@ -130,7 +139,8 @@ export default {
     myDialog,
     classRowDetail,
     ClassStudent,
-    SchoolTimeTable
+    SchoolTimeTable,
+    classTeacher
   },
   data() {
     return {
@@ -152,7 +162,7 @@ export default {
       // 控制班级更多操作的弹出框
       moreOperationDialog: false,
       searchClassLabel: "",
-      searchGrade: 0,
+      searchGrade: new Date(),
       // 当前的校区id
       currentPlatform: null,
       // 更多操作弹窗
@@ -177,7 +187,7 @@ export default {
       let offsetRow = (that.nowPage - 1) * that.rows;
       let res = await getAllClass("", {
         label: that.searchClassLabel,
-        currentPlatform: that.currentPlatform,
+        platformid: that.currentPlatform,
         grade: year,
         limit: that.rows,
         offset: offsetRow
@@ -203,15 +213,13 @@ export default {
       this.editDialog = true;
     },
     // 添加班级成功之后更新表格数据-班级列表
-    updateClassList(rowData, type) {
-      // type==1添加,type=0编辑
-      if (type == 1) {
+    updateListItem(type, rowData) { 
+      if (type == 0) {
         this.classList.unshift(rowData);
-      } else if (type == 0) {
-        this.classFormData = { ...rowData };
+      } else if (type == 1) {
         this.$set(this.classList, this.currentIndex, rowData);
-        this.$refs.refClassRowDetail.getClassRow(rowData);
       }
+      this.editDialog = false;
     },
     // 切换tabs标签页在调用函数
     changDialogClassTabs(tab) {

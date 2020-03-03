@@ -5,7 +5,7 @@
       :disabled="currenteditEnable==false"
       :model="currentFormData"
       :rules="platFormInfoRules"
-      style="padding:50px 0px 0px 0px"
+      style="padding:20px 10px 10px 10px"
       label-width="80px"
       size="small"
     >
@@ -19,10 +19,7 @@
         <el-input v-model="currentFormData.Address" />
       </el-form-item>
       <!-- 校区负责人 -->
-      <el-form-item label="负责人">
-        
-       {{currentFormData.MasterLabel}}
-      </el-form-item>
+      <el-form-item label="负责人">{{currentFormData.MasterLabel}}</el-form-item>
       <el-form-item label="备注">
         <el-input v-model="currentFormData.Description" />
       </el-form-item>
@@ -66,7 +63,7 @@ export default {
   name: "PlatformForm",
   data() {
     return {
-      currentFormData: {},
+      currentFormData: this.formItemData,
       currenteditEnable: this.editEnable,
       // 校区对应的工作人员
       PlatformWorkers: [],
@@ -85,15 +82,7 @@ export default {
         ]
       }
     };
-  },
-  watch: {
-    formItemData(newval) {
-      this.currentFormData = this.formItemData; 
-    }
-  },
-  created() {
-    this.currentFormData = this.formItemData;
-  },
+  }, 
   methods: {
     // 保存客户信息
     async savecurrentFormData() {
@@ -105,14 +94,15 @@ export default {
             let res = await addPlatform("", "", this.currentFormData);
             this.$emit("subClickEvent", 0, res.data);
             // 添加成功之后要触发父组件信息列表修改
-            this.$store.dispatch("app/pushPlatform", res.data).then((response) => {
-              this.isShowPlatformDialog = false;
-              this.currentFormData = res.data;
-              this.$message({
-                message: "添加成功",
-                type: "success"
+            this.$store
+              .dispatch("app/pushPlatform", res.data)
+              .then(response => { 
+                this.currentFormData = res.data;
+                this.$message({
+                  message: "添加成功",
+                  type: "success"
+                });
               });
-            });
           } else {
             // 修改
             let res = await updatePlatform(
@@ -121,13 +111,14 @@ export default {
               this.currentFormData
             );
             this.$emit("subClickEvent", 1, res.data);
-            this.$store.dispatch("app/pushPlatform", res.data).then((response) => {
-              this.isShowPlatformDialog = false;
-              this.$message({
-                message: "修改成功",
-                type: "success"
+            this.$store
+              .dispatch("app/pushPlatform", res.data)
+              .then(response => { 
+                this.$message({
+                  message: "修改成功",
+                  type: "success"
+                });
               });
-            });
           }
         } else {
           this.$message({

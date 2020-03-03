@@ -83,12 +83,12 @@ export default {
     };
   },
   watch: {
-    formItemData(newval) { 
+    formItemData(newval) {
       this.currentFormData = this.formItemData;
       this.getTeacherRowData();
     }
   },
-  created() { 
+  created() {
     this.currentFormData = this.formItemData;
     this.getTeacherRowData();
   },
@@ -136,7 +136,7 @@ export default {
         that.bookList = res.data ? res.data : [];
         // 遍历老师已经选择过的科目，默认选中状态
         that.bookList.forEach(bookItem => {
-          that.nowPageBookId.push(bookItem.Id); 
+          that.nowPageBookId.push(bookItem.Id);
           that.allBookidSelected.forEach(bookid => {
             if (bookItem.Id == bookid) {
               that.$nextTick(() => {
@@ -175,7 +175,6 @@ export default {
       }
     }
   }
-  
 };
 </script>  
 <style scoped>

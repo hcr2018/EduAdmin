@@ -91,36 +91,7 @@
           </div>
           <span class="m-l-15 wid60 cursor color-1890ff" @click="onPreview(currentItemData.Kcxq)">预览</span>
         </div>
-      </el-form-item>
-
-      <!-- <el-form-item label="查找教材">
-        <div class="center">
-          <el-input
-            v-model="searchSubjectContent"
-            placeholder="请输入教材名称"
-            class="m-r-12 flex_1"
-            @keyup.native.enter="getBookList"
-          />
-          <el-button type="primary" @click="getBookList">查询</el-button>
-        </div>
-      </el-form-item>
-      <el-form-item label="已关联科目">
-        <div class="flex_dom flex_wrap">
-          <el-tag v-for="(item) in currentItemData.Children" :key="item.Id">{{ item.Label }}</el-tag>
-        </div>
-      </el-form-item>
-      <el-form-item label="可选科目">
-        <div class="addSubject flex_dom flex_wrap">
-          <p v-for="(item,index) in subjectListOps" :key="item.Id">
-            {{ item.Label }}
-            <i class="el-icon-circle-plus" @click="addSubjectToSourse(item,index)" />
-          </p>
-        </div>
-      </el-form-item>
-      <el-form-item>
-        <el-button @click="$emit('subClickEvent', 2, '') ">取 消</el-button>
-        <el-button type="primary" class="m-l-40" @click="saveCourse">保 存</el-button>
-      </el-form-item>-->
+      </el-form-item> 
     </el-form>
     <div class="around-center hgt60">
       <div>

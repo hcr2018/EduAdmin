@@ -56,8 +56,8 @@ export default {
   data() {
     return {
       value: 1,
-     
-      currentPlatform: {},
+     common,
+      currentPlatform:  this.formItemData,
       currenteditEnable: false,
       platformRights: []
     };

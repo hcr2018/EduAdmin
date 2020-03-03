@@ -2,7 +2,7 @@
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
       <div class="flex_1 m-t-20 overflow_auto my_scrollbar p-r-20 p-l-20 p-v-15">
-        <div class="m-b-20" v-for="(item,index) in bannerList" :key="index">
+        <div class="m-b-20" v-for="(item,index) in dataList" :key="index">
           <div class="cardBorder bg-ccc">
             <el-upload
               :auto-upload="false"
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       // banner列表
-      bannerList: [],
+      dataList: [],
       currentPlatform: 0
     };
   },
@@ -58,14 +58,14 @@ export default {
     async GetIndexBanner() {
       let res = await GetIndexItem(this.currentPlatform + "/banner", "");
       if (res.code == 200) {
-        this.bannerList = res.data ? res.data : [];
+        this.dataList = res.data ? res.data : [];
       }
     },
     // 图片上传
     async uploadBannerImg(file, fileList, index) {
       let res = await $ImgHttp.UploadImg("banner", file.raw);
       if (res.code == 200) {
-        this.bannerList[index].image = res.data;
+        this.dataList[index].image = res.data;
         this.$message({
           message: "上传成功",
           type: "success"
@@ -78,7 +78,7 @@ export default {
       let res = await SetIndexItem(
         this.currentPlatform + "/banner",
         "",
-        this.bannerList
+        this.dataList
       );
       if (res.code == 200) {
         this.$message({
@@ -89,7 +89,7 @@ export default {
     },
     // 添加banner
     addBannerItem() {
-      this.bannerList.unshift({});
+      this.dataList.unshift({});
     },
     // 删除banner
     async deleBannerItem(index) {
@@ -98,12 +98,12 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(async () => {
-        this.bannerList.splice(index, 1);
-           this.$message({
+        this.dataList.splice(index, 1);
+        this.$message({
           message: "删除成功,请最后点击保存按钮",
           type: "success"
         });
-      }); 
+      });
     }
   },
   mounted() {

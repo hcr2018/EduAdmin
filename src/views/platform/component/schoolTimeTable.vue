@@ -13,81 +13,7 @@
         </el-calendar>
       </div>
 
-      <div class="flex_1 m-l-20">
-        <vxe-table
-          ref="ClassTeacherTable"
-          size="mini"
-          border
-          :edit-rules="ClassOpenTableRules"
-          :fit="true"
-          @edit-disabled="editDisabledRow"
-          :data="teacherList"
-          :edit-config="{trigger: 'dblclick', mode: 'row',showIcon:false, activeMethod: activeTeacherRow}"
-        >
-          <vxe-table-column
-            field="teacher_label"
-            title="老师名称"
-            :edit-render="{type: 'default'}"
-            width="110"
-          >
-            <template v-slot:edit="{row,rowIndex}">
-              <el-select
-                v-model="row.teacher_label"
-                @change="(val)=>{return changeTeacher(val, row,rowIndex)}"
-              >
-                <el-option
-                  v-for="(item,index) in teacherOptionList"
-                  :key="index"
-                  :label="item.Realname"
-                  :value="item.Realname"
-                ></el-option>
-              </el-select>
-            </template>
-          </vxe-table-column>
-
-          <vxe-table-column
-            field="book_label"
-            title="教教材目"
-            :edit-render="{type: 'default'}"
-            width="220"
-            show-overflow
-          >
-            <template v-slot:edit="{row,rowIndex}">
-              <el-select
-                v-model="row.book_label"
-                @change="(val)=>{return changeTeachingBook(val, row,rowIndex)}"
-              >
-                <el-option
-                  v-for="(item,index) in  teacheingBookOptions"
-                  :key="index"
-                  :label="item.Label"
-                  :value="item.Label"
-                ></el-option>
-              </el-select>
-            </template>
-          </vxe-table-column>
-          <vxe-table-column
-            field="total_time"
-            title="总课时"
-            :edit-render="{type: 'default'}"
-            width="80"
-          >
-            <template v-slot:edit="{ row }">
-              <el-input-number v-model="row.total_time" :min="0"></el-input-number>
-            </template>
-          </vxe-table-column>
-          <vxe-table-column title="操作" show-overflow>
-            <template v-slot="{ row,rowIndex }">
-              <el-button v-if="row.id<0" @click="deleTeacherRow(row,rowIndex)">删除</el-button>
-            </template>
-          </vxe-table-column>
-        </vxe-table>
-
-        <div class="between-center m-v-15">
-          <el-button @click="insertTeacherRow()">添加老师</el-button>
-          <el-button type="primary" @click="saveClassOpenFormData">保 存</el-button>
-        </div>
-      </div>
+     
     </div>
 
     <vxe-table
@@ -253,12 +179,7 @@ export default {
       // 单条课程表的数据
       timeTableRow: {},
       // 班级的学生列表
-      classAllStuList: [],
-      ClassOpenTableRules: {
-        teacher_label: [{ required: true, message: "授课课时不能为空" }],
-        book_label: [{ required: true, message: "授课科目不能为空" }],
-        total_time: [{ required: true, message: "总课时不能为空" }]
-      }
+      classAllStuList: []
     };
   },
   methods: {
@@ -411,54 +332,6 @@ export default {
       });
     },
 
-    // 保存开班申请的所有数据
-    saveClassOpenFormData() {
-      // 验证表单数据
-      this.$refs.classOpenForm.validate(valid => {
-        if (valid) {
-          this.$refs.ClassTeacherTable.validate(async valid => {
-            if (valid) {
-              let rowdata = { ...this.classOpenFormData };
-              rowdata.kksq_image = JSON.stringify(rowdata.kksq_image);
-              if (isNaN(rowdata.opentime)) {
-                rowdata.opentime = Math.floor(
-                  rowdata.opentime.getTime() / 1000
-                );
-              } else {
-                rowdata.opentime = rowdata.opentime / 1000;
-              }
-              if (isNaN(rowdata.endtime)) {
-                rowdata.endtime = Math.floor(rowdata.endtime.getTime() / 1000);
-              } else {
-                rowdata.endtime = rowdata.endtime / 1000;
-              }
-              let res = await addClassOpenData(
-                this.classRowData.Id,
-                "",
-                rowdata
-              );
-              if (res.code == 200) {
-                if (res.data) {
-                  res.data.kksq_image = JSON.parse(res.data.kksq_image);
-                  res.data.opentime = res.data.opentime * 1000;
-                  res.data.endtime = res.data.endtime * 1000;
-                  this.isEditImgIcon = false;
-                  this.classOpenFormData = res.data;
-                }
-                this.$message({
-                  message: "保存成功！",
-                  type: "success"
-                });
-              }
-            } else {
-              return false;
-            }
-          });
-        } else {
-          return false;
-        }
-      });
-    },
     // 禁止编辑超过当前日期的课表
     editDisabledRow({ row, column }) {
       this.$message({

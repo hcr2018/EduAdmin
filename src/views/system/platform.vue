@@ -59,8 +59,7 @@
       >
         <platformRowDetail
           :editEnable="true"
-          :formItemData="customFormData"
-          @subClickEvent="updateListItem"
+          :formItemData="customFormData" 
         />
       </el-dialog>
     </div> 
@@ -95,10 +94,7 @@ export default {
     this.getAllPlatform();
   },
   methods: {
-    updateListItem(type, rowData) {
-     
-      this.editDialog = false;
-    },
+    
     // 打开校区的弹出框
     openNewItem() {
       this.editDialog = true;

@@ -309,7 +309,7 @@ export default {
       } else if (type == 1) {
         this.currentRowData = { ...rowData };
         this.$set(this.teacherList, this.currentTeacherIndex, rowData);
-        this.$refs.refTeacherDetail.getTeacherRowData({ ...rowData });
+        
       }
       this.editDialog = false;
     }

@@ -487,5 +487,8 @@ export default {
   },
   FormatUnixTime(input) {
     return input * 1000;
+  },
+  ToUnixTime(input) {
+    return input /1000;
   }
 }
