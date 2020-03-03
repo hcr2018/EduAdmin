@@ -116,7 +116,8 @@ export default {
       currentPlatfrom: 0,
       currentItemData: {
         CollegeID: 0,
-        Platform: 0
+        Platform: 0,
+        Content:""
       }
     };
   },
@@ -221,6 +222,7 @@ export default {
     // 添加或编辑数据
     saveNewsFormData() {
       // 验证表单数据
+      console.log("  this.currentItemData:",  this.currentItemData)
        this.currentItemData.Platform = this.platform;
        this.currentItemData.CollegeID = this.college;
       this.$refs.newsForm.validate(async valid => {
@@ -263,8 +265,7 @@ export default {
     cancleUpdate() {
       this.$emit("updateRowData");
     }
-  },
-  mounted() {}
+  }
 };
 </script> 
 <style scoped>

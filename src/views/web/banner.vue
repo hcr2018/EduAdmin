@@ -1,13 +1,13 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <div class="flex_1 m-t-20 overflow_auto my_scrollbar p-r-30 p-l-20 p-v-15">
-        <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
-          <div class="cardBorder">
+      <div class="flex_1 m-t-20 overflow_auto my_scrollbar p-r-20 p-l-20 p-v-15">
+        <div class="m-b-20" v-for="(item,index) in bannerList" :key="index">
+          <div class="cardBorder bg-ccc">
             <el-upload
               :auto-upload="false"
               action
-              class="wid_100 flex_dom"
+              class="wid_100 flex_dom bg-ddd"
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
@@ -19,7 +19,7 @@
                 style="width: 100%; height: 160px"
               >&nbsp;点击上传</i>
             </el-upload>
-            <el-form :inline="true" :model="item" class="demo-form-inline m-t-20">
+            <el-form :inline="true" :model="item" class="demo-form-inline m-t-10">
               <el-form-item label="标题">
                 <el-input v-model="item.label" placeholder="请输入标题"></el-input>
               </el-form-item>
@@ -103,22 +103,7 @@ export default {
           message: "删除成功,请最后点击保存按钮",
           type: "success"
         });
-      });
-
-      // let newBannerList = [...this.bannerList];
-      // newBannerList.splice(index, 1);
-      // let res = await SetIndexItem(
-      //   this.currentPlatform + "/banner",
-      //   "",
-      //   newBannerList
-      // );
-      // if (res.code == 200) {
-      //   this.$message({
-      //     message: "删除成功",
-      //     type: "success"
-      //   });
-      //   this.bannerList.splice(index, 1);
-      // }
+      }); 
     }
   },
   mounted() {
@@ -134,13 +119,13 @@ export default {
 <style scoped>
 .dele_banner {
   position: absolute;
-  right: 15px;
+  right: 5px;
   top: 5px;
 }
 .cardBorder {
   -webkit-box-shadow: 0 1px 5px 0 #dedede;
   box-shadow: 0 1px 5px 0 #dedede;
-  padding: 20px 70px 20px 20px;
+  padding: 20px 30px 0px 20px;
   position: relative;
   box-sizing: border-box;
   border-radius: 10px;

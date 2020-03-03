@@ -1,10 +1,10 @@
 <template>
   <div v-cloak class="font16 hgt_full">
     <div class="flex_column hgt_full">
-      <div class="flex_1 m-t-20 overflow_auto my_scrollbar p-r-10 p-l-20 p-v-15">
+      <div class="flex_1 m-t-20 overflow_auto my_scrollbar  ">
         <div class="m-b-10" v-for="(item,index) in linkerList" :key="index">
-          <div class="flex_mid cardBorder"> 
-            <el-form label-width="100px" :model="item">
+          <div class="flex_mid cardBorder bg-ccc"> 
+            <el-form label-width="90px" :model="item" style="width:100%">
               <div class="flex_dom">
                 <el-form-item label="网站名称" style="width:400px" >
                   <el-input v-model="item.label" placeholder="填写友情链接名"></el-input>
@@ -99,13 +99,13 @@ export default {
 <style scoped>
 .dele_banner {
   position: absolute;
-  right: 15px;
+  right: 5px;
   top: 5px;
 }
 .cardBorder {
   -webkit-box-shadow: 0 1px 5px 0 #dedede;
   box-shadow: 0 1px 5px 0 #dedede;
-  padding: 20px 70px 20px 20px;
+  padding: 20px 30px 0px 20px;
   position: relative;
   box-sizing: border-box;
   border-radius: 10px;

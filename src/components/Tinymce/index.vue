@@ -1,9 +1,7 @@
 <template>
   <div :class="{fullscreen:fullscreen}" class="tinymce-container editor-container">
-    <textarea :id="tinymceId" class="tinymce-textarea" />
-    <!-- <div class="editor-custom-btn-container">
-      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"/>
-    </div>-->
+   
+ <textarea :id="tinymceId" class="tinymce-textarea" /> 
   </div>
 </template>
 
@@ -47,7 +45,7 @@ export default {
     }
   },
   data() {
-    return { 
+    return {
       hasChange: false,
       hasInit: false,
       tinymceId: this.id,
@@ -67,7 +65,7 @@ export default {
     value(val) {
       // if (!this.hasChange && this.hasInit) {
       //   this.$nextTick(() =>
-          window.tinymce.get(this.tinymceId).setContent(val || "")
+      window.tinymce.get(this.tinymceId).setContent(val || "");
       //   );
       // }
     },
@@ -90,7 +88,7 @@ export default {
   },
   methods: {
     initTinymce() {
-      const _this = this;
+      const _this = this; 
       tinymce.init({
         language: "zh_CN",
         selector: `#${this.tinymceId}`,
@@ -188,6 +186,8 @@ export default {
 </script>
 
 <style scoped>
+ 
+
 .tinymce-container {
   position: relative;
   line-height: normal;

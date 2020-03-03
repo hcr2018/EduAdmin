@@ -3,33 +3,33 @@
     <div class="flex_column hgt_full">
       <div class="flex_1 m-t-20 overflow_auto my_scrollbar p-r-10 p-l-20 p-v-15">
         <div class="m-b-10" v-for="(item,index) in bannerList" :key="index">
-          <div class="flex_mid cardBorder">
+          <div class="flex_mid cardBorder  bg-ccc">
             <el-upload
               :auto-upload="false"
-              action
+              action   class="   bg-ddd"
               :show-file-list="false"
               :on-change="function(file, fileList){return uploadBannerImg(file,fileList,index)}"
             >
-              <img v-if="item.image" :src="item.image" style="width: auto; height: 160px" />
+              <img v-if="item.image" :src="item.image" style="width: auto; height: 140px" />
               <i
                 v-else
                 slot="default"
                 class="el-icon-plus"
-                style="width: 160px; height: 160px"
+                style="width: 140px; height: 140px"
               >&nbsp;点击上传</i>
             </el-upload>
 
-            <el-form label-width="90px" :model="item">
-              <div class="flex_mid">
-                <el-form-item label="姓名">
-                  <el-input v-model="item.label" placeholder="老师姓名"></el-input>
+            <el-form label-width="90px" :model="item"  style="width:100%">
+              <div class="flex_mid" >
+                <el-form-item label="姓名" style="width:30%">
+                  <el-input v-model="item.label" style="width:100%" placeholder="老师姓名"></el-input>
                 </el-form-item>
-                <el-form-item label="跳转地址：" class="m-l-20">
-                  <el-input v-model="item.href" placeholder="请输入连接地址"></el-input>
+                <el-form-item label="跳转地址：" class="m-l-20" style="width:70%">
+                  <el-input v-model="item.href" placeholder="请输入连接地址.没有跳转页面可以不输入"></el-input>
                 </el-form-item>
               </div>
-              <el-form-item label="简介">
-                <el-input type="textarea" v-model="item.title" placeholder="老师姓名"></el-input>
+              <el-form-item label="简介" >
+                <el-input type="textarea" rows="5" v-model="item.title" placeholder="老师的介绍"></el-input>
               </el-form-item>
             </el-form>
 
@@ -140,13 +140,13 @@ export default {
 <style scoped>
 .dele_banner {
   position: absolute;
-  right: 15px;
+  right: 5px;
   top: 5px;
 }
 .cardBorder {
   -webkit-box-shadow: 0 1px 5px 0 #dedede;
   box-shadow: 0 1px 5px 0 #dedede;
-  padding: 20px 70px 20px 20px;
+  padding: 20px 30px 0px 20px;
   position: relative;
   box-sizing: border-box;
   border-radius: 10px;
