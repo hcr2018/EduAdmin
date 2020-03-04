@@ -93,22 +93,7 @@ export default {
   },
   data() {
     return {
-      common,
-      // 类型的选项
-      newsKindOptions: [
-        {
-          value: 1,
-          Label: "企业动态"
-        },
-        {
-          value: 2,
-          Label: "就业动态"
-        },
-        {
-          value: 3,
-          Label: "行业动态"
-        }
-      ],
+      common, 
       // 表单验证
       newsFormRules: {
         Title: [{ required: true, message: "标题不能为空", trigger: "blur" }]
