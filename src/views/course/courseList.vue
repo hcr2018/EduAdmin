@@ -134,6 +134,9 @@
             <el-tab-pane id="priceSetting" label="价格设定" name="priceSetting">
               <course-price-tab :formItemData="customFormData" />
             </el-tab-pane>
+            <el-tab-pane id="smxq" label="禁售校区" name="smxq">
+              <courseSellPlatform  />
+            </el-tab-pane>
           </el-tabs>
         </div>
       </my-dialog>
@@ -161,7 +164,7 @@ import myDialog from "@/components/myDialog/myDialog";
 import myImageViewer from "@/components/myImageViewer/myImageViewer";
 import courseTravelBrochure from "@/views/course/component/courseTravelBrochure";
 import coursePriceTab from "@/views/course/component/coursePriceTab";
-import courseRowDialog from "@/views/course/component/courseRowDialog";
+import courseSellPlatform from "@/views/course/component/courseSellPlatform";
 import courseRowDetail from "@/views/course/component/courseRowDetail";
 import common from "@/utils/common";
 import {
@@ -192,8 +195,8 @@ export default {
     myDialog,
     myImageViewer,
     courseTravelBrochure,
-    coursePriceTab,
-    courseRowDialog,
+    coursePriceTab, 
+    courseSellPlatform,
     courseRowDetail
   },
   data() {
