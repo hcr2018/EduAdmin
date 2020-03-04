@@ -37,8 +37,7 @@
 ![微信技术讨论群](https://images.gitee.com/uploads/images/2020/0304/102922_b92ef0a0_870483.png "微信") 
 
 
-#### 预览图
-![登录页](https://images.gitee.com/uploads/images/2020/0223/214411_af0efc0b_870483.png "登录页") 
+
 
 ## 登录页面。支持多语言选择
 
@@ -71,7 +70,8 @@
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4. 新建 Pull Request
-
+#### 预览图
+![登录页](https://images.gitee.com/uploads/images/2020/0223/214411_af0efc0b_870483.png "登录页") 
 
 #### 码云特技
  +
